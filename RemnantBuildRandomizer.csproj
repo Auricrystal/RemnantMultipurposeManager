@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BEED9BAF-DEA0-4425-99C0-47CD1AB877CC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>RemnantBuildRandomizer</RootNamespace>
+    <AssemblyName>RemnantBuildRandomizer</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ImageChooser.cs" />
+    <Compile Include="List.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="GearInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="GearInfo.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\T_Icon_RedCrystal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\RemnantBlanInv.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Remnant-From-The-Ashes-Tips-and-Tricks-4.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Armor\Chest\Adventurer Tunic.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Akari Garb.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Bandit Jacket.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Carapace Shell.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Cultist Duster.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Drifter%27s Overcoat.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Elder Raiment.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Hunter Trenchcoat.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Labyrinth Armor.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Leto%27s Armor.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Osseus Husk.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Radiant Protector.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Scavenger Armor.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Scrapper Bodyplate.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Slayer Mantle.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Twisted Cage.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Void Carapace.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\Warlord Armor.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\_Chest.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Armor\Head\Adventurer Goggles.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Akari Mask.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Bandit%27s Mask.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Bomber Hat.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Carapace Great Helm.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Cultist Hat.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Drifter%27s Mask.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Elder Headdress.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Hunter Shroud.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Labyrinth Helm.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Leto%27s Helm.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Osseous Helm.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Radiant Visage.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Scavenger Helmet.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Scrapper Helmet.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Slayer Mask.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Twisted Hood.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Twisted Mask 2.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Twisted Mask.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Void Skull.png" />
+    <Resource Include="Resources\IMG\Armor\Head\Warlord Skull.png" />
+    <Resource Include="Resources\IMG\Armor\Head\_Head.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Armor\Legs\Adventurer Leggings.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Akari Leggings.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Bandit Trousers.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Carapace Greaves.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Cultist Britches.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Drifter%27s Trousers.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Elder Leggings.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Hunter Pants.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Labyrinth Greaves.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Leto%27s Leggings.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Osseus Kilt.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Radiant Greaves.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Scavenger Boots.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Scrapper Workboots.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Slayer Boots.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Twisted Tassets.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Void Greaves.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\Warlord Boots.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\_Legs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\GFG_TEX_UI_Info_Back.png" />
+    <Resource Include="Resources\IMG\Menu\GFG_TEX_UI_Info_Header_Back.png" />
+    <Resource Include="Resources\IMG\Menu\GFG_TEX_UI_MenuBackground.png" />
+    <Resource Include="Resources\IMG\Menu\T_UI_OutlineRectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Hand\Flame Thrower.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Hand\Hive Shot.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Hand\Radioactive Volley.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Hand\Tentacle Shot.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Hand\Vampiric.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Banish.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Fusion Cannon.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Gravity Core.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Incinerator.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Skewer.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Spore Shot.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Static Field Shot.png" />
+    <Resource Include="Resources\IMG\Mods\BossWeaponMods\Long\Undying.png" />
+    <Resource Include="Resources\IMG\Mods\Mod Overlay.png" />
+    <Resource Include="Resources\IMG\Mods\No Mod.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Beckon.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Blink Token.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Blizzard.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Breath Of The Desert.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Cold Spear.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Corrosive Aura.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Explosive Shot.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Fan Of Knives.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Flicker Cloak.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Frozen Mist.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Hot Shot.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Howler%27s Immunity.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Hunter%27s Mark.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Iron Sentinel.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Mantle of Thorns.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Mender%27s Aura.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Rattle Weed.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Rift Walker.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Seed Caller.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Seeker.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Song Of Swords.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Storm Caller.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Swarm.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Unstable Quills.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Veil Of The Black Tear.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Very Good Boy.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\Wildfire Shot.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Abrasive Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Amulet Of Epicaricacy.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Black Rose.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Blessed Necklace.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Brutal Mark.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Butcher%27s Fetish.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Charcoal Necklace.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Cleansing Jewel.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Daredevil%27s Charm.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Driftstone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Galenic Charm.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Gunslinger%27s Charm.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Hangman%27s Memento.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Heart Of Darkness.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Leto%27s Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Mender%27s Charm.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Nightmare Spiral.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Onyx Pendulum.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Pocket Watch.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Polished Whetstone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Radioactive Ember.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Razorwire Necklace.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Rock Of Anguish.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Rusted Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Scavenger%27s Bauble.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Shattered Vertebrae.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Soul Anchor.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Stalker%27s Brand.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Storm Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Talisman Of Animosity.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Talisman Of Perseverance.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Terror Margin.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Twisted Idol.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Vengeance Idol.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\Vulcan%27s Detonator.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\White Rose.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\_Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Aggressors Bane.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Akari Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Alchemist Jewel.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Amber Moonstone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Backbreaker Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Band Of Castor.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Band Of Discord.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Band Of Pollux.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Band Of Strength.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Black Cat Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Blood Font.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Bloodletters Insignia.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Braided Thorns.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Bright Steel Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Burden Of The Devoted.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Burden Of The Follower.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Burden Of The Gambler.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Burden Of The Reckless.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Burden Of The Warlord.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Celerity Stone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Compulsion Loop.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Deceiver%27s Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Devouring Loop.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Empowering Loop.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Evoker%27s Seal.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ezlan%27s Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Five Fingered Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Gift Of The Iskal.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Gravity Stone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Grim Coil.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Guardian%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Gunslinger%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Heart Of The Wolf.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Heartseeker.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Hero%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Hunter%27s Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Hunter%27s Halo.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Iskal Hunter Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Jewel Of The Black Sun.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Juggernaut Band.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Keeper%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Leech Ember.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Loop Of Prosperity.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Mother%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Pearl Of Luminescence.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Pillar Of Stone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Prismatic Diamond Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Provisioner Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Razor Stone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Restriction Cord.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Accord.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Elusion.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Evasion.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Flawless Beauty.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Honor.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Punisher.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Shadows.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Supremacy.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of Synergy.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of The Admiral.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of The Mantis.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Ring Of The Unclean.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Root Circlet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Sagestone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Scavenger%27s Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Serpent%27s Fang.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Soul Ember.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Soul Link.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Spirit Stone.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Stockpile Circlet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Stone Of Balance.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Swashbuckler%27s Signet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Vanguard Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\Volatile Gem.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\_Ring.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Weapons\Hand\Boss\Curse Of The Jungle God.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Boss\Defiler.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Boss\Hive Cannon.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Boss\Pride Of The Iskal.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Boss\Spitfire.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Hand Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Hunting Pistol.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Machine Pistol.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Magnum Revolver.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Repeater Pistol.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Sawed-Off.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Submachine Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\Reg\Twin Shot.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Alternator.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Devastator.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Eye Of The Storm.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Fusion Rifle.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Particle Accelerator.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Repulsor.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Ruin.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Boss\Sporebloom.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Long Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Assault Rifle.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Beam Rifle.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Chicago Typewriter.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Coach Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Crossbow.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Hunting Rifle.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Ricochet Rifle.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Shotgun.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\Reg\Sniper.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Butcher%27s Flail.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Chain Blade.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Fists.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Frostborne.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Guardian Axe.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Hero%27s Sword.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Lost Harpoon.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Petrified Maul.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Riven.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Scar Of The Jungle God.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Scrap Hammer.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Scrap Hatchet.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Scrap Sword.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Scythe.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Smolder.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Spear.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Voice Of The Tempest.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\Wastelander Flail.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\World Breaker.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\World%27s Edge.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
