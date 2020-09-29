@@ -1,19 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
+using System.IO;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static RemnantBuildRandomizer.GearInfo;
+using static RemnantBuildRandomizer.RemnantItem;
 
 namespace RemnantBuildRandomizer
 {
@@ -22,12 +14,19 @@ namespace RemnantBuildRandomizer
     /// </summary>
     public partial class MainWindow : Window
     {
-        BitmapImage[] images;
+        #region ScaleValue Depdency Property
         Random rd = new Random();
+        RemnantItem hg;
+        RemnantItem lg;
+        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
+
         public MainWindow()
         {
             InitializeComponent();
-            images = createImageList(@"/Armor/Head/Adventurer Goggles.png", @"/Armor/Head/Akari Mask.png", @"/Armor/Head/Cultist Hat.png");
+            ReadXML();
+            //Debug.WriteLine("Mod total: "+GearList[SlotType.MO].Count);
+            //Debug.WriteLine(reflist["Tentacle Shot"].Itemname);
+
 
         }
 
@@ -35,26 +34,103 @@ namespace RemnantBuildRandomizer
 
         private void ReRollImg(object sender, RoutedEventArgs e)
         {
-            //var assembly = Assembly.GetExecutingAssembly();
-            //string resourceName = assembly.GetManifestResourceNames().Single(str => str.EndsWith("T_Icon_RedCrystal.png"));
-           
-            //Debug.WriteLine("local:"+resourceName);
-            
-           
-            Test.Source = images[rd.Next(0,images.Length)];
+            RerollSlot(HeadSlot, SlotType.HE);
+            RerollSlot(ChestSlot, SlotType.CH);
+            RerollSlot(LegSlot, SlotType.LE);
+            RerollSlot(HandGunSlot, SlotType.HG);
+            RerollSlot(LongGunSlot, SlotType.LG);
+            RerollSlot(MeleeSlot, SlotType.M);
+            RerollSlot(AmuletSlot, SlotType.AM);
+            RerollSlot(Ring1Slot, SlotType.RI);
+            RerollSlot(Ring2Slot, SlotType.RI);
+
+            RerollMod(Mod1Cover,Mod1Slot, hg);
+            RerollMod(Mod2Cover,Mod2Slot, lg);
+        }
+        public void RerollSlot(Image i, SlotType st)
+        {
+            int rand = rd.Next(0, GearList[st].Count);
+            RemnantItem ri = GearList[st][rand];
+            if (st == SlotType.HG) { hg = ri; }
+            if (st == SlotType.LG) { lg = ri; }
+            i.Source = ri.Image;
+            ToolTipService.SetShowDuration(i, 60000);
+            i.ToolTip =ri.Itemname+"\n"+ ri.Description;
+        }
+        public void RerollMod(Image c,Image i, RemnantItem ri)
+        {
+            Debug.WriteLine(ri.Itemname + "==" + ri.Mod);
+            ToolTipService.SetShowDuration(i, 60000);
+            ToolTipService.SetShowDuration(c, 60000);
+            if (reflist.ContainsKey(ri.Mod))
+            {
+                i.Source = reflist[ri.Mod].Image;
+                c.ToolTip = reflist[ri.Mod].Itemname+"\n"+ reflist[ri.Mod].Description;
+                Debug.WriteLine("Boss Mod: "+ reflist[ri.Mod].Itemname);
+            }
+            else {
+                int rand = rd.Next(0, 28);
+                RemnantItem mo = GearList[SlotType.MO][rand];
+                i.Source = mo.Image;
+                c.ToolTip = mo.Itemname+"\n"+mo.Description;
+                Debug.WriteLine("Regular Mod: " + reflist[mo.Itemname].Itemname);
+            }
 
         }
-        private BitmapImage[] createImageList(params string[] items) {
-            int index = 0;
-            BitmapImage[] arr = new BitmapImage[items.Length];
-            foreach (string s in items) {
-                Uri uri = new Uri("pack://application:,,,/Resources/IMG" + s,UriKind.RelativeOrAbsolute);
-                Debug.WriteLine(uri);
-                //string path = HttpContext.Current.Server.URLDecode(uri.AbsolutePath);
-                BitmapImage b= new BitmapImage(uri);
-                arr[index++] = b;
-            }
-            return arr;
+
+        private static object OnCoerceScaleValue(DependencyObject o, object value)
+        {
+            MainWindow mainWindow = o as MainWindow;
+            if (mainWindow != null)
+                return mainWindow.OnCoerceScaleValue((double)value);
+            else return value;
         }
+
+        private static void OnScaleValueChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
+        {
+            MainWindow mainWindow = o as MainWindow;
+            if (mainWindow != null)
+                mainWindow.OnScaleValueChanged((double)e.OldValue, (double)e.NewValue);
+        }
+
+        protected virtual double OnCoerceScaleValue(double value)
+        {
+            if (double.IsNaN(value))
+                return 1.0f;
+
+            value = Math.Max(0.1, value);
+            return value;
+        }
+
+        protected virtual void OnScaleValueChanged(double oldValue, double newValue) { }
+
+        public double ScaleValue
+        {
+            get => (double)GetValue(ScaleValueProperty);
+            set => SetValue(ScaleValueProperty, value);
+        }
+        #endregion
+
+        private void MainGrid_SizeChanged(object sender, EventArgs e) => CalculateScale();
+
+        private void CalculateScale()
+        {
+            double yScale = ActualHeight / 500f;
+            double xScale = ActualWidth / 840f;
+            double value = Math.Min(xScale, yScale);
+
+            ScaleValue = (double)OnCoerceScaleValue(RemnantBuildRandomizer, value);
+        }
+        public void WriteResourceToFile(string resourceName, string fileName)
+        {
+            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                using (var file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
+                {
+                    resource.CopyTo(file);
+                }
+            }
+        }
+
     }
 }

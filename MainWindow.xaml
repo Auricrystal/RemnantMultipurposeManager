@@ -5,10 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RemnantBuildRandomizer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Image x:Name="Test" HorizontalAlignment="Left" Height="100" Margin="329,123,0,0" VerticalAlignment="Top" Width="100"/>
-        <Button x:Name="RandomImg" Click="ReRollImg" Content="Button" HorizontalAlignment="Left" Margin="341,223,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.173,-0.141"/>
+        Title="RemnantBuildRandomizer" Height="500" Width="840"
+        Name="RemnantBuildRandomizer" Icon="Resources/IMG/RedCrystal.png"
+        >
+    <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged">
+        <Grid.LayoutTransform>
+            <ScaleTransform x:Name="ApplicationScaleTransform"
+                        CenterX="0"
+                        CenterY="0"
+                        ScaleX="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}"
+                        ScaleY="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}" />
+        </Grid.LayoutTransform>
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="465" >
+            <Image x:Name="Background" HorizontalAlignment="Center" VerticalAlignment="Center"  Source="Resources/IMG/RemnantBlanInv.png" />
+            <Image  x:Name="HandGunSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,40,268,359" Source="Resources/IMG/Weapons/Hand/RegHand/Hand Gun.png"/>
+            <Image  x:Name="LongGunSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,111,268,288" Source="Resources/IMG/Weapons/Long/RegLong/Long Gun.png"/>
+            <Image  x:Name="MeleeSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,190,268,209" Source="Resources/IMG/Weapons/Melee/Fists.png"/>
+            <Image  x:Name="HeadSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="265,261,461,106" Source="Resources/IMG/Armor/Head/_Head.png"/>
 
+            <Image  x:Name="ChestSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="376,261,350,106" Source="Resources/IMG/Armor/Chest/_Chest.png"/>
+            <Image  x:Name="LegSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="487,261,239,106" Source="Resources/IMG/Armor/Legs/_Legs.png"/>
+            <Image  x:Name="AmuletSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="265,364,461,3" Source="Resources/IMG/Trinkets/Amulets/_Amulet.png"/>
+            <Image  x:Name="Ring1Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="376,364,350,3" Source="Resources/IMG/Trinkets/Rings/_Ring.png"/>
+            <Image  x:Name="Ring2Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="487,364,239,3" Source="Resources/IMG/Trinkets/Rings/_Ring.png"/>
+            <Image  x:Name="Mod1Slot" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="521,40,239,359" Source="Resources/IMG/Mods/RegularMods/_Mod.png"/>
+            <Image  x:Name="Mod1Cover" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="521,40,239,359" Source="Resources/IMG/Mods/Mod Overlay.png"/>
+            <Image  x:Name="Mod2Slot" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="527,117,245,288" Source="Resources/IMG/Mods/RegularMods/_Mod.png"/>
+            <Image  x:Name="Mod2Cover" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="527,117,245,288" Source="Resources/IMG/Mods/Mod Overlay.png"/>
+            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="644,411,0,0" VerticalAlignment="Top" Width="178" Height="40"/>
+        </Grid>
     </Grid>
 </Window>

@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("gearinfo.xml")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/redcrystal.ico")]
 
 
