@@ -96,6 +96,41 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Resource Include="Resources\Font\Montserrat-Black.ttf" />
+    <Resource Include="Resources\Font\Montserrat-BlackItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-BlackItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Bold.ttf" />
+    <None Include="Resources\Font\Montserrat-Bold.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-BoldItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-BoldItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-ExtraBold.ttf" />
+    <None Include="Resources\Font\Montserrat-ExtraBold.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-ExtraBoldItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-ExtraBoldItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-ExtraLight.ttf" />
+    <None Include="Resources\Font\Montserrat-ExtraLight.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-ExtraLightItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-ExtraLightItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Italic.ttf" />
+    <None Include="Resources\Font\Montserrat-Italic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Light.ttf" />
+    <None Include="Resources\Font\Montserrat-Light.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-LightItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-LightItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Medium.ttf" />
+    <None Include="Resources\Font\Montserrat-Medium.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-MediumItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-MediumItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Regular.ttf" />
+    <None Include="Resources\Font\Montserrat-Regular.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-SemiBold.ttf" />
+    <None Include="Resources\Font\Montserrat-SemiBold.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-SemiBoldItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-SemiBoldItalic.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-Thin.ttf" />
+    <None Include="Resources\Font\Montserrat-Thin.ttf.meta" />
+    <Resource Include="Resources\Font\Montserrat-ThinItalic.ttf" />
+    <None Include="Resources\Font\Montserrat-ThinItalic.ttf.meta" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

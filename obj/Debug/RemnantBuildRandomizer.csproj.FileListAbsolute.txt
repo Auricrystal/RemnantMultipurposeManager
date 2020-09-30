@@ -1,8 +1,11 @@
+D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Resources\GearInfo.xml
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe.config
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.pdb
+D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.g.cs
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\App.g.cs
+D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_Content.g.cs
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.cache
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.lref
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.baml
@@ -12,6 +15,3 @@ D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRa
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CoreCompileInputs.cache
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.exe
 D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.pdb
-D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
-D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Resources\GearInfo.xml
-D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_Content.g.cs

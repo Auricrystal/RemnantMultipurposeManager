@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
 using static RemnantBuildRandomizer.RemnantItem;
@@ -8,7 +9,9 @@ namespace RemnantBuildRandomizer
     class GearInfo
     {
         public static Dictionary<SlotType, List<RemnantItem>> GearList = new Dictionary<SlotType, List<RemnantItem>>();
-        public static Dictionary<RemnantItem, bool> BlackList = new Dictionary<RemnantItem, bool>();
+        public static Dictionary<SlotType, Dictionary<RemnantItem, bool>> Disabled = new Dictionary<SlotType, Dictionary<RemnantItem, bool>>();
+        public static Dictionary<SlotType, Dictionary<RemnantItem, bool>> TempDisabled;
+
         public static Dictionary<string, RemnantItem> reflist = new Dictionary<string, RemnantItem>();
 
         public static Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>() { 
@@ -30,17 +33,11 @@ namespace RemnantBuildRandomizer
 
         public static void ReadXML()
         {
-            
             GearList.Clear();
             doc.Load("Resources/GearInfo.xml");
-
-
-
             parseItems("RegularMods");
-            Debug.WriteLine("regmodcount"+GearList[SlotType.MO].Count);
             parseItems("LongMod");
             parseItems("HandMod");
-
             parseItems("Chest");
             parseItems("Head");
             parseItems("Legs");
@@ -51,11 +48,7 @@ namespace RemnantBuildRandomizer
             parseItems("Melee");
             parseItems("Amulets");
             parseItems("Rings");
-
-            foreach (RemnantItem ri in GearList[SlotType.MO]) {
-                Debug.WriteLine(ri.Itemname);
-            }
-            
+            TempDisabled = new Dictionary<SlotType, Dictionary<RemnantItem, bool>>(Disabled);
         }
         public static void parseItems(string tag) {
             List<RemnantItem> list = new List<RemnantItem>();
@@ -69,9 +62,14 @@ namespace RemnantBuildRandomizer
                     ri.Description = ri.Itemname;
                 }
                 reflist.Add(ri.Itemname,ri);
+                if (Disabled.ContainsKey(ri.Slot)) { Disabled[ri.Slot].Add(ri, false); } else {
+                    Disabled.Add(ri.Slot, new Dictionary<RemnantItem, bool>());
+                    Disabled[ri.Slot].Add(ri,false);
+                }
             }
             SlotType st = Slots[tag];
             if (GearList.ContainsKey(st)) { GearList[st].AddRange(list); } else { GearList[st]=list; }
         }
+        
     }
 }
