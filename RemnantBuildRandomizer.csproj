@@ -96,41 +96,24 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Resources\Font\Montserrat-Black.ttf" />
-    <Resource Include="Resources\Font\Montserrat-BlackItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-BlackItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Bold.ttf" />
-    <None Include="Resources\Font\Montserrat-Bold.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-BoldItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-BoldItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-ExtraBold.ttf" />
-    <None Include="Resources\Font\Montserrat-ExtraBold.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-ExtraBoldItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-ExtraBoldItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-ExtraLight.ttf" />
-    <None Include="Resources\Font\Montserrat-ExtraLight.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-ExtraLightItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-ExtraLightItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Italic.ttf" />
-    <None Include="Resources\Font\Montserrat-Italic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Light.ttf" />
-    <None Include="Resources\Font\Montserrat-Light.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-LightItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-LightItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Medium.ttf" />
-    <None Include="Resources\Font\Montserrat-Medium.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-MediumItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-MediumItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Regular.ttf" />
-    <None Include="Resources\Font\Montserrat-Regular.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-SemiBold.ttf" />
-    <None Include="Resources\Font\Montserrat-SemiBold.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-SemiBoldItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-SemiBoldItalic.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-Thin.ttf" />
-    <None Include="Resources\Font\Montserrat-Thin.ttf.meta" />
-    <Resource Include="Resources\Font\Montserrat-ThinItalic.ttf" />
-    <None Include="Resources\Font\Montserrat-ThinItalic.ttf.meta" />
+    <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-BoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-ExtraBold.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-ExtraBoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-ExtraLight.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-ExtraLightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Italic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Light.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-LightItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Medium.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-MediumItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Regular.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-SemiBold.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-SemiBoldItalic.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-Thin.ttf" />
+    <Resource Include="Resources\Fonts\Montserrat-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -439,6 +422,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="RedCrystal.ico" />
+    <Resource Include="Resources\Blacklist.txt" />
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

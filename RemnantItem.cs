@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,7 @@ namespace RemnantBuildRandomizer
         private string itemname;
         private string description;
         private BitmapImage image;
+        private bool disabled;
 
         public RemnantItem(string path, string description, SlotType slot)
         {
@@ -26,6 +28,7 @@ namespace RemnantBuildRandomizer
             this.Itemname = path.Substring(path.LastIndexOf("/")+1).Replace(".png", "");
             this.Image = createImage(path);
             this.Description = description;
+            this.Disabled = false;
         }
 
         public string Itemname { get => itemname; set => itemname = value; }
@@ -35,6 +38,11 @@ namespace RemnantBuildRandomizer
         public SlotType Slot { get => slot; set => slot = value; }
         public string Dlc { get => dlc; set => dlc = value; }
         public string Mod { get => mod; set => mod = value; }
+        public void setDis(bool b) { 
+            this.disabled = b;
+            Debug.WriteLine("CHANGING "+Itemname+" TO "+b);
+        }
+        public bool Disabled { get => disabled; set => setDis(value); }
 
         private BitmapImage createImage(string path)
         {
