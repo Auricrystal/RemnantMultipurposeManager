@@ -45,7 +45,7 @@ namespace RemnantBuildRandomizer
                 using (StreamWriter sw = File.CreateText(path))
                 {
                     foreach (Build b in presets) {
-                        sw.WriteLine("preset:" + b.Code);
+                        sw.WriteLine(b.Name+":" + b.Code);
                     }
                     foreach (RemnantItem ri in reflist.Values) {
                         sw.WriteLine(ri.Itemname+"="+ri.Disabled);
@@ -63,7 +63,7 @@ namespace RemnantBuildRandomizer
                     if (s.Contains(":"))
                     {
                         int pos = s.LastIndexOf(":");
-                        presets.Add(Build.fromCode(s.Substring(pos+1)));
+                        presets.Add(Build.fromCode(s.Substring(0,pos),s.Substring(pos+1)));
                     }
                     if (s.Contains("="))
                     {

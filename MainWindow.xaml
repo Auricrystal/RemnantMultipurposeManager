@@ -50,7 +50,7 @@
                         <ListBox Background="{x:Null}" Name="WeaponList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" ToolTip="{Binding ID}"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
@@ -96,16 +96,20 @@
             <Image x:Name="RedCrystal" HorizontalAlignment="Left" Height="278" Margin="617,82,0,0" VerticalAlignment="Top" Width="199" Source="Resources/IMG/RedCrystal.png"/>
             <TextBlock FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat SemiBold" HorizontalAlignment="Left" Height="74" Margin="617,8,0,0" TextWrapping="Wrap" Text="Remnant Build Randomizer" VerticalAlignment="Top" Width="199" Foreground="White" FontSize="24"/>
             <TextBox Name="BuildNum" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Height="32" Margin="265,0,0,0" TextWrapping="Wrap" Text="Build" VerticalAlignment="Top" Width="328" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Background="{x:Null}" Foreground="White" FontSize="20"/>
-            <TextBox Name="BuildEnter" HorizontalAlignment="Left" Height="23" Margin="4,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" HorizontalContentAlignment="Center"/>
-            <ListBox  Background="{x:Null}" KeyDown="BuildList_KeyDown" Name="BuildList" ItemsSource="{Binding MyItems}" HorizontalAlignment="Left" Height="155" Margin="4,307,0,0" VerticalAlignment="Top" Width="256">
+            <TextBox Name="BuildCodeEnter" VerticalContentAlignment="Center" HorizontalAlignment="Left" FontSize="9" Height="23" Margin="50,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" HorizontalContentAlignment="Center"/>
+            <TextBox Name="BuildNameEnter" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="50,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" HorizontalContentAlignment="Center"/>
+
+            <ListBox  Background="{x:Null}" KeyDown="BuildList_KeyDown" Name="BuildList" ItemsSource="{Binding MyItems}" HorizontalAlignment="Left" Height="137" Margin="4,325,0,0" VerticalAlignment="Top" Width="256">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="BuildBox_Checked"  Unchecked="BuildBox_UnChecked"  IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Code, Mode=TwoWay}" Foreground="White" />
+                        <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" ToolTip="{Binding Code}" Checked="BuildBox_Checked"  Unchecked="BuildBox_UnChecked"  IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Name}" Foreground="White" />
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
             <Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
-            <Button x:Name="Add_Build" Click="Add_Build_Click"  Content="Add Build" HorizontalAlignment="Left" Margin="177,279,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
+            <Button x:Name="Add_Build" Click="Add_Build_Click"  Content="Add Build" HorizontalAlignment="Left" Margin="203,302,0,0" VerticalAlignment="Top" Width="57" Height="23"/>
+            <Label Content="Name:" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="23" Margin="4,279,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
+            <Label Content="Code:" HorizontalAlignment="Left" HorizontalContentAlignment="Right"  Height="23" Margin="4,302,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
 
         </Grid>
         <ToolBarPanel HorizontalAlignment="Left" Height="26" Margin="295,0,-3,0" VerticalAlignment="Top" Width="539"/>

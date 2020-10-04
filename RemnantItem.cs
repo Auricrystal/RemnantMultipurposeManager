@@ -134,7 +134,7 @@ namespace RemnantBuildRandomizer
         public string toCode()
         {
             string code = "";
-
+            //code += Name+":";
             code += hg.ID + "-";
             code += hgm.ID + "-";
             code += lg.ID + "-";
@@ -150,10 +150,10 @@ namespace RemnantBuildRandomizer
             return code;
         }
 
-        public static Build fromCode(string build)
+        public static Build fromCode(string name,string build)
         {
             string[] ids = build.Split('-');          
-            return new Build("",int.Parse(ids[0]), int.Parse(ids[1]), int.Parse(ids[2]), int.Parse(ids[3]), int.Parse(ids[4]), int.Parse(ids[5]), int.Parse(ids[6]), int.Parse(ids[7]), int.Parse(ids[8]), int.Parse(ids[9]), int.Parse(ids[10]));
+            return new Build(name,int.Parse(ids[0]), int.Parse(ids[1]), int.Parse(ids[2]), int.Parse(ids[3]), int.Parse(ids[4]), int.Parse(ids[5]), int.Parse(ids[6]), int.Parse(ids[7]), int.Parse(ids[8]), int.Parse(ids[9]), int.Parse(ids[10]));
         }
 
         public bool Equals(Build b) {

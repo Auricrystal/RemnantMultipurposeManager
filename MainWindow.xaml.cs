@@ -24,7 +24,7 @@ namespace RemnantBuildRandomizer
         Random rd = new Random();
         RemnantItem hg;
         RemnantItem lg;
-       
+
         Build b;
 
         public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
@@ -42,7 +42,7 @@ namespace RemnantBuildRandomizer
             BuildList.ItemsSource = presets;
 
 
-            
+
 
         }
         private void ResetDisabled()
@@ -104,64 +104,70 @@ namespace RemnantBuildRandomizer
 
         private void ReRollImg(object sender, RoutedEventArgs e)
         {
-            if (BuildList.Items.Count > 0 && rd.Next(20)==0)
+            try
             {
-                Debug.WriteLine("PRESET CHOSEN!");
-                Build b = presets[rd.Next(presets.Count)] ;
+                if (BuildList.Items.Count > 0 && rd.Next(20) == 0)
+                {
+                    Debug.WriteLine("PRESET CHOSEN!");
+                    Build b = presets[rd.Next(presets.Count)];
 
-                setSlot(HandGunSlot,b.hg);
-                setModSlot(Mod1Slot,Mod1Cover, b.hgm);
+                    setSlot(HandGunSlot, b.hg);
+                    setModSlot(Mod1Slot, Mod1Cover, b.hgm);
 
-                setSlot(LongGunSlot, b.lg);
-                setModSlot(Mod2Slot, Mod2Cover, b.lgm);
+                    setSlot(LongGunSlot, b.lg);
+                    setModSlot(Mod2Slot, Mod2Cover, b.lgm);
 
-                setSlot(MeleeSlot, b.m);
+                    setSlot(MeleeSlot, b.m);
 
-                setSlot(HeadSlot, b.he);
-                setSlot(ChestSlot, b.ch);
-                setSlot(LegSlot, b.le);
+                    setSlot(HeadSlot, b.he);
+                    setSlot(ChestSlot, b.ch);
+                    setSlot(LegSlot, b.le);
 
-                setSlot(AmuletSlot, b.am);
+                    setSlot(AmuletSlot, b.am);
 
-                setSlot(Ring1Slot, b.r1);
-                setSlot(Ring2Slot, b.r2);
+                    setSlot(Ring1Slot, b.r1);
+                    setSlot(Ring2Slot, b.r2);
 
-                //Conditions();
-                BuildNum.Text = b.toCode();
+                    //Conditions();
+                    BuildNum.Text = b.Name;
+                    BuildNum.ToolTip = b.toCode();
 
+                }
+                else
+                {
+                    int[] ids = new int[11];
+                    RedCrystal.ToolTip = null;
+
+                    ids[0] = RerollSlot(HandGunSlot, SlotType.HG);
+                    RemnantItem ri = RerollMod(Mod1Cover, Mod1Slot, hg);
+                    ids[1] = ri.ID;
+
+                    ids[2] = RerollSlot(LongGunSlot, SlotType.LG);
+                    RemnantItem ri2 = RerollMod(Mod2Cover, Mod2Slot, lg);
+                    while (ri.Itemname == ri2.Itemname && ri.Itemname != "_No Mod") { ri2 = RerollMod(Mod2Cover, Mod2Slot, lg); }
+                    ids[3] = ri2.ID;
+
+                    ids[4] = RerollSlot(MeleeSlot, SlotType.M);
+
+                    ids[5] = RerollSlot(HeadSlot, SlotType.HE);
+                    ids[6] = RerollSlot(ChestSlot, SlotType.CH);
+                    ids[7] = RerollSlot(LegSlot, SlotType.LE);
+
+                    ids[8] = RerollSlot(AmuletSlot, SlotType.AM);
+                    int num = RerollSlot(Ring1Slot, SlotType.RI);
+                    ids[9] = num;
+                    int num2 = RerollSlot(Ring2Slot, SlotType.RI);
+                    while (num2 == num) { num2 = RerollSlot(Ring2Slot, SlotType.RI); }
+                    ids[10] = num2;
+                    Conditions();
+
+
+                    b = new Build("", ids[0], ids[1], ids[2], ids[3], ids[4], ids[5], ids[6], ids[7], ids[8], ids[9], ids[10]);
+                    BuildNum.Text = b.toCode();
+                    BuildNum.ToolTip = null;
+                }
             }
-            else
-            {
-                int[] ids = new int[11];
-                RedCrystal.ToolTip = null;
-
-                ids[0] = RerollSlot(HandGunSlot, SlotType.HG);
-                RemnantItem ri = RerollMod(Mod1Cover, Mod1Slot, hg);
-                ids[1] = ri.ID;
-
-                ids[2] = RerollSlot(LongGunSlot, SlotType.LG);
-                RemnantItem ri2 = RerollMod(Mod2Cover, Mod2Slot, lg);
-                while (ri.Itemname == ri2.Itemname &&ri.Itemname!="_No Mod") { ri2 = RerollMod(Mod2Cover, Mod2Slot, lg); }
-                ids[3] = ri2.ID;
-
-                ids[4] = RerollSlot(MeleeSlot, SlotType.M);
-
-                ids[5] = RerollSlot(HeadSlot, SlotType.HE);
-                ids[6] = RerollSlot(ChestSlot, SlotType.CH);
-                ids[7] = RerollSlot(LegSlot, SlotType.LE);
-
-                ids[8] = RerollSlot(AmuletSlot, SlotType.AM);
-                int num = RerollSlot(Ring1Slot, SlotType.RI);
-                ids[9] = num;
-                int num2 = RerollSlot(Ring2Slot, SlotType.RI);
-                while (num2 == num) { num2 = RerollSlot(Ring2Slot, SlotType.RI); }
-                ids[10] = num2;
-                Conditions();
-
-
-                b = new Build("",ids[0], ids[1], ids[2], ids[3], ids[4], ids[5], ids[6], ids[7], ids[8], ids[9], ids[10]);
-                BuildNum.Text = b.toCode();
-            }
+            catch (Exception ce) { MessageBox.Show(ce.Message); }
 
         }
         private void Conditions()
@@ -199,17 +205,22 @@ namespace RemnantBuildRandomizer
         }
         public int RerollSlot(Image i, SlotType st)
         {
-            int rand = rd.Next(0, GearList[st].Count);
-            while (GearList[st][rand].Disabled)
+            List<RemnantItem> riList = GearList[st].Where(x => x.Disabled == false).ToList();
+            if (riList.Count == 0 && st != SlotType.RI)
             {
-                Debug.WriteLine(GearList[st][rand].Itemname + "Cant USE!");
-                rand = rd.Next(0, GearList[st].Count);
+                throw new Exception("Too many items disabled in " + st + " Need atleast 1!");
             }
-            RemnantItem ri = GearList[st][rand];
-            if (st == SlotType.HG) { hg = ri; }
+            else if (riList.Count < 2 && st == SlotType.RI)
+            {
+                throw new Exception("Too many items disabled in " + st + " Need atleast 2!");
+            }
+           
+            RemnantItem ri = riList[rd.Next(0, riList.Count)];
+            if (st == SlotType.HG) { hg = ri; }else
             if (st == SlotType.LG) { lg = ri; }
             setSlot(i, ri);
-            return rand;
+            return ri.ID;
+
         }
         private void setSlot(Image i, RemnantItem ri)
         {
@@ -217,13 +228,13 @@ namespace RemnantBuildRandomizer
             ToolTipService.SetShowDuration(i, 60000);
             i.ToolTip = ri.Itemname + "\n" + ri.Description;
         }
-        private void setModSlot(Image i,Image s, RemnantItem ri)
+        private void setModSlot(Image i, Image s, RemnantItem ri)
         {
             i.Source = ri.Image;
             ToolTipService.SetShowDuration(i, 60000);
             s.ToolTip = ri.Itemname + "\n" + ri.Description;
         }
-        public RemnantItem RerollMod(System.Windows.Controls.Image c, Image i, RemnantItem ri)
+        public RemnantItem RerollMod(Image c, Image i, RemnantItem ri)
         {
             Debug.WriteLine(ri.Itemname + "==" + ri.Mod);
             ToolTipService.SetShowDuration(i, 60000);
@@ -237,9 +248,12 @@ namespace RemnantBuildRandomizer
             }
             else
             {
-                int rand = rd.Next(0, 28);
-                while (GearList[SlotType.MO][rand].Disabled) { rand = rd.Next(0, 28); }
-                RemnantItem mo = GearList[SlotType.MO][rand];
+                List<RemnantItem> riList = GearList[SlotType.MO].Take(28).Where(x => x.Disabled == false).ToList();
+                if (riList.Count < 2)
+                {
+                    throw new Exception("Too many items disabled in " + SlotType.MO + " Need atleast 2!");
+                }
+                RemnantItem mo = riList[rd.Next(0, riList.Count)];
                 i.Source = mo.Image;
                 c.ToolTip = mo.Itemname + "\n" + mo.Description;
                 Debug.WriteLine("Regular Mod: " + reflist[mo.Itemname].Itemname);
@@ -331,17 +345,21 @@ namespace RemnantBuildRandomizer
         {
             try
             {
-                Build b = Build.fromCode(BuildEnter.Text);
-                if (!presets.Contains(Build.fromCode(BuildEnter.Text)))
+                if (BuildNameEnter.Text == "") { throw new Exception("No Name Assigned to Build!"); }
+                Build b = Build.fromCode(BuildNameEnter.Text, BuildCodeEnter.Text);
+                if (!presets.Contains(Build.fromCode(BuildNameEnter.Text, BuildCodeEnter.Text)))
                 {
+                    BuildNameEnter.Text = "";
+                    BuildCodeEnter.Text = "";
                     presets.Add(b);
                     BuildList.Items.Refresh();
                 }
             }
-            catch (Exception) {
-                MessageBox.Show("Invalid Build Code!");
+            catch (Exception ce)
+            {
+                MessageBox.Show(ce.Message);
             }
-            
+
         }
 
         public static void CopyUIElementToClipboard(FrameworkElement element)
@@ -356,8 +374,8 @@ namespace RemnantBuildRandomizer
                 dc.DrawRectangle(vb, null, new Rect(new Point(), new Size(width, height)));
             }
             bmpCopied.Render(dv);
-            
-            
+
+
             Clipboard.SetImage(bmpCopied);
         }
 
@@ -372,14 +390,15 @@ namespace RemnantBuildRandomizer
         {
             CheckBox cb = (CheckBox)sender;
             Debug.WriteLine("Checked! " + cb.Content.ToString());
-            
+
         }
 
         private void BuildList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Delete)
+            if (e.Key == System.Windows.Input.Key.Delete && BuildList.SelectedIndex != -1)
             {
                 presets.Remove(presets[BuildList.SelectedIndex]);
+                BuildList.SelectedIndex = -1;
                 BuildList.Items.Refresh();
             }
         }
