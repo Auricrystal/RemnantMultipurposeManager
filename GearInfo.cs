@@ -28,11 +28,14 @@ namespace RemnantBuildRandomizer
             {"HandMod",SlotType.MO },
         };
         private static readonly XmlDocument doc = new XmlDocument();
+        public static List<Build> presets = new List<Build>();
         public static void updateBlacklist() {
             string path = @"Resources/Blacklist.txt";
             File.Delete(path);
             getBlacklist();
         }
+
+
         public static void getBlacklist()
         {
             string path = @"Resources/Blacklist.txt";
@@ -41,6 +44,9 @@ namespace RemnantBuildRandomizer
             {
                 using (StreamWriter sw = File.CreateText(path))
                 {
+                    foreach (Build b in presets) {
+                        sw.WriteLine("preset:" + b.Code);
+                    }
                     foreach (RemnantItem ri in reflist.Values) {
                         sw.WriteLine(ri.Itemname+"="+ri.Disabled);
                     }
@@ -54,6 +60,11 @@ namespace RemnantBuildRandomizer
                 string s = "";
                 while ((s = sr.ReadLine()) != null)
                 {
+                    if (s.Contains(":"))
+                    {
+                        int pos = s.LastIndexOf(":");
+                        presets.Add(Build.fromCode(s.Substring(pos+1)));
+                    }
                     if (s.Contains("="))
                     {
                         int pos = s.LastIndexOf("=");
@@ -74,10 +85,10 @@ namespace RemnantBuildRandomizer
             parseItems("Chest");
             parseItems("Head");
             parseItems("Legs");
-            parseItems("BossHand");
             parseItems("RegHand");
-            parseItems("BossLong");
+            parseItems("BossHand");
             parseItems("RegLong");
+            parseItems("BossLong");
             parseItems("Melee");
             parseItems("Amulets");
             parseItems("Rings");
@@ -85,7 +96,7 @@ namespace RemnantBuildRandomizer
         public static void parseItems(string tag)
         {
             List<RemnantItem> list = new List<RemnantItem>();
-            foreach (XmlElement xe in doc.GetElementsByTagName(tag))
+            foreach (XmlElement  xe in doc.GetElementsByTagName(tag))
             {
                 RemnantItem ri = new RemnantItem(XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
                 ri.Mod = xe.GetAttribute("mod");
@@ -103,4 +114,6 @@ namespace RemnantBuildRandomizer
 
 
     }
+
+    
 }

@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RemnantBuildRandomizer"
         mc:Ignorable="d"
-        Title="RemnantBuildRandomizer" Height="500" Width="840"
+        Title="RemnantBuildRandomizer" Height="505.531" Width="837.522"
         Name="RemnantBuildRandomizer" Icon="Resources/IMG/RedCrystal.png"
         Background="Black"
         Closing="RemnantBuildRandomizer_Closing"
         >
-    <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged">
+    <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged" Margin="0,-20,0,-20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
         <Grid.LayoutTransform>
             <ScaleTransform x:Name="ApplicationScaleTransform"
                         CenterX="0"
@@ -18,114 +21,93 @@
                         ScaleX="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}"
                         ScaleY="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}" />
         </Grid.LayoutTransform>
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="465" >
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="466" Margin="0,10,-1,9" Width="832" >
             <Image x:Name="Background" HorizontalAlignment="Center" VerticalAlignment="Center"  Source="Resources/IMG/RemnantBlanInv.png" />
-            <Image  x:Name="HandGunSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,40,268,359" Source="Resources/IMG/Weapons/Hand/RegHand/Hand Gun.png"/>
-            <Image  x:Name="LongGunSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,111,268,288" Source="Resources/IMG/Weapons/Long/RegLong/Long Gun.png"/>
-            <Image  x:Name="MeleeSlot" HorizontalAlignment="Center" Height="66" VerticalAlignment="Center" Width="330" Margin="234,190,268,209" Source="Resources/IMG/Weapons/Melee/Fists.png"/>
-            <Image  x:Name="HeadSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="265,261,461,106" Source="Resources/IMG/Armor/Head/_Head.png"/>
+            <Grid Name="BuildScreen" HorizontalAlignment="Left" Height="433" Margin="263,35,0,0" VerticalAlignment="Top" Width="340">
+                <Image  x:Name="BuildBackground" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" Source="Resources/IMG/RemnantBuildBackground.png" Height="433"/>
 
-            <Image  x:Name="ChestSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="376,261,350,106" Source="Resources/IMG/Armor/Chest/_Chest.png"/>
-            <Image  x:Name="LegSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="487,261,239,106" Source="Resources/IMG/Armor/Legs/_Legs.png"/>
-            <Image  x:Name="AmuletSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="265,364,461,3" Source="Resources/IMG/Trinkets/Amulets/_Amulet.png"/>
-            <Image  x:Name="Ring1Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="376,364,350,3" Source="Resources/IMG/Trinkets/Rings/_Ring.png"/>
-            <Image  x:Name="Ring2Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="487,364,239,3" Source="Resources/IMG/Trinkets/Rings/_Ring.png"/>
-            <Image  x:Name="Mod1Slot" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="521,40,239,359" Source="Resources/IMG/Mods/RegularMods/_Mod.png"/>
-            <Image  x:Name="Mod1Cover" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="521,40,239,359" Source="Resources/IMG/Mods/Mod Overlay.png"/>
-            <Image  x:Name="Mod2Slot" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="527,117,245,288" Source="Resources/IMG/Mods/RegularMods/_Mod.png"/>
-            <Image  x:Name="Mod2Cover" HorizontalAlignment="Center" Height="60" VerticalAlignment="Center" Width="60" Margin="527,117,245,288" Source="Resources/IMG/Mods/Mod Overlay.png"/>
-            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="638,415,0,0" VerticalAlignment="Top" Width="178" Height="40"/>
+                <Image  x:Name="HandGunSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center"  Margin="10,2,50,361" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png"/>
+                <Image  x:Name="LongGunSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center" Margin="10,77,50,286" Source="Resources/IMG/Weapons/Long/RegLong/_No Long Gun.png"/>
+                <Image  x:Name="MeleeSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center"  Margin="10,152,50,211" Source="Resources/IMG/Weapons/Melee/_Fists.png"/>
+                <Image  x:Name="HeadSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="0,226,234,108" Source="Resources/IMG/Armor/Head/_No Head.png"/>
+
+                <Image  x:Name="ChestSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="111,226,121,108" Source="Resources/IMG/Armor/Chest/_No Chest.png"/>
+                <Image  x:Name="LegSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="228,226,6,108" Source="Resources/IMG/Armor/Legs/_No Legs.png"/>
+                <Image  x:Name="AmuletSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="0,330,234,5" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png"/>
+                <Image  x:Name="Ring1Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="112,330,122,5" Source="Resources/IMG/Trinkets/Rings/_No Ring.png"/>
+                <Image  x:Name="Ring2Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="228,330,6,5" Source="Resources/IMG/Trinkets/Rings/_No Ring.png"/>
+                <Image  x:Name="Mod1Slot" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="270,0,6,363" Source="Resources/IMG/Mods/RegularMods/_No Mod.png"/>
+                <Image  x:Name="Mod1Cover" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="270,0,6,363" Source="Resources/IMG/Mods/Mod Overlay.png"/>
+                <Image  x:Name="Mod2Slot" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/RegularMods/_No Mod.png"/>
+                <Image  x:Name="Mod2Cover" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/Mod Overlay.png"/>
+            </Grid>
+            <Button x:Name="CopyBuild" Click="CopyBuild_Click"  Content="Copy To&#xa;Clipboard"  HorizontalAlignment="Left" Margin="738,416,0,0" VerticalAlignment="Top" Width="78" Height="40"/>
+            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="617,416,0,0" VerticalAlignment="Top" Width="116" Height="40"/>
             <Grid HorizontalAlignment="Left" Height="465" Margin="4,0,0,0" VerticalAlignment="Top" Width="256">
-                <TabControl HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="236" Margin="10,36,0,0" Background="{x:Null}">
-                    <TabItem Header="Weapons" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                        <TabControl HorizontalAlignment="Left" Height="393" VerticalAlignment="Top" Width="236" Margin="-2,0,-4,0" Background="{x:Null}">
-                            <TabItem Header="Hand Gun">
-                                <ListBox Background="{x:Null}" Name="HandGList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,-2" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox  FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                            <TabItem Header="Long Gun" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="LongGList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,-2" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                            <TabItem Header="Melee" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="MeleeList" ItemsSource="{Binding MyItems}" Margin="-4,-2,0,-3" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox  FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                        </TabControl>
+                <Label Content="Item Blacklist" VerticalContentAlignment="center" HorizontalContentAlignment="center" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="36" Width="236" Foreground="White" FontSize="24" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat Light"/>
+                <TabControl HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="256" Margin="0,36,0,0" Background="{x:Null}">
+                    <TabItem Header="Weapon">
+                        <ListBox Background="{x:Null}" Name="WeaponList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" ToolTip="{Binding ID}"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </TabItem>
-                    <TabItem Header="Armor" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                        <TabControl HorizontalAlignment="Left" Height="393" VerticalAlignment="Top" Width="236" Margin="-2,0,-4,0" Background="{x:Null}">
-                            <TabItem Header="Head" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="HeadList" ItemsSource="{Binding MyItems}" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                            <TabItem Header="Chest" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="ChestList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,0" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                            <TabItem Header="Legs" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="LegsList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,-2" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                        </TabControl>
+                    <TabItem Header="Armor">
+                        <ListBox Background="{x:Null}" Name="ArmorList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </TabItem>
-                    <TabItem Header="Trinkets" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                        <TabControl HorizontalAlignment="Left" Height="393" VerticalAlignment="Top" Width="236" Margin="0,0,-6,0" Background="{x:Null}">
-                            <TabItem Header="Amulets" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="AmuletList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,-2" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox  FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                            <TabItem Header="Rings" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat">
-                                <ListBox Background="{x:Null}" Name="RingList" ItemsSource="{Binding MyItems}"  Margin="-4,-2,0,-2" >
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </TabItem>
-                        </TabControl>
+                    <TabItem Header="Amulet">
+                        <ListBox Background="{x:Null}" Name="AmuletList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="Ring">
+                        <ListBox Background="{x:Null}" Name="RingList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </TabItem>
+                    <TabItem Header="Mod">
+                        <ListBox Background="{x:Null}" Name="ModList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </TabItem>
                 </TabControl>
-                <Label Content="Item Blacklist" VerticalContentAlignment="center" HorizontalContentAlignment="center" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="36" Width="236" Foreground="White" FontSize="24" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat Light"/>
             </Grid>
-            <Image x:Name="RedCrystal" HorizontalAlignment="Left" Height="314" Margin="638,96,0,0" VerticalAlignment="Top" Width="184" Source="Resources/IMG/RedCrystal.png"/>
+            <Image x:Name="RedCrystal" HorizontalAlignment="Left" Height="278" Margin="617,82,0,0" VerticalAlignment="Top" Width="199" Source="Resources/IMG/RedCrystal.png"/>
             <TextBlock FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat SemiBold" HorizontalAlignment="Left" Height="74" Margin="617,8,0,0" TextWrapping="Wrap" Text="Remnant Build Randomizer" VerticalAlignment="Top" Width="199" Foreground="White" FontSize="24"/>
+            <TextBox Name="BuildNum" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Height="32" Margin="265,0,0,0" TextWrapping="Wrap" Text="Build" VerticalAlignment="Top" Width="328" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Background="{x:Null}" Foreground="White" FontSize="20"/>
+            <TextBox Name="BuildEnter" HorizontalAlignment="Left" Height="23" Margin="4,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="170" HorizontalContentAlignment="Center"/>
+            <ListBox  Background="{x:Null}" KeyDown="BuildList_KeyDown" Name="BuildList" ItemsSource="{Binding MyItems}" HorizontalAlignment="Left" Height="155" Margin="4,307,0,0" VerticalAlignment="Top" Width="256">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="BuildBox_Checked"  Unchecked="BuildBox_UnChecked"  IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Code, Mode=TwoWay}" Foreground="White" />
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
+            <Button x:Name="Add_Build" Click="Add_Build_Click"  Content="Add Build" HorizontalAlignment="Left" Margin="177,279,0,0" VerticalAlignment="Top" Width="83" Height="23"/>
+
         </Grid>
+        <ToolBarPanel HorizontalAlignment="Left" Height="26" Margin="295,0,-3,0" VerticalAlignment="Top" Width="539"/>
     </Grid>
 </Window>

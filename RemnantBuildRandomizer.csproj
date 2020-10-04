@@ -40,6 +40,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -151,7 +153,7 @@
     <Resource Include="Resources\IMG\Armor\Chest\Twisted Cage.png" />
     <Resource Include="Resources\IMG\Armor\Chest\Void Carapace.png" />
     <Resource Include="Resources\IMG\Armor\Chest\Warlord Armor.png" />
-    <Resource Include="Resources\IMG\Armor\Chest\_Chest.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\_No Chest.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\Armor\Head\Adventurer Goggles.png" />
@@ -174,7 +176,7 @@
     <Resource Include="Resources\IMG\Armor\Head\Twisted Mask.png" />
     <Resource Include="Resources\IMG\Armor\Head\Void Skull.png" />
     <Resource Include="Resources\IMG\Armor\Head\Warlord Skull.png" />
-    <Resource Include="Resources\IMG\Armor\Head\_Head.png" />
+    <Resource Include="Resources\IMG\Armor\Head\_No Head.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\Armor\Legs\Adventurer Leggings.png" />
@@ -195,7 +197,7 @@
     <Resource Include="Resources\IMG\Armor\Legs\Twisted Tassets.png" />
     <Resource Include="Resources\IMG\Armor\Legs\Void Greaves.png" />
     <Resource Include="Resources\IMG\Armor\Legs\Warlord Boots.png" />
-    <Resource Include="Resources\IMG\Armor\Legs\_Legs.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\_No Legs.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\Menu\GFG_TEX_UI_Info_Back.png" />
@@ -218,7 +220,7 @@
     <Resource Include="Resources\IMG\Mods\BossWeaponMods\LongMod\Static Field Shot.png" />
     <Resource Include="Resources\IMG\Mods\BossWeaponMods\LongMod\Undying.png" />
     <Resource Include="Resources\IMG\Mods\Mod Overlay.png" />
-    <Resource Include="Resources\IMG\Mods\RegularMods\_Mod.png" />
+    <Resource Include="Resources\IMG\Mods\RegularMods\_No Mod.png" />
     <Resource Include="Resources\IMG\Mods\RegularMods\Beckon.png" />
     <Resource Include="Resources\IMG\Mods\RegularMods\Blink Token.png" />
     <Resource Include="Resources\IMG\Mods\RegularMods\Blizzard.png" />
@@ -284,7 +286,7 @@
     <Resource Include="Resources\IMG\Trinkets\Amulets\Vengeance Idol.png" />
     <Resource Include="Resources\IMG\Trinkets\Amulets\Vulcan%27s Detonator.png" />
     <Resource Include="Resources\IMG\Trinkets\Amulets\White Rose.png" />
-    <Resource Include="Resources\IMG\Trinkets\Amulets\_Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\_No Amulet.png" />
     <Resource Include="Resources\IMG\Trinkets\Rings\Aggressor%27s Bane.png" />
     <Resource Include="Resources\IMG\Trinkets\Rings\Akari War Band.png" />
     <Resource Include="Resources\IMG\Trinkets\Rings\Alchemist%27s Jewel.png" />
@@ -359,7 +361,7 @@
     <Resource Include="Resources\IMG\Trinkets\Rings\Swashbuckler%27s Signet.png" />
     <Resource Include="Resources\IMG\Trinkets\Rings\Vanguard Ring.png" />
     <Resource Include="Resources\IMG\Trinkets\Rings\Volatile Gem.png" />
-    <Resource Include="Resources\IMG\Trinkets\Rings\_Ring.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\_No Ring.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\Weapons\Hand\BossHand\Curse Of The Jungle God.png" />
@@ -367,7 +369,7 @@
     <Resource Include="Resources\IMG\Weapons\Hand\BossHand\Hive Cannon.png" />
     <Resource Include="Resources\IMG\Weapons\Hand\BossHand\Pride Of The Iskal.png" />
     <Resource Include="Resources\IMG\Weapons\Hand\BossHand\Spitfire.png" />
-    <Resource Include="Resources\IMG\Weapons\Hand\RegHand\Hand Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\RegHand\_No Hand Gun.png" />
     <Resource Include="Resources\IMG\Weapons\Hand\RegHand\Hunting Pistol.png" />
     <Resource Include="Resources\IMG\Weapons\Hand\RegHand\Machine Pistol.png" />
     <Resource Include="Resources\IMG\Weapons\Hand\RegHand\Magnum Revolver.png" />
@@ -383,7 +385,7 @@
     <Resource Include="Resources\IMG\Weapons\Long\BossLong\Repulsor.png" />
     <Resource Include="Resources\IMG\Weapons\Long\BossLong\Ruin.png" />
     <Resource Include="Resources\IMG\Weapons\Long\BossLong\Sporebloom.png" />
-    <Resource Include="Resources\IMG\Weapons\Long\RegLong\Long Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\RegLong\_No Long Gun.png" />
     <Resource Include="Resources\IMG\Weapons\Long\RegLong\Assault Rifle.png" />
     <Resource Include="Resources\IMG\Weapons\Long\RegLong\Beam Rifle.png" />
     <Resource Include="Resources\IMG\Weapons\Long\RegLong\Chicago Typewriter.png" />
@@ -395,7 +397,7 @@
     <Resource Include="Resources\IMG\Weapons\Long\RegLong\Sniper.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\Butcher%27s Flail.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\Chain Blade.png" />
-    <Resource Include="Resources\IMG\Weapons\Melee\Fists.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\_Fists.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\Frostborne.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\Guardian Axe.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\Hero%27s Sword.png" />
@@ -423,6 +425,10 @@
   <ItemGroup>
     <Resource Include="RedCrystal.ico" />
     <Resource Include="Resources\Blacklist.txt" />
+    <Resource Include="Resources\IMG\RemnantBuildBackground.png" />
+    <Resource Include="Resources\ItemCodes.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

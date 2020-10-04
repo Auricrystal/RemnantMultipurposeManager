@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <GearInfo version="1">
   <Armor>
-    <Chest name="_Chest"             desc="No Chestpiece" />
+    <Chest name="_No Chest"             desc="No Chestpiece" />
 
     <Chest name="Adventurer Tunic"   desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%" />
 
@@ -40,15 +40,13 @@
     <Chest name="Warlord Armor"      desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal"/>
 
 
-    <Head name="_Head" desc="No Head"/>
+    <Head name="_No Head" desc="No Head"/>
 
     <Head name="Adventurer Goggles"   desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%" />
 
     <Head name="Akari Mask"         desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed"/>
 
     <Head name="Bandit's Mask"      desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance"/>
-
-    <Head name="Bomber Hat"      desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range"/>
 
     <Head name="Carapace Great Helm"     desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction"/>
 
@@ -74,16 +72,18 @@
 
     <Head name="Slayer Mask"      desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage"/>
 
-    <Head name="Twisted Mask"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
-
     <Head name="Twisted Hood"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
 
     <Head name="Void Skull"      desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost"/>
 
     <Head name="Warlord Skull"      desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal"/>
 
+    <Head name="Twisted Mask"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
 
-    <Legs name="_Legs" desc="No Legs"/>
+    <Head name="Bomber Hat"      desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range"/>
+
+    
+    <Legs name="_No Legs" desc="No Legs"/>
 
     <Legs name="Adventurer Leggings" desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%"/>
 
@@ -125,13 +125,7 @@
   </Armor>
   <Weapons>
     <Hand>
-      <BossHand name="Curse of the Jungle God" desc="" mod="Tentacle Shot"/>
-      <BossHand name="Defiler" desc="" mod="Radioactive Volley"/>
-      <BossHand name="Hive Cannon" desc="" mod="Hive Shot"/>
-      <BossHand name="Pride Of The Iskal" desc="" mod="Vampiric" DLC="Swamps" />
-      <BossHand name="Spitfire" desc="" mod="Flame Thrower"/>
-
-      <RegHand name="Hand Gun" desc="No Handgun" mod="_Mod"/>
+      <RegHand name="_No Hand Gun" desc="~" mod="_No Mod"/>
       <RegHand name="Hunting Pistol" desc=""/>
       <RegHand name="Machine Pistol" desc="" DLC="2923"/>
       <RegHand name="Magnum Revolver" desc=""/>
@@ -139,19 +133,16 @@
       <RegHand name="Sawed-off" desc="" DLC="2923"/>
       <RegHand name="Submachine Gun" desc=""/>
       <RegHand name="Twin Shot" desc="" DLC="2923"/>
+
+      <BossHand name="Curse of the Jungle God" desc="" mod="Tentacle Shot"/>
+      <BossHand name="Defiler" desc="" mod="Radioactive Volley"/>
+      <BossHand name="Hive Cannon" desc="" mod="Hive Shot"/>
+      <BossHand name="Pride Of The Iskal" desc="" mod="Vampiric" DLC="Swamps" />
+      <BossHand name="Spitfire" desc="" mod="Flame Thrower"/>
     </Hand>
 
     <Long>
-      <BossLong name="Alternator" desc="" mod="Incinerator" DLC="2923"/>
-      <BossLong name="Devastator" desc="" mod="Skewer"/>
-      <BossLong name="Eye Of The Storm" desc="" mod="Static Field Shot"/>
-      <BossLong name="Fusion Rifle" desc="" mod="Fusion Cannon"  DLC="2923"/>
-      <BossLong name="Particle Accelerator" desc="" mod="Gravity Core"/>
-      <BossLong name="Repulsor" desc="" mod="Banish"/>
-      <BossLong name="Ruin" desc="" mod="Undying"/>
-      <BossLong name="Sporebloom" desc="" mod="Spore Shot"/>
-
-      <RegLong name="Long Gun" desc="No Longgun" mod="_Mod"/>
+      <RegLong name="_No Long Gun" desc="~" mod="_No Mod"/>
       <RegLong name="Assault Rifle" desc=""/>
       <RegLong name="Beam Rifle" desc=""/>
       <RegLong name="Chicago Typewriter" desc=""/>
@@ -161,9 +152,17 @@
       <RegLong name="Ricochet Rifle" desc=""/>
       <RegLong name="Shotgun" desc=""/>
       <RegLong name="Sniper" desc=""/>
+      <BossLong name="Alternator" desc="" mod="Incinerator" DLC="2923"/>
+      <BossLong name="Devastator" desc="" mod="Skewer"/>
+      <BossLong name="Eye Of The Storm" desc="" mod="Static Field Shot"/>
+      <BossLong name="Fusion Rifle" desc="" mod="Fusion Cannon"  DLC="2923"/>
+      <BossLong name="Particle Accelerator" desc="" mod="Gravity Core"/>
+      <BossLong name="Repulsor" desc="" mod="Banish"/>
+      <BossLong name="Ruin" desc="" mod="Undying"/>
+      <BossLong name="Sporebloom" desc="" mod="Spore Shot"/>
     </Long>
 
-    <Melee name="Fists" desc=""/>
+    <Melee name="_Fists" desc="~"/>
     <Melee name="Butcher's Flail" desc=""/>
     <Melee name="Chain Blade" desc=""/>
     <Melee name="Frostborne" desc="" DLC="2923"/>
@@ -202,7 +201,7 @@
       <LongMod name="Static Field Shot" desc="	Fires a projectile that deals 65 SHOCK damage and applies the OVERLOADED effect. Overloaded enemies will trigger an explosion when they get within 4 meters from each other dealing up to 325 SHOCK damage within a 5 meter." DLC="Base"/>
       <LongMod name="Undying" desc="If charged upon death, the wielder will be revived with 50% Health. They will also take 10% less damage and be immune to STATUS effects for 5 seconds. 5 minutes cooldown." DLC="Base"/>
     </BossWeaponMods>
-    <RegularMods name="_Mod"  desc="No Mod"  DLC="Base"/>
+    <RegularMods name="_No Mod"  desc="~"  DLC="Base"/>
     <RegularMods name="Beckon"  desc="Summons a WASTELAND SKULL which shoots projectiles that deal 40 damage per hit. Lasts 60 seconds. (Max 2)"  DLC="Base"/>
     <RegularMods name="Blink Token"  desc="Teleports the caster forward up to 13 meters and creates an electrical blast that deals 210 SHOCK damage within 3 meters."  DLC="Base"/>
     <RegularMods name="Blizzard"  desc="Cast a storm cloud that rains icicles as it travels forward up to 30 meters. Icicles deal 30 FROST damage each and apply FROSTBITE to enemies within 2 meters."  DLC="2923"/>
@@ -232,7 +231,7 @@
     <RegularMods name="Wildfire Shot"  desc="Shoots an arcing fireball that deals 25 FIRE damage and ignites enemies with the BURNING effect within 2 meters, dealing 300 FIRE damage over 10 seconds."  DLC="Base"/>
   </Mods>
   <Trinkets>
-    <Amulets name="_Amulet" desc="No Amulet" DLC="" />
+    <Amulets name="_No Amulet" desc="~" DLC="" />
     <Amulets name="Abrasive Amulet" desc="Doubles application of the CORRODED effect. Melee Charge Attacks apply the CORRODED effect." DLC="Base" />
     <Amulets name="Amulet of Epicaricacy" desc="Increases Mod Power generation by 15%. When attacking an enemy with an active STATUS effect, Mod power generation is increased by an additional 30%." DLC="Swamps" />
     <Amulets name="Black Rose" desc="The wearer's chest armor set bonus is increased by 1 piece. It will not exceed the 3 piece armor set bonus." DLC="Swamps" />
@@ -270,7 +269,7 @@
     <Amulets name="Vulcan's Detonator" desc="Increases Explosion Damage by 25%. Explosions apply BURNING status effect." DLC="2923" />
     <Amulets name="White Rose" desc="Increases all damage dealt by 25% for each unequipped firearm." DLC="2923" />
 
-    <Rings name="_Ring" desc="No Ring" DLC="" />
+    <Rings name="_No Ring" desc="~" DLC="" />
     <Rings name="Aggressor's Bane" desc="Reduces incoming damage by 15%, but also increases enemy aggression towards the wearer, and increases enemy Awareness Range by 200%." DLC="" />
     <Rings name="Akari War Band" desc="Perfect Dodging enemy attacks increases Crit Change by 15% and Crit damage by 15% for 20 seconds." DLC="" />
     <Rings name="Alchemist's Jewel" desc="Increases Armor Effectiveness by 50%, but also increases Armor Encumberance by 25." DLC="" />
@@ -345,6 +344,5 @@
     <Rings name="Swashbuckler's Signet" desc="Every 20 seconds gain a buff, stacks up to 3. Melee Charge Attacks consume 1 stack and replenish 15% of the wearer's ammo capacity for both firearms." DLC="" />
     <Rings name="Vanguard Ring" desc="Melee Charge attacks reduce incoming and outgoing damage by 4% and increase enemy aggression towards wearer for 15 seconds. Stacks 5 times." DLC="" />
     <Rings name="Volatile Gem" desc="Dragon Hearts explode dealing 200 dmg plus 10% per gear score and inflict an additional 100% Stagger Damage within 5m." DLC="" />
-
   </Trinkets>
 </GearInfo>
