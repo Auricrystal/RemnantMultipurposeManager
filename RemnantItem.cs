@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using static RemnantBuildRandomizer.RemnantItem;
 using static RemnantBuildRandomizer.GearInfo;
-using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Text.RegularExpressions;
 
 namespace RemnantBuildRandomizer
 {
@@ -70,6 +70,7 @@ namespace RemnantBuildRandomizer
             return new BitmapImage(new Uri("pack://application:,,,/Resources/IMG" + path, UriKind.RelativeOrAbsolute));
         }
     }
+  
     public class Build: IEquatable<Build>
     {
         public RemnantItem hg;
@@ -163,5 +164,139 @@ namespace RemnantBuildRandomizer
         }
 
     }
-   
+
+    public class Item : IEquatable<Object>, IComparable
+    {
+        public enum Type {Uncat,Weapon,Armor,Trinket,Mod,Trait,Emote};
+        private string itemKey;
+        private Type itemType;
+        
+        private string itemName;
+        private string itemAltName;
+        private string ItemKey
+        {
+            get { return itemKey; }
+            set
+            {
+                try
+                {
+                    itemKey = value;
+                    itemType = Type.Uncat;
+                    itemName = itemKey.Substring(itemKey.LastIndexOf('/') + 1);
+                    if (itemKey.Contains("/Weapons/"))
+                    {
+                        itemType = Type.Weapon;
+                        if (itemName.Contains("Mod_")) itemName = itemName.Replace("/Weapons/", "/Mods/");
+                    }
+                    if (itemKey.Contains("/Armor/") || itemKey.Contains("TwistedMask"))
+                    {
+                        itemType =Type.Armor;
+                        if (itemKey.Contains("TwistedMask"))
+                        {
+                            itemName = "TwistedMask (Head)";
+                        }
+                        else
+                        {
+                            string[] parts = itemName.Split('_');
+                            itemName = parts[2] + " (" + parts[1] + ")";
+                        }
+                    }
+                    if (itemKey.Contains("/Trinkets/") || itemKey.Contains("BrabusPocketWatch")) itemType = Type.Trinket;
+                    if (itemKey.Contains("/Mods/")) itemType =Type.Mod;
+                   // if (itemKey.Contains("/Traits/")) itemType = Type.Trait;
+                    //if (itemKey.Contains("/Emotes/")) itemType =Type.Emote;
+
+                    itemName = itemName.Replace("Weapon_", "").Replace("Root_", "").Replace("Wasteland_", "").Replace("Swamp_", "").Replace("Pan_", "").Replace("Atoll_", "").Replace("Mod_", "").Replace("Trinket_", "").Replace("Trait_", "").Replace("Quest_", "").Replace("Emote_", "").Replace("Rural_", "").Replace("Snow_", "");
+                    if (!itemType.Equals("Armor"))
+                    {
+                        itemName = Regex.Replace(itemName, "([a-z])([A-Z])", "$1 $2");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error processing item name: " + ex.Message);
+                    itemName = value;
+                }
+            }
+        }
+
+        public string ItemName
+        {
+            get
+            {
+                if (itemAltName != null) return itemAltName;
+                return itemName;
+            }
+        }
+        public Type ItemType { get { return itemType; } }
+
+        public string ItemNotes { get; set; }
+        public string ItemAltName { get { return itemAltName; } set { itemAltName = value; } }
+
+        public Item(string key)
+        {
+            this.ItemKey = key;
+            this.ItemNotes = "";
+        }
+
+        public string GetKey()
+        {
+            return this.itemKey;
+        }
+
+        public override string ToString()
+        {
+            return itemType + ": " + ItemName;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null))
+            {
+                return false;
+            }
+            else if (!this.GetType().Equals(obj.GetType()))
+            {
+                if (obj.GetType() == typeof(string))
+                {
+                    return (this.GetKey().Equals(obj));
+                }
+                return false;
+            }
+            else
+            {
+                Item rItem = (Item)obj;
+                return (this.GetKey().Equals(rItem.GetKey()));
+            }
+        }
+
+        public override int GetHashCode()
+        {
+            return this.itemKey.GetHashCode();
+        }
+
+        public int CompareTo(Object obj)
+        {
+            //Check for null and compare run-time types.
+            if ((obj == null))
+            {
+                return 1;
+            }
+            else if (!this.GetType().Equals(obj.GetType()))
+            {
+                if (obj.GetType() == typeof(string))
+                {
+                    return (this.GetKey().CompareTo(obj));
+                }
+                return this.ToString().CompareTo(obj.ToString());
+            }
+            else
+            {
+                Item rItem = (Item)obj;
+                return this.itemKey.CompareTo(rItem.GetKey());
+            }
+        }
+    }
 }
+   

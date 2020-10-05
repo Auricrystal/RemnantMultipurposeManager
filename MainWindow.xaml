@@ -8,7 +8,7 @@
         Title="RemnantBuildRandomizer" Height="505.531" Width="837.522"
         Name="RemnantBuildRandomizer" Icon="Resources/IMG/RedCrystal.png"
         Background="Black"
-        Closing="RemnantBuildRandomizer_Closing"
+        Closing="RemnantBuildRandomizer_Closing" Loaded="Window_Loaded"
         >
     <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged" Margin="0,-20,0,-20">
         <Grid.ColumnDefinitions>
@@ -41,8 +41,8 @@
                 <Image  x:Name="Mod2Slot" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/RegularMods/_No Mod.png"/>
                 <Image  x:Name="Mod2Cover" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/Mod Overlay.png"/>
             </Grid>
-            <Button x:Name="CopyBuild" Click="CopyBuild_Click"  Content="Copy To&#xa;Clipboard"  HorizontalAlignment="Left" Margin="738,416,0,0" VerticalAlignment="Top" Width="78" Height="40"/>
-            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="617,416,0,0" VerticalAlignment="Top" Width="116" Height="40"/>
+            <Button x:Name="CopyBuild" Click="CopyBuild_Click" ToolTip="Save Build to Clipboard" Content="Clipboard"  HorizontalAlignment="Left" Margin="741,428,0,0" VerticalAlignment="Top" Width="75" Height="28"/>
+            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="617,428,0,0" VerticalAlignment="Top" Width="116" Height="28"/>
             <Grid HorizontalAlignment="Left" Height="465" Margin="4,0,0,0" VerticalAlignment="Top" Width="256">
                 <Label Content="Item Blacklist" VerticalContentAlignment="center" HorizontalContentAlignment="center" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="36" Width="236" Foreground="White" FontSize="24" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat Light"/>
                 <TabControl HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="256" Margin="0,36,0,0" Background="{x:Null}">
@@ -110,6 +110,9 @@
             <Button x:Name="Add_Build" Click="Add_Build_Click"  Content="Add Build" HorizontalAlignment="Left" Margin="203,302,0,0" VerticalAlignment="Top" Width="57" Height="23"/>
             <Label Content="Name:" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="23" Margin="4,279,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
             <Label Content="Code:" HorizontalAlignment="Left" HorizontalContentAlignment="Right"  Height="23" Margin="4,302,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
+            <ComboBox Name="cmbCharacter" SelectionChanged="CmbCharacter_SelectionChanged" HorizontalAlignment="Left" Margin="617,402,0,0" VerticalAlignment="Top" Width="116" Height="21"/>
+            <Button Name="disablemissing" Click="disablemissing_Click" Content="Disable&#10;Missing" HorizontalAlignment="Left" Margin="741,377,0,0" VerticalAlignment="Top" Width="75" Height="46"/>
+            <Button Name="ResetBlack" Content="Reset&#10;BlackList" Click="ResetBlack_Click"  HorizontalAlignment="Left" Height="36" Margin="741,336,0,0" VerticalAlignment="Top" Width="75"/>
 
         </Grid>
         <ToolBarPanel HorizontalAlignment="Left" Height="26" Margin="295,0,-3,0" VerticalAlignment="Top" Width="539"/>

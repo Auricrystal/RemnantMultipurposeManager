@@ -29,7 +29,39 @@ namespace RemnantBuildRandomizer
         };
         private static readonly XmlDocument doc = new XmlDocument();
         public static List<Build> presets = new List<Build>();
-        public static void updateBlacklist() {
+        private static List<Item> items = new List<Item>();
+
+        private static Dictionary<string, string> archetypes = new Dictionary<string, string>() {
+            {"Undefined","Undefined" },
+            {"Scrapper","Scrapper" },
+            {"Cultist","Cultist" },
+            {"Hunter","Hunter" },
+        };
+        
+        public static List<Item> Items
+        {
+            get
+            {
+               
+                return items;
+            }
+        }
+
+        
+        public static Dictionary<string, string> Archetypes
+        {
+            get
+            {
+
+                return archetypes;
+            }
+        }
+
+        
+
+
+        public static void updateBlacklist()
+        {
             string path = @"Resources/Blacklist.txt";
             File.Delete(path);
             getBlacklist();
@@ -44,15 +76,17 @@ namespace RemnantBuildRandomizer
             {
                 using (StreamWriter sw = File.CreateText(path))
                 {
-                    foreach (Build b in presets) {
-                        sw.WriteLine(b.Name+":" + b.Code);
+                    foreach (Build b in presets)
+                    {
+                        sw.WriteLine(b.Name + ":" + b.Code);
                     }
-                    foreach (RemnantItem ri in reflist.Values) {
-                        sw.WriteLine(ri.Itemname+"="+ri.Disabled);
+                    foreach (RemnantItem ri in reflist.Values)
+                    {
+                        sw.WriteLine(ri.Itemname + "=" + ri.Disabled);
                     }
                 }
             }
-            
+
 
             // Open the file to read from.
             using (StreamReader sr = File.OpenText(path))
@@ -63,12 +97,12 @@ namespace RemnantBuildRandomizer
                     if (s.Contains(":"))
                     {
                         int pos = s.LastIndexOf(":");
-                        presets.Add(Build.fromCode(s.Substring(0,pos),s.Substring(pos+1)));
+                        presets.Add(Build.fromCode(s.Substring(0, pos), s.Substring(pos + 1)));
                     }
                     if (s.Contains("="))
                     {
                         int pos = s.LastIndexOf("=");
-                        reflist[s.Substring(0, pos)].Disabled=bool.Parse(s.Substring(pos + 1));
+                        reflist[s.Substring(0, pos)].Disabled = bool.Parse(s.Substring(pos + 1));
                     }
                 }
             }
@@ -79,11 +113,12 @@ namespace RemnantBuildRandomizer
         {
             GearList.Clear();
             doc.Load("Resources/GearInfo.xml");
+
             parseItems("RegularMods");
             parseItems("LongMod");
             parseItems("HandMod");
-            parseItems("Chest");
             parseItems("Head");
+            parseItems("Chest");
             parseItems("Legs");
             parseItems("RegHand");
             parseItems("BossHand");
@@ -96,9 +131,17 @@ namespace RemnantBuildRandomizer
         public static void parseItems(string tag)
         {
             List<RemnantItem> list = new List<RemnantItem>();
-            foreach (XmlElement  xe in doc.GetElementsByTagName(tag))
+
+            foreach (XmlElement xe in doc.GetElementsByTagName(tag))
             {
                 RemnantItem ri = new RemnantItem(XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
+                if (xe.InnerText != null)
+                {
+                    Item rItem = new Item(xe.InnerText);
+                    rItem.ItemAltName = ri.Itemname;
+                    items.Add(rItem);
+                }
+                Debug.WriteLine(xe.InnerText);
                 ri.Mod = xe.GetAttribute("mod");
                 ri.Dlc = xe.GetAttribute("DLC");
                 list.Add(ri);
@@ -115,5 +158,5 @@ namespace RemnantBuildRandomizer
 
     }
 
-    
+
 }

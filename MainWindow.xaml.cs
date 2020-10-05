@@ -12,6 +12,20 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using static RemnantBuildRandomizer.GearInfo;
 using static RemnantBuildRandomizer.RemnantItem;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+using System.Data;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Threading;
+using System.Net;
+using System.Windows.Markup;
+using Path = System.IO.Path;
 
 namespace RemnantBuildRandomizer
 {
@@ -20,11 +34,16 @@ namespace RemnantBuildRandomizer
     /// </summary>
     public partial class MainWindow : Window
     {
+        private static string saveDirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames";
         #region ScaleValue Depdency Property
         Random rd = new Random();
         RemnantItem hg;
         RemnantItem lg;
+        private RemnantSave activeSave;
+        private List<RemnantCharacter> listCharacters;
 
+        private FileSystemWatcher saveWatcher;
+        //private Process gameProcess;
         Build b;
 
         public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
@@ -41,10 +60,86 @@ namespace RemnantBuildRandomizer
             ModList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.MO).Take(28);
             BuildList.ItemsSource = presets;
 
+            saveWatcher = new FileSystemWatcher();
+            saveWatcher.Path = saveDirPath;
+
+            // Watch for changes in LastWrite times.
+            saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
+
+            // Only watch sav files.
+            saveWatcher.Filter = "profile.sav";
+
+            // Add event handlers.
+            saveWatcher.Changed += OnSaveFileChanged;
+            saveWatcher.Created += OnSaveFileChanged;
+            saveWatcher.Deleted += OnSaveFileChanged;
+            //watcher.Renamed += OnRenamed;
+            listCharacters = new List<RemnantCharacter>();
+            cmbCharacter.ItemsSource = listCharacters;
+        }
 
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine("Current save date: " + File.GetLastWriteTime(saveDirPath + "\\profile.sav").ToString());
+            saveWatcher.EnableRaisingEvents = true;
+            //GearInfo.RefreshGameInfo();
+            Debug.WriteLine("SAVE PATH: " + saveDirPath);
+            activeSave = new RemnantSave(saveDirPath);
+            updateCurrentWorldAnalyzer();
+            LoadData(activeSave.Characters);
+        }
+
+        public void LoadData(List<RemnantCharacter> chars)
+        {
+            int selectedChar = cmbCharacter.SelectedIndex;
+            listCharacters = chars;
+            /*Console.WriteLine("Loading characters in analyzer: " + listCharacters.Count);
+            foreach (CharacterData cd in listCharacters)
+            {
+                Console.WriteLine("\t" + cd);
+            }*/
+            cmbCharacter.ItemsSource = listCharacters;
+            if (selectedChar == -1 && listCharacters.Count > 0) selectedChar = 0;
+            if (selectedChar > -1 && listCharacters.Count > selectedChar) cmbCharacter.SelectedIndex = selectedChar;
+            cmbCharacter.IsEnabled = (listCharacters.Count > 1);
+        }
+
+
+        private void OnSaveFileChanged(object source, FileSystemEventArgs e)
+        {
+            // Specify what is done when a file is changed, created, or deleted.
+            Debug.WriteLine("SAVE FILE CHANGED!!!!");
+            updateCurrentWorldAnalyzer();
+        }
+        private void updateCurrentWorldAnalyzer()
+        {
+            Debug.WriteLine("UPDATING CHARACTERS!!!!!");
+            activeSave.UpdateCharacters();
+            Debug.WriteLine("CHAR COUNT==" + activeSave.Characters.Count);
+            foreach (RemnantCharacter rc in activeSave.Characters)
+            {
+                Debug.WriteLine("MI COUNT=" + rc.GetMissingItems().Count);
+                foreach (Item.Type t in Enum.GetValues(typeof(Item.Type)))
+                {
+                    Debug.WriteLine("TYPE " + t.ToString()+"//////////////////");
+                    foreach (Item i in rc.GetMissingItems().Where(x => x.ItemType == t)) {
+                        if (i.ItemAltName!=null&&i.ItemAltName.Length>0)
+                        {
+                            Debug.WriteLine("MISSING: " + i.ItemAltName);
+                        }
+                        else {
+                            Debug.WriteLine("MISSING: " + i.ItemName);
+                        }
+                        
+                    }
+                }
+
+            }
 
         }
+
+
         private void ResetDisabled()
         {
 
@@ -214,9 +309,10 @@ namespace RemnantBuildRandomizer
             {
                 throw new Exception("Too many items disabled in " + st + " Need atleast 2!");
             }
-           
+
             RemnantItem ri = riList[rd.Next(0, riList.Count)];
-            if (st == SlotType.HG) { hg = ri; }else
+            if (st == SlotType.HG) { hg = ri; }
+            else
             if (st == SlotType.LG) { lg = ri; }
             setSlot(i, ri);
             return ri.ID;
@@ -401,6 +497,46 @@ namespace RemnantBuildRandomizer
                 BuildList.SelectedIndex = -1;
                 BuildList.Items.Refresh();
             }
+        }
+
+        private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            if (cmbCharacter.SelectedIndex == -1 && listCharacters.Count > 0) return;
+            if (cmbCharacter.Items.Count > 0 && cmbCharacter.SelectedIndex > -1)
+            {
+                Debug.WriteLine("CHANGED TO "+listCharacters[cmbCharacter.SelectedIndex].ToString());
+                
+            }
+        }
+
+        private void disablemissing_Click(object sender, RoutedEventArgs e)
+        {
+            RemnantCharacter rc = listCharacters[cmbCharacter.SelectedIndex];
+            Debug.WriteLine(rc.ToString()+ " Has "+rc.GetMissingItems().Count+" Missing items.");
+            foreach (Item ri in rc.GetMissingItems()) {
+                reflist[ri.ItemAltName].Disabled = true;
+            }
+            WeaponList.Items.Refresh();
+            ArmorList.Items.Refresh();
+            AmuletList.Items.Refresh();
+            RingList.Items.Refresh();
+            ModList.Items.Refresh();
+            //BuildList.Items.Refresh();
+
+        }
+
+        private void ResetBlack_Click(object sender, RoutedEventArgs e)
+        {
+            foreach (RemnantItem ri in reflist.Values) {
+                ri.Disabled = false;
+            }
+            WeaponList.Items.Refresh();
+            ArmorList.Items.Refresh();
+            AmuletList.Items.Refresh();
+            RingList.Items.Refresh();
+            ModList.Items.Refresh();
+            //BuildList.Items.Refresh();
         }
     }
 }

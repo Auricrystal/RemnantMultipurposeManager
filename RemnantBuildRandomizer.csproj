@@ -60,6 +60,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="RemnantCharacter.cs" />
+    <Compile Include="RemnantSave.cs" />
     <Compile Include="XmlElementExtension.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -416,9 +418,7 @@
     <Resource Include="Resources\IMG\Weapons\Melee\World Breaker.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\World%27s Edge.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bin\Debug\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Resources\IMG\RedCrystal.png" />
   </ItemGroup>
@@ -429,6 +429,9 @@
     <Resource Include="Resources\ItemCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <EmbeddedResource Include="bin\Debug\Resources\GearInfo.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,348 +1,306 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <GearInfo version="1">
   <Armor>
-    <Chest name="_No Chest"             desc="No Chestpiece" />
+    <Head  name="_No Head"   desc="No Head"/>
+    <Chest name="_No Chest" desc="No Chestpiece"/>
+    <Legs  name="_No Legs"   desc="No Legs"/>
 
-    <Chest name="Adventurer Tunic"   desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%" />
+    <Head  name="Adventurer Goggles"  desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Head_Adventurer</Head>
+    <Chest name="Adventurer Tunic"    desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Body_Adventurer</Chest>
+    <Legs  name="Adventurer Leggings" desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Legs_Adventurer</Legs>
 
-    <Chest name="Akari Garb"         desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed"/>
+    <Head  name="Akari Mask"          desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Head_Akari</Head>
+    <Chest name="Akari Garb"          desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Body_Akari</Chest>
+    <Legs  name="Akari Leggings"      desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Legs_Akari</Legs>
 
-    <Chest name="Bandit Jacket"      desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance"/>
+    <Head  name="Bandit's Mask"       desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance">/Items/Armor/Bandit/Armor_Head_Bandit</Head>
+    <Chest name="Bandit Jacket"       desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance">/Items/Armor/Bandit/Armor_Body_Bandit</Chest>
+    <Legs  name="Bandit Trousers"     desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance">/Items/Armor/Bandit/Armor_Legs_Bandit</Legs>
 
-    <Chest name="Carapace Shell"     desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction"/>
+    <Head  name="Carapace Great Helm" desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction">/Items/Armor/Carapace/Armor_Head_Carapace</Head>
+    <Chest name="Carapace Shell"      desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction">/Items/Armor/Carapace/Armor_Body_Carapace</Chest>
+    <Legs  name="Carapace Greaves"    desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction">/Items/Armor/Carapace/Armor_Legs_Carapace</Legs>
 
-    <Chest name="Cultist Duster"     desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits"/>
+    <Head  name="Cultist Hat"         desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Head_Cultist</Head>
+    <Chest name="Cultist Duster"      desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Body_Cultist</Chest>
+    <Legs  name="Cultist Britches"    desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Legs_Cultist</Legs>
 
-    <Chest name="Drifter's Overcoat" desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage"/>
+    <Head  name="Drifter's Mask"      desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Head_Drifter</Head>
+    <Chest name="Drifter's Overcoat"  desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Body_Drifter</Chest>
+    <Legs  name="Drifter's Trousers"  desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Legs_Drifter</Legs>
 
-    <Chest name="Elder Raiment"      desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount"/>
+    <Head  name="Elder Headdress"     desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Head_Elder</Head>
+    <Chest name="Elder Raiment"       desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Body_Elder</Chest>
+    <Legs  name="Elder Leggings"      desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Legs_Elder</Legs>
 
-    <Chest name="Hunter Trenchcoat"  desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage"/>
+    <Head  name="Hunter Shroud"       desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage">/Items/Armor/Hunter/Armor_Head_Hunter</Head>
+    <Chest name="Hunter Trenchcoat"   desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage">/Items/Armor/Hunter/Armor_Body_Hunter</Chest>
+    <Legs  name="Hunter Pants"        desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage">/Items/Armor/Hunter/Armor_Legs_Hunter</Legs>
 
-    <Chest name="Labyrinth Armor"    desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage"/>
+    <Head  name="Labyrinth Helm"      desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage">/Items/Armor/Armor_Head_Labyrinth</Head>
+    <Chest name="Labyrinth Armor"     desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage">/Items/Armor/Armor_Body_Labyrinth</Chest>
+    <Legs  name="Labyrinth Greaves"   desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage">/Items/Armor/Armor_Legs_Labyrinth</Legs>
 
-    <Chest name="Leto's Armor"       desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack"/>
+    <Head  name="Leto's Helmet"       desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack">/Items/Armor/Leto/Armor_Head_Leto</Head>
+    <Chest name="Leto's Armor"        desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack">/Items/Armor/Leto/Armor_Body_Leto</Chest>
+    <Legs  name="Leto's Leggings"     desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack">/Items/Armor/Leto/Armor_Legs_Leto</Legs>
 
-    <Chest name="Osseous Husk"       desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage"/>
+    <Head  name="Osseous Helm"        desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage">/Items/Armor/Osseous/Armor_Head_Osseous</Head>
+    <Chest name="Osseous Husk"        desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage">/Items/Armor/Osseous/Armor_Body_Osseous</Chest>
+    <Legs  name="Osseous Kilt"        desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage">/Items/Armor/Osseous/Armor_Legs_Osseous</Legs>
 
-    <Chest name="Radiant Protector"  desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage"/>
+    <Head  name="Radiant Visage"      desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage">/Items/Armor/Radiant/Armor_Head_Radiant</Head>
+    <Chest name="Radiant Protector"   desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage">/Items/Armor/Radiant/Armor_Body_Radiant</Chest>
+    <Legs  name="Radiant Greaves"     desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage">/Items/Armor/Radiant/Armor_Legs_Radiant</Legs>
 
-    <Chest name="Scavenger Armor"    desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack"/>
+    <Head  name="Scavenger Helmet"    desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack">/Items/Armor/Scavenger/Armor_Head_Scavenger</Head>
+    <Chest name="Scavenger Armor"     desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack">/Items/Armor/Scavenger/Armor_Body_Scavenger</Chest>
+    <Legs  name="Scavenger Boots"     desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack">/Items/Armor/Scavenger/Armor_Legs_Scavenger</Legs>
 
-    <Chest name="Scrapper Bodyplate" desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage"/>
+    <Head  name="Scrapper Helmet"     desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage">/Items/Armor/Scrapper/Armor_Head_Scrapper</Head>
+    <Chest name="Scrapper Bodyplate"  desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage">/Items/Armor/Scrapper/Armor_Body_Scrapper</Chest>
+    <Legs  name="Scrapper Workboots"  desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage">/Items/Armor/Scrapper/Armor_Legs_Scrapper</Legs>
 
-    <Chest name="Slayer Mantle"      desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage"/>
+    <Head  name="Slayer Mask"         desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage">/Items/Armor/Slayer/Armor_Head_Slayer</Head>
+    <Chest name="Slayer Mantle"       desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage">/Items/Armor/Slayer/Armor_Body_Slayer</Chest>
+    <Legs  name="Slayer Boots"        desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage">/Items/Armor/Slayer/Armor_Legs_Slayer</Legs>
 
-    <Chest name="Twisted Cage"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
+    <Head  name="Twisted Hood"        desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack">/Items/Armor/Twisted/Armor_Head_Twisted</Head>
+    <Chest name="Twisted Cage"        desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack">/Items/Armor/Twisted/Armor_Body_Twisted</Chest>
+    <Legs  name="Twisted Tassets"     desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack">/Items/Armor/Twisted/Armor_Legs_Twisted</Legs>
 
-    <Chest name="Void Carapace"      desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost"/>
+    <Head  name="Void Skull"          desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost">/Items/Armor/Void/Armor_Head_Void</Head>
+    <Chest name="Void Carapace"       desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost">/Items/Armor/Void/Armor_Body_Void</Chest>
+    <Legs  name="Void Greaves"        desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost">/Items/Armor/Void/Armor_Legs_Void</Legs>
 
-    <Chest name="Warlord Armor"      desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal"/>
-
-
-    <Head name="_No Head" desc="No Head"/>
-
-    <Head name="Adventurer Goggles"   desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%" />
-
-    <Head name="Akari Mask"         desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed"/>
-
-    <Head name="Bandit's Mask"      desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance"/>
-
-    <Head name="Carapace Great Helm"     desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction"/>
-
-    <Head name="Cultist Hat"     desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits"/>
-
-    <Head name="Drifter's Mask" desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage"/>
-
-    <Head name="Elder Headdress"      desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount"/>
-
-    <Head name="Hunter Shroud"  desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage"/>
-
-    <Head name="Labyrinth Helm"    desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage"/>
-
-    <Head name="Leto's Helmet"       desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack"/>
-
-    <Head name="Osseous Helm"       desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage"/>
-
-    <Head name="Radiant Visage"  desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage"/>
-
-    <Head name="Scavenger Helmet"    desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack"/>
-
-    <Head name="Scrapper Helmet" desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage"/>
-
-    <Head name="Slayer Mask"      desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage"/>
-
-    <Head name="Twisted Hood"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
-
-    <Head name="Void Skull"      desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost"/>
-
-    <Head name="Warlord Skull"      desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal"/>
-
-    <Head name="Twisted Mask"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
-
-    <Head name="Bomber Hat"      desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range"/>
-
-    
-    <Legs name="_No Legs" desc="No Legs"/>
-
-    <Legs name="Adventurer Leggings" desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%"/>
-
-    <Legs name="Akari Leggings"  desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed"/>
-
-    <Legs name="Bandit Trousers"  desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance"/>
-
-    <Legs name="Carapace Greaves"  desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction"/>
-
-    <Legs name="Cultist Britches"  desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits"/>
-
-    <Legs name="Drifter's Trousers"  desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage"/>
-
-    <Legs name="Elder Leggings"  desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount"/>
-
-    <Legs name="Hunter Pants"  desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage"/>
-
-    <Legs name="Labyrinth Greaves" desc="Power Surge&#10;Increase Total Weapon Mod damage. Refunds 10% of Mod Power on use.&#10;15%/30%/50% Damage"/>
-
-    <Legs name="Leto's Leggings" desc="Juggernaut&#10;3-Piece: Reduces base incoming damage by 10%.&#10;Gain an additional 10% per 10% Max Health missing. Max 5 stacks.&#10;-25% Stamina Cost/-1 Stagger Reduction/+10% Damage Reduction per Stack"/>
-
-    <Legs name="Osseous Kilt"  desc="Bloodlust&#10;Subsequent Ranged or Melee hits against the same enemy increases wearer's Total damage&#10;dealt to that enemy. Effect degrades over time. Melee Speed and Fire Rate is increased by 5%&#10;10%/20%/35% Maximum Damage"/>
-
-    <Legs name="Radiant Greaves" desc="Momentum&#10;Critical hits increase Crit Chance and Crit damage&#10;for 3 seconds, stacking up to 10 times. Recoil is reduced by 15%.&#10;0.75%/1.5%/3% Crit Chance and Damage"/>
-
-    <Legs name="Scavenger Boots" desc="Salvager&#10;Ammo, Iron, Scrap pickups increase Total Ranged and Melee damage dealt,&#10;and reduce incoming damage. Stacks 10x. Lasts 30s. At or below 50% Health,&#10;pickups grant 2 stacks. Taking direct damage removes 1 stack.&#10;Pull Scrap and Iron materials towards the wearer.&#10;0.5%/1%/2% Damage per Stack"/>
-
-    <Legs name="Scrapper Workboots"  desc="Challenger&#10;Increases Total Damage from all sources dealt by wearer to enemies within 5 meters.&#10;Receive 15% less damage from enemies within this range.&#10;7.5%/15%/30% Damage"/>
-
-    <Legs name="Slayer Boots"  desc="Assassin&#10;Reloading increases the Total damage dealt to the next enemy hit with that weapon.&#10;Lasts 10 seconds. Reload speed is increased by 10%&#10;7.5%/15%/30% Damage"/>
-
-    <Legs name="Twisted Tassets" desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack"/>
-
-    <Legs name="Void Greaves"  desc="Power Transfer&#10;After 5 seconds, gain a boost that increases Total damage from all sources.&#10;Taking damage transfers the boost from Damage to Damage Reduction for 5 seconds.&#10;Standing Aim Movement Speed is increased by 25%.&#10;7.5%/15%/25% Damage Boost"/>
-
-    <Legs name="Warlord Boots" desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal"/>
+    <Head  name="Warlord Skull"       desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal">/Items/Armor/Warlord/Armor_Head_Warlord</Head>
+    <Chest name="Warlord Armor"       desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal">/Items/Armor/Warlord/Armor_Body_Warlord</Chest>
+    <Legs  name="Warlord Boots"       desc="Deathwish&#10;Dragon Hearts are no longer consumed for healing. They instead increase Ranged and Melee damage,&#10;grant lifesteal, and drain 200% health over 30s. Kills heal 5% over 3s.&#10;10%/25%/35% Damage&#10;1%/2%/3.5% Lifesteal">/Items/Armor/Warlord/Armor_Legs_Warlord</Legs>
 
 
+    <Head  name="Twisted Mask"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack">/Items/QuestItems/TwistedMask/Quest_TwistedMask</Head>
+    <Head  name="Bomber Hat"         desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range">Items/Armor/Bomber/Armor_Head_Bomber</Head>
   </Armor>
   <Weapons>
     <Hand>
-      <RegHand name="_No Hand Gun" desc="~" mod="_No Mod"/>
-      <RegHand name="Hunting Pistol" desc=""/>
-      <RegHand name="Machine Pistol" desc="" DLC="2923"/>
-      <RegHand name="Magnum Revolver" desc=""/>
-      <RegHand name="Repeater Pistol" desc=""/>
-      <RegHand name="Sawed-off" desc="" DLC="2923"/>
-      <RegHand name="Submachine Gun" desc=""/>
-      <RegHand name="Twin Shot" desc="" DLC="2923"/>
+      <RegHand name="_No Hand Gun" desc="~" mod="_No Mod"></RegHand>
+      <RegHand name="Hunting Pistol" desc="">/Items/Weapons/Basic/HandGuns/HuntingPistol/Weapon_HuntingPistol</RegHand>
+      <RegHand name="Machine Pistol" desc="" DLC="2923">/Items/Weapons/Basic/MachinePistol/Weapon_MachinePistol</RegHand>
+      <RegHand name="Magnum Revolver" desc="">/Items/Weapons/Basic/HandGuns/Revolver/Weapon_Revolver</RegHand>
+      <RegHand name="Repeater Pistol" desc="">/Items/Weapons/Basic/HandGuns/RepeaterPistol/Weapon_RepeaterPistol</RegHand>
+      <RegHand name="Sawed-off" desc="" DLC="2923">/Items/Weapons/Basic/SawedOffShotgun/Weapon_SawedOffShotgun</RegHand>
+      <RegHand name="Submachine Gun" desc="">/Items/Weapons/Basic/HandGuns/SubMachineGun/Weapon_Submachinegun</RegHand>
+      <RegHand name="Twin Shot" desc="" DLC="2923">/Items/Weapons/Basic/MiniCrossbow/Weapon_MiniCrossbow</RegHand>
 
-      <BossHand name="Curse of the Jungle God" desc="" mod="Tentacle Shot"/>
-      <BossHand name="Defiler" desc="" mod="Radioactive Volley"/>
-      <BossHand name="Hive Cannon" desc="" mod="Hive Shot"/>
-      <BossHand name="Pride Of The Iskal" desc="" mod="Vampiric" DLC="Swamps" />
-      <BossHand name="Spitfire" desc="" mod="Flame Thrower"/>
+      <BossHand name="Curse of the Jungle God" desc="" mod="Tentacle Shot">/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Weapon_Pan_CurseOfTheJungleGod</BossHand>
+      <BossHand name="Defiler" desc="" mod="Radioactive Volley">/Items/Weapons/Boss/Defiler/Weapon_Wasteland_Defiler</BossHand>
+      <BossHand name="Hive Cannon" desc="" mod="Hive Shot">/Items/Weapons/Boss/HiveCannon/Weapon_Swamp_HiveCannon</BossHand>
+      <BossHand name="Pride Of The Iskal" desc="" mod="Vampiric" DLC="Swamps">/Items/Weapons/Boss/PrideOfTheIskal/Weapon_Swamp_PrideOfTheIskal</BossHand>
+      <BossHand name="Spitfire" desc="" mod="Flame Thrower">/Items/Weapons/Boss/Root_Spitfire/Weapon_Root_Spitfire</BossHand>
     </Hand>
 
     <Long>
-      <RegLong name="_No Long Gun" desc="~" mod="_No Mod"/>
-      <RegLong name="Assault Rifle" desc=""/>
-      <RegLong name="Beam Rifle" desc=""/>
-      <RegLong name="Chicago Typewriter" desc=""/>
-      <RegLong name="Coach Gun" desc=""/>
-      <RegLong name="Crossbow" desc=""/>
-      <RegLong name="Hunting Rifle" desc=""/>
-      <RegLong name="Ricochet Rifle" desc=""/>
-      <RegLong name="Shotgun" desc=""/>
-      <RegLong name="Sniper" desc=""/>
-      <BossLong name="Alternator" desc="" mod="Incinerator" DLC="2923"/>
-      <BossLong name="Devastator" desc="" mod="Skewer"/>
-      <BossLong name="Eye Of The Storm" desc="" mod="Static Field Shot"/>
-      <BossLong name="Fusion Rifle" desc="" mod="Fusion Cannon"  DLC="2923"/>
-      <BossLong name="Particle Accelerator" desc="" mod="Gravity Core"/>
-      <BossLong name="Repulsor" desc="" mod="Banish"/>
-      <BossLong name="Ruin" desc="" mod="Undying"/>
-      <BossLong name="Sporebloom" desc="" mod="Spore Shot"/>
+      <RegLong name="_No Long Gun" desc="~" mod="_No Mod"></RegLong>
+      <RegLong name="Assault Rifle" desc="">/Items/Weapons/Basic/LongGuns/AssaultRifle/Weapon_AssaultRifle</RegLong>
+      <RegLong name="Beam Rifle" desc="">/Items/Weapons/Basic/Wasteland_BeamRifle/Weapon_Wasteland_BeamRifle</RegLong>
+      <RegLong name="Chicago Typewriter" desc="">/Items/Weapons/Basic/LongGuns/MachineGun/Weapon_Machinegun</RegLong>
+      <RegLong name="Coach Gun" desc="">/Items/Weapons/Basic/LongGuns/Coachgun/Weapon_Coachgun</RegLong>
+      <RegLong name="Crossbow" desc="">/Items/Weapons/Basic/LongGuns/Crossbow/Weapon_Swamp_Crossbow</RegLong>
+      <RegLong name="Hunting Rifle" desc="">/Items/Weapons/Basic/LongGuns/HuntingRifle/Weapon_HuntingRifle</RegLong>
+      <RegLong name="Ricochet Rifle" desc="">/Items/Weapons/Basic/RicochetRifle/Weapon_Pan_RicochetRifle</RegLong>
+      <RegLong name="Shotgun" desc="">/Items/Weapons/Basic/LongGuns/Shotgun/Weapon_Shotgun</RegLong>
+      <RegLong name="Sniper" desc="">/Items/Weapons/Basic/LongGuns/SniperRifle/Weapon_SniperRifle</RegLong>
+      <BossLong name="Alternator" desc="" mod="Incinerator" DLC="2923">/Items/Weapons/Boss/Alternator/Weapon_Snow_Alternator</BossLong>
+      <BossLong name="Devastator" desc="" mod="Skewer">/Items/Weapons/Boss/Devastator/Weapon_Swamp_Devastator</BossLong>
+      <BossLong name="Eye Of The Storm" desc="" mod="Static Field Shot">/Items/Weapons/Boss/Pan_EyeOfTheStorm/Weapon_Pan_EyeOfTheStorm</BossLong>
+      <BossLong name="Fusion Rifle" desc="" mod="Fusion Cannon"  DLC="2923">/Items/Weapons/Boss/FusionRifle/Weapon_Rural_FusionRifle</BossLong>
+      <BossLong name="Particle Accelerator" desc="" mod="Gravity Core">/Items/Weapons/Boss/ParticleAccelerator/Weapon_Wasteland_ParticleAccelerator</BossLong>
+      <BossLong name="Repulsor" desc="" mod="Banish">/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Weapon_Atoll_Repulsor</BossLong>
+      <BossLong name="Ruin" desc="" mod="Undying">/Items/Weapons/Boss/Ruin/Weapon_Wasteland_Ruin</BossLong>
+      <BossLong name="Sporebloom" desc="" mod="Spore Shot">/Items/Weapons/Boss/Root_SporeLauncher/Weapon_Root_SporeLauncher</BossLong>
     </Long>
 
-    <Melee name="_Fists" desc="~"/>
-    <Melee name="Butcher's Flail" desc=""/>
-    <Melee name="Chain Blade" desc=""/>
-    <Melee name="Frostborne" desc="" DLC="2923"/>
-    <Melee name="Guardian Axe" desc=""/>
-    <Melee name="Hero's Sword" desc=""/>
-    <Melee name="Lost Harpoon" desc=""/>
-    <Melee name="Petrified Maul" desc=""/>
-    <Melee name="Riven" desc=""/>
-    <Melee name="Scar Of The Jungle God" desc=""/>
-    <Melee name="Scrap Hammer" desc=""/>
-    <Melee name="Scrap Hatchet" desc=""/>
-    <Melee name="Scrap Sword" desc=""/>
-    <Melee name="Scythe" desc=""/>
-    <Melee name="Smolder" desc=""/>
-    <Melee name="Spear" desc=""/>
-    <Melee name="Voice Of The Tempest" desc=""/>
-    <Melee name="Wastelander Flail" desc=""/>
-    <Melee name="World's Edge" desc=""/>
-    <Melee name="World Breaker" desc=""/>
+    <Melee name="_Fists" desc="~"></Melee>
+    <Melee name="Butcher's Flail" desc="">/Items/Weapons/Boss/ButchersFlail/Weapon_Swamp_ButchersFlail</Melee>
+    <Melee name="Chain Blade" desc="">/Items/Weapons/Boss/ChainBlade/Weapon_Snow_ChainBlade</Melee>
+    <Melee name="Frostborne" desc="" DLC="2923">/Items/Weapons/Boss/Frostborne/Weapon_Frostborne</Melee>
+    <Melee name="Guardian Axe" desc="">/Items/Weapons/Boss/GuardianAxe/Weapon_Swamp_GuardianAxe</Melee>
+    <Melee name="Hero's Sword" desc="">/Items/Weapons/Human/Melee/Sword/Weapon_HerosSword</Melee>
+    <Melee name="Lost Harpoon" desc="">/Items/Weapons/Boss/LostHarpoon/Weapon_Wasteland_LostHarpoon</Melee>
+    <Melee name="Petrified Maul" desc="">/Items/Weapons/Boss/Root_PetrifiedMaul/Weapon_Root_PetrifiedMaul</Melee>
+    <Melee name="Riven" desc="">/Items/Weapons/Boss/Riven/Weapon_Wasteland_Riven</Melee>
+    <Melee name="Scar Of The Jungle God" desc="">/Items/Weapons/Boss/Pan_ScarOfTheJungleGod/Weapon_Pan_ScarOfTheJungleGod</Melee>
+    <Melee name="Scrap Hammer" desc="">/Items/Weapons/Human/Melee/Hammer/Weapon_Hammer</Melee>
+    <Melee name="Scrap Hatchet" desc="">/Items/Weapons/Human/Melee/Hatchet/Weapon_Hatchet</Melee>
+    <Melee name="Scrap Sword" desc="">/Items/Weapons/Human/Melee/Sword/Weapon_Sword</Melee>
+    <Melee name="Scythe" desc="">/Items/Weapons/Basic/Melee/Weapon_Swamp_Scythe</Melee>
+    <Melee name="Smolder" desc="">/Items/Weapons/Boss/Root_Smolder/Weapon_Root_Smolder</Melee>
+    <Melee name="Spear" desc="">/Items/Weapons/Basic/Spear/Weapon_Pan_Spear</Melee>
+    <Melee name="Voice Of The Tempest" desc="">/Items/Weapons/Boss/Pan_VoiceOfTheTempest/Weapon_Pan_VoiceOfTheTempest</Melee>
+    <Melee name="Wastelander Flail" desc="">/Items/Weapons/Basic/Wasteland_Flail/Weapon_Wasteland_Flail</Melee>
+    <Melee name="World's Edge" desc="">/Items/Weapons/Boss/WorldsEdge/Weapon_Rural_WorldsEdge</Melee>
+    <Melee name="World Breaker" desc="">/Items/Weapons/Boss/WorldBreaker/Weapon_Wasteland_WorldBreaker</Melee>
 
   </Weapons>
   <Mods>
     <BossWeaponMods>
-      <HandMod name="Flame Thrower" desc="Spews flames that will ignite targets with the BURNING effect dealing 100 FIRE damage over 10 seconds." DLC="Base"/>
-      <HandMod name="Hive Shot" desc="Fires a projectile that deals 20 CORROSIVE damage within 2.5 meters releasing an insect cloud that lasts for 12 seconds. Spreads to nearby enemies." DLC="Base"/>
-      <HandMod name="Radioactive Volley" desc="Fires a volley of 6 Radioactive projectiles that bounce off of the environment and deal 35 RADIATION damage each." DLC="Base"/>
-      <HandMod name="Tentacle Shot" desc="Launches a projectile which summon a TENTACLE. Tentacles deals 75 SHOCK damage, steals 1.25% of the hero's Max Health per hit, and apply the OVERLOADED effect. Lasts 30 seconds. (Max 2).	" DLC="Base"/>
-      <HandMod name="Vampiric" desc="Fires 4 beetles that will fly towards enemies within 10 meters, land on them, and steal 50 health over 5 seconds. Once full, they will fly back and heal the hero." DLC="Swamps"/>
+      <HandMod name="Flame Thrower" desc="Spews flames that will ignite targets with the BURNING effect dealing 100 FIRE damage over 10 seconds." DLC="Base"></HandMod>
+      <HandMod name="Hive Shot" desc="Fires a projectile that deals 20 CORROSIVE damage within 2.5 meters releasing an insect cloud that lasts for 12 seconds. Spreads to nearby enemies." DLC="Base"></HandMod>
+      <HandMod name="Radioactive Volley" desc="Fires a volley of 6 Radioactive projectiles that bounce off of the environment and deal 35 RADIATION damage each." DLC="Base"></HandMod>
+      <HandMod name="Tentacle Shot" desc="Launches a projectile which summon a TENTACLE. Tentacles deals 75 SHOCK damage, steals 1.25% of the hero's Max Health per hit, and apply the OVERLOADED effect. Lasts 30 seconds. (Max 2)." DLC="Base"></HandMod>
+      <HandMod name="Vampiric" desc="Fires 4 beetles that will fly towards enemies within 10 meters, land on them, and steal 50 health over 5 seconds. Once full, they will fly back and heal the hero." DLC="Swamps"></HandMod>
 
-      <LongMod name="Banish" desc="Fires a projectile that banishes enemies into another dimension for 4 seconds. When they return, they'll take 1.25x the damage from the Repulsor's primary fire for 8 seconds. Powerful enemies won't be banished, but will take increased damage from the Repulsor." DLC="Base"/>
-      <LongMod name="Fusion Cannon" desc="Fires a large powerful beam that penetrates through enemies dealing 180 for a single charge. Multiple charges increase damage dealt, recoil, and beam thickness per charge. 5 stacks. Passive: Charges increase primary fire rate. Mod power slowly drains after 2 seconds of not dealing damage." DLC="2923"/>
-      <LongMod name="Gravity Core" desc="Fires a projectile which deals 50 damage and opens a gravity well for 5 seconds. Once unstable it explode dealing up to 500 damage within 5 meters. Adds 300 damage per enemy and divides total damage among all enemies." DLC="Base"/>
-      <LongMod name="Incinerator" desc="Spews 11 fireballs that deal 15 FIRE damage within 2 meters each and ignites enemies with BURNING effect dealing 100 FIRE damage over 10 seconds." DLC="2923"/>
-      <LongMod name="Skewer" desc="Fires a large spike that deals 125 damage, 300% additional stagger damage, and applies BLEEDING effect dealing 600 damage over 20 seconds." DLC="Base"/>
-      <LongMod name="Spore Shot" desc="Fires an explosive round that deals 25 ROT damage within 3 meters and will leave a deadly gas cloud that slows enemies and lasts for 7 seconds." DLC="Base"/>
-      <LongMod name="Static Field Shot" desc="	Fires a projectile that deals 65 SHOCK damage and applies the OVERLOADED effect. Overloaded enemies will trigger an explosion when they get within 4 meters from each other dealing up to 325 SHOCK damage within a 5 meter." DLC="Base"/>
-      <LongMod name="Undying" desc="If charged upon death, the wielder will be revived with 50% Health. They will also take 10% less damage and be immune to STATUS effects for 5 seconds. 5 minutes cooldown." DLC="Base"/>
+      <LongMod name="Banish" desc="Fires a projectile that banishes enemies into another dimension for 4 seconds. When they return, they'll take 1.25x the damage from the Repulsor's primary fire for 8 seconds. Powerful enemies won't be banished, but will take increased damage from the Repulsor." DLC="Base"></LongMod>
+      <LongMod name="Fusion Cannon" desc="Fires a large powerful beam that penetrates through enemies dealing 180 for a single charge. Multiple charges increase damage dealt, recoil, and beam thickness per charge. 5 stacks. Passive: Charges increase primary fire rate. Mod power slowly drains after 2 seconds of not dealing damage." DLC="2923"></LongMod>
+      <LongMod name="Gravity Core" desc="Fires a projectile which deals 50 damage and opens a gravity well for 5 seconds. Once unstable it explode dealing up to 500 damage within 5 meters. Adds 300 damage per enemy and divides total damage among all enemies." DLC="Base"></LongMod>
+      <LongMod name="Incinerator" desc="Spews 11 fireballs that deal 15 FIRE damage within 2 meters each and ignites enemies with BURNING effect dealing 100 FIRE damage over 10 seconds." DLC="2923"></LongMod>
+      <LongMod name="Skewer" desc="Fires a large spike that deals 125 damage, 300% additional stagger damage, and applies BLEEDING effect dealing 600 damage over 20 seconds." DLC="Base"></LongMod>
+      <LongMod name="Spore Shot" desc="Fires an explosive round that deals 25 ROT damage within 3 meters and will leave a deadly gas cloud that slows enemies and lasts for 7 seconds." DLC="Base"></LongMod>
+      <LongMod name="Static Field Shot" desc="Fires a projectile that deals 65 SHOCK damage and applies the OVERLOADED effect. Overloaded enemies will trigger an explosion when they get within 4 meters from each other dealing up to 325 SHOCK damage within a 5 meter." DLC="Base"></LongMod>
+      <LongMod name="Undying" desc="If charged upon death, the wielder will be revived with 50% Health. They will also take 10% less damage and be immune to STATUS effects for 5 seconds. 5 minutes cooldown." DLC="Base"></LongMod>
     </BossWeaponMods>
     <RegularMods name="_No Mod"  desc="~"  DLC="Base"/>
-    <RegularMods name="Beckon"  desc="Summons a WASTELAND SKULL which shoots projectiles that deal 40 damage per hit. Lasts 60 seconds. (Max 2)"  DLC="Base"/>
-    <RegularMods name="Blink Token"  desc="Teleports the caster forward up to 13 meters and creates an electrical blast that deals 210 SHOCK damage within 3 meters."  DLC="Base"/>
-    <RegularMods name="Blizzard"  desc="Cast a storm cloud that rains icicles as it travels forward up to 30 meters. Icicles deal 30 FROST damage each and apply FROSTBITE to enemies within 2 meters."  DLC="2923"/>
-    <RegularMods name="Breath of the Desert"  desc="Discharge 7 radioactive projectiles that will seek towards enemies within 20 meters and deal 30 RADIATION damage each."  DLC="Base"/>
-    <RegularMods name="Cold Spear"  desc="Throws an ice spear that deals 50 FROST damage within 3.5 meters and applies 3 stacks of FROSTBITE. Direct hits apply the FROZEN effect."  DLC="2923"/>
-    <RegularMods name="Corrosive Aura"  desc="Projects a 5 meter aura that moves with the caster and applies CORRODED stacks over time. Each stack reduces enemy defense by 5%. Max 5 stacks. Lasts 30 seconds."  DLC="Base"/>
-    <RegularMods name="Explosive Shot"  desc="Fires an explosive round that deals up to 240 damage to enemies within 4 meters."  DLC="Base"/>
-    <RegularMods name="Fan of Knives"  desc="Throw a fan of 7 knives that deal 20 damage each and apply the BLEEDING effect dealing 200 damage over 20 seconds. Max 2 Charges."  DLC="2923"/>
-    <RegularMods name="Flicker Cloak"  desc="Surrounds the caster with a magical shield absorbing 50% of their Max Health in damage from incoming attacks and prevents getting staggered. Lasts 15 seconds. 10 seconds cooldown."  DLC="Base"/>
-    <RegularMods name="Frozen Mist"  desc="Fires a projectile that deals 10 FROST damage, releases a freezing cloud that lasts 10 seconds, and applies FROSTBITE to enemies within 3 meters. Applies 3 FROSTBITE stacks on a direct hit. Players walking through the cloud will take damage and FROSTBITE buildup."  DLC="2923"/>
-    <RegularMods name="Hot Shot"  desc="Ammunition is imbues with flame dealing FIRE damage which is increased by 15%. Shots also have a 100% chance to apply the BURNING effect, dealing 100 FIRE damage over 10 seconds. Lasts 15 seconds."  DLC="Base"/>
-    <RegularMods name="Howler's Immunity"  desc="Projects a 20 meter aura that moves with the caster and reduces incoming damage to all allies standing in the aura by 15%. Lasts 30 seconds."  DLC="Base"/>
-    <RegularMods name="Hunter's Mark"  desc="Marks all enemies within 35 meters for the caster and their allies. Crit Chance against marked enemies is increased by 10%. Lasts 30 seconds."  DLC="Base"/>
-    <RegularMods name="Iron Sentinel"  desc="Summons a full automatic TURRET that shoots at 5 rounds per second and deals 5 damage per hit. Lasts 30 seconds. (Max 2)"  DLC="Base"/>
-    <RegularMods name="Mantle of Thorns"  desc="Reduces Melee damage taken from enemies by 20%, reflects 120% of Melee damage taken, and reduces stagger on hit. Lasts 60 seconds."  DLC="Base"/>
-    <RegularMods name="Mender's Aura"  desc="Creates a 2.3 meter healing pool that regenerates 10 Health per second. Lasts 10 seconds."  DLC="Base"/>
-    <RegularMods name="Rattle Weed"  desc="Shoots a projectile that summons a RATTLE WEED upon impact with 200 Health and draws aggro on enemies within 10 meters. Lasts 10 seconds. Does not affect powerful enemies. (Max 1)"  DLC="Base"/>
-    <RegularMods name="Rift Walker"  desc="Enter a rift for 2.8 seconds leaving a summoned CLONE behind which draws aggro within 12.5 meters. The caster is invulnerable and their Movement Speed is increased by 30%. Upon exiting, the clone explodes dealing 250 damage within 5.5 meters. Does not affect powerful enemies. 15 second cooldown. (Max 1)."  DLC="Swamps"/>
-    <RegularMods name="Seed Caller"  desc="Summons a ROOT HOLLOW that deals 50 damage per hit. Lasts 30 seconds. (Max 2)"  DLC="Base"/>
-    <RegularMods name="Seeker"  desc="Summons a BEETLE that will rush towards enemies and explode dealing 160 CORROSIVE damage within 4 meters. Lasts 30 seconds. (Max 3)"  DLC="Swamps"/>
-    <RegularMods name="Song of Swords"  desc="Projects a 25 meter aura that moves with the caster. All allies standing in that aura will have all of their damage dealt increased by 10%. Lasts for 30 seconds."  DLC="Base"/>
-    <RegularMods name="Storm Caller"  desc="Conjures an electrical storm centered around the caster which discharges lightning strikes that deal 40 SHOCK damage to nearby enemies within 35 meters and reduces incoming damage by 50%. Lasts 12 seconds."  DLC="Base"/>
-    <RegularMods name="Swarm"  desc="Unleash insects that will seek after enemies within 20 meters and repeatedly attack dealing 5 CORROSIVE damage per hit. Lasts 15 seconds."  DLC="Base"/>
-    <RegularMods name="Unstable Quills"  desc="Unleash a rapid burst of 12 quills. Press F again to detonate dealing 15 CORROSIVE damage each within 2.5 meters. Overcharge quills by shooting an enemy with quills attached until they glow, then detonate increasing the damage to 30 CORROSIVE damage each."  DLC="Swamps"/>
-    <RegularMods name="Veil of the Black Tear"  desc="Generates a 5 meter impenetrable energy field. Heroes standing inside the energy field can shoot outward. Lasts 10 seconds."  DLC="Base"/>
-    <RegularMods name="Very Good Boy"  desc="Summons a VERY GOOD BOY that deals 80 damage per bite. Pet the dog to increase his damage dealt by 5% for 60 seconds. Lasts 60 seconds. (Max 1)"  DLC="Base"/>
-    <RegularMods name="Wildfire Shot"  desc="Shoots an arcing fireball that deals 25 FIRE damage and ignites enemies with the BURNING effect within 2 meters, dealing 300 FIRE damage over 10 seconds."  DLC="Base"/>
+    <RegularMods name="Beckon"  desc="Summons a WASTELAND SKULL which shoots projectiles that deal 40 damage per hit. Lasts 60 seconds. (Max 2)"  DLC="Base">/Items/Mods/Beckon</RegularMods>
+    <RegularMods name="Blink Token"  desc="Teleports the caster forward up to 13 meters and creates an electrical blast that deals 210 SHOCK damage within 3 meters."  DLC="Base">/Items/Mods/BlinkToken</RegularMods>
+    <RegularMods name="Blizzard"  desc="Cast a storm cloud that rains icicles as it travels forward up to 30 meters. Icicles deal 30 FROST damage each and apply FROSTBITE to enemies within 2 meters."  DLC="2923">/Items/Mods/Blizzard</RegularMods>
+    <RegularMods name="Breath of the Desert"  desc="Discharge 7 radioactive projectiles that will seek towards enemies within 20 meters and deal 30 RADIATION damage each."  DLC="Base">/Items/Mods/BreathOfDesert</RegularMods>
+    <RegularMods name="Cold Spear"  desc="Throws an ice spear that deals 50 FROST damage within 3.5 meters and applies 3 stacks of FROSTBITE. Direct hits apply the FROZEN effect."  DLC="2923">/Items/Mods/ColdSpear</RegularMods>
+    <RegularMods name="Corrosive Aura"  desc="Projects a 5 meter aura that moves with the caster and applies CORRODED stacks over time. Each stack reduces enemy defense by 5%. Max 5 stacks. Lasts 30 seconds."  DLC="Base">/Items/Mods/CorrosiveAura</RegularMods>
+    <RegularMods name="Explosive Shot"  desc="Fires an explosive round that deals up to 240 damage to enemies within 4 meters."  DLC="Base">/Items/Mods/ExplosiveShot</RegularMods>
+    <RegularMods name="Fan of Knives"  desc="Throw a fan of 7 knives that deal 20 damage each and apply the BLEEDING effect dealing 200 damage over 20 seconds. Max 2 Charges."  DLC="2923">/Items/Mods/FanOfKnives</RegularMods>
+    <RegularMods name="Flicker Cloak"  desc="Surrounds the caster with a magical shield absorbing 50% of their Max Health in damage from incoming attacks and prevents getting staggered. Lasts 15 seconds. 10 seconds cooldown."  DLC="Base">/Items/Mods/FlickerCloak</RegularMods>
+    <RegularMods name="Frozen Mist"  desc="Fires a projectile that deals 10 FROST damage, releases a freezing cloud that lasts 10 seconds, and applies FROSTBITE to enemies within 3 meters. Applies 3 FROSTBITE stacks on a direct hit. Players walking through the cloud will take damage and FROSTBITE buildup."  DLC="2923">/Items/Mods/FrozenMist</RegularMods>
+    <RegularMods name="Hot Shot"  desc="Ammunition is imbues with flame dealing FIRE damage which is increased by 15%. Shots also have a 100% chance to apply the BURNING effect, dealing 100 FIRE damage over 10 seconds. Lasts 15 seconds."  DLC="Base">/Items/Mods/HotShot</RegularMods>
+    <RegularMods name="Howler's Immunity"  desc="Projects a 20 meter aura that moves with the caster and reduces incoming damage to all allies standing in the aura by 15%. Lasts 30 seconds."  DLC="Base">/Items/Mods/HowlersImmunity</RegularMods>
+    <RegularMods name="Hunter's Mark"  desc="Marks all enemies within 35 meters for the caster and their allies. Crit Chance against marked enemies is increased by 10%. Lasts 30 seconds."  DLC="Base">/Items/Mods/HuntersMark</RegularMods>
+    <RegularMods name="Iron Sentinel"  desc="Summons a full automatic TURRET that shoots at 5 rounds per second and deals 5 damage per hit. Lasts 30 seconds. (Max 2)"  DLC="Base">/Items/Mods/IronSentinel</RegularMods>
+    <RegularMods name="Mantle of Thorns"  desc="Reduces Melee damage taken from enemies by 20%, reflects 120% of Melee damage taken, and reduces stagger on hit. Lasts 60 seconds."  DLC="Base">/Items/Mods/MantleOfThorns</RegularMods>
+    <RegularMods name="Mender's Aura"  desc="Creates a 2.3 meter healing pool that regenerates 10 Health per second. Lasts 10 seconds."  DLC="Base">/Items/Mods/MendersAura</RegularMods>
+    <RegularMods name="Rattle Weed"  desc="Shoots a projectile that summons a RATTLE WEED upon impact with 200 Health and draws aggro on enemies within 10 meters. Lasts 10 seconds. Does not affect powerful enemies. (Max 1)"  DLC="Base">/Items/Mods/Rattleweed</RegularMods>
+    <RegularMods name="Rift Walker"  desc="Enter a rift for 2.8 seconds leaving a summoned CLONE behind which draws aggro within 12.5 meters. The caster is invulnerable and their Movement Speed is increased by 30%. Upon exiting, the clone explodes dealing 250 damage within 5.5 meters. Does not affect powerful enemies. 15 second cooldown. (Max 1)."  DLC="Swamps">/Items/Mods/RiftWalker</RegularMods>
+    <RegularMods name="Seed Caller"  desc="Summons a ROOT HOLLOW that deals 50 damage per hit. Lasts 30 seconds. (Max 2)"  DLC="Base">/Items/Mods/SeedCaller</RegularMods>
+    <RegularMods name="Seeker"  desc="Summons a BEETLE that will rush towards enemies and explode dealing 160 CORROSIVE damage within 4 meters. Lasts 30 seconds. (Max 3)"  DLC="Swamps">/Items/Mods/Seeker</RegularMods>
+    <RegularMods name="Song of Swords"  desc="Projects a 25 meter aura that moves with the caster. All allies standing in that aura will have all of their damage dealt increased by 10%. Lasts for 30 seconds."  DLC="Base">/Items/Mods/SongOfSwords</RegularMods>
+    <RegularMods name="Storm Caller"  desc="Conjures an electrical storm centered around the caster which discharges lightning strikes that deal 40 SHOCK damage to nearby enemies within 35 meters and reduces incoming damage by 50%. Lasts 12 seconds."  DLC="Base">/Items/Mods/StormCaller</RegularMods>
+    <RegularMods name="Swarm"  desc="Unleash insects that will seek after enemies within 20 meters and repeatedly attack dealing 5 CORROSIVE damage per hit. Lasts 15 seconds."  DLC="Base">/Items/Mods/Swarm</RegularMods>
+    <RegularMods name="Unstable Quills"  desc="Unleash a rapid burst of 12 quills. Press F again to detonate dealing 15 CORROSIVE damage each within 2.5 meters. Overcharge quills by shooting an enemy with quills attached until they glow, then detonate increasing the damage to 30 CORROSIVE damage each."  DLC="Swamps">/Items/Mods/UnstableQuills</RegularMods>
+    <RegularMods name="Veil of the Black Tear"  desc="Generates a 5 meter impenetrable energy field. Heroes standing inside the energy field can shoot outward. Lasts 10 seconds."  DLC="Base">/Items/Mods/VeilOfTheBlackTear</RegularMods>
+    <RegularMods name="Very Good Boy"  desc="Summons a VERY GOOD BOY that deals 80 damage per bite. Pet the dog to increase his damage dealt by 5% for 60 seconds. Lasts 60 seconds. (Max 1)"  DLC="Base">/Items/Mods/VeryGoodBoy</RegularMods>
+    <RegularMods name="Wildfire Shot"  desc="Shoots an arcing fireball that deals 25 FIRE damage and ignites enemies with the BURNING effect within 2 meters, dealing 300 FIRE damage over 10 seconds."  DLC="Base">/Items/Mods/WildfireShot</RegularMods>
   </Mods>
   <Trinkets>
     <Amulets name="_No Amulet" desc="~" DLC="" />
-    <Amulets name="Abrasive Amulet" desc="Doubles application of the CORRODED effect. Melee Charge Attacks apply the CORRODED effect." DLC="Base" />
-    <Amulets name="Amulet of Epicaricacy" desc="Increases Mod Power generation by 15%. When attacking an enemy with an active STATUS effect, Mod power generation is increased by an additional 30%." DLC="Swamps" />
-    <Amulets name="Black Rose" desc="The wearer's chest armor set bonus is increased by 1 piece. It will not exceed the 3 piece armor set bonus." DLC="Swamps" />
-    <Amulets name="Blessed Necklace" desc="Receiving a benefit from a Dragon Heart reduces incoming damage by 30% for 10 seconds." DLC="2923" />
-    <Amulets name="Brutal Mark" desc="After being equipped for 60 seconds, increases all damage by 25% to enemies that have less than 50% Health." DLC="Base" />
-    <Amulets name="Butcher's Fetish" desc="Gain 15% Crit Chance and 25% Crit Damage for 10 seconds after striking an enemy with a Charge Melee Attack." DLC="Base" />
-    <Amulets name="Charcoal Necklace" desc="Increase FIRE damage from all sources by 15% and BURNING damage by 50%." DLC="2923" />
-    <Amulets name="Cleansing Jewel" desc="Dragon Heart removes all STATUS effects from all allies. STATUS effect buildup on wearer is reduced by 50%." DLC="Base" />
-    <Amulets name="Daredevil's Charm" desc="Increases Total damage dealt by 30% for each piece of unequipped armor. Damage received is increased by 15%." DLC="Swamps" />
-    <Amulets name="Driftstone" desc="Doubles FROSTBITE application." DLC="s2923" />
-    <Amulets name="Galenic Charm" desc="Increases Weapon Mod damage by 25%." DLC="Base" />
-    <Amulets name="Gunslinger's Charm" desc="Increases Fire Rate by 15% and Reload Speed by 20%." DLC="Base" />
-    <Amulets name="Hangman's Memento" desc="Increase Weakspot damage by an additional 50% for 10 seconds after killing an enemy." DLC="2923" />
-    <Amulets name="Heart of Darkness" desc="Increases Ranged and Melee damage dealt by 20%. Increases damage received by 50% for 30 seconds after using a Dragon Heart." DLC="Swamps" />
-    <Amulets name="Leto's Amulet" desc="Reduces Armor Encumbrance by 40% and Stamina cost by 15%." DLC="Base"/>
-    <Amulets name="Mender's Charm" desc="Dragon Hearts heal all allies with 100% base effectiveness. Increases all Healing Effectiveness by 50%." DLC="Base" />
-    <Amulets name="Nightmare Spiral" desc="Ranged hits steal 3% of base damage dealt as Health. Consumable Healing Effectiveness is reduced by 95%." DLC="Base" />
-    <Amulets name="Onyx Pendulum" desc="Dealing firearm damage adds stacks which increase the damage of the stowed firearm by 2.5% for 15 seconds. Stacks 10 times." DLC="2923" />
-    <Amulets name="Pocket Watch" desc="Increases Stamina Regen by 20 per second and reduces Stamina Cost by 20%." DLC="Base"/>
-    <Amulets name="Polished Whetstone" desc="When attacking a BLEEDING enemy, Crit Chance is increased by 15% and Crit Damage increased by 35%." DLC="2923" />
-    <Amulets name="Radioactive Ember" desc="Increases RADIATION damage by 15% and converts basic melee weapons from physical to elemental dealing RADIATION damage." DLC="Base" />
-    <Amulets name="Razorwire Necklace" desc="Increase BLEEDING damage by 50% and Ranged and Melee damage dealt to enemies with BLEEDING by 15%." DLC="2923" />
-    <Amulets name="Rock of Anguish" desc="Gain 10% Movement Speed and 15% Reload Speed for every 25% of Max Health missing." DLC="Base" />
-    <Amulets name="Rusted Amulet" desc="Reduces Stamina Cost by 80% but increases Armor Encumbrance by 25." DLC="Swamps" />
-    <Amulets name="Scavenger's Bauble" desc="Increases the amount of Scrap picked up by 50%." DLC="Base" />
-    <Amulets name="Shattered Vertebrae" desc="Increase Ranged damage by 10%. When dealing Non-Critical damage with a firearm, Crit Chance is increased by 2% and Crit damage is increased by 5%. When a Critical Hit occurs, Crit Chance and Crit Chance damage are reset." DLC="2923" />
-    <Amulets name="Soul Anchor" desc="Increases the duration of summons creatures by 100% and increases wearer's Ranged and Melee damage by 6.25% (max 25%) per summoned minion." DLC="Base" />
-    <Amulets name="Stalker's Brand" desc="Firearm sound is reduced by 25%. When crouched, increases Movement Speed by 20% and reduces enemy Awareness Range by 15%." DLC="Base" />
-    <Amulets name="Storm Amulet" desc="Increases SHOCK damage by 15%. Weapon Mods that inflict SHOCK damage deal an additional 10%." DLC="Base" />
-    <Amulets name="Talisman of Animosity" desc="Increases Weakspot damage by 30%. Weakspot kills increase all damage by 10% for 10 seconds." DLC="Base" />
-    <Amulets name="Talisman of Perseverance" desc="Increases earned Experience by 1% when slaying an enemy and will last until the wearer dies, unequips the amulet, or rests at a checkpoint. Stacking up to 50 times." DLC="Swamps" />
-    <Amulets name="Terror Margin" desc="Melee hits steal 1.5% of the base damage dealt as Health. For every 25% missing Health, gain an additional 1.5% lifesteal. With full health, gain 20% Melee damage." DLC="2923" />
-    <Amulets name="Twisted Idol" desc="Increases Armor Effectiveness by 30% and reduces Encumbrance by 15." DLC="Base" />
-    <Amulets name="Vengeance Idol" desc="All damage dealt is increased by 30% when the wearer's Health is below 50%. Includes Summons." DLC="Base" />
-    <Amulets name="Vulcan's Detonator" desc="Increases Explosion Damage by 25%. Explosions apply BURNING status effect." DLC="2923" />
-    <Amulets name="White Rose" desc="Increases all damage dealt by 25% for each unequipped firearm." DLC="2923" />
+    <Amulets name="Abrasive Amulet" desc="Doubles application of the CORRODED effect. Melee Charge Attacks apply the CORRODED effect." DLC="Base" >/Items/Trinkets/Trinket_AbrasiveAmulet</Amulets>
+    <Amulets name="Amulet of Epicaricacy" desc="Increases Mod Power generation by 15%. When attacking an enemy with an active STATUS effect, Mod power generation is increased by an additional 30%." DLC="Swamps" >/Items/Trinkets/AmuletOfEpicaricacy</Amulets>
+    <Amulets name="Black Rose" desc="The wearer's chest armor set bonus is increased by 1 piece. It will not exceed the 3 piece armor set bonus." DLC="Swamps" >/Items/Trinkets/BlackRose</Amulets>
+    <Amulets name="Blessed Necklace" desc="Receiving a benefit from a Dragon Heart reduces incoming damage by 30% for 10 seconds." DLC="2923" >/Items/Trinkets/BlessedNecklace</Amulets>
+    <Amulets name="Brutal Mark" desc="After being equipped for 60 seconds, increases all damage by 25% to enemies that have less than 50% Health." DLC="Base" >/Items/Trinkets/BrutalMark</Amulets>
+    <Amulets name="Butcher's Fetish" desc="Gain 15% Crit Chance and 25% Crit Damage for 10 seconds after striking an enemy with a Charge Melee Attack." DLC="Base" >/Items/Trinkets/ButchersFetish</Amulets>
+    <Amulets name="Charcoal Necklace" desc="Increase FIRE damage from all sources by 15% and BURNING damage by 50%." DLC="2923" >/Items/Trinkets/CharcoalNecklace</Amulets>
+    <Amulets name="Cleansing Jewel" desc="Dragon Heart removes all STATUS effects from all allies. STATUS effect buildup on wearer is reduced by 50%." DLC="Base" >/Items/Trinkets/CleansingJewel</Amulets>
+    <Amulets name="Daredevil's Charm" desc="Increases Total damage dealt by 30% for each piece of unequipped armor. Damage received is increased by 15%." DLC="Swamps" >/Items/Trinkets/DaredevilsCharm</Amulets>
+    <Amulets name="Driftstone" desc="Doubles FROSTBITE application." DLC="s2923" >/Items/Trinkets/DriftStone</Amulets>
+    <Amulets name="Galenic Charm" desc="Increases Weapon Mod damage by 25%." DLC="Base" >/Items/Trinkets/Trinket_GalenicCharm</Amulets>
+    <Amulets name="Gunslinger's Charm" desc="Increases Fire Rate by 15% and Reload Speed by 20%." DLC="Base" >/Items/Trinkets/Trinket_GunslingersCharm</Amulets>
+    <Amulets name="Hangman's Memento" desc="Increase Weakspot damage by an additional 50% for 10 seconds after killing an enemy." DLC="2923" >/Items/Trinkets/HangmansMemento</Amulets>
+    <Amulets name="Heart of Darkness" desc="Increases Ranged and Melee damage dealt by 20%. Increases damage received by 50% for 30 seconds after using a Dragon Heart." DLC="Swamps" >/Items/Trinkets/HeartOfDarkness</Amulets>
+    <Amulets name="Leto's Amulet" desc="Reduces Armor Encumbrance by 40% and Stamina cost by 15%." DLC="Base">/Items/Trinkets/Trinket_LetosAmulet</Amulets>
+    <Amulets name="Mender's Charm" desc="Dragon Hearts heal all allies with 100% base effectiveness. Increases all Healing Effectiveness by 50%." DLC="Base" >/Items/Trinkets/MendersCharm</Amulets>
+    <Amulets name="Nightmare Spiral" desc="Ranged hits steal 3% of base damage dealt as Health. Consumable Healing Effectiveness is reduced by 95%." DLC="Base" >/Items/Trinkets/Trinket_NightmareSpiral</Amulets>
+    <Amulets name="Onyx Pendulum" desc="Dealing firearm damage adds stacks which increase the damage of the stowed firearm by 2.5% for 15 seconds. Stacks 10 times." DLC="2923" >/Items/Trinkets/OnyxPendulum</Amulets>
+    <Amulets name="Pocket Watch" desc="Increases Stamina Regen by 20 per second and reduces Stamina Cost by 20%." DLC="Base">/Quests/Quest_OverworldPOI_MudTooth/Quest_BrabusPocketWatch</Amulets>
+    <Amulets name="Polished Whetstone" desc="When attacking a BLEEDING enemy, Crit Chance is increased by 15% and Crit Damage increased by 35%." DLC="2923" >/Items/Trinkets/PolishedWhetstone</Amulets>
+    <Amulets name="Radioactive Ember" desc="Increases RADIATION damage by 15% and converts basic melee weapons from physical to elemental dealing RADIATION damage." DLC="Base" >/Items/Trinkets/RadioactiveEmber</Amulets>
+    <Amulets name="Razorwire Necklace" desc="Increase BLEEDING damage by 50% and Ranged and Melee damage dealt to enemies with BLEEDING by 15%." DLC="2923" >/Items/Trinkets/RazorwireNecklace</Amulets>
+    <Amulets name="Rock of Anguish" desc="Gain 10% Movement Speed and 15% Reload Speed for every 25% of Max Health missing." DLC="Base" >/Items/Trinkets/RockOfAnguish</Amulets>
+    <Amulets name="Rusted Amulet" desc="Reduces Stamina Cost by 80% but increases Armor Encumbrance by 25." DLC="Swamps" >/Items/Trinkets/Trinket_RustedAmulet</Amulets>
+    <Amulets name="Scavenger's Bauble" desc="Increases the amount of Scrap picked up by 50%." DLC="Base" >/Items/Trinkets/Trinket_ScavengersBauble</Amulets>
+    <Amulets name="Shattered Vertebrae" desc="Increase Ranged damage by 10%. When dealing Non-Critical damage with a firearm, Crit Chance is increased by 2% and Crit damage is increased by 5%. When a Critical Hit occurs, Crit Chance and Crit Chance damage are reset." DLC="2923" >/Items/Trinkets/ShatteredVertebrae</Amulets>
+    <Amulets name="Soul Anchor" desc="Increases the duration of summons creatures by 100% and increases wearer's Ranged and Melee damage by 6.25% (max 25%) per summoned minion." DLC="Base" >/Items/Trinkets/SoulAnchor</Amulets>
+    <Amulets name="Stalker's Brand" desc="Firearm sound is reduced by 25%. When crouched, increases Movement Speed by 20% and reduces enemy Awareness Range by 15%." DLC="Base" >/Items/Trinkets/Trinket_StalkersBrand</Amulets>
+    <Amulets name="Storm Amulet" desc="Increases SHOCK damage by 15%. Weapon Mods that inflict SHOCK damage deal an additional 10%." DLC="Base" >/Items/Trinkets/Trinket_StormAmulet</Amulets>
+    <Amulets name="Talisman of Animosity" desc="Increases Weakspot damage by 30%. Weakspot kills increase all damage by 10% for 10 seconds." DLC="Base" >/Items/Trinkets/TalismanOfAnimosity</Amulets>
+    <Amulets name="Talisman of Perseverance" desc="Increases earned Experience by 1% when slaying an enemy and will last until the wearer dies, unequips the amulet, or rests at a checkpoint. Stacking up to 50 times." DLC="Swamps" >/Items/Trinkets/TalismanOfPerseverance</Amulets>
+    <Amulets name="Terror Margin" desc="Melee hits steal 1.5% of the base damage dealt as Health. For every 25% missing Health, gain an additional 1.5% lifesteal. With full health, gain 20% Melee damage." DLC="2923" >/Items/Trinkets/TerrorMargin</Amulets>
+    <Amulets name="Twisted Idol" desc="Increases Armor Effectiveness by 30% and reduces Encumbrance by 15." DLC="Base" >/Items/Trinkets/Trinket_TwistedIdol</Amulets>
+    <Amulets name="Vengeance Idol" desc="All damage dealt is increased by 30% when the wearer's Health is below 50%. Includes Summons." DLC="Base" >/Items/Trinkets/VengeanceIdol</Amulets>
+    <Amulets name="Vulcan's Detonator" desc="Increases Explosion Damage by 25%. Explosions apply BURNING status effect." DLC="2923" >/Items/Trinkets/VulcansDetonator</Amulets>
+    <Amulets name="White Rose" desc="Increases all damage dealt by 25% for each unequipped firearm." DLC="2923" >/Items/Trinkets/WhiteRose</Amulets>
 
-    <Rings name="_No Ring" desc="~" DLC="" />
-    <Rings name="Aggressor's Bane" desc="Reduces incoming damage by 15%, but also increases enemy aggression towards the wearer, and increases enemy Awareness Range by 200%." DLC="" />
-    <Rings name="Akari War Band" desc="Perfect Dodging enemy attacks increases Crit Change by 15% and Crit damage by 15% for 20 seconds." DLC="" />
-    <Rings name="Alchemist's Jewel" desc="Increases Armor Effectiveness by 50%, but also increases Armor Encumberance by 25." DLC="" />
-    <Rings name="Amber Moonstone" desc="When wearer's Health drops below 25%, all STATUS effects will be removed, and incoming dmg reduced by 15% for 20s." DLC="" />
-    <Rings name="Backbreaker Ring" desc="Increase Melee Backstab damage by 30%." DLC="" />
-    <Rings name="Band of Accord" desc="Ammo acquired on pickup is increased by 25% per player in the lobby and is then divided up between them." DLC="" />
-    <Rings name="Band of Castor" desc="Increased Melee Speed by 10%, but reduces Fire rate by 15%. While wearing BAND OF CASTOR, Melee Damage is increased by 10%, Evade Speed is increased by 15%, and Encumbrance is reduced by 25." DLC="" />
-    <Rings name="Band of Discord" desc="Reduces Consumable Use Speed by 15%. Dragon Hearts heal the wearer with 125 Health over 30 seconds." DLC="" />
-    <Rings name="Band of Pollux" desc="Increased Melee Damage by 15%, but reduces Ranged Damage by 15%. While wearing BAND OF CASTOR, Melee Damage is increased by 10%, Evade Speed is increased by 15%, and Encumbrance is reduced by 25." DLC="" />
-    <Rings name="Band of Strength" desc="Melee Charge Attacks Increase Melee damage by 5% for 10 seconds. Stacks 4 times." DLC="" />
-    <Rings name="Black Cat Band" desc="When taking fatal damage, wearer's Health will drop to 1 instead of dying. 1 minute cooldown." DLC="" />
-    <Rings name="Blood Font" desc="Increases Health regeneration by 0.384 per second and increases all Healing Effectiveness by 15%." DLC="" />
-    <Rings name="Bloodletter's Insignia" desc="BLEEDING effects applied by the wearer steal 2% dmg dealt and return it to the wearer as Health." DLC="" />
-    <Rings name="Braided Thorns" desc="Increases Crit Chance by 10%. Gain an additional 10% for 10 seconds after slaying an enemy." DLC="" />
-    <Rings name="Bright Steel Ring" desc="Gives wearer the fastest evade roll regardless of their Armor Encumbrance." DLC="" />
-    <Rings name="Burden of the Devoted" desc="All damage dealt by wearer is reduced by 15%. 50% of self healing applies to allies." DLC="" />
-    <Rings name="Burden of the Follower" desc="Reduces Fire Rate by 25%. Increases Mod Power generation by 100%." DLC="" />
-    <Rings name="Burden of the Gambler" desc="Disables Weakspot damage bonus. Increases Crit Chance by 15% and Crit Damage by 25%." DLC="" />
-    <Rings name="Burden of the Reckless" desc="Disables healing from Dragon Hearts. Perfect dodging enemy attacks will regenerate 5% of the wearer´s Max Health per second over 5 seconds." DLC="" />
-    <Rings name="Burden of the Warlord" desc="Reduces effective range of all firearms by 50% and increases all dmg dealt by 15%." DLC="" />
-    <Rings name="Celerity Stone" desc="Increases Consumable Use Speed by 40% and increases Reload Speed by 20% and Weapon Swap Speed by 25% for 15s after using a Consumable." DLC="" />
-    <Rings name="Compulsion Loop" desc="Increases Movement Speed by 20%, Fire Rate by 15%, and Melee Speed by 10% for 7 seconds after slaying an enemy." DLC="" />
-    <Rings name="Deceiver's Band" desc="Increases Evade Speed by 25% and Movement Speed by 15% for 10 seconds after performing a slide." DLC="" />
-    <Rings name="Devouring Loop" desc="Critical Hits have a 6% chance to deal 4x damage." DLC="" />
-    <Rings name="Empowering Loop" desc="Increases Ranged damage by 25%, but decreases Fire rate by 10%." DLC="" />
-    <Rings name="Evoker's Seal" desc="Refunds 10% Mod Power on use." DLC="" />
-    <Rings name="Ezlan's Band" desc="Increases Health by 25 and Health regeneration by 0.238 per second." DLC="" />
-    <Rings name="Five Fingered Ring" desc="Increases Unarmed Melee damage by 50%, Crit damage by 50%, and Crit Chance by 25%." DLC="" />
-    <Rings name="Gift of the Iskal" desc="Mod Power is generated slowly over time (5/s), but reduces the wearer´s Healing Effectiveness by 15%" DLC="" />
-    <Rings name="Gravity Stone" desc="Increases all damage by 20% when there are at least 2 enemies within 10 meters of the wearer." DLC="" />
-    <Rings name="Grim Coil" desc="Reloading a weapon after dealing 40% of the base damage from a single magazine increases its damage by 7% for 15 seconds. Stacks 3 times" DLC="" />
-    <Rings name="Guardian's Ring" desc="Reduce incoming Melee damage by 20%." DLC="" />
-    <Rings name="Gunslinger's Ring" desc="Increases Firearm Swap Speed by 50% and Fire Rate by 10%" DLC="" />
-    <Rings name="Heart of the Wolf" desc="Increases Max Stamina by 25 and Movement speed by 10%." DLC="" />
-    <Rings name="Heartseeker" desc="Provides a 100% Crit Chance against non-aggressive enemies and increases Crit Damage by 20%." DLC="" />
-    <Rings name="Hero's Ring" desc="Increases Movement Speed by 25% while sprinting towards a wounded teammate. Revive Speed is increased by 100% and the wearer cannot by staggered while reviving" DLC="" />
-    <Rings name="Hunter's Band" desc="Increases Ranged damage by 10% and Weakspot damage by 20%." DLC="" />
-    <Rings name="Hunter's Halo" desc="Increase the effective Range of all firearms by 6m." DLC="" />
-    <Rings name="Iskal Hunter Band" desc="Reduces Spread by 40%." DLC="" />
-    <Rings name="Jewel of the Black Sun" desc="Increases Ranged damage by 7% for 20 seconds after a Ranged kill. Stacks 3 times." DLC="" />
-    <Rings name="Juggernaut Band" desc="After sprinting for 2s, incoming dmg reduced by 10%. Movement Speed increased by 10%, stagger level is reduced by 1, and the wearer will perform the heaviest evade." DLC="" />
-    <Rings name="Keeper's Ring" desc="Increases resistance to all ELEMENTAL damage by 20." DLC="" />
-    <Rings name="Leech Ember" desc="Melee hits steal 2.5% of the base damage dealt as Health." DLC="" />
-    <Rings name="Loop of Prosperity" desc="Metal materials acquired on pickup are doubled." DLC="" />
-    <Rings name="Mother's Ring" desc="Reduces incoming Ranged Damage by 20%." DLC="" />
-    <Rings name="Pearl of Luminescence" desc="Wearer has a 70% chance to double the amount of Lumenite Crystal acquired on pickup when killing Elite enemies." DLC="" />
-    <Rings name="Pillar of Stone" desc="Reduces Recoil by 30% and Weapon Sway by 60%. Standing Aim Movement Speed is increased by 50%." DLC="" />
-    <Rings name="Prismatic Diamond Ring" desc="Increases all ELEMENTAL dmg by 10%." DLC="" />
-    <Rings name="Provisioner Ring" desc="Firearms reload over time while stowed." DLC="" />
-    <Rings name="Razorstone" desc="Melee Charge Attacks apply the BLEEDING effect dealing 600 damage over 20 seconds." DLC="" />
-    <Rings name="Restriction Cord" desc="Restricts the wearer from Healing above 50% of their Max Health and reduces incoming damage by 15%." DLC="" />
-    <Rings name="Ring of Elusion" desc="Perfect Dodging enemy attacks refunds 50 Stamina and reduces Stamina Cost by 100% for 10 seconds." DLC="" />
-    <Rings name="Ring of Evasion" desc="Moderately increases Evade Window and increases Evade Speed by 10%." DLC="" />
-    <Rings name="Ring of Flawless Beauty" desc="Ranged Weakspot dmg increased by 40%. Ranged dmg is reduced 20% when failing to shoot a weakspot." DLC="" />
-    <Rings name="Ring of Honor" desc="Increases Health by 10, Stamina by 10, and reduces Armor Encumbrance by 10." DLC="" />
-    <Rings name="Ring of Shadows" desc="Reduces enemy Awareness Range by 25%. Increases Ranged damage against non-aggressive enemies by 15%." DLC="" />
-    <Rings name="Ring of Supremacy" desc="Increases all damage dealt by 20% after the wearer's health has been full for at least 10 seconds" DLC="" />
-    <Rings name="Ring of Synergy" desc="Increases Teamwork effect by 10% and Revive Speed by 11% per ally also wearing this ring." DLC="" />
-    <Rings name="Ring of the Admiral" desc="Damage received is increased by 300%. All damage dealt is increased by 15%. Includes Summons." DLC="" />
-    <Rings name="Ring of the Mantis" desc="Increase Fire Rate by 15% and Crit damage by 20% when the wearer stops moving for at least 1.0 seconds" DLC="" />
-    <Rings name="Ring of the Punisher" desc="Increases all damage dealt by 5% towards enemies for every STATUS effect applied to them." DLC="" />
-    <Rings name="Ring of the Unclean" desc="Unarmed Melee attacks deal 2x damage. Heavy Flops deal 2.5x damage." DLC="" />
-    <Rings name="Root Circlet" desc="Increases Melee Speed by 15%." DLC="" />
-    <Rings name="Sagestone" desc="Increases earned Experience by 30%. (10% in Survival)" DLC="" />
-    <Rings name="Scavenger's Ring" desc="Collecting Scrap, Iron, and Ammo pickups regenerates 3% of Max Health" DLC="" />
-    <Rings name="Serpent's Fang" desc="Increases Charged Melee Damage by 20%." DLC="" />
-    <Rings name="Soul Ember" desc="Summon health is reduced by 60%. On death they´ll explode dealing 150 plus weapon level damage within 4 meters. Summons that explode normally will deal 25% bonus damage." DLC="" />
-    <Rings name="Soul Link" desc="Summons will steal 5% of the damage dealt and return it to the wearer as health." DLC="" />
-    <Rings name="Spirit Stone" desc="Increases Mod Power generation by 25% and Weapon Mod damage by 10%." DLC="" />
-    <Rings name="Stockpile Circlet" desc="Increases Max Ammo reserves for all firearms by 50%." DLC="" />
-    <Rings name="Stone of Balance" desc="Increases Ranged and Melee damage by 15%." DLC="" />
-    <Rings name="Swashbuckler's Signet" desc="Every 20 seconds gain a buff, stacks up to 3. Melee Charge Attacks consume 1 stack and replenish 15% of the wearer's ammo capacity for both firearms." DLC="" />
-    <Rings name="Vanguard Ring" desc="Melee Charge attacks reduce incoming and outgoing damage by 4% and increase enemy aggression towards wearer for 15 seconds. Stacks 5 times." DLC="" />
-    <Rings name="Volatile Gem" desc="Dragon Hearts explode dealing 200 dmg plus 10% per gear score and inflict an additional 100% Stagger Damage within 5m." DLC="" />
+    <Rings name="_No Ring" desc="~" DLC="" ></Rings>
+    <Rings name="Aggressor's Bane" desc="Reduces incoming damage by 15%, but also increases enemy aggression towards the wearer, and increases enemy Awareness Range by 200%." DLC="" >/Items/Trinkets/AggressorsBane</Rings>
+    <Rings name="Akari War Band" desc="Perfect Dodging enemy attacks increases Crit Change by 15% and Crit damage by 15% for 20 seconds." DLC="" >/Items/Trinkets/AkariWarBand</Rings>
+    <Rings name="Alchemist's Jewel" desc="Increases Armor Effectiveness by 50%, but also increases Armor Encumberance by 25." DLC="" >/Items/Trinkets/Trinket_AlchemistsJewel</Rings>
+    <Rings name="Amber Moonstone" desc="When wearer's Health drops below 25%, all STATUS effects will be removed, and incoming dmg reduced by 15% for 20s." DLC="" >/Items/Trinkets/AmberMoonstone</Rings>
+    <Rings name="Backbreaker Ring" desc="Increase Melee Backstab damage by 30%." DLC="" >/Items/Trinkets/BackbreakerRing</Rings>
+    <Rings name="Band of Accord" desc="Ammo acquired on pickup is increased by 25% per player in the lobby and is then divided up between them." DLC="" >/Items/Trinkets/Trinket_BandOfAccord</Rings>
+    <Rings name="Band of Castor" desc="Increased Melee Speed by 10%, but reduces Fire rate by 15%. While wearing BAND OF CASTOR, Melee Damage is increased by 10%, Evade Speed is increased by 15%, and Encumbrance is reduced by 25." DLC="" >/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfCastor</Rings>
+    <Rings name="Band of Discord" desc="Reduces Consumable Use Speed by 15%. Dragon Hearts heal the wearer with 125 Health over 30 seconds." DLC="" >/Items/Trinkets/BandOfDiscord</Rings>
+    <Rings name="Band of Pollux" desc="Increased Melee Damage by 15%, but reduces Ranged Damage by 15%. While wearing BAND OF CASTOR, Melee Damage is increased by 10%, Evade Speed is increased by 15%, and Encumbrance is reduced by 25." DLC="" >/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfPollux</Rings>
+    <Rings name="Band of Strength" desc="Melee Charge Attacks Increase Melee damage by 5% for 10 seconds. Stacks 4 times." DLC="" >/Items/Trinkets/BandOfStrength</Rings>
+    <Rings name="Black Cat Band" desc="When taking fatal damage, wearer's Health will drop to 1 instead of dying. 1 minute cooldown." DLC="" >/Items/Trinkets/BlackCatBand</Rings>
+    <Rings name="Blood Font" desc="Increases Health regeneration by 0.384 per second and increases all Healing Effectiveness by 15%." DLC="" >/Items/Trinkets/Trinket_BloodFont</Rings>
+    <Rings name="Bloodletter's Insignia" desc="BLEEDING effects applied by the wearer steal 2% dmg dealt and return it to the wearer as Health." DLC="" >/Items/Trinkets/BloodlettersInsignia</Rings>
+    <Rings name="Braided Thorns" desc="Increases Crit Chance by 10%. Gain an additional 10% for 10 seconds after slaying an enemy." DLC="" >/Items/Trinkets/BraidedThorns</Rings>
+    <Rings name="Bright Steel Ring" desc="Gives wearer the fastest evade roll regardless of their Armor Encumbrance." DLC="" >/Items/Trinkets/BrightSteelRing</Rings>
+    <Rings name="Burden of the Devoted" desc="All damage dealt by wearer is reduced by 15%. 50% of self healing applies to allies." DLC="" >/Items/Trinkets/BurdenOfTheDevoted</Rings>
+    <Rings name="Burden of the Follower" desc="Reduces Fire Rate by 25%. Increases Mod Power generation by 100%." DLC="" >/Items/Trinkets/Trinket_BurdenOfTheFollower</Rings>
+    <Rings name="Burden of the Gambler" desc="Disables Weakspot damage bonus. Increases Crit Chance by 15% and Crit Damage by 25%." DLC="" >/Items/Trinkets/BurdenOfTheGambler</Rings>
+    <Rings name="Burden of the Reckless" desc="Disables healing from Dragon Hearts. Perfect dodging enemy attacks will regenerate 5% of the wearer´s Max Health per second over 5 seconds." DLC="" >/Items/Trinkets/BurdenOfTheReckless</Rings>
+    <Rings name="Burden of the Warlord" desc="Reduces effective range of all firearms by 50% and increases all dmg dealt by 15%." DLC="" >/Items/Trinkets/Trinket_BurdenOfTheWarlord</Rings>
+    <Rings name="Celerity Stone" desc="Increases Consumable Use Speed by 40% and increases Reload Speed by 20% and Weapon Swap Speed by 25% for 15s after using a Consumable." DLC="" >/Items/Trinkets/Trinket_CelerityStone</Rings>
+    <Rings name="Compulsion Loop" desc="Increases Movement Speed by 20%, Fire Rate by 15%, and Melee Speed by 10% for 7 seconds after slaying an enemy." DLC="" >/Items/Trinkets/CompulsionLoop</Rings>
+    <Rings name="Deceiver's Band" desc="Increases Evade Speed by 25% and Movement Speed by 15% for 10 seconds after performing a slide." DLC="" >/Items/Trinkets/DeceiversBand</Rings>
+    <Rings name="Devouring Loop" desc="Critical Hits have a 6% chance to deal 4x damage." DLC="" >/Items/Trinkets/DevouringLoop</Rings>
+    <Rings name="Empowering Loop" desc="Increases Ranged damage by 25%, but decreases Fire rate by 10%." DLC="" >/Items/Trinkets/Trinket_EmpoweringLoop</Rings>
+    <Rings name="Evoker's Seal" desc="Refunds 10% Mod Power on use." DLC="" >/Items/Trinkets/Trinket_EvokersSeal</Rings>
+    <Rings name="Ezlan's Band" desc="Increases Health by 25 and Health regeneration by 0.238 per second." DLC="" >/Items/Trinkets/Trinket_EzlansBand</Rings>
+    <Rings name="Five Fingered Ring" desc="Increases Unarmed Melee damage by 50%, Crit damage by 50%, and Crit Chance by 25%." DLC="" >/Items/Trinkets/FiveFingeredRing</Rings>
+    <Rings name="Gift of the Iskal" desc="Mod Power is generated slowly over time (5/s), but reduces the wearer´s Healing Effectiveness by 15%" DLC="" >/Items/Trinkets/GIftOfTheIskal</Rings>
+    <Rings name="Gravity Stone" desc="Increases all damage by 20% when there are at least 2 enemies within 10 meters of the wearer." DLC="" >/Items/Trinkets/GravityStone</Rings>
+    <Rings name="Grim Coil" desc="Reloading a weapon after dealing 40% of the base damage from a single magazine increases its damage by 7% for 15 seconds. Stacks 3 times" DLC="" >/Items/Trinkets/GrimCoil</Rings>
+    <Rings name="Guardian's Ring" desc="Reduce incoming Melee damage by 20%." DLC="" >/Items/Trinkets/Trinket_GuardiansRing</Rings>
+    <Rings name="Gunslinger's Ring" desc="Increases Firearm Swap Speed by 50% and Fire Rate by 10%" DLC="" >/Items/Trinkets/Trinket_GunslingersRing</Rings>
+    <Rings name="Heart of the Wolf" desc="Increases Max Stamina by 25 and Movement speed by 10%." DLC="" >/Items/Trinkets/Trinket_HeartOfTheWolf</Rings>
+    <Rings name="Heartseeker" desc="Provides a 100% Crit Chance against non-aggressive enemies and increases Crit Damage by 20%." DLC="" >/Items/Trinkets/HeartSeeker</Rings>
+    <Rings name="Hero's Ring" desc="Increases Movement Speed by 25% while sprinting towards a wounded teammate. Revive Speed is increased by 100% and the wearer cannot by staggered while reviving" DLC="" >/Items/Trinkets/HerosRing</Rings>
+    <Rings name="Hunter's Band" desc="Increases Ranged damage by 10% and Weakspot damage by 20%." DLC="" >/Items/Trinkets/HuntersBand</Rings>
+    <Rings name="Hunter's Halo" desc="Increase the effective Range of all firearms by 6m." DLC="" >/Items/Trinkets/Trinket_HuntersHalo</Rings>
+    <Rings name="Iskal Hunter Band" desc="Reduces Spread by 40%." DLC="" >/Items/Trinkets/Trinket_IskalHunterBand</Rings>
+    <Rings name="Jewel of the Black Sun" desc="Increases Ranged damage by 7% for 20 seconds after a Ranged kill. Stacks 3 times." DLC="" >/Items/Trinkets/JewelOfTheBlackSun</Rings>
+    <Rings name="Juggernaut Band" desc="After sprinting for 2s, incoming dmg reduced by 10%. Movement Speed increased by 10%, stagger level is reduced by 1, and the wearer will perform the heaviest evade." DLC="" >/Items/Trinkets/JuggernautBand</Rings>
+    <Rings name="Keeper's Ring" desc="Increases resistance to all ELEMENTAL damage by 20." DLC="" >/Items/Trinkets/Trinket_KeepersRing</Rings>
+    <Rings name="Leech Ember" desc="Melee hits steal 2.5% of the base damage dealt as Health." DLC="" >/Items/Trinkets/Trinket_LeechEmber</Rings>
+    <Rings name="Loop of Prosperity" desc="Metal materials acquired on pickup are doubled." DLC="" >/Items/Trinkets/Trinket_LoopOfProsperity</Rings>
+    <Rings name="Mother's Ring" desc="Reduces incoming Ranged Damage by 20%." DLC="" >/Items/Trinkets/Trinket_MothersRing</Rings>
+    <Rings name="Pearl of Luminescence" desc="Wearer has a 70% chance to double the amount of Lumenite Crystal acquired on pickup when killing Elite enemies." DLC="" >/Items/Trinkets/Trinket_PearlOfLuminescence</Rings>
+    <Rings name="Pillar of Stone" desc="Reduces Recoil by 30% and Weapon Sway by 60%. Standing Aim Movement Speed is increased by 50%." DLC="" >/Items/Trinkets/Trinket_PillarOfStone</Rings>
+    <Rings name="Prismatic Diamond Ring" desc="Increases all ELEMENTAL dmg by 10%." DLC="" >/Items/Trinkets/Trinket_PrismaticDiamondRing</Rings>
+    <Rings name="Provisioner Ring" desc="Firearms reload over time while stowed." DLC="" >/Items/Trinkets/Trinket_ProvisionerRing</Rings>
+    <Rings name="Razorstone" desc="Melee Charge Attacks apply the BLEEDING effect dealing 600 damage over 20 seconds." DLC="" >/Items/Trinkets/Razorstone</Rings>
+    <Rings name="Restriction Cord" desc="Restricts the wearer from Healing above 50% of their Max Health and reduces incoming damage by 15%." DLC="" >/Items/Trinkets/RestrictionCord</Rings>
+    <Rings name="Ring of Elusion" desc="Perfect Dodging enemy attacks refunds 50 Stamina and reduces Stamina Cost by 100% for 10 seconds." DLC="" >/Items/Trinkets/RingOfElusion</Rings>
+    <Rings name="Ring of Evasion" desc="Moderately increases Evade Window and increases Evade Speed by 10%." DLC="" >/Items/Trinkets/Trinket_RingOfEvasion</Rings>
+    <Rings name="Ring of Flawless Beauty" desc="Ranged Weakspot dmg increased by 40%. Ranged dmg is reduced 20% when failing to shoot a weakspot." DLC="" >/Items/Trinkets/RingOfFlawlessBeauty</Rings>
+    <Rings name="Ring of Honor" desc="Increases Health by 10, Stamina by 10, and reduces Armor Encumbrance by 10." DLC="" >/Items/Trinkets/Trinket_RingOfHonor</Rings>
+    <Rings name="Ring of Shadows" desc="Reduces enemy Awareness Range by 25%. Increases Ranged damage against non-aggressive enemies by 15%." DLC="" >/Items/Trinkets/Trinket_RingOfShadows</Rings>
+    <Rings name="Ring of Supremacy" desc="Increases all damage dealt by 20% after the wearer's health has been full for at least 10 seconds" DLC="" >/Items/Trinkets/RingOfSumpremacy</Rings>
+    <Rings name="Ring of Synergy" desc="Increases Teamwork effect by 10% and Revive Speed by 11% per ally also wearing this ring." DLC="" >/Items/Trinkets/RingOfSynergy</Rings>
+    <Rings name="Ring of the Admiral" desc="Damage received is increased by 300%. All damage dealt is increased by 15%. Includes Summons." DLC="" >/Items/Trinkets/RingOfTheAdmiral</Rings>
+    <Rings name="Ring of the Mantis" desc="Increase Fire Rate by 15% and Crit damage by 20% when the wearer stops moving for at least 1.0 seconds" DLC="" >/Items/Trinkets/RingOfTheMantis</Rings>
+    <Rings name="Ring of the Punisher" desc="Increases all damage dealt by 5% towards enemies for every STATUS effect applied to them." DLC="" >/Items/Trinkets/RingOfThePunisher</Rings>
+    <Rings name="Ring of the Unclean" desc="Unarmed Melee attacks deal 2x damage. Heavy Flops deal 2.5x damage." DLC="" >/Items/Trinkets/Trinket_RingOfTheUnclean</Rings>
+    <Rings name="Root Circlet" desc="Increases Melee Speed by 15%." DLC="" >/Items/Trinkets/Trinket_RootCirclet</Rings>
+    <Rings name="Sagestone" desc="Increases earned Experience by 30%. (10% in Survival)" DLC="" >/Items/Trinkets/Trinket_Sagestone</Rings>
+    <Rings name="Scavenger's Ring" desc="Collecting Scrap, Iron, and Ammo pickups regenerates 3% of Max Health" DLC="" >/Items/Trinkets/ScavengersRing</Rings>
+    <Rings name="Serpent's Fang" desc="Increases Charged Melee Damage by 20%." DLC="" >/Items/Trinkets/SerpentsFang</Rings>
+    <Rings name="Soul Ember" desc="Summon health is reduced by 60%. On death they´ll explode dealing 150 plus weapon level damage within 4 meters. Summons that explode normally will deal 25% bonus damage." DLC="" >/Items/Trinkets/SoulEmber</Rings>
+    <Rings name="Soul Link" desc="Summons will steal 5% of the damage dealt and return it to the wearer as health." DLC="" >/Items/Trinkets/SoulLink</Rings>
+    <Rings name="Spirit Stone" desc="Increases Mod Power generation by 25% and Weapon Mod damage by 10%." DLC="" >/Items/Trinkets/Trinket_SpiritStone</Rings>
+    <Rings name="Stockpile Circlet" desc="Increases Max Ammo reserves for all firearms by 50%." DLC="" >/Items/Trinkets/Trinket_StockpileCirclet</Rings>
+    <Rings name="Stone of Balance" desc="Increases Ranged and Melee damage by 15%." DLC="" >/Items/Trinkets/Trinket_StoneOfBalance</Rings>
+    <Rings name="Swashbuckler's Signet" desc="Every 20 seconds gain a buff, stacks up to 3. Melee Charge Attacks consume 1 stack and replenish 15% of the wearer's ammo capacity for both firearms." DLC="" >/Items/Trinkets/SwashbucklersSignet</Rings>
+    <Rings name="Vanguard Ring" desc="Melee Charge attacks reduce incoming and outgoing damage by 4% and increase enemy aggression towards wearer for 15 seconds. Stacks 5 times." DLC="" >/Items/Trinkets/VanguardRing</Rings>
+    <Rings name="Volatile Gem" desc="Dragon Hearts explode dealing 200 dmg plus 10% per gear score and inflict an additional 100% Stagger Damage within 5m." DLC="" >/Items/Trinkets/VolatileGem</Rings>
   </Trinkets>
 </GearInfo>
