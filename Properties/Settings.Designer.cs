@@ -26,5 +26,7 @@ namespace RemnantBuildRandomizer.Properties
                 return defaultInstance;
             }
         }
+
+       
     }
 }

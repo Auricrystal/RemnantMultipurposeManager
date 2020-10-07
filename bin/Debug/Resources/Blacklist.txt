@@ -1,263 +1,263 @@
-_No Mod=False
-Beckon=False
-Blink Token=False
-Blizzard=False
-Breath of the Desert=False
-Cold Spear=False
-Corrosive Aura=False
-Explosive Shot=False
-Fan of Knives=False
-Flicker Cloak=False
-Frozen Mist=False
-Hot Shot=False
-Howler's Immunity=False
-Hunter's Mark=False
-Iron Sentinel=False
-Mantle of Thorns=False
-Mender's Aura=False
-Rattle Weed=False
-Rift Walker=False
-Seed Caller=False
-Seeker=False
-Song of Swords=False
-Storm Caller=False
-Swarm=False
-Unstable Quills=False
-Veil of the Black Tear=False
-Very Good Boy=False
-Wildfire Shot=False
-Banish=False
-Fusion Cannon=False
-Gravity Core=False
-Incinerator=False
-Skewer=False
-Spore Shot=False
-Static Field Shot=False
-Undying=False
-Flame Thrower=False
-Hive Shot=False
-Radioactive Volley=False
-Tentacle Shot=False
-Vampiric=False
-_No Head=False
-Adventurer Goggles=False
-Akari Mask=False
-Bandit's Mask=False
-Carapace Great Helm=False
-Cultist Hat=False
-Drifter's Mask=False
-Elder Headdress=False
-Hunter Shroud=False
-Labyrinth Helm=False
-Leto's Helmet=False
-Osseous Helm=False
-Radiant Visage=False
-Scavenger Helmet=False
-Scrapper Helmet=False
-Slayer Mask=False
-Twisted Hood=False
-Void Skull=False
-Warlord Skull=False
-Twisted Mask=False
-Bomber Hat=False
-_No Chest=False
-Adventurer Tunic=False
-Akari Garb=False
-Bandit Jacket=False
-Carapace Shell=False
-Cultist Duster=False
-Drifter's Overcoat=False
-Elder Raiment=False
-Hunter Trenchcoat=False
-Labyrinth Armor=False
-Leto's Armor=False
-Osseous Husk=False
-Radiant Protector=False
-Scavenger Armor=False
-Scrapper Bodyplate=False
-Slayer Mantle=False
-Twisted Cage=False
-Void Carapace=False
-Warlord Armor=False
-_No Legs=False
-Adventurer Leggings=False
-Akari Leggings=False
-Bandit Trousers=False
-Carapace Greaves=False
-Cultist Britches=False
-Drifter's Trousers=False
-Elder Leggings=False
-Hunter Pants=False
-Labyrinth Greaves=False
-Leto's Leggings=False
-Osseous Kilt=False
-Radiant Greaves=False
-Scavenger Boots=False
-Scrapper Workboots=False
-Slayer Boots=False
-Twisted Tassets=False
-Void Greaves=False
-Warlord Boots=False
-_No Hand Gun=False
-Hunting Pistol=False
-Machine Pistol=False
-Magnum Revolver=False
-Repeater Pistol=False
-Sawed-off=False
-Submachine Gun=False
-Twin Shot=False
-Curse of the Jungle God=False
-Defiler=False
-Hive Cannon=False
-Pride Of The Iskal=False
-Spitfire=False
-_No Long Gun=False
-Assault Rifle=False
-Beam Rifle=False
-Chicago Typewriter=False
-Coach Gun=False
-Crossbow=False
-Hunting Rifle=False
-Ricochet Rifle=False
-Shotgun=False
-Sniper=False
-Alternator=False
-Devastator=False
-Eye Of The Storm=False
-Fusion Rifle=False
-Particle Accelerator=False
-Repulsor=False
-Ruin=False
-Sporebloom=False
-_Fists=False
-Butcher's Flail=False
-Chain Blade=False
-Frostborne=False
-Guardian Axe=False
-Hero's Sword=False
-Lost Harpoon=False
-Petrified Maul=False
-Riven=False
-Scar Of The Jungle God=False
-Scrap Hammer=False
-Scrap Hatchet=False
-Scrap Sword=False
-Scythe=False
-Smolder=False
-Spear=False
-Voice Of The Tempest=False
-Wastelander Flail=False
-World's Edge=False
-World Breaker=False
-_No Amulet=False
-Abrasive Amulet=False
-Amulet of Epicaricacy=False
-Black Rose=False
-Blessed Necklace=False
-Brutal Mark=False
-Butcher's Fetish=False
-Charcoal Necklace=False
-Cleansing Jewel=False
-Daredevil's Charm=False
-Driftstone=False
-Galenic Charm=False
-Gunslinger's Charm=False
-Hangman's Memento=False
-Heart of Darkness=False
-Leto's Amulet=False
-Mender's Charm=False
-Nightmare Spiral=False
-Onyx Pendulum=False
-Pocket Watch=False
-Polished Whetstone=False
-Radioactive Ember=False
-Razorwire Necklace=False
-Rock of Anguish=False
-Rusted Amulet=False
-Scavenger's Bauble=False
-Shattered Vertebrae=False
-Soul Anchor=False
-Stalker's Brand=False
-Storm Amulet=False
-Talisman of Animosity=False
-Talisman of Perseverance=False
-Terror Margin=False
-Twisted Idol=False
-Vengeance Idol=False
-Vulcan's Detonator=False
-White Rose=False
-_No Ring=False
-Aggressor's Bane=False
-Akari War Band=False
-Alchemist's Jewel=False
-Amber Moonstone=False
-Backbreaker Ring=False
-Band of Accord=False
-Band of Castor=False
-Band of Discord=False
-Band of Pollux=False
-Band of Strength=False
-Black Cat Band=False
-Blood Font=False
-Bloodletter's Insignia=False
-Braided Thorns=False
-Bright Steel Ring=False
-Burden of the Devoted=False
-Burden of the Follower=False
-Burden of the Gambler=False
-Burden of the Reckless=False
-Burden of the Warlord=False
-Celerity Stone=False
-Compulsion Loop=False
-Deceiver's Band=False
-Devouring Loop=False
-Empowering Loop=False
-Evoker's Seal=False
-Ezlan's Band=False
-Five Fingered Ring=False
-Gift of the Iskal=False
-Gravity Stone=False
-Grim Coil=False
-Guardian's Ring=False
-Gunslinger's Ring=False
-Heart of the Wolf=False
-Heartseeker=False
-Hero's Ring=False
-Hunter's Band=False
-Hunter's Halo=False
-Iskal Hunter Band=False
-Jewel of the Black Sun=False
-Juggernaut Band=False
-Keeper's Ring=False
-Leech Ember=False
-Loop of Prosperity=False
-Mother's Ring=False
-Pearl of Luminescence=False
-Pillar of Stone=False
-Prismatic Diamond Ring=False
-Provisioner Ring=False
-Razorstone=False
-Restriction Cord=False
-Ring of Elusion=False
-Ring of Evasion=False
-Ring of Flawless Beauty=False
-Ring of Honor=False
-Ring of Shadows=False
-Ring of Supremacy=False
-Ring of Synergy=False
-Ring of the Admiral=False
-Ring of the Mantis=False
-Ring of the Punisher=False
-Ring of the Unclean=False
-Root Circlet=False
-Sagestone=False
-Scavenger's Ring=False
-Serpent's Fang=False
-Soul Ember=False
-Soul Link=False
-Spirit Stone=False
-Stockpile Circlet=False
-Stone of Balance=False
-Swashbuckler's Signet=False
-Vanguard Ring=False
-Volatile Gem=False
+#_No Mod:1|1|1:0|0|0
+#Beckon:0|1|1:0|0|0
+#Blink Token:1|1|1:0|0|0
+#Blizzard:1|1|1:0|0|0
+#Breath of the Desert:1|1|1:0|0|0
+#Cold Spear:1|1|1:0|0|0
+#Corrosive Aura:0|1|1:0|0|0
+#Explosive Shot:1|1|1:0|0|0
+#Fan of Knives:0|1|1:0|0|0
+#Flicker Cloak:0|1|1:0|0|0
+#Frozen Mist:1|1|1:0|0|0
+#Hot Shot:0|1|0:0|0|0
+#Howler's Immunity:0|1|1:0|0|0
+#Hunter's Mark:0|1|1:0|0|0
+#Iron Sentinel:0|1|1:0|0|0
+#Mantle of Thorns:0|1|1:0|0|0
+#Mender's Aura:0|0|1:0|0|0
+#Rattle Weed:0|1|1:0|0|0
+#Rift Walker:0|1|1:0|0|0
+#Seed Caller:0|1|1:0|0|0
+#Seeker:1|1|1:0|0|0
+#Song of Swords:0|1|1:0|0|0
+#Storm Caller:1|1|1:0|0|0
+#Swarm:0|1|1:0|0|0
+#Unstable Quills:0|1|1:0|0|0
+#Veil of the Black Tear:0|1|1:0|0|0
+#Very Good Boy:0|0|0:0|0|0
+#Wildfire Shot:1|1|1:0|0|0
+#Banish:0|0|0:0|0|0
+#Fusion Cannon:0|0|0:0|0|0
+#Gravity Core:0|0|0:0|0|0
+#Incinerator:0|0|0:0|0|0
+#Skewer:0|0|0:0|0|0
+#Spore Shot:0|0|0:0|0|0
+#Static Field Shot:0|0|0:0|0|0
+#Undying:0|0|0:0|0|0
+#Flame Thrower:0|0|0:0|0|0
+#Hive Shot:0|0|0:0|0|0
+#Radioactive Volley:0|0|0:0|0|0
+#Tentacle Shot:0|0|0:0|0|0
+#Vampiric:0|0|0:0|0|0
+#_No Head:0|0|0:0|0|0
+#Adventurer Goggles:0|0|0:0|0|0
+#Akari Mask:0|1|1:0|0|0
+#Bandit's Mask:0|1|1:0|0|0
+#Carapace Great Helm:1|1|1:0|0|0
+#Cultist Hat:0|0|1:0|0|0
+#Drifter's Mask:0|1|1:0|0|0
+#Elder Headdress:1|1|1:0|0|0
+#Hunter Shroud:0|1|1:0|0|0
+#Labyrinth Helm:0|1|1:0|0|0
+#Leto's Helmet:0|1|1:0|0|0
+#Osseous Helm:0|1|1:0|0|0
+#Radiant Visage:1|1|1:0|0|0
+#Scavenger Helmet:1|1|1:0|0|0
+#Scrapper Helmet:0|1|0:0|0|0
+#Slayer Mask:0|1|1:0|0|0
+#Twisted Hood:1|1|1:0|0|0
+#Void Skull:0|1|1:0|0|0
+#Warlord Skull:1|1|1:0|0|0
+#Twisted Mask:0|1|1:0|0|0
+#Bomber Hat:0|0|0:0|0|0
+#_No Chest:0|0|0:0|0|0
+#Adventurer Tunic:0|0|0:0|0|0
+#Akari Garb:1|1|1:0|0|0
+#Bandit Jacket:0|1|1:0|0|0
+#Carapace Shell:0|1|1:0|0|0
+#Cultist Duster:0|0|1:0|0|0
+#Drifter's Overcoat:0|1|1:0|0|0
+#Elder Raiment:1|1|1:0|0|0
+#Hunter Trenchcoat:0|1|1:0|0|0
+#Labyrinth Armor:0|1|1:0|0|0
+#Leto's Armor:0|1|1:0|0|0
+#Osseous Husk:0|1|1:0|0|0
+#Radiant Protector:0|1|1:0|0|0
+#Scavenger Armor:1|1|1:0|0|0
+#Scrapper Bodyplate:0|1|0:0|0|0
+#Slayer Mantle:0|1|1:0|0|0
+#Twisted Cage:1|1|1:0|0|0
+#Void Carapace:0|1|1:0|0|0
+#Warlord Armor:1|1|1:0|0|0
+#_No Legs:0|0|0:0|0|0
+#Adventurer Leggings:0|0|0:0|0|0
+#Akari Leggings:1|1|1:0|0|0
+#Bandit Trousers:0|1|1:0|0|0
+#Carapace Greaves:1|1|1:0|0|0
+#Cultist Britches:0|0|1:0|0|0
+#Drifter's Trousers:0|1|1:0|0|0
+#Elder Leggings:1|1|1:0|0|0
+#Hunter Pants:0|1|1:0|0|0
+#Labyrinth Greaves:0|1|1:0|0|0
+#Leto's Leggings:0|1|1:0|0|0
+#Osseous Kilt:0|1|1:0|0|0
+#Radiant Greaves:0|1|1:0|0|0
+#Scavenger Boots:1|1|1:0|0|0
+#Scrapper Workboots:0|1|0:0|0|0
+#Slayer Boots:0|1|1:0|0|0
+#Twisted Tassets:1|1|1:0|0|0
+#Void Greaves:0|1|1:0|0|0
+#Warlord Boots:1|1|1:1|0|0
+#_No Hand Gun:0|0|0:1|1|0
+#Hunting Pistol:0|1|1:0|0|0
+#Machine Pistol:1|1|1:0|0|0
+#Magnum Revolver:0|1|1:0|0|0
+#Repeater Pistol:0|0|0:0|0|0
+#Sawed-off:1|1|1:0|0|0
+#Submachine Gun:0|1|1:0|0|0
+#Twin Shot:1|1|1:0|0|0
+#Curse of the Jungle God:0|1|1:0|0|0
+#Defiler:0|1|1:0|0|0
+#Hive Cannon:0|1|1:0|0|0
+#Pride Of The Iskal:0|1|1:0|0|0
+#Spitfire:1|1|1:0|0|0
+#_No Long Gun:0|0|0:1|0|0
+#Assault Rifle:0|1|1:0|0|0
+#Beam Rifle:0|1|1:0|0|0
+#Chicago Typewriter:0|1|1:0|0|0
+#Coach Gun:0|0|1:0|0|0
+#Crossbow:0|1|1:0|0|0
+#Hunting Rifle:0|1|1:0|0|0
+#Ricochet Rifle:1|1|1:0|0|0
+#Shotgun:0|1|0:0|0|0
+#Sniper:0|1|1:0|0|0
+#Alternator:1|1|1:0|0|0
+#Devastator:0|1|1:0|0|0
+#Eye Of The Storm:1|1|1:0|0|0
+#Fusion Rifle:1|1|1:0|0|0
+#Particle Accelerator:0|1|1:0|0|0
+#Repulsor:0|1|1:0|0|0
+#Ruin:0|1|1:0|0|0
+#Sporebloom:0|1|1:0|0|0
+#_Fists:0|0|0:1|1|1
+#Butcher's Flail:0|1|1:0|0|0
+#Chain Blade:1|1|1:0|0|0
+#Frostborne:1|1|1:0|0|0
+#Guardian Axe:0|1|1:0|0|0
+#Hero's Sword:0|0|0:0|0|0
+#Lost Harpoon:0|1|1:0|0|0
+#Petrified Maul:0|1|1:0|0|0
+#Riven:1|1|1:0|0|0
+#Scar Of The Jungle God:1|1|1:0|0|0
+#Scrap Hammer:0|1|0:0|0|0
+#Scrap Hatchet:0|0|1:0|0|0
+#Scrap Sword:0|1|1:0|0|0
+#Scythe:0|1|1:0|0|0
+#Smolder:0|1|1:0|0|0
+#Spear:0|1|1:0|0|0
+#Voice Of The Tempest:1|1|1:0|0|0
+#Wastelander Flail:0|1|1:0|0|0
+#World's Edge:1|1|1:0|0|0
+#World Breaker:1|1|1:0|0|0
+#_No Amulet:0|0|0:0|0|0
+#Abrasive Amulet:1|1|1:0|0|0
+#Amulet of Epicaricacy:1|1|1:0|0|0
+#Black Rose:1|1|1:0|0|0
+#Blessed Necklace:1|1|1:0|0|0
+#Brutal Mark:1|1|1:0|0|0
+#Butcher's Fetish:0|1|1:0|0|0
+#Charcoal Necklace:0|1|1:0|0|0
+#Cleansing Jewel:0|1|1:0|0|0
+#Daredevil's Charm:1|1|1:0|0|0
+#Driftstone:1|1|1:0|0|0
+#Galenic Charm:1|1|1:0|0|0
+#Gunslinger's Charm:1|1|1:0|0|0
+#Hangman's Memento:1|1|1:0|0|0
+#Heart of Darkness:0|1|1:0|0|0
+#Leto's Amulet:1|1|1:0|0|0
+#Mender's Charm:0|1|1:0|0|0
+#Nightmare Spiral:1|1|1:0|0|0
+#Onyx Pendulum:1|1|1:0|0|0
+#Pocket Watch:0|1|1:0|0|0
+#Polished Whetstone:1|1|1:0|0|0
+#Radioactive Ember:1|1|1:0|0|0
+#Razorwire Necklace:0|1|1:0|0|0
+#Rock of Anguish:0|1|1:0|0|0
+#Rusted Amulet:0|1|1:0|0|0
+#Scavenger's Bauble:0|1|1:0|0|0
+#Shattered Vertebrae:1|1|1:0|0|0
+#Soul Anchor:1|1|1:0|0|0
+#Stalker's Brand:1|1|1:0|0|0
+#Storm Amulet:0|1|1:0|0|0
+#Talisman of Animosity:0|1|1:0|0|0
+#Talisman of Perseverance:1|1|1:0|0|0
+#Terror Margin:1|1|1:0|0|0
+#Twisted Idol:1|1|1:0|0|0
+#Vengeance Idol:1|1|1:0|0|0
+#Vulcan's Detonator:1|1|1:0|0|0
+#White Rose:1|1|1:0|0|0
+#_No Ring:0|0|0:0|0|0
+#Aggressor's Bane:1|1|1:0|0|0
+#Akari War Band:1|1|1:0|0|0
+#Alchemist's Jewel:1|1|1:0|0|0
+#Amber Moonstone:1|1|1:0|0|0
+#Backbreaker Ring:1|1|1:0|0|0
+#Band of Accord:0|0|0:0|0|0
+#Band of Castor:0|1|1:0|0|0
+#Band of Discord:1|1|1:0|0|0
+#Band of Pollux:0|1|1:0|0|0
+#Band of Strength:0|1|1:0|0|0
+#Black Cat Band:1|1|1:0|0|0
+#Blood Font:0|1|1:0|0|0
+#Bloodletter's Insignia:1|1|1:0|0|0
+#Braided Thorns:0|1|1:0|0|0
+#Bright Steel Ring:1|1|1:0|0|0
+#Burden of the Devoted:0|1|1:0|0|0
+#Burden of the Follower:0|1|1:0|0|0
+#Burden of the Gambler:0|1|1:0|0|0
+#Burden of the Reckless:1|1|1:0|0|0
+#Burden of the Warlord:1|1|1:0|0|0
+#Celerity Stone:1|1|1:0|0|0
+#Compulsion Loop:0|1|1:0|0|0
+#Deceiver's Band:0|1|1:0|0|0
+#Devouring Loop:0|1|1:0|0|0
+#Empowering Loop:1|1|1:0|0|0
+#Evoker's Seal:1|1|1:0|0|0
+#Ezlan's Band:1|1|1:0|0|0
+#Five Fingered Ring:1|1|1:0|0|0
+#Gift of the Iskal:1|1|1:0|0|0
+#Gravity Stone:1|1|1:0|0|0
+#Grim Coil:0|1|1:0|0|0
+#Guardian's Ring:1|1|1:0|0|0
+#Gunslinger's Ring:1|1|1:0|0|0
+#Heart of the Wolf:0|1|1:0|0|0
+#Heartseeker:0|1|1:0|0|0
+#Hero's Ring:0|1|1:0|0|0
+#Hunter's Band:1|1|1:0|0|0
+#Hunter's Halo:0|1|1:0|0|0
+#Iskal Hunter Band:1|1|1:0|0|0
+#Jewel of the Black Sun:0|1|1:0|0|0
+#Juggernaut Band:1|1|1:0|0|0
+#Keeper's Ring:1|1|1:0|0|0
+#Leech Ember:0|1|1:0|0|0
+#Loop of Prosperity:0|0|0:0|0|0
+#Mother's Ring:1|1|1:0|0|0
+#Pearl of Luminescence:0|1|1:0|0|0
+#Pillar of Stone:1|1|1:0|0|0
+#Prismatic Diamond Ring:1|1|1:0|0|0
+#Provisioner Ring:1|1|1:0|0|0
+#Razorstone:0|1|1:0|0|0
+#Restriction Cord:1|1|1:0|0|0
+#Ring of Elusion:1|1|1:0|0|0
+#Ring of Evasion:1|1|1:0|0|0
+#Ring of Flawless Beauty:0|0|0:0|0|0
+#Ring of Honor:1|1|1:0|0|0
+#Ring of Shadows:1|1|1:0|0|0
+#Ring of Supremacy:1|1|1:0|0|0
+#Ring of Synergy:1|1|1:0|0|0
+#Ring of the Admiral:0|1|1:0|0|0
+#Ring of the Mantis:0|1|1:0|0|0
+#Ring of the Punisher:1|1|1:0|0|0
+#Ring of the Unclean:1|1|1:0|0|0
+#Root Circlet:0|1|1:0|0|0
+#Sagestone:0|1|1:0|0|0
+#Scavenger's Ring:1|1|1:0|0|0
+#Serpent's Fang:1|1|1:0|0|0
+#Soul Ember:0|1|1:0|0|0
+#Soul Link:1|1|1:0|0|0
+#Spirit Stone:0|1|1:0|0|0
+#Stockpile Circlet:0|1|1:0|0|0
+#Stone of Balance:1|1|1:0|0|0
+#Swashbuckler's Signet:0|1|1:0|0|0
+#Vanguard Ring:1|1|1:0|0|0
+#Volatile Gem:1|1|1:0|0|0

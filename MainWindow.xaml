@@ -5,116 +5,116 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RemnantBuildRandomizer"
         mc:Ignorable="d"
-        Title="RemnantBuildRandomizer" Height="505.531" Width="837.522"
+        Title="Remnant Build Randomizer" Height="711.531" Width="837.522"
         Name="RemnantBuildRandomizer" Icon="Resources/IMG/RedCrystal.png"
-        Background="Black"
+        Background="#222222"
         Closing="RemnantBuildRandomizer_Closing" Loaded="Window_Loaded"
+        
+        MinHeight="711.531" MinWidth="837.522"
         >
-    <Grid Name="MainGrid" SizeChanged="MainGrid_SizeChanged" Margin="0,-20,0,-20">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.LayoutTransform>
-            <ScaleTransform x:Name="ApplicationScaleTransform"
-                        CenterX="0"
-                        CenterY="0"
-                        ScaleX="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}"
-                        ScaleY="{Binding ElementName=RemnantBuildRandomizer, Path=ScaleValue}" />
-        </Grid.LayoutTransform>
-        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Height="466" Margin="0,10,-1,9" Width="832" >
-            <Image x:Name="Background" HorizontalAlignment="Center" VerticalAlignment="Center"  Source="Resources/IMG/RemnantBlanInv.png" />
-            <Grid Name="BuildScreen" HorizontalAlignment="Left" Height="433" Margin="263,35,0,0" VerticalAlignment="Top" Width="340">
-                <Image  x:Name="BuildBackground" HorizontalAlignment="Center" Margin="2,0" VerticalAlignment="Center" Source="Resources/IMG/RemnantBuildBackground.png" Height="433"/>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.5" ScaleY="0.5" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Name="MainGrid" Background="#222222">
+        <Menu Height="23" VerticalAlignment="Top" >
+            <MenuItem Header="Options">
+                <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click"></MenuItem>
+                <MenuItem Header="Check for Update" Click="UpdateCheck_Click"></MenuItem>
+            </MenuItem>
+            <ComboBox Name="cmbCharacter" SelectionChanged="CmbCharacter_SelectionChanged" Width="120"></ComboBox>
+        </Menu>
+        <TabControl Margin="0,23,0,0" Background="#222222">
+            <TabItem Header="Build Generator">
+                <Viewbox  Stretch="Uniform" StretchDirection="Both">
+                    <Grid Background="#222222" Margin="-2,-2,-2,-2" HorizontalAlignment="Center" VerticalAlignment="Center" >
+                        <Grid Name="BuildScreen" Margin="0,0,340,0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Name="BuildView" Source="Resources/IMG/RemnantBuildView.png" Width="489" Height="622"/>
+                            <Image Name="HandGunImg" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png" Margin="5,10,5,525" Stretch="Uniform" Width="396" Height="99"/>
+                            <Image Name="HandModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,14,5,529" Width="91" Height="91"/>
+                            <Image Name="HandCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,14,5,529" Width="91" Height="91"/>
+                            <Image Name="LongGunImg" Source="Resources/IMG/Weapons/Long/RegLong/_No Long Gun.png" Margin="5,118,5,416" Stretch="Uniform" Width="400" Height="100"/>
+                            <Image Name="LongModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,123,5,420" Width="91" Height="91"/>
+                            <Image Name="LongCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,123,5,420" Width="91" Height="91"/>
+                            <Image Name="MeleeImg" Source="Resources/IMG/Weapons/Melee/_Fists.png" Margin="5,225,5,309" Stretch="Uniform" Width="400" Height="100" />
+                            <Image Name="HeadImg" Source="Resources/IMG/Armor/Head/_No Head.png" Margin="10,332,333,160" Width="146" Height="146"/>
+                            <Image x:Name="ChestImg" Source="Resources/IMG/Armor/Chest/_No Chest.png" Margin="170,332,173,160" Width="146"/>
+                            <Image x:Name="LegImg" Source="Resources/IMG/Armor/Legs/_No Legs.png" Margin="334,330,9,162" Width="146" Height="146"/>
+                            <Image x:Name="AmImg" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png" Margin="0,478,324,5" Width="146" Height="146"/>
+                            <Image x:Name="Ri1Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="161,478,163,5" Width="146" Height="146"/>
+                            <Image x:Name="Ri2Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="324,478,0,5" Width="146" Height="146"/>
+                        </Grid>
+                        <Grid Margin="490,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="620">
+                            <Image Name="SideView" Source="Resources/IMG/SidePanel.png" Stretch="UniformToFill" Margin="0,38,0,0" Width="343" />
+                            <Image Name="BuildCodeView" Source="Resources/IMG/TopPanel.png" Stretch="Fill" Margin="0,0,0,587" Width="343" Height="47"  />
+                            <Button Name="RerollBuild"  Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Height="62" Margin="53,539,0,0" VerticalAlignment="Top" Width="224" FontSize="24"/>
+                            <TextBlock Name="BuildNum" HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="00-00-00-00-00-00-00-00-00-00-00" VerticalAlignment="Top" Width="329" Foreground="White"  FontSize="20" Margin="10,5,0,0"/>
+                            <Image HorizontalAlignment="Left" Height="379" Margin="53,123,0,0" VerticalAlignment="Top" Width="204" Source="Resources/IMG/T_Icon_RedCrystal.png"/>
+                        </Grid>
+                    </Grid>
+                </Viewbox>
+            </TabItem>
+            <TabItem Header="Blacklist">
+                <Grid Background="#222222"  >
+                    <TabControl Margin="10,216,10,10" HorizontalAlignment="Center" Width="804" Background="{x:Null}" >
+                        <TabItem Header="Weapons">
+                            <DataGrid AutoGeneratingColumn="WeaponList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding" Name="WeaponList" Background="{x:Null}"></DataGrid>
+                        </TabItem>
+                        <TabItem Header="Armor">
+                            <DataGrid AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  Name="ArmorList" Background="{x:Null}"></DataGrid>
+                        </TabItem>
+                        <TabItem Header="Amulets">
+                            <DataGrid AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  Name="AmuletList" Background="{x:Null}"></DataGrid>
+                        </TabItem>
+                        <TabItem Header="Rings">
+                            <DataGrid AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  Name="RingList" Background="{x:Null}"></DataGrid>
+                        </TabItem>
+                        <TabItem Header="General Mods">
+                            <DataGrid AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  Name="ModList" Background="{x:Null}"></DataGrid>
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Build List">
+                <Grid Background="#222222" Margin="-2" >
+                    <Image Margin="31,99,0,-15" Source="Resources/IMG/Rigs.png" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" Width="787" Height="550" VerticalAlignment="Top"/>
+                    <DataGrid Name="BuildList" Margin="10,260,0,10" Width="466" HorizontalAlignment="Left" BeginningEdit="BuildList_BeginningEdit"  CellEditEnding="BuildList_CellEditEnding"  RowEditEnding="BuildList_RowEditEnding"/>
+                    <TextBox Name="BuildNameEnter" HorizontalAlignment="Left" Height="22" Margin="13,201,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="181"/>
+                    <TextBox Name="BuildCodeEnter" HorizontalAlignment="Left" Height="22" Margin="13,223,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="181"/>
+                    <Button Name="AddBuild" Click="Add_Build_Click" Content="Add Build" HorizontalAlignment="Left" Height="22" Margin="212,223,0,0" VerticalAlignment="Top" Width="84"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="13,77,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="13,94,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="13,111,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="116,77,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="116,94,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="13,128,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="116,128,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="219,128,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="13,145,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="116,145,0,0" VerticalAlignment="Top" Width="103"/>
+                    <ComboBox HorizontalAlignment="Left" Height="17" Margin="219,145,0,0" VerticalAlignment="Top" Width="103"/>
+                    <Button x:Name="AddBuild_Copy" Click="Add_Build_Click" Content="Generate Code" HorizontalAlignment="Left" Height="22" Margin="13,167,0,0" VerticalAlignment="Top" Width="84"/>
+                    <TextBox x:Name="BuildNameEnter_Copy" HorizontalAlignment="Left" Height="22" Margin="102,167,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="181"/>
+                    <TextBlock HorizontalAlignment="Left" Height="37" Margin="13,19,0,0" TextWrapping="Wrap" Text="Build Code Maker" VerticalAlignment="Top" Width="206" Foreground="White" FontSize="24"/>
+                    <Image HorizontalAlignment="Left" Height="94" Margin="224,24,0,0" VerticalAlignment="Top" Width="114" Source="Resources/IMG/T_Icon_Crafting.png" RenderTransformOrigin="0.5,0.5"/>
 
-                <Image  x:Name="HandGunSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center"  Margin="10,2,50,361" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png"/>
-                <Image  x:Name="LongGunSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center" Margin="10,77,50,286" Source="Resources/IMG/Weapons/Long/RegLong/_No Long Gun.png"/>
-                <Image  x:Name="MeleeSlot" HorizontalAlignment="Center" Height="70" VerticalAlignment="Center"  Margin="10,152,50,211" Source="Resources/IMG/Weapons/Melee/_Fists.png"/>
-                <Image  x:Name="HeadSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="0,226,234,108" Source="Resources/IMG/Armor/Head/_No Head.png"/>
-
-                <Image  x:Name="ChestSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="111,226,121,108" Source="Resources/IMG/Armor/Chest/_No Chest.png"/>
-                <Image  x:Name="LegSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="228,226,6,108" Source="Resources/IMG/Armor/Legs/_No Legs.png"/>
-                <Image  x:Name="AmuletSlot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="0,330,234,5" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png"/>
-                <Image  x:Name="Ring1Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="112,330,122,5" Source="Resources/IMG/Trinkets/Rings/_No Ring.png"/>
-                <Image  x:Name="Ring2Slot" HorizontalAlignment="Center" Height="98" VerticalAlignment="Center" Width="106" Margin="228,330,6,5" Source="Resources/IMG/Trinkets/Rings/_No Ring.png"/>
-                <Image  x:Name="Mod1Slot" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="270,0,6,363" Source="Resources/IMG/Mods/RegularMods/_No Mod.png"/>
-                <Image  x:Name="Mod1Cover" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="270,0,6,363" Source="Resources/IMG/Mods/Mod Overlay.png"/>
-                <Image  x:Name="Mod2Slot" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/RegularMods/_No Mod.png"/>
-                <Image  x:Name="Mod2Cover" HorizontalAlignment="Center" Height="68" VerticalAlignment="Center" Width="68" Margin="268,77,4,288" Source="Resources/IMG/Mods/Mod Overlay.png"/>
-            </Grid>
-            <Button x:Name="CopyBuild" Click="CopyBuild_Click" ToolTip="Save Build to Clipboard" Content="Clipboard"  HorizontalAlignment="Left" Margin="741,428,0,0" VerticalAlignment="Top" Width="75" Height="28"/>
-            <Button x:Name="RerollButton" Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Margin="617,428,0,0" VerticalAlignment="Top" Width="116" Height="28"/>
-            <Grid HorizontalAlignment="Left" Height="465" Margin="4,0,0,0" VerticalAlignment="Top" Width="256">
-                <Label Content="Item Blacklist" VerticalContentAlignment="center" HorizontalContentAlignment="center" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="36" Width="236" Foreground="White" FontSize="24" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat Light"/>
-                <TabControl HorizontalAlignment="Left" Height="240" VerticalAlignment="Top" Width="256" Margin="0,36,0,0" Background="{x:Null}">
-                    <TabItem Header="Weapon">
-                        <ListBox Background="{x:Null}" Name="WeaponList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </TabItem>
-                    <TabItem Header="Armor">
-                        <ListBox Background="{x:Null}" Name="ArmorList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </TabItem>
-                    <TabItem Header="Amulet">
-                        <ListBox Background="{x:Null}" Name="AmuletList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2" >
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </TabItem>
-                    <TabItem Header="Ring">
-                        <ListBox Background="{x:Null}" Name="RingList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </TabItem>
-                    <TabItem Header="Mod">
-                        <ListBox Background="{x:Null}" Name="ModList" ItemsSource="{Binding MyItems}" Margin="-2,-2,-2,-2">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat"  Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked" IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Itemname}" Foreground="White" />
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </TabItem>
-                </TabControl>
-            </Grid>
-            <Image x:Name="RedCrystal" HorizontalAlignment="Left" Height="278" Margin="617,82,0,0" VerticalAlignment="Top" Width="199" Source="Resources/IMG/RedCrystal.png"/>
-            <TextBlock FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat SemiBold" HorizontalAlignment="Left" Height="74" Margin="617,8,0,0" TextWrapping="Wrap" Text="Remnant Build Randomizer" VerticalAlignment="Top" Width="199" Foreground="White" FontSize="24"/>
-            <TextBox Name="BuildNum" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Height="32" Margin="265,0,0,0" TextWrapping="Wrap" Text="Build" VerticalAlignment="Top" Width="328" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Background="{x:Null}" Foreground="White" FontSize="20"/>
-            <TextBox Name="BuildCodeEnter" VerticalContentAlignment="Center" HorizontalAlignment="Left" FontSize="9" Height="23" Margin="50,302,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" HorizontalContentAlignment="Center"/>
-            <TextBox Name="BuildNameEnter" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="23" Margin="50,279,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="153" HorizontalContentAlignment="Center"/>
-
-            <ListBox  Background="{x:Null}" KeyDown="BuildList_KeyDown" Name="BuildList" ItemsSource="{Binding MyItems}" HorizontalAlignment="Left" Height="137" Margin="4,325,0,0" VerticalAlignment="Top" Width="256">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <CheckBox FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" ToolTip="{Binding Code}" Checked="BuildBox_Checked"  Unchecked="BuildBox_UnChecked"  IsChecked="{Binding Disabled, Mode=TwoWay}" Content="{Binding Name}" Foreground="White" />
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <Grid HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="100"/>
-            <Button x:Name="Add_Build" Click="Add_Build_Click"  Content="Add Build" HorizontalAlignment="Left" Margin="203,302,0,0" VerticalAlignment="Top" Width="57" Height="23"/>
-            <Label Content="Name:" HorizontalAlignment="Left" HorizontalContentAlignment="Right" Height="23" Margin="4,279,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
-            <Label Content="Code:" HorizontalAlignment="Left" HorizontalContentAlignment="Right"  Height="23" Margin="4,302,0,0" VerticalAlignment="Top" Width="46" Foreground="White"/>
-            <ComboBox Name="cmbCharacter" SelectionChanged="CmbCharacter_SelectionChanged" HorizontalAlignment="Left" Margin="617,402,0,0" VerticalAlignment="Top" Width="116" Height="21"/>
-            <Button Name="disablemissing" Click="disablemissing_Click" Content="Disable&#10;Missing" HorizontalAlignment="Left" Margin="741,377,0,0" VerticalAlignment="Top" Width="75" Height="46"/>
-            <Button Name="ResetBlack" Content="Reset&#10;BlackList" Click="ResetBlack_Click"  HorizontalAlignment="Left" Height="36" Margin="741,336,0,0" VerticalAlignment="Top" Width="75"/>
-
-        </Grid>
-        <ToolBarPanel HorizontalAlignment="Left" Height="26" Margin="295,0,-3,0" VerticalAlignment="Top" Width="539"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="General Settings">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2" />
+            </TabItem>
+            <TabItem Header="About">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2" />
+            </TabItem>
+            <TabItem Header="Log">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtLog" TextWrapping="Wrap" Background="White" VerticalScrollBarVisibility="Auto"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

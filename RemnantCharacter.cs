@@ -11,8 +11,14 @@ namespace RemnantBuildRandomizer
 {
     public class RemnantCharacter
     {
+        public int charNum;
         public string Archetype { get; set; }
         public List<string> Inventory { get; set; }
+
+
+        public List<Build> presets;
+
+        private List<Item> missingItems;
 
 
         public int Progression
@@ -23,9 +29,6 @@ namespace RemnantBuildRandomizer
             }
         }
 
-        private List<Item> missingItems;
-
-        private string savePath;
 
 
         public override string ToString()
@@ -39,12 +42,13 @@ namespace RemnantBuildRandomizer
             return str;
         }
 
-        public RemnantCharacter()
+        public RemnantCharacter(int charNum)
         {
+            this.charNum = charNum;
             this.Archetype = "";
             this.Inventory = new List<string>();
             this.missingItems = new List<Item>();
-            this.savePath = null;
+            this.presets = new List<Build>();
         }
 
         public void processSaveData(string savetext)
@@ -81,8 +85,8 @@ namespace RemnantBuildRandomizer
                 string[] characters = profileData.Split(new string[] { "/Game/Characters/Player/Base/Character_Master_Player.Character_Master_Player_C" }, StringSplitOptions.None);
                 for (var i = 1; i < characters.Length; i++)
                 {
-                    RemnantCharacter cd = new RemnantCharacter();
-                    //cd.Archetype = GameInfo.Archetypes["Undefined"];
+                    RemnantCharacter cd = new RemnantCharacter(i);
+                    cd.Archetype = GearInfo.Archetypes["Undefined"];
                     Match archetypeMatch = new Regex(@"/Game/_Core/Archetypes/[a-zA-Z_]+").Match(characters[i - 1]);
                     if (archetypeMatch.Success)
                     {
@@ -96,66 +100,19 @@ namespace RemnantBuildRandomizer
                             cd.Archetype = archetype;
                         }
                     }
-                    cd.savePath = saveFolderPath;
+
                     List<string> saveItems = new List<string>();
                     string charEnd = "Character_Master_Player_C";
                     string inventory = characters[i].Substring(0, characters[i].IndexOf(charEnd));
 
-                    Regex rx = new Regex(@"/Items/Weapons(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+");
-                    MatchCollection matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Items/Armor/([a-zA-Z0-9_]+/)?[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Items/Trinkets/(BandsOfCastorAndPollux/)?[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Items/Mods/[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Items/Traits/[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Items/QuestItems(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Quests/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
-
-                    rx = new Regex(@"/Player/Emotes/Emote_[a-zA-Z0-9]+");
-                    matches = rx.Matches(inventory);
-                    foreach (Match match in matches)
-                    {
-                        saveItems.Add(match.Value);
-                    }
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/Weapons(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/Armor/([a-zA-Z0-9_]+/)?[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/Trinkets/(BandsOfCastorAndPollux/)?[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/Mods/[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/Traits/[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Items/QuestItems(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Quests/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+"));
+                    FindMatches(saveItems, inventory, new Regex(@"/Player/Emotes/Emote_[a-zA-Z0-9]+"));
 
                     cd.Inventory = saveItems;
                     charData.Add(cd);
@@ -167,7 +124,9 @@ namespace RemnantBuildRandomizer
                     for (int i = 0; i < saves.Length && i < charData.Count; i++)
                     {
                         charData[i].processSaveData(File.ReadAllText(saves[i]));
+                        Debug.WriteLine(charData[i].missingItems.Count);
                     }
+
                 }
             }
             catch (IOException ex)
@@ -180,6 +139,11 @@ namespace RemnantBuildRandomizer
                 }
             }
             return charData;
+        }
+
+        private static void FindMatches(List<string> saveItems, string inventory, Regex rx)
+        {
+            foreach (Match match in rx.Matches(inventory)) { saveItems.Add(match.Value); }
         }
 
         public List<Item> GetMissingItems()

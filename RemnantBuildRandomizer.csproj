@@ -134,9 +134,6 @@
     <Resource Include="Resources\IMG\RemnantBlanInv.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\IMG\Remnant-From-The-Ashes-Tips-and-Tricks-4.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Resources\IMG\Armor\Chest\Adventurer Tunic.png" />
     <Resource Include="Resources\IMG\Armor\Chest\Akari Garb.png" />
     <Resource Include="Resources\IMG\Armor\Chest\Bandit Jacket.png" />
@@ -418,20 +415,25 @@
     <Resource Include="Resources\IMG\Weapons\Melee\World Breaker.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\World%27s Edge.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bin\Debug\Resources\" />
+  </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\RedCrystal.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="RedCrystal.ico" />
     <Resource Include="Resources\Blacklist.txt" />
-    <Resource Include="Resources\IMG\RemnantBuildBackground.png" />
     <Resource Include="Resources\ItemCodes.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
-    <EmbeddedResource Include="bin\Debug\Resources\GearInfo.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <Resource Include="Resources\IMG\RemnantBuildView.png" />
+    <Resource Include="Resources\IMG\SidePanel.png" />
+    <Resource Include="Resources\IMG\TopPanel.png" />
+    <Resource Include="Resources\IMG\T_Icon_Item_Resource_LaystoneShard.png" />
+    <Resource Include="Resources\IMG\T_Icon_Crafting.png" />
+    <Resource Include="Resources\IMG\T_Icon_Item_WorldFragment.png" />
+    <Resource Include="Resources\IMG\Rigs.png" />
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<GearInfo version="1">
+<GearInfo version="2">
   <Armor>
     <Head  name="_No Head"   desc="No Head"/>
     <Chest name="_No Chest" desc="No Chestpiece"/>
@@ -79,7 +79,7 @@
 
 
     <Head  name="Twisted Mask"       desc="Regrowth&#10;At full health, gain a Regrowth stack every 3 seconds which increases&#10;Total outgoing Melee and Weapon Mod damage. Stacks 10x. Taking&#10;damage removes 1 stack. Regenerates 0.334 Health per second.&#10;0.75%/1.5%/3% Damage Boost per Stack">/Items/QuestItems/TwistedMask/Quest_TwistedMask</Head>
-    <Head  name="Bomber Hat"         desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range">Items/Armor/Bomber/Armor_Head_Bomber</Head>
+    <Head  name="Bomber Hat"         desc="Team Player&#10;Increases the Range of the Teamwork trait.&#10;10m/20m/30m Teamwork Range">/Items/Armor/Bomber/Armor_Head_Bomber</Head>
   </Armor>
   <Weapons>
     <Hand>

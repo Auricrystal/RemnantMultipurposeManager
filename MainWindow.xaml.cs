@@ -26,6 +26,7 @@ using System.Threading;
 using System.Net;
 using System.Windows.Markup;
 using Path = System.IO.Path;
+using static RemnantBuildRandomizer.DataObj;
 
 namespace RemnantBuildRandomizer
 {
@@ -36,29 +37,32 @@ namespace RemnantBuildRandomizer
     {
         private static string saveDirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames";
         #region ScaleValue Depdency Property
-        Random rd = new Random();
+        readonly public static Random rd = new Random();
         RemnantItem hg;
         RemnantItem lg;
         private RemnantSave activeSave;
-        private List<RemnantCharacter> listCharacters;
+        //public static List<RemnantCharacter> listCharacters;
+        private Boolean suppressLog;
 
         private FileSystemWatcher saveWatcher;
+        private DateTime lastUpdateCheck;
         //private Process gameProcess;
         Build b;
 
         public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
 
+        public enum LogType
+        {
+            Normal,
+            Success,
+            Error
+        }
         public MainWindow()
         {
             InitializeComponent();
-            ReadXML();
-            getBlacklist();
-            WeaponList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.HG || x.Slot == SlotType.LG || x.Slot == SlotType.M).OrderBy(x => x.Itemname);
-            ArmorList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.HE || x.Slot == SlotType.CH || x.Slot == SlotType.LE).OrderBy(x => x.ID).ThenBy(x => (int)x.Slot);
-            AmuletList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.AM);
-            RingList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.RI);
-            ModList.ItemsSource = reflist.Values.Where(x => x.Slot == SlotType.MO).Take(28);
-            BuildList.ItemsSource = presets;
+
+
+
 
             saveWatcher = new FileSystemWatcher();
             saveWatcher.Path = saveDirPath;
@@ -74,35 +78,139 @@ namespace RemnantBuildRandomizer
             saveWatcher.Created += OnSaveFileChanged;
             saveWatcher.Deleted += OnSaveFileChanged;
             //watcher.Renamed += OnRenamed;
-            listCharacters = new List<RemnantCharacter>();
-            cmbCharacter.ItemsSource = listCharacters;
+            //listCharacters = new List<RemnantCharacter>();
+            
         }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            //VersionText.Text = "Version " + typeof(MainWindow).Assembly.GetName().Version;
             Debug.WriteLine("Current save date: " + File.GetLastWriteTime(saveDirPath + "\\profile.sav").ToString());
+
+
+
             saveWatcher.EnableRaisingEvents = true;
-            //GearInfo.RefreshGameInfo();
-            Debug.WriteLine("SAVE PATH: " + saveDirPath);
+            
             activeSave = new RemnantSave(saveDirPath);
+            cmbCharacter.ItemsSource = activeSave.Characters;
+            GearInfo.characters = activeSave.Characters.Count;
+
+            ReadXML();
+            getBlacklist();
+            checkForUpdate();
+
+            Debug.WriteLine("reflength" + reflist.Count);
+            Debug.WriteLine("refvalues" + reflist.Values.Count);
+            Debug.WriteLine("refvaluesHG" + reflist.Values.Where(x => x.Data.Slot == SlotType.HG));
+            Debug.WriteLine("weptest: " + reflist.Values.Where(x => x.Data.Slot == SlotType.HG || x.Data.Slot == SlotType.LG || x.Data.Slot == SlotType.M).OrderBy(x => x.Itemname).Count());
+
+            
+            WeaponList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HG || x.Data.Slot == SlotType.LG || x.Data.Slot == SlotType.M).OrderBy(x => x.Itemname));
+            ArmorList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HE || x.Data.Slot == SlotType.CH || x.Data.Slot == SlotType.LE).OrderBy(x => x.Data.ID).ThenBy(x => (int)x.Data.Slot));
+            AmuletList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.AM));
+            RingList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.RI));
+            ModList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
+            BuildList.ItemsSource = presets;
             updateCurrentWorldAnalyzer();
-            LoadData(activeSave.Characters);
         }
 
-        public void LoadData(List<RemnantCharacter> chars)
+        private List<RemnantItem> getList(IEnumerable<RemnantItem> ril)
         {
-            int selectedChar = cmbCharacter.SelectedIndex;
-            listCharacters = chars;
-            /*Console.WriteLine("Loading characters in analyzer: " + listCharacters.Count);
-            foreach (CharacterData cd in listCharacters)
+            List<RemnantItem> li = new List<RemnantItem>();
+            foreach (RemnantItem ri in ril)
             {
-                Console.WriteLine("\t" + cd);
-            }*/
-            cmbCharacter.ItemsSource = listCharacters;
-            if (selectedChar == -1 && listCharacters.Count > 0) selectedChar = 0;
-            if (selectedChar > -1 && listCharacters.Count > selectedChar) cmbCharacter.SelectedIndex = selectedChar;
-            cmbCharacter.IsEnabled = (listCharacters.Count > 1);
+                li.Add(ri);
+            }
+            return li;
+
+        }
+        private void checkForUpdate()
+        {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                GearInfo.CheckForNewGameInfo();
+            }).Start();
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+
+                try
+                {
+                    WebClient client = new WebClient();
+                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                    string remoteVer = Regex.Match(source, @"Remnant Build Randomizer (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value;
+
+                    Version remoteVersion = new Version(remoteVer);
+                    Version localVersion = typeof(MainWindow).Assembly.GetName().Version;
+
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        //do stuff in here with the interface
+                        if (localVersion.CompareTo(remoteVersion) == -1)
+                        {
+                            var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?",
+                                     "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                            if (confirmResult == MessageBoxResult.Yes)
+                            {
+                                Process.Start("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                                System.Environment.Exit(1);
+                            }
+                        }
+                        else
+                        {
+                            logMessage("No new version found.");
+                        }
+                    });
+                }
+                catch (Exception ex)
+                {
+                }
+            }).Start();
+            lastUpdateCheck = DateTime.Now;
+        }
+
+        
+        public void logMessage(string msg)
+        {
+            logMessage(msg, Colors.White);
+        }
+
+        public void logMessage(string msg, LogType lt)
+        {
+            Color color = Colors.White;
+            if (lt == LogType.Success)
+            {
+                color = Color.FromRgb(0, 200, 0);
+            }
+            else if (lt == LogType.Error)
+            {
+                color = Color.FromRgb(200, 0, 0);
+            }
+            logMessage(msg, color);
+        }
+
+        public void logMessage(string msg, Color color)
+        {
+            if (!suppressLog)
+            {
+                txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
+                //lblLastMessage.Content = msg;
+                //lblLastMessage.Foreground = new SolidColorBrush(color);
+                if (color.Equals(Colors.White))
+                {
+                    //lblLastMessage.FontWeight = FontWeights.Normal;
+                }
+                else
+                {
+                    //lblLastMessage.FontWeight = FontWeights.Bold;
+                }
+            }
+            StreamWriter writer = System.IO.File.AppendText("log.txt");
+            writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
+            writer.Close();
         }
 
 
@@ -122,16 +230,18 @@ namespace RemnantBuildRandomizer
                 Debug.WriteLine("MI COUNT=" + rc.GetMissingItems().Count);
                 foreach (Item.Type t in Enum.GetValues(typeof(Item.Type)))
                 {
-                    Debug.WriteLine("TYPE " + t.ToString()+"//////////////////");
-                    foreach (Item i in rc.GetMissingItems().Where(x => x.ItemType == t)) {
-                        if (i.ItemAltName!=null&&i.ItemAltName.Length>0)
+                    Debug.WriteLine("TYPE " + t.ToString() + "//////////////////");
+                    foreach (Item i in rc.GetMissingItems().Where(x => x.ItemType == t))
+                    {
+                        if (i.ItemAltName != null && i.ItemAltName.Length > 0)
                         {
                             Debug.WriteLine("MISSING: " + i.ItemAltName);
                         }
-                        else {
+                        else
+                        {
                             Debug.WriteLine("MISSING: " + i.ItemName);
                         }
-                        
+
                     }
                 }
 
@@ -140,18 +250,6 @@ namespace RemnantBuildRandomizer
         }
 
 
-        private void ResetDisabled()
-        {
-
-            //resetList(AmuletList);
-            // resetList(RingList);
-        }
-
-
-        private void resetList(ListBox lb)
-        {
-            Debug.WriteLine("Items Disabled in " + lb.Name + ": " + lb.Items.OfType<RemnantItem>().Where(x => x.Disabled == true).ToList().Count);
-        }
 
         private void Disable(string name)
         {
@@ -204,60 +302,61 @@ namespace RemnantBuildRandomizer
                 if (BuildList.Items.Count > 0 && rd.Next(20) == 0)
                 {
                     Debug.WriteLine("PRESET CHOSEN!");
-                    Build b = presets[rd.Next(presets.Count)];
+                    Build p = presets[rd.Next(presets.Count)];
+                    Build b = new Build(p.BuildName, p.Code);
 
-                    setSlot(HandGunSlot, b.hg);
-                    setModSlot(Mod1Slot, Mod1Cover, b.hgm);
+                    setSlot(HandGunImg, b.hg);
+                    setModSlot(HandModImg, HandCoverModImg, b.hgm);
 
-                    setSlot(LongGunSlot, b.lg);
-                    setModSlot(Mod2Slot, Mod2Cover, b.lgm);
+                    setSlot(LongGunImg, b.lg);
+                    setModSlot(LongModImg, LongCoverModImg, b.lgm);
 
-                    setSlot(MeleeSlot, b.m);
+                    setSlot(MeleeImg, b.m);
 
-                    setSlot(HeadSlot, b.he);
-                    setSlot(ChestSlot, b.ch);
-                    setSlot(LegSlot, b.le);
+                    setSlot(HeadImg, b.he);
+                    setSlot(ChestImg, b.ch);
+                    setSlot(LegImg, b.le);
 
-                    setSlot(AmuletSlot, b.am);
+                    setSlot(AmImg, b.am);
 
-                    setSlot(Ring1Slot, b.r1);
-                    setSlot(Ring2Slot, b.r2);
+                    setSlot(Ri1Img, b.r1);
+                    setSlot(Ri2Img, b.r2);
 
                     //Conditions();
-                    BuildNum.Text = b.Name;
+                    BuildNum.Text = b.BuildName;
                     BuildNum.ToolTip = b.toCode();
 
                 }
                 else
                 {
                     int[] ids = new int[11];
-                    RedCrystal.ToolTip = null;
+                    //RedCrystal.ToolTip = null;
 
-                    ids[0] = RerollSlot(HandGunSlot, SlotType.HG);
-                    RemnantItem ri = RerollMod(Mod1Cover, Mod1Slot, hg);
-                    ids[1] = ri.ID;
+                    ids[0] = RerollSlot(HandGunImg, SlotType.HG);
+                    RemnantItem ri = RerollMod(HandCoverModImg, HandModImg, hg);
+                    ids[1] = ri.Data.ID;
 
-                    ids[2] = RerollSlot(LongGunSlot, SlotType.LG);
-                    RemnantItem ri2 = RerollMod(Mod2Cover, Mod2Slot, lg);
-                    while (ri.Itemname == ri2.Itemname && ri.Itemname != "_No Mod") { ri2 = RerollMod(Mod2Cover, Mod2Slot, lg); }
-                    ids[3] = ri2.ID;
+                    ids[2] = RerollSlot(LongGunImg, SlotType.LG);
+                    RemnantItem ri2 = RerollMod(LongCoverModImg, LongModImg, lg);
+                    while (ri.Itemname == ri2.Itemname && ri.Itemname != "_No Mod") { ri2 = RerollMod(LongCoverModImg, LongModImg, lg); }
+                    ids[3] = ri2.Data.ID;
 
-                    ids[4] = RerollSlot(MeleeSlot, SlotType.M);
+                    ids[4] = RerollSlot(MeleeImg, SlotType.M);
 
-                    ids[5] = RerollSlot(HeadSlot, SlotType.HE);
-                    ids[6] = RerollSlot(ChestSlot, SlotType.CH);
-                    ids[7] = RerollSlot(LegSlot, SlotType.LE);
+                    ids[5] = RerollSlot(HeadImg, SlotType.HE);
+                    ids[6] = RerollSlot(ChestImg, SlotType.CH);
+                    ids[7] = RerollSlot(LegImg, SlotType.LE);
 
-                    ids[8] = RerollSlot(AmuletSlot, SlotType.AM);
-                    int num = RerollSlot(Ring1Slot, SlotType.RI);
+                    ids[8] = RerollSlot(AmImg, SlotType.AM);
+                    int num = RerollSlot(Ri1Img, SlotType.RI);
                     ids[9] = num;
-                    int num2 = RerollSlot(Ring2Slot, SlotType.RI);
-                    while (num2 == num) { num2 = RerollSlot(Ring2Slot, SlotType.RI); }
+                    int num2 = RerollSlot(Ri2Img, SlotType.RI);
+                    while (num2 == num) { num2 = RerollSlot(Ri2Img, SlotType.RI); }
                     ids[10] = num2;
                     Conditions();
 
 
-                    b = new Build("", ids[0], ids[1], ids[2], ids[3], ids[4], ids[5], ids[6], ids[7], ids[8], ids[9], ids[10]);
+                    b = new Build("", ids);
                     BuildNum.Text = b.toCode();
                     BuildNum.ToolTip = null;
                 }
@@ -267,28 +366,28 @@ namespace RemnantBuildRandomizer
         }
         private void Conditions()
         {
-            if (getItem(AmuletSlot).Itemname == "White Rose")
+            if (getItem(AmImg).Itemname == "White Rose")
             {
                 string text = "\n\nWHITE ROSE EFFECT\n";
                 Debug.WriteLine(text);
-                if (rd.Next(2) == 1) { setSlot(HandGunSlot, reflist["_No Hand Gun"]); setSlot(Mod1Slot, reflist["_No Mod"]); Mod1Cover.ToolTip = null; text += "removed HG\n"; }
-                if (rd.Next(2) == 1) { setSlot(LongGunSlot, reflist["_No Long Gun"]); setSlot(Mod2Slot, reflist["_No Mod"]); Mod2Cover.ToolTip = null; text += "removed LG"; }
-                AmuletSlot.ToolTip += text;
+                if (rd.Next(2) == 1) { setSlot(HandGunImg, reflist["_No Hand Gun"]); setSlot(HandModImg, reflist["_No Mod"]); HandCoverModImg.ToolTip = null; text += "removed HG\n"; }
+                if (rd.Next(2) == 1) { setSlot(LongGunImg, reflist["_No Long Gun"]); setSlot(LongModImg, reflist["_No Mod"]); LongCoverModImg.ToolTip = null; text += "removed LG"; }
+                AmImg.ToolTip += text;
             }
-            else if (getItem(AmuletSlot).Itemname == "Daredevil's Charm")
+            else if (getItem(AmImg).Itemname == "Daredevil's Charm")
             {
                 string text = "\n\nDDC EFFECT\n";
                 Debug.WriteLine(text);
-                if (rd.Next(2) == 1) { setSlot(HeadSlot, reflist["_No Head"]); text += "removed Head\n"; }
-                if (rd.Next(2) == 1) { setSlot(ChestSlot, reflist["_No Chest"]); text += "removed Chest\n"; }
-                if (rd.Next(2) == 1) { setSlot(LegSlot, reflist["_No Legs"]); text += "removed Legs"; }
-                AmuletSlot.ToolTip += text;
+                if (rd.Next(2) == 1) { setSlot(HeadImg, reflist["_No Head"]); text += "removed Head\n"; }
+                if (rd.Next(2) == 1) { setSlot(ChestImg, reflist["_No Chest"]); text += "removed Chest\n"; }
+                if (rd.Next(2) == 1) { setSlot(LegImg, reflist["_No Legs"]); text += "removed Legs"; }
+                AmImg.ToolTip += text;
             }
-            if (getItem(Ring1Slot).Itemname.ToLower() == "Ring Of The Unclean".ToLower() || getItem(Ring2Slot).Itemname.ToLower() == "Ring Of The Unclean".ToLower() ||
-                getItem(Ring1Slot).Itemname.ToLower() == "Five Fingered Ring".ToLower() || getItem(Ring2Slot).Itemname.ToLower() == "Five Fingered Ring".ToLower())
+            if (getItem(Ri1Img).Itemname.ToLower() == "Ring Of The Unclean".ToLower() || getItem(Ri2Img).Itemname.ToLower() == "Ring Of The Unclean".ToLower() ||
+                getItem(Ri1Img).Itemname.ToLower() == "Five Fingered Ring".ToLower() || getItem(Ri2Img).Itemname.ToLower() == "Five Fingered Ring".ToLower())
             {
                 Debug.WriteLine("ROTU or FFR Effect");
-                if (rd.Next(2) == 1) { setSlot(MeleeSlot, reflist["_Fists"]); }
+                if (rd.Next(2) == 1) { setSlot(MeleeImg, reflist["_Fists"]); }
 
             }
 
@@ -315,18 +414,18 @@ namespace RemnantBuildRandomizer
             else
             if (st == SlotType.LG) { lg = ri; }
             setSlot(i, ri);
-            return ri.ID;
+            return ri.Data.ID;
 
         }
         private void setSlot(Image i, RemnantItem ri)
         {
-            i.Source = ri.Image;
+            i.Source = ri.Data.GetImage();
             ToolTipService.SetShowDuration(i, 60000);
             i.ToolTip = ri.Itemname + "\n" + ri.Description;
         }
         private void setModSlot(Image i, Image s, RemnantItem ri)
         {
-            i.Source = ri.Image;
+            i.Source = ri.Data.GetImage();
             ToolTipService.SetShowDuration(i, 60000);
             s.ToolTip = ri.Itemname + "\n" + ri.Description;
         }
@@ -337,7 +436,7 @@ namespace RemnantBuildRandomizer
             ToolTipService.SetShowDuration(c, 60000);
             if (reflist.ContainsKey(ri.Mod))
             {
-                i.Source = reflist[ri.Mod].Image;
+                i.Source = reflist[ri.Mod].Data.GetImage();
                 c.ToolTip = reflist[ri.Mod].Itemname + "\n" + reflist[ri.Mod].Description;
                 Debug.WriteLine("Boss Mod: " + reflist[ri.Mod].Itemname);
                 return reflist[ri.Mod];
@@ -350,7 +449,7 @@ namespace RemnantBuildRandomizer
                     throw new Exception("Too many items disabled in " + SlotType.MO + " Need atleast 2!");
                 }
                 RemnantItem mo = riList[rd.Next(0, riList.Count)];
-                i.Source = mo.Image;
+                i.Source = mo.Data.GetImage();
                 c.ToolTip = mo.Itemname + "\n" + mo.Description;
                 Debug.WriteLine("Regular Mod: " + reflist[mo.Itemname].Itemname);
                 return mo;
@@ -441,9 +540,9 @@ namespace RemnantBuildRandomizer
         {
             try
             {
-                if (BuildNameEnter.Text == "") { throw new Exception("No Name Assigned to Build!"); }
-                Build b = Build.fromCode(BuildNameEnter.Text, BuildCodeEnter.Text);
-                if (!presets.Contains(Build.fromCode(BuildNameEnter.Text, BuildCodeEnter.Text)))
+                if (BuildNameEnter.Text == "") { throw new Exception("No BuildName Assigned to Build!"); }
+                Build b = new Build(BuildNameEnter.Text, BuildCodeEnter.Text);
+                if (!presets.Contains(new Build(BuildNameEnter.Text, BuildCodeEnter.Text)))
                 {
                     BuildNameEnter.Text = "";
                     BuildCodeEnter.Text = "";
@@ -502,33 +601,46 @@ namespace RemnantBuildRandomizer
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (cmbCharacter.SelectedIndex == -1 && listCharacters.Count > 0) return;
+            if (cmbCharacter.SelectedIndex == -1 && activeSave.Characters.Count > 0) return;
             if (cmbCharacter.Items.Count > 0 && cmbCharacter.SelectedIndex > -1)
             {
-                Debug.WriteLine("CHANGED TO "+listCharacters[cmbCharacter.SelectedIndex].ToString());
-                
+
+                Debug.WriteLine("CHANGED TO " + activeSave.Characters[cmbCharacter.SelectedIndex].ToString());
+                Debug.WriteLine(activeSave.Characters[cmbCharacter.SelectedIndex].GetMissingItems().Count);
+                foreach (RemnantItem ri in reflist.Values)
+                {
+                    ri.Character = cmbCharacter.SelectedIndex;
+                }
+                disablemissing();
+                WeaponList.Items.Refresh();
+                ArmorList.Items.Refresh();
+                AmuletList.Items.Refresh();
+                RingList.Items.Refresh();
+                ModList.Items.Refresh();
             }
         }
 
-        private void disablemissing_Click(object sender, RoutedEventArgs e)
+        private void disablemissing()
         {
-            RemnantCharacter rc = listCharacters[cmbCharacter.SelectedIndex];
-            Debug.WriteLine(rc.ToString()+ " Has "+rc.GetMissingItems().Count+" Missing items.");
-            foreach (Item ri in rc.GetMissingItems()) {
-                reflist[ri.ItemAltName].Disabled = true;
+            RemnantCharacter rc = activeSave.Characters[cmbCharacter.SelectedIndex];
+            Debug.WriteLine(rc.ToString() + " Has " + rc.GetMissingItems().Count + " Missing items.");
+            foreach (RemnantItem ri in reflist.Values)
+            {
+                ri.Missing = false;
             }
-            WeaponList.Items.Refresh();
-            ArmorList.Items.Refresh();
-            AmuletList.Items.Refresh();
-            RingList.Items.Refresh();
-            ModList.Items.Refresh();
+            foreach (Item ri in rc.GetMissingItems())
+            {
+                reflist[ri.ItemAltName].Missing = true;
+            }
+ 
             //BuildList.Items.Refresh();
 
         }
 
         private void ResetBlack_Click(object sender, RoutedEventArgs e)
         {
-            foreach (RemnantItem ri in reflist.Values) {
+            foreach (RemnantItem ri in reflist.Values)
+            {
                 ri.Disabled = false;
             }
             WeaponList.Items.Refresh();
@@ -537,6 +649,75 @@ namespace RemnantBuildRandomizer
             RingList.Items.Refresh();
             ModList.Items.Refresh();
             //BuildList.Items.Refresh();
+        }
+
+        private void UpdateCheck_Click(object sender, RoutedEventArgs e)
+        {
+            checkForUpdate();
+        }
+
+        private void WeaponList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+            //Cancel the column you don't want to generate
+            switch (headername)
+            {
+                // case "Path":
+                //case "Description":
+                // case "Image":  e.Cancel=true; break;
+                // case "Itemname":
+                // case "Missing": break;
+                default: break;
+            }
+
+
+        }
+        private void ArmorList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+            //Cancel the column you don't want to generate
+            switch (headername)
+            {
+                // case "Path":
+                // case "Mod":
+                // case "Image": e.Cancel = true; break;
+                // case "Description":
+                // case "Itemname":
+                // case "Missing":  break;
+                default: break;
+            }
+        }
+
+        private void BuildList_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            Build edit = ((Build)e.Row.Item);
+            Debug.WriteLine("Editting: " + edit);
+        }
+
+        private void BuildList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+
+        private void BuildList_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+
+        }
+        private void RemItem_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
+        {
+            RemnantItem edit = ((RemnantItem)e.Row.Item);
+            Debug.WriteLine("Editting: " + edit);
+
+        }
+
+        private void RemItem_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
+        {
+
+        }
+
+        private void RemItem_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
+        {
+
         }
     }
 }
