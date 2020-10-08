@@ -42,7 +42,7 @@ namespace RemnantBuildRandomizer
                 case "_No Ring": ID = 0; Index = 1; break;
                 default: ID = Index++; break;
             }
-            this.Data = new DataObj(path,slot,ID);
+            this.Data = new DataObj(path, slot, ID);
             this.missing = new List<bool>();
 
             this.disabled = new List<bool>();
@@ -50,16 +50,18 @@ namespace RemnantBuildRandomizer
         }
         public bool Missing { get => missing[character]; set => missing[character] = value; }
         public bool Disabled { get => disabled[character]; set => disabled[character] = value; }
+        public SlotType Slot { get => Data.Slot;}
         public string Itemname { get => itemname; set => itemname = value; }
         public string Description { get => description; set => description = value; }
-        public DataObj Data { get => data; set => data = value; }
-        
         public string Mod { get => mod; set => mod = value; }
+        public DataObj Data { get => data; set => data = value; }
         public int Character { get => character; set => character = value; }
 
-        private string listToString(List<bool> l,char sep) {
-            string s ="";
-            for (int i = 0; i < l.Count - 1; i++) {
+        private string listToString(List<bool> l, char sep)
+        {
+            string s = "";
+            for (int i = 0; i < l.Count - 1; i++)
+            {
                 s = s + (l[i] ? 1 : 0) + sep;
             }
             s = s + (l[l.Count - 1] ? 1 : 0);
@@ -69,9 +71,11 @@ namespace RemnantBuildRandomizer
 
         public override string ToString()
         {
-            return Itemname + ":"+listToString(missing,'|')+":"+ listToString(disabled, '|');
+            return Itemname;
         }
-
+        public string ToData() {
+            return Itemname + ":" + listToString(missing, '|') + ":" + listToString(disabled, '|');
+        }
         public bool Equals(RemnantItem b)
         {
             if (this.itemname.Equals(b.Itemname)) { return true; }
@@ -88,7 +92,7 @@ namespace RemnantBuildRandomizer
         static private int index = 0;
         private int id;
 
-        public DataObj(string path,SlotType st,int ID)
+        public DataObj(string path, SlotType st, int ID)
         {
             this.SetImage(path);
             this.Slot = st;

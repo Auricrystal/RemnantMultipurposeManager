@@ -38,6 +38,8 @@
     <ApplicationIcon>RedCrystal.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -123,9 +125,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\GearInfo.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\GearInfo.xml" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\IMG\T_Icon_RedCrystal.png" />
@@ -434,6 +434,9 @@
     <Resource Include="Resources\IMG\T_Icon_Crafting.png" />
     <Resource Include="Resources\IMG\T_Icon_Item_WorldFragment.png" />
     <Resource Include="Resources\IMG\Rigs.png" />
+    <Resource Include="Resources\IMG\T_Icon_Item_Simulacrum.png" />
+    <Resource Include="Resources\IMG\T_Icon_Item_Resource_LumeniteCrystal.png" />
+    <Resource Include="Resources\IMG\T_Icon_Item_Resource_HardenedIron.png" />
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

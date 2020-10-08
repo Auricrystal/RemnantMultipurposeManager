@@ -27,6 +27,7 @@ using System.Net;
 using System.Windows.Markup;
 using Path = System.IO.Path;
 using static RemnantBuildRandomizer.DataObj;
+using System.Dynamic;
 
 namespace RemnantBuildRandomizer
 {
@@ -35,22 +36,41 @@ namespace RemnantBuildRandomizer
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private static MainWindow MW = null;
         private static string saveDirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames";
-        #region ScaleValue Depdency Property
         readonly public static Random rd = new Random();
         RemnantItem hg;
         RemnantItem lg;
-        private RemnantSave activeSave;
+        private static RemnantSave activeSave;
+        private static int badluck = 0;
         //public static List<RemnantCharacter> listCharacters;
-        private Boolean suppressLog;
+        // private Boolean suppressLog=false;
 
         private FileSystemWatcher saveWatcher;
         private DateTime lastUpdateCheck;
         //private Process gameProcess;
         Build b;
 
-        public static readonly DependencyProperty ScaleValueProperty = DependencyProperty.Register("ScaleValue", typeof(double), typeof(MainWindow), new UIPropertyMetadata(1.0, new PropertyChangedCallback(OnScaleValueChanged), new CoerceValueCallback(OnCoerceScaleValue)));
+        public static RemnantSave ActiveSave
+        {
+            get
+            {
+                if (activeSave == null) { ActiveSave = new RemnantSave(saveDirPath); }
+                return activeSave;
 
+            }
+            set => activeSave = value;
+        }
+        public RemnantCharacter ActiveCharacter { get => ActiveSave.Characters[cmbCharacter.SelectedIndex]; }
+        public static string BackupDirPath
+        {
+            get
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR");
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR";
+            }
+        }
         public enum LogType
         {
             Normal,
@@ -59,10 +79,8 @@ namespace RemnantBuildRandomizer
         }
         public MainWindow()
         {
+            MW = this;
             InitializeComponent();
-
-
-
 
             saveWatcher = new FileSystemWatcher();
             saveWatcher.Path = saveDirPath;
@@ -78,60 +96,82 @@ namespace RemnantBuildRandomizer
             saveWatcher.Created += OnSaveFileChanged;
             saveWatcher.Deleted += OnSaveFileChanged;
             //watcher.Renamed += OnRenamed;
-            //listCharacters = new List<RemnantCharacter>();
-            
+
         }
 
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //VersionText.Text = "Version " + typeof(MainWindow).Assembly.GetName().Version;
             Debug.WriteLine("Current save date: " + File.GetLastWriteTime(saveDirPath + "\\profile.sav").ToString());
 
-
-
             saveWatcher.EnableRaisingEvents = true;
+
+            ActiveSave = new RemnantSave(saveDirPath);
+
+            cmbCharacter.ItemsSource = ActiveSave.Characters;
+            cmbCharacter.SelectedIndex = 0;
+
             
-            activeSave = new RemnantSave(saveDirPath);
-            cmbCharacter.ItemsSource = activeSave.Characters;
-            GearInfo.characters = activeSave.Characters.Count;
 
             ReadXML();
             getBlacklist();
+
             checkForUpdate();
 
-            Debug.WriteLine("reflength" + reflist.Count);
-            Debug.WriteLine("refvalues" + reflist.Values.Count);
-            Debug.WriteLine("refvaluesHG" + reflist.Values.Where(x => x.Data.Slot == SlotType.HG));
-            Debug.WriteLine("weptest: " + reflist.Values.Where(x => x.Data.Slot == SlotType.HG || x.Data.Slot == SlotType.LG || x.Data.Slot == SlotType.M).OrderBy(x => x.Itemname).Count());
+            SetupData();
 
-            
+            UpdateCharacterData();
+            disablemissing();
+        }
+        private void SetupData()
+        {
+
+
             WeaponList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HG || x.Data.Slot == SlotType.LG || x.Data.Slot == SlotType.M).OrderBy(x => x.Itemname));
             ArmorList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HE || x.Data.Slot == SlotType.CH || x.Data.Slot == SlotType.LE).OrderBy(x => x.Data.ID).ThenBy(x => (int)x.Data.Slot));
             AmuletList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.AM));
             RingList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.RI));
             ModList.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
-            BuildList.ItemsSource = presets;
-            updateCurrentWorldAnalyzer();
+            BuildList.ItemsSource = Presets[ActiveCharacter.charNum];
+
+            cmbHG.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HG));
+            cmbHGM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
+            cmbLG.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.LG));
+            cmbLGM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
+            cmbM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.M));
+            cmbHE.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.HE));
+            cmbCH.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.CH));
+            cmbLE.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.LE));
+            cmbAM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.AM));
+            cmbR1.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.RI));
+            cmbR2.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.RI));
+            cmbHG.SelectedIndex = 0;
+            cmbHGM.SelectedIndex = 0;
+            cmbLG.SelectedIndex = 0;
+            cmbLGM.SelectedIndex = 0;
+            cmbM.SelectedIndex = 0;
+            cmbHE.SelectedIndex = 0;
+            cmbCH.SelectedIndex = 0;
+            cmbLE.SelectedIndex = 0;
+            cmbAM.SelectedIndex = 0;
+            cmbR1.SelectedIndex = 0;
+            cmbR2.SelectedIndex = 0;
         }
 
-        private List<RemnantItem> getList(IEnumerable<RemnantItem> ril)
+
+        private static List<T> getList<T>(IEnumerable<T> ril)
         {
-            List<RemnantItem> li = new List<RemnantItem>();
-            foreach (RemnantItem ri in ril)
+            List<T> li = new List<T>();
+            foreach (T ri in ril)
             {
                 li.Add(ri);
             }
             return li;
 
         }
+
         private void checkForUpdate()
         {
-            new Thread(() =>
-            {
-                Thread.CurrentThread.IsBackground = true;
-                GearInfo.CheckForNewGameInfo();
-            }).Start();
             new Thread(() =>
             {
                 Thread.CurrentThread.IsBackground = true;
@@ -165,14 +205,17 @@ namespace RemnantBuildRandomizer
                         }
                     });
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                 }
             }).Start();
             lastUpdateCheck = DateTime.Now;
         }
 
-        
+        public static void SlogMessage(string msg)
+        {
+            MW.logMessage(msg, Colors.White);
+        }
         public void logMessage(string msg)
         {
             logMessage(msg, Colors.White);
@@ -194,21 +237,9 @@ namespace RemnantBuildRandomizer
 
         public void logMessage(string msg, Color color)
         {
-            if (!suppressLog)
-            {
-                txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
-                //lblLastMessage.Content = msg;
-                //lblLastMessage.Foreground = new SolidColorBrush(color);
-                if (color.Equals(Colors.White))
-                {
-                    //lblLastMessage.FontWeight = FontWeights.Normal;
-                }
-                else
-                {
-                    //lblLastMessage.FontWeight = FontWeights.Bold;
-                }
-            }
-            StreamWriter writer = System.IO.File.AppendText("log.txt");
+
+            txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
+            StreamWriter writer = System.IO.File.AppendText(BackupDirPath + "/log.txt");
             writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
             writer.Close();
         }
@@ -217,93 +248,34 @@ namespace RemnantBuildRandomizer
         private void OnSaveFileChanged(object source, FileSystemEventArgs e)
         {
             // Specify what is done when a file is changed, created, or deleted.
-            Debug.WriteLine("SAVE FILE CHANGED!!!!");
-            updateCurrentWorldAnalyzer();
+            logMessage("Save File Changed...");
+            UpdateCharacterData();
         }
-        private void updateCurrentWorldAnalyzer()
+        private void UpdateCharacterData()
         {
-            Debug.WriteLine("UPDATING CHARACTERS!!!!!");
-            activeSave.UpdateCharacters();
-            Debug.WriteLine("CHAR COUNT==" + activeSave.Characters.Count);
-            foreach (RemnantCharacter rc in activeSave.Characters)
+            logMessage("Updating Character Info:");
+            ActiveSave.UpdateCharacters();
+            logMessage("Caracters: " + ActiveSave.Characters.Count);
+            foreach (RemnantCharacter rc in ActiveSave.Characters)
             {
-                Debug.WriteLine("MI COUNT=" + rc.GetMissingItems().Count);
-                foreach (Item.Type t in Enum.GetValues(typeof(Item.Type)))
-                {
-                    Debug.WriteLine("TYPE " + t.ToString() + "//////////////////");
-                    foreach (Item i in rc.GetMissingItems().Where(x => x.ItemType == t))
-                    {
-                        if (i.ItemAltName != null && i.ItemAltName.Length > 0)
-                        {
-                            Debug.WriteLine("MISSING: " + i.ItemAltName);
-                        }
-                        else
-                        {
-                            Debug.WriteLine("MISSING: " + i.ItemName);
-                        }
-
-                    }
-                }
-
-            }
-
-        }
-
-
-
-        private void Disable(string name)
-        {
-            if (!reflist[name].Disabled)
-            {
-                reflist[name].Disabled = true;
-                Debug.WriteLine("Disabling: " + reflist[name].Itemname);
-
-            }
-            else
-            {
-                Debug.WriteLine(reflist[name].Itemname + " Is already Disabled!");
+                logMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
             }
         }
-
-        private void Disable(params string[] names)
-        {
-            foreach (string n in names)
-            {
-                Disable(n);
-            }
-        }
-        private void Enable(string name)
-        {
-            if (reflist[name].Disabled)
-            {
-                reflist[name].Disabled = false;
-                Debug.WriteLine("Enabling: " + reflist[name].Itemname);
-
-            }
-            else
-            {
-                Debug.WriteLine(reflist[name].Itemname + " Is already Enabled!");
-            }
-        }
-        private void Enable(params string[] names)
-        {
-            foreach (string n in names)
-            {
-                Enable(n);
-            }
-        }
-
 
 
         private void ReRollImg(object sender, RoutedEventArgs e)
         {
+            List<Build> builds = Presets[ActiveCharacter.charNum];
             try
             {
-                if (BuildList.Items.Count > 0 && rd.Next(20) == 0)
+                List<Build> list = getList(builds.Where(x => x.Disabled == false));
+
+                if (list.Count > 0 && rd.Next(100) <= badluck)
                 {
+                    badluck = 0;
                     Debug.WriteLine("PRESET CHOSEN!");
-                    Build p = presets[rd.Next(presets.Count)];
-                    Build b = new Build(p.BuildName, p.Code);
+                    Build b = list[rd.Next(list.Count)];
+                    //Build b = new Build(p.BuildName, p.Code);
 
                     setSlot(HandGunImg, b.hg);
                     setModSlot(HandModImg, HandCoverModImg, b.hgm);
@@ -329,6 +301,11 @@ namespace RemnantBuildRandomizer
                 }
                 else
                 {
+                    if (list.Count > 0)
+                    {
+                        badluck++;
+                        Debug.WriteLine(badluck);
+                    }
                     int[] ids = new int[11];
                     //RedCrystal.ToolTip = null;
 
@@ -456,85 +433,22 @@ namespace RemnantBuildRandomizer
             }
         }
 
-        private static object OnCoerceScaleValue(DependencyObject o, object value)
+        public void SaveData()
         {
-            MainWindow mainWindow = o as MainWindow;
-            if (mainWindow != null)
-                return mainWindow.OnCoerceScaleValue((double)value);
-            else return value;
+
+            string path = BackupDirPath + @"/Data.txt";
+            File.Delete(path);
+            getBlacklist();
         }
 
-        private static void OnScaleValueChanged(DependencyObject o, DependencyPropertyChangedEventArgs e)
-        {
-            MainWindow mainWindow = o as MainWindow;
-            if (mainWindow != null)
-                mainWindow.OnScaleValueChanged((double)e.OldValue, (double)e.NewValue);
-        }
-
-        protected virtual double OnCoerceScaleValue(double value)
-        {
-            if (double.IsNaN(value))
-                return 1.0f;
-
-            value = Math.Max(0.1, value);
-            return value;
-        }
-
-        protected virtual void OnScaleValueChanged(double oldValue, double newValue) { }
-
-        public double ScaleValue
-        {
-            get => (double)GetValue(ScaleValueProperty);
-            set => SetValue(ScaleValueProperty, value);
-        }
-        #endregion
-
-        private void MainGrid_SizeChanged(object sender, EventArgs e) => CalculateScale();
-
-        private void CalculateScale()
-        {
-            double yScale = ActualHeight / 500f;
-            double xScale = ActualWidth / 840f;
-            double value = Math.Min(xScale, yScale);
-
-            ScaleValue = (double)OnCoerceScaleValue(RemnantBuildRandomizer, value);
-        }
-        public void WriteResourceToFile(string resourceName, string fileName)
-        {
-            using (var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
-            {
-                using (var file = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                {
-                    resource.CopyTo(file);
-                }
-            }
-        }
-
-        private void CheckBox_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            Debug.WriteLine("Checked! " + cb.Content.ToString());
-            Disable(cb.Content.ToString());
-        }
-
-        private void CheckBox_Unchecked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            Debug.WriteLine("UnChecked! " + cb.Content.ToString());
-            Enable(cb.Content.ToString());
-        }
 
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //MessageBox.Show("Closing called");
-            updateBlacklist();
+            SaveData();
         }
 
-        private void CopyBuild_Click(object sender, RoutedEventArgs e)
-        {
-            CopyUIElementToClipboard(BuildScreen);
-            MessageBox.Show("Copied to Clipboard!");
-        }
+
 
         private void Add_Build_Click(object sender, RoutedEventArgs e)
         {
@@ -542,11 +456,11 @@ namespace RemnantBuildRandomizer
             {
                 if (BuildNameEnter.Text == "") { throw new Exception("No BuildName Assigned to Build!"); }
                 Build b = new Build(BuildNameEnter.Text, BuildCodeEnter.Text);
-                if (!presets.Contains(new Build(BuildNameEnter.Text, BuildCodeEnter.Text)))
+                if (!Presets[ActiveCharacter.charNum].Contains(new Build(BuildNameEnter.Text, BuildCodeEnter.Text)))
                 {
                     BuildNameEnter.Text = "";
                     BuildCodeEnter.Text = "";
-                    presets.Add(b);
+                    Presets[ActiveCharacter.charNum].Add(b);
                     BuildList.Items.Refresh();
                 }
             }
@@ -554,9 +468,13 @@ namespace RemnantBuildRandomizer
             {
                 MessageBox.Show(ce.Message);
             }
-
+            BuildList.Items.Refresh();
         }
-
+        private void CopyBuild_Click(object sender, RoutedEventArgs e)
+        {
+            CopyUIElementToClipboard(BuildScreen);
+            MessageBox.Show("Copied to Clipboard!");
+        }
         public static void CopyUIElementToClipboard(FrameworkElement element)
         {
             double width = element.ActualWidth;
@@ -570,59 +488,53 @@ namespace RemnantBuildRandomizer
             }
             bmpCopied.Render(dv);
 
+            Debug.WriteLine(bmpCopied.Metadata.GetValue(NameProperty));
+
+
+
 
             Clipboard.SetImage(bmpCopied);
         }
 
-        private void BuildBox_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            Debug.WriteLine("Checked! " + cb.Content.ToString());
-            //((Build)cb.).Disabled = true;
-        }
-
-        private void BuildBox_UnChecked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            Debug.WriteLine("Checked! " + cb.Content.ToString());
-
-        }
-
-        private void BuildList_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == System.Windows.Input.Key.Delete && BuildList.SelectedIndex != -1)
-            {
-                presets.Remove(presets[BuildList.SelectedIndex]);
-                BuildList.SelectedIndex = -1;
-                BuildList.Items.Refresh();
-            }
-        }
 
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            if (cmbCharacter.SelectedIndex == -1 && activeSave.Characters.Count > 0) return;
+            if (cmbCharacter.SelectedIndex == -1 && ActiveSave.Characters.Count > 0) return;
             if (cmbCharacter.Items.Count > 0 && cmbCharacter.SelectedIndex > -1)
             {
-
-                Debug.WriteLine("CHANGED TO " + activeSave.Characters[cmbCharacter.SelectedIndex].ToString());
-                Debug.WriteLine(activeSave.Characters[cmbCharacter.SelectedIndex].GetMissingItems().Count);
+                safeCommit(WeaponList, ArmorList, AmuletList, RingList, ModList, BuildList);
+                BuildList.ItemsSource = Presets[ActiveCharacter.charNum];
+                Debug.WriteLine("CHANGED TO " + ActiveSave.Characters[cmbCharacter.SelectedIndex].ToString());
+                Debug.WriteLine(ActiveSave.Characters[cmbCharacter.SelectedIndex].GetMissingItems().Count);
                 foreach (RemnantItem ri in reflist.Values)
                 {
                     ri.Character = cmbCharacter.SelectedIndex;
                 }
                 disablemissing();
-                WeaponList.Items.Refresh();
-                ArmorList.Items.Refresh();
-                AmuletList.Items.Refresh();
-                RingList.Items.Refresh();
-                ModList.Items.Refresh();
+                safeRefresh(WeaponList, ArmorList, AmuletList, RingList, ModList, BuildList);
             }
         }
+        private void safeRefresh(params DataGrid[] dg)
+        {
+            safeCommit(dg);
+            foreach (DataGrid d in dg) { d.Items.Refresh(); }
+        }
+        private void safeCommit(params DataGrid[] dg)
+        {
+            foreach (DataGrid d in dg)
+            {
+                d.CommitEdit();
+                d.CommitEdit();
+            }
+
+
+        }
+
 
         private void disablemissing()
         {
-            RemnantCharacter rc = activeSave.Characters[cmbCharacter.SelectedIndex];
+            RemnantCharacter rc = ActiveSave.Characters[cmbCharacter.SelectedIndex];
             Debug.WriteLine(rc.ToString() + " Has " + rc.GetMissingItems().Count + " Missing items.");
             foreach (RemnantItem ri in reflist.Values)
             {
@@ -632,7 +544,7 @@ namespace RemnantBuildRandomizer
             {
                 reflist[ri.ItemAltName].Missing = true;
             }
- 
+
             //BuildList.Items.Refresh();
 
         }
@@ -643,11 +555,11 @@ namespace RemnantBuildRandomizer
             {
                 ri.Disabled = false;
             }
-            WeaponList.Items.Refresh();
-            ArmorList.Items.Refresh();
-            AmuletList.Items.Refresh();
-            RingList.Items.Refresh();
-            ModList.Items.Refresh();
+            safeRefresh(WeaponList);
+            safeRefresh(ArmorList);
+            safeRefresh(AmuletList);
+            safeRefresh(RingList);
+            safeRefresh(ModList);
             //BuildList.Items.Refresh();
         }
 
@@ -662,11 +574,14 @@ namespace RemnantBuildRandomizer
             //Cancel the column you don't want to generate
             switch (headername)
             {
-                // case "Path":
-                //case "Description":
-                // case "Image":  e.Cancel=true; break;
-                // case "Itemname":
-                // case "Missing": break;
+                case "Data":
+                case "Description":
+                case "Character": e.Cancel = true; break;
+
+                case "Itemname":
+                case "Slot":
+                case "Mod":
+                case "Missing": e.Column.IsReadOnly = true; break;
                 default: break;
             }
 
@@ -675,15 +590,35 @@ namespace RemnantBuildRandomizer
         private void ArmorList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             string headername = e.Column.Header.ToString();
-            //Cancel the column you don't want to generate
+            //Cancel the column you don't want to generate 
             switch (headername)
             {
-                // case "Path":
-                // case "Mod":
-                // case "Image": e.Cancel = true; break;
-                // case "Description":
-                // case "Itemname":
-                // case "Missing":  break;
+                case "Data":
+                case "Mod":
+                case "Character": e.Cancel = true; break;
+
+                case "Itemname":
+                case "Slot":
+                case "Description":
+                case "Missing": e.Column.IsReadOnly = true; break;
+                default: break;
+            }
+        }
+
+        private void TrinketList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            string headername = e.Column.Header.ToString();
+            //Cancel the column you don't want to generate 
+            switch (headername)
+            {
+                case "Data":
+                case "Mod":
+                case "Slot":
+                case "Character": e.Cancel = true; break;
+
+                case "Itemname":
+                case "Description":
+                case "Missing": e.Column.IsReadOnly = true; break;
                 default: break;
             }
         }
@@ -706,18 +641,125 @@ namespace RemnantBuildRandomizer
         private void RemItem_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
             RemnantItem edit = ((RemnantItem)e.Row.Item);
-            Debug.WriteLine("Editting: " + edit);
+            logMessage("Beginning edit: " + edit);
 
         }
 
         private void RemItem_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-
+            RemnantItem edit = ((RemnantItem)e.Row.Item);
+            logMessage("Edited item: " + edit);
         }
 
         private void RemItem_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
         {
 
+        }
+
+        private void GenBuildCode_Click(object sender, RoutedEventArgs e)
+        {
+            RemnantItem hg = (RemnantItem)cmbHG.SelectedItem;
+            RemnantItem hgm = (RemnantItem)cmbHGM.SelectedItem;
+            RemnantItem lg = (RemnantItem)cmbLG.SelectedItem;
+            RemnantItem lgm = (RemnantItem)cmbLGM.SelectedItem;
+            RemnantItem m = (RemnantItem)cmbM.SelectedItem;
+            RemnantItem he = (RemnantItem)cmbHE.SelectedItem;
+            RemnantItem ch = (RemnantItem)cmbCH.SelectedItem;
+            RemnantItem le = (RemnantItem)cmbLE.SelectedItem;
+            RemnantItem am = (RemnantItem)cmbAM.SelectedItem;
+            RemnantItem r1 = (RemnantItem)cmbR1.SelectedItem;
+            RemnantItem r2 = (RemnantItem)cmbR2.SelectedItem;
+
+
+            BuildCodeEnter.Text = new Build("", hg, hgm, lg, lgm, m, he, ch, le, am, r1, r2).toCode();
+
+            cmbHG.SelectedIndex = 0;
+            cmbHGM.SelectedIndex = 0;
+            cmbLG.SelectedIndex = 0;
+            cmbLGM.SelectedIndex = 0;
+            cmbM.SelectedIndex = 0;
+            cmbHE.SelectedIndex = 0;
+            cmbCH.SelectedIndex = 0;
+            cmbLE.SelectedIndex = 0;
+            cmbAM.SelectedIndex = 0;
+            cmbR1.SelectedIndex = 0;
+            cmbR2.SelectedIndex = 0;
+
+        }
+
+        private void cmbHG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RemnantItem hg = (RemnantItem)cmbHG.SelectedItem;
+            cmbHGM.SelectedIndex = 0;
+            if (hg.Mod != "")
+            {
+                cmbHGM.ItemsSource = new List<RemnantItem>() { reflist[hg.Mod] };
+            }
+            else
+            {
+                cmbHGM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
+            }
+            cmbHGM.SelectedIndex = 0;
+            cmbHGM.Items.Refresh();
+        }
+
+        private void cmbLG_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            RemnantItem lg = (RemnantItem)cmbLG.SelectedItem;
+            cmbLGM.SelectedIndex = 0;
+            if (lg.Mod != "")
+            {
+                cmbLGM.ItemsSource = new List<RemnantItem>() { reflist[lg.Mod] };
+            }
+            else
+            {
+                cmbLGM.ItemsSource = getList(reflist.Values.Where(x => x.Data.Slot == SlotType.MO).Take(28));
+            }
+            cmbLGM.SelectedIndex = 0;
+            cmbLGM.Items.Refresh();
+
+        }
+
+        private void cmbR1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmbR2.ItemsSource = getList(reflist.Values.Where(x => x != (RemnantItem)cmbR1.SelectedItem && x.Data.Slot == SlotType.RI || x.Itemname == "_No Ring"));
+        }
+
+        private void cmbR2_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            cmbR1.ItemsSource = getList(reflist.Values.Where(x => x != (RemnantItem)cmbR2.SelectedItem && x.Data.Slot == SlotType.RI || x.Itemname == "_No Ring"));
+        }
+
+        private void BuildCode_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(BuildNum.Text);
+        }
+
+        private void cmbHGM_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbLGM.Items.Count > 1)
+            {
+
+                if (cmbLGM.SelectedIndex > 27) { cmbHGM.SelectedIndex = 0; }
+                cmbLGM.ItemsSource = getList(reflist.Values.Where(x => x != (RemnantItem)cmbHGM.SelectedItem && x.Data.Slot == SlotType.MO || x.Itemname == "_No Mod")).Take(27);
+            }
+            else {  }
+        }
+
+        private void cmbLGM_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (cmbHGM.Items.Count > 1)
+            {
+                if (cmbHGM.SelectedIndex > 27) {cmbHGM.SelectedIndex = 0;}
+                
+                cmbHGM.ItemsSource = getList(reflist.Values.Where(x => x != (RemnantItem)cmbLGM.SelectedItem && x.Data.Slot == SlotType.MO || x.Itemname == "_No Mod")).Take(27);
+            }
+            else {  }
+        }
+
+        private void DataFolder_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(BackupDirPath);
         }
     }
 }

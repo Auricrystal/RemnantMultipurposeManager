@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace RemnantBuildRandomizer
 {
@@ -14,10 +15,7 @@ namespace RemnantBuildRandomizer
         public int charNum;
         public string Archetype { get; set; }
         public List<string> Inventory { get; set; }
-
-
-        public List<Build> presets;
-
+       
         private List<Item> missingItems;
 
 
@@ -29,7 +27,7 @@ namespace RemnantBuildRandomizer
             }
         }
 
-
+        
 
         public override string ToString()
         {
@@ -48,7 +46,6 @@ namespace RemnantBuildRandomizer
             this.Archetype = "";
             this.Inventory = new List<string>();
             this.missingItems = new List<Item>();
-            this.presets = new List<Build>();
         }
 
         public void processSaveData(string savetext)
@@ -85,7 +82,8 @@ namespace RemnantBuildRandomizer
                 string[] characters = profileData.Split(new string[] { "/Game/Characters/Player/Base/Character_Master_Player.Character_Master_Player_C" }, StringSplitOptions.None);
                 for (var i = 1; i < characters.Length; i++)
                 {
-                    RemnantCharacter cd = new RemnantCharacter(i);
+                    RemnantCharacter cd = new RemnantCharacter(i-1);
+
                     cd.Archetype = GearInfo.Archetypes["Undefined"];
                     Match archetypeMatch = new Regex(@"/Game/_Core/Archetypes/[a-zA-Z_]+").Match(characters[i - 1]);
                     if (archetypeMatch.Success)
@@ -134,6 +132,7 @@ namespace RemnantBuildRandomizer
                 if (ex.Message.Contains("being used by another process"))
                 {
                     Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
+                    
                     System.Threading.Thread.Sleep(500);
                     charData = GetCharactersFromSave(saveFolderPath, mode);
                 }

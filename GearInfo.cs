@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Xml;
 using static RemnantBuildRandomizer.DataObj;
 using static RemnantBuildRandomizer.RemnantItem;
@@ -13,10 +14,12 @@ namespace RemnantBuildRandomizer
     class GearInfo
     {
 
-        public static int characters = 1;
-        public static event EventHandler<GearInfoUpdateEventArgs> GearInfoUpdate;
+
+        //public static event EventHandler<GearInfoUpdateEventArgs> GearInfoUpdate;
         public static Dictionary<SlotType, List<RemnantItem>> GearList = new Dictionary<SlotType, List<RemnantItem>>();
         public static Dictionary<string, RemnantItem> reflist = new Dictionary<string, RemnantItem>();
+        private static Dictionary<int, List<Build>> presets;
+
         public static Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>() {
             {"Chest",SlotType.CH },
             {"Head",SlotType.HE },
@@ -33,7 +36,8 @@ namespace RemnantBuildRandomizer
             {"HandMod",SlotType.MO },
         };
         private static readonly XmlDocument doc = new XmlDocument();
-        public static List<Build> presets = new List<Build>();
+
+        //public static List<Build> presets = new List<Build>();
         private static List<Item> items = new List<Item>();
 
         private static Dictionary<string, string> archetypes = new Dictionary<string, string>() {
@@ -62,42 +66,60 @@ namespace RemnantBuildRandomizer
             }
         }
 
-
-
-
-        public static void updateBlacklist()
+        public static Dictionary<int, List<Build>> Presets
         {
-            string path = @"Resources/Blacklist.txt";
-            File.Delete(path);
-            getBlacklist();
+            get
+            {
+                if (presets == null)
+                {
+                    presets = new Dictionary<int, List<Build>>();
+                }
+
+                if (presets.Values.Count == 0)
+                {
+                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters)
+                    {
+                        presets.Add(rc.charNum, new List<Build>());
+                    }
+                }
+                return presets;
+
+            }
         }
+
+        
+
 
 
         public static void getBlacklist()
         {
-            string path = @"Resources/Blacklist.txt";
-
+            string path =MainWindow.BackupDirPath + @"/Data.txt";
+            List<RemnantCharacter> chars = MainWindow.ActiveSave.Characters;
             if (!File.Exists(path))
             {
                 using (StreamWriter sw = File.CreateText(path))
                 {
-                    foreach (Build b in presets)
+                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters)
                     {
-                        sw.WriteLine("$" + b);
+                        Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
+                        foreach (Build b in Presets[rc.charNum])
+                        {
+                            sw.WriteLine("$:" + rc.charNum + ":" + b);
+                        }
                     }
                     foreach (RemnantItem ri in reflist.Values)
                     {
-                        if (ri.disabled.Count==0)
+                        if (ri.disabled.Count == 0)
                         {
                             ri.missing.Clear();
                             ri.disabled.Clear();
-                            for (int i = 0; i < characters; i++)
+                            for (int i = 0; i < MainWindow.ActiveSave.Characters.Count; i++)
                             {
                                 ri.disabled.Add(false);
                                 ri.missing.Add(false);
                             }
                         }
-                        sw.WriteLine("#" + ri);
+                        sw.WriteLine("#:" + ri.ToData());
                     }
                 }
             }
@@ -106,44 +128,48 @@ namespace RemnantBuildRandomizer
             // Open the file to read from.
             using (StreamReader sr = File.OpenText(path))
             {
+
                 string s = "";
                 while ((s = sr.ReadLine()) != null)
                 {
-                    char pre = s[0];
-                    string[] args = s.Substring(1).Split(':');
-                    switch (pre)
+
+                    string[] args = s.Split(':');
+                    switch (args[0].ToCharArray()[0])
                     {
                         case '$':
-                            Build b = new Build(args[0], args[1]);
-                            b.Disabled = (int.Parse(args[2]) == 1);
-                            presets.Add(b);
+                            Build b = new Build(args[2], args[3]);
+                            b.Disabled = (int.Parse(args[4]) == 1);
+                            Presets[int.Parse(args[1])].Add(b);
                             break;
                         case '#':
-                            string[] sown = args[1].Split('|');
+                            string[] sown = args[2].Split('|');
                             List<bool> owned = new List<bool>();
-                            string[] sdis = args[2].Split('|');
+                            string[] sdis = args[3].Split('|');
                             List<bool> disabled = new List<bool>();
-                            //Debug.WriteLine("/////CHARACTERS: " + characters);
-                            for (int i = 0; i < characters; i++)
+                            for (int i = 0; i < chars.Count; i++)
                             {
                                 owned.Add((int.Parse(sown[i]) == 1));
                                 disabled.Add((int.Parse(sdis[i]) == 1));
                             }
-                            //Debug.WriteLine("/////OWNED: " + owned.Count);
-
-                            reflist[args[0]].missing = owned;
-                            reflist[args[0]].disabled = disabled;
+                            reflist[args[1]].missing = owned;
+                            reflist[args[1]].disabled = disabled;
                             break;
                     }
                 }
+                foreach (RemnantCharacter rc in chars)
+                {
+                    MainWindow.SlogMessage(rc + " Has " + Presets[rc.charNum].Count + " Builds");
+                }
+
             }
         }
-
 
         public static void ReadXML()
         {
             GearList.Clear();
-            doc.Load("Resources/GearInfo.xml");
+            Stream s = typeof(GearInfo).Assembly.GetManifestResourceStream("RemnantBuildRandomizer.Resources.GearInfo.xml");
+            doc.Load(s);
+
             parseItems("RegularMods");
             parseItems("LongMod");
             parseItems("HandMod");
@@ -160,9 +186,7 @@ namespace RemnantBuildRandomizer
         }
         public static void parseItems(string tag)
         {
-
             List<RemnantItem> list = new List<RemnantItem>();
-
             foreach (XmlElement xe in doc.GetElementsByTagName(tag))
             {
                 RemnantItem ri = new RemnantItem(XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
@@ -172,19 +196,16 @@ namespace RemnantBuildRandomizer
                     rItem.ItemAltName = ri.Itemname;
                     items.Add(rItem);
                 }
-                Debug.WriteLine(xe.InnerText);
                 ri.Mod = xe.GetAttribute("mod");
                 list.Add(ri);
                 reflist.Add(ri.Itemname, ri);
-
-                Debug.WriteLine("Adding " + ri.Itemname +" reflist size:"+reflist.Count);
             }
             SlotType st = Slots[tag];
             if (GearList.ContainsKey(st)) { GearList[st].AddRange(list); } else { GearList[st] = list; }
         }
 
 
-
+        /*
         public static void CheckForNewGameInfo()
         {
             GearInfoUpdateEventArgs args = new GearInfoUpdateEventArgs();
@@ -210,42 +231,34 @@ namespace RemnantBuildRandomizer
                 }
                 args.RemoteVersion = remoteversion;
                 reader.Close();
-                if (File.Exists("Resources/GearInfo.xml"))
+                Stream s = typeof(GearInfo).Assembly.GetManifestResourceStream("RemnantBuildRandomizer.Resources.GearInfo.xml");
+
+                reader = new XmlTextReader(s);
+                while (reader.Read())
                 {
-                    reader = new XmlTextReader("Resources/GearInfo.xml");
-                    while (reader.Read())
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
-                        if (reader.NodeType == XmlNodeType.Element)
+                        if (reader.Name.Equals("GearInfo"))
                         {
-                            if (reader.Name.Equals("GearInfo"))
-                            {
-                                localversion = int.Parse(reader.GetAttribute("version"));
-                                break;
-                            }
+                            localversion = int.Parse(reader.GetAttribute("version"));
+                            break;
                         }
                     }
-                    reader.Close();
-                    args.LocalVersion = localversion;
-
-                    if (remoteversion > localversion)
-                    {
-                        File.Delete("Resources/GearInfo.xml");
-                        File.Move("TempGearInfo.xml", "Resources/GearInfo.xml");
-                        ReadXML();
-                        args.Result = GearInfoUpdateResult.Updated;
-                        args.Message = "Gear info updated from v" + localversion + " to v" + remoteversion + ".";
-                    }
-                    else
-                    {
-                        File.Delete("TempGearInfo.xml");
-                    }
                 }
-                else
+                reader.Close();
+                args.LocalVersion = localversion;
+
+                if (remoteversion > localversion)
                 {
+                    File.Delete("Resources/GearInfo.xml");
                     File.Move("TempGearInfo.xml", "Resources/GearInfo.xml");
                     ReadXML();
                     args.Result = GearInfoUpdateResult.Updated;
-                    args.Message = "No local game info found; updated to v" + remoteversion + ".";
+                    args.Message = "Gear info updated from v" + localversion + " to v" + remoteversion + ".";
+                }
+                else
+                {
+                    File.Delete("TempGearInfo.xml");
                 }
             }
             catch (Exception ex)
@@ -257,6 +270,7 @@ namespace RemnantBuildRandomizer
             OnGameInfoUpdate(args);
 
         }
+        
 
         protected static void OnGameInfoUpdate(GearInfoUpdateEventArgs e)
         {
@@ -264,6 +278,7 @@ namespace RemnantBuildRandomizer
             handler?.Invoke(typeof(GearInfo), e);
         }
     }
+
     public class GearInfoUpdateEventArgs : EventArgs
     {
         public int LocalVersion { get; set; }
@@ -285,6 +300,8 @@ namespace RemnantBuildRandomizer
         Updated,
         Failed,
         NoUpdate
+    }
+        */
     }
 }
 
