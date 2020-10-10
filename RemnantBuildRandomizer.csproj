@@ -62,9 +62,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuildWindow.xaml.cs">
+      <DependentUpon>BuildWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RemnantCharacter.cs" />
     <Compile Include="RemnantSave.cs" />
     <Compile Include="XmlElementExtension.cs" />
+    <Page Include="BuildWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

@@ -49,7 +49,7 @@
                         <Grid Margin="490,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="620">
                             <Image Name="SideView" Source="Resources/IMG/SidePanel.png" Stretch="UniformToFill" Margin="0,38,0,0" Width="343" />
                             <Image Name="BuildCodeView" Source="Resources/IMG/TopPanel.png" Stretch="Fill" Margin="0,0,0,587" Width="343" Height="47"  />
-                            <Button Name="RerollBuild"  Click="ReRollImg" Content="Reroll Build" HorizontalAlignment="Left" Height="62" Margin="53,539,0,0" VerticalAlignment="Top" Width="224" FontSize="24"/>
+                            <Button Name="RerollBuild"  Click="Reroll_Click" Content="Reroll Build" HorizontalAlignment="Left" Height="62" Margin="53,539,0,0" VerticalAlignment="Top" Width="224" FontSize="24"/>
                             <TextBlock  Name="BuildNum" HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="00-00-00-00-00-00-00-00-00-00-00" VerticalAlignment="Top" Width="329" Foreground="White"  FontSize="20" Margin="10,5,0,0">
                                 <TextBlock.ContextMenu>
                                     <ContextMenu>
@@ -64,7 +64,7 @@
             </TabItem>
             <TabItem Header="Blacklist">
                 <Grid Background="#222222"  >
-                    <TabControl Margin="10,216,10,10"  Background="{x:Null}" >
+                    <TabControl Margin="10,258,10,10"  Background="{x:Null}" >
                         <TabItem Header="Weapons">
                             <DataGrid AutoGeneratingColumn="WeaponList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding" Name="WeaponList"></DataGrid>
                         </TabItem>
@@ -81,16 +81,28 @@
                             <DataGrid AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  Name="ModList" ></DataGrid>
                         </TabItem>
                     </TabControl>
-                    <Button Content="Reset Blacklist" Click="ResetBlack_Click" HorizontalAlignment="Left" Height="32" Margin="10,153,0,0" VerticalAlignment="Top" Width="136"/>
+                    <Button Content="Reset Blacklist" Click="ResetBlack_Click" HorizontalAlignment="Left" Height="32" Margin="10,139,0,0" VerticalAlignment="Top" Width="136"/>
                     <Image HorizontalAlignment="Left" Height="117" Margin="10,3,0,0" VerticalAlignment="Top" Width="143" Source="Resources/IMG/T_Icon_Item_WorldFragment.png"/>
-                    <Image HorizontalAlignment="Left" Height="234" Margin="306,3,0,0" VerticalAlignment="Top" Width="280" Source="Resources/IMG/T_Icon_Item_Resource_LaystoneShard.png"/>
-                    <Image HorizontalAlignment="Left" Height="234" Margin="534,0,0,0" VerticalAlignment="Top" Width="280" Source="Resources/IMG/T_Icon_Item_Simulacrum.png"/>
+                    <Image HorizontalAlignment="Left" Height="225" Margin="158,3,0,0" VerticalAlignment="Top" Width="218" Source="Resources/IMG/T_Icon_Item_Resource_LaystoneShard.png"/>
+                    <Image HorizontalAlignment="Left" Height="234" Margin="577,0,0,0" VerticalAlignment="Top" Width="237" Source="Resources/IMG/T_Icon_Item_Simulacrum.png"/>
+                    <TextBlock Foreground="White" FontSize="28" TextAlignment="Center" HorizontalAlignment="Left" Height="36" Margin="352,1,0,0" TextWrapping="Wrap" Text="Disable Empties" VerticalAlignment="Top" Width="238"/>
+                    <DataGrid Name="EmptySlots" AutoGeneratingColumn="EmptySlots_AutoGeneratingColumn" HorizontalAlignment="Left" Height="197" Margin="352,37,0,0" VerticalAlignment="Top" Width="238"/>
+                    <Button Content="Disable All Empties" Click="DisableEmpties_Click"  HorizontalAlignment="Left" Height="32" Margin="10,176,0,0" VerticalAlignment="Top" Width="136"/>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Build List">
                 <Grid Background="#222222" Margin="-2" >
                     <Image Margin="13,0,10,-15" Source="Resources/IMG/Rigs.png" Height="553" VerticalAlignment="Bottom" Stretch="UniformToFill"/>
-                    <DataGrid Name="BuildList" Margin="10,260,352,10" BeginningEdit="BuildList_BeginningEdit"  CellEditEnding="BuildList_CellEditEnding"  RowEditEnding="BuildList_RowEditEnding" Background="#222222"/>
+                    <DataGrid Name="BuildList"  SelectionMode="Single"  SelectionChanged="BuildList_SelectionChanged"  AutoGeneratingColumn="BuildList_AutoGeneratingColumn"  Margin="10,260,352,10" BeginningEdit="BuildList_BeginningEdit"  CellEditEnding="BuildList_CellEditEnding"  RowEditEnding="BuildList_RowEditEnding" Background="#222222">
+                        <DataGrid.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Name="GrabBuildImage" Header="Grab Build Image" />
+                                <MenuItem Name="CopyBuildObject" Header="Copy Build" />
+                                <MenuItem Name="PasteBuildObject" Header="Paste Build" />
+                            </ContextMenu>
+                        </DataGrid.ContextMenu>
+                    </DataGrid>
                     <TextBox Name="BuildNameEnter" HorizontalAlignment="Left" Height="22" Margin="13,199,0,0" TextWrapping="Wrap" Text="Build Name" VerticalAlignment="Top" Width="180"  />
                     <TextBox Name="BuildCodeEnter" HorizontalAlignment="Left" Height="22" Margin="13,221,0,0" TextWrapping="Wrap" Text="Build Code" VerticalAlignment="Top" Width="180"/>
                     <Button Name="AddBuild" Click="Add_Build_Click" Content="Add Build" HorizontalAlignment="Left" Height="22" Margin="198,221,0,0" VerticalAlignment="Top" Width="84"/>

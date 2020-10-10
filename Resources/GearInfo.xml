@@ -159,7 +159,7 @@
       <LongMod name="Static Field Shot" desc="Fires a projectile that deals 65 SHOCK damage and applies the OVERLOADED effect. Overloaded enemies will trigger an explosion when they get within 4 meters from each other dealing up to 325 SHOCK damage within a 5 meter." DLC="Base"></LongMod>
       <LongMod name="Undying" desc="If charged upon death, the wielder will be revived with 50% Health. They will also take 10% less damage and be immune to STATUS effects for 5 seconds. 5 minutes cooldown." DLC="Base"></LongMod>
     </BossWeaponMods>
-    <RegularMods name="_No Mod"  desc="~"  DLC="Base"/>
+    <RegularMods name="_No Mod"  desc="~"  DLC="Base"></RegularMods>
     <RegularMods name="Beckon"  desc="Summons a WASTELAND SKULL which shoots projectiles that deal 40 damage per hit. Lasts 60 seconds. (Max 2)"  DLC="Base">/Items/Mods/Beckon</RegularMods>
     <RegularMods name="Blink Token"  desc="Teleports the caster forward up to 13 meters and creates an electrical blast that deals 210 SHOCK damage within 3 meters."  DLC="Base">/Items/Mods/BlinkToken</RegularMods>
     <RegularMods name="Blizzard"  desc="Cast a storm cloud that rains icicles as it travels forward up to 30 meters.&#10;Icicles deal 30 FROST damage each and apply FROSTBITE to enemies within 2 meters."  DLC="2923">/Items/Mods/Blizzard</RegularMods>
@@ -227,7 +227,7 @@
     <Amulets name="Vulcan's Detonator" desc="Increases Explosion Damage by 25%. Explosions apply BURNING status effect." DLC="2923" >/Items/Trinkets/VulcansDetonator</Amulets>
     <Amulets name="White Rose" desc="Increases all damage dealt by 25% for each unequipped firearm." DLC="2923" >/Items/Trinkets/WhiteRose</Amulets>
 
-    <Rings name="_No Ring" desc="~" DLC="" ></Rings>
+    <Rings name="_No Ring" desc="~" DLC=""></Rings>
     <Rings name="Aggressor's Bane" desc="Reduces incoming damage by 15%.&#10;Increases enemy aggression towards the wearer, and increases enemy Awareness Range by 200%." DLC="" >/Items/Trinkets/AggressorsBane</Rings>
     <Rings name="Akari War Band" desc="Perfect Dodging enemy attacks increases Crit Change by 15% and Crit damage by 15% for 20 seconds." DLC="" >/Items/Trinkets/AkariWarBand</Rings>
     <Rings name="Alchemist's Jewel" desc="Increases Armor Effectiveness by 50%, but also increases Armor Encumberance by 25." DLC="" >/Items/Trinkets/Trinket_AlchemistsJewel</Rings>

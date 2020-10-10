@@ -2,13 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static RemnantBuildRandomizer.RemnantItem;
-using static RemnantBuildRandomizer.GearInfo;
 using System.Text.RegularExpressions;
 using static RemnantBuildRandomizer.DataObj;
+using static RemnantBuildRandomizer.GearInfo;
 
 namespace RemnantBuildRandomizer
 {
@@ -50,7 +47,7 @@ namespace RemnantBuildRandomizer
         }
         public bool Missing { get => missing[character]; set => missing[character] = value; }
         public bool Disabled { get => disabled[character]; set => disabled[character] = value; }
-        public SlotType Slot { get => Data.Slot;}
+        public SlotType Slot { get => Data.Slot; }
         public string Itemname { get => itemname; set => itemname = value; }
         public string Description { get => description; set => description = value; }
         public string Mod { get => mod; set => mod = value; }
@@ -73,7 +70,8 @@ namespace RemnantBuildRandomizer
         {
             return Itemname;
         }
-        public string ToData() {
+        public string ToData()
+        {
             return Itemname + ":" + listToString(missing, '|') + ":" + listToString(disabled, '|');
         }
         public bool Equals(RemnantItem b)
@@ -117,25 +115,35 @@ namespace RemnantBuildRandomizer
 
     public class Build : IEquatable<Build>
     {
-        public RemnantItem hg;
-        public RemnantItem hgm;
-        public RemnantItem lg;
-        public RemnantItem lgm;
-        public RemnantItem m;
-        public RemnantItem he;
-        public RemnantItem ch;
-        public RemnantItem le;
-        public RemnantItem am;
-        public RemnantItem r1;
-        public RemnantItem r2;
+        private RemnantItem hg;
+        private RemnantItem hgm;
+        private RemnantItem lg;
+        private RemnantItem lgm;
+        private RemnantItem m;
+        private RemnantItem he;
+        private RemnantItem ch;
+        private RemnantItem le;
+        private RemnantItem am;
+        private RemnantItem r1;
+        private RemnantItem r2;
 
         private string name;
-        private string code;
         private bool disabled;
 
         public bool Disabled { get => disabled; set => disabled = value; }
         public string BuildName { get => name; set => name = value; }
-        public string Code { get => code; set => code = value; }
+        public string Code { get => toCode(); set => init(value); }
+        public RemnantItem HandGun { get => hg; set => hg = value; }
+        public RemnantItem HandMod { get => hgm; set => hgm = value; }
+        public RemnantItem LongGun { get => lg; set => lg = value; }
+        public RemnantItem LongMod { get => lgm; set => lgm = value; }
+        public RemnantItem Melee { get => m; set => m = value; }
+        public RemnantItem Head { get => he; set => he = value; }
+        public RemnantItem Chest { get => ch; set => ch = value; }
+        public RemnantItem Legs { get => le; set => le = value; }
+        public RemnantItem Amulet { get => am; set => am = value; }
+        public RemnantItem Ring1 { get => r1; set => r1 = value; }
+        public RemnantItem Ring2 { get => r2; set => r2 = value; }
 
         public void init(int[] arr)
         {
@@ -165,17 +173,17 @@ namespace RemnantBuildRandomizer
         }
         public void init(RemnantItem hg, RemnantItem hgm, RemnantItem lg, RemnantItem lgm, RemnantItem m, RemnantItem he, RemnantItem ch, RemnantItem le, RemnantItem am, RemnantItem r1, RemnantItem r2)
         {
-            this.hg = hg;
-            this.hgm = hgm;
-            this.lg = lg;
-            this.lgm = lgm;
-            this.m = m;
-            this.he = he;
-            this.ch = ch;
-            this.le = le;
-            this.am = am;
-            this.r1 = r1;
-            this.r2 = r2;
+            this.HandGun = hg;
+            this.HandMod = hgm;
+            this.LongGun = lg;
+            this.LongMod = lgm;
+            this.Melee = m;
+            this.Head = he;
+            this.Chest = ch;
+            this.Legs = le;
+            this.Amulet = am;
+            this.Ring1 = r1;
+            this.Ring2 = r2;
         }
 
         public Build(string name, RemnantItem hg, RemnantItem hgm, RemnantItem lg, RemnantItem lgm, RemnantItem m, RemnantItem he, RemnantItem ch, RemnantItem le, RemnantItem am, RemnantItem r1, RemnantItem r2)
@@ -192,6 +200,7 @@ namespace RemnantBuildRandomizer
             }
             Code = this.toCode();
         }
+
 
 
         public Build(string name, int[] arr)
@@ -225,6 +234,91 @@ namespace RemnantBuildRandomizer
             Code = this.toCode();
 
         }
+        public Build(string name)
+        {
+            this.name = name;
+
+            HandGun = Reroll(SlotType.HG);
+            LongGun = Reroll(SlotType.LG);
+            Melee = Reroll(SlotType.M);
+            Head = Reroll(SlotType.HE);
+            Chest = Reroll(SlotType.CH);
+            Legs = Reroll(SlotType.LE);
+            Amulet = Reroll(SlotType.AM);
+            Ring1 = Reroll(SlotType.RI);
+            Ring2 = Reroll(SlotType.RI, Ring1);
+
+            if (HandGun.Mod != "" || HandGun.Mod != "~") { HandMod = RerollMod(); } else { HandMod = StrToRI[HandGun.Mod]; }
+            if (LongGun.Mod != "" || LongGun.Mod != "~")
+            {
+                if (HandGun.Mod != "" || HandGun.Mod != "~") { LongMod = RerollMod(HandMod); }
+                else { LongMod = RerollMod(); }
+            }
+            else { LongMod = StrToRI[LongGun.Mod]; }
+        }
+
+        private RemnantItem Reroll(SlotType st)
+        {
+            try
+            {
+                Random rd = MainWindow.rd;
+                List<RemnantItem> list = GetGood(GetEquipment[st].ToList());
+                int num = rd.Next(list.Count);
+                Debug.WriteLine(st.ToString() + " Count: " + list.Count + " Chosen:" + num);
+                return list[num];
+            }
+            catch (Exception)
+            {
+                return GetEquipment[st][0];
+            }
+        }
+        private RemnantItem Reroll(SlotType st, params RemnantItem[] exclusion)
+        {
+            Random rd = MainWindow.rd;
+            try
+            {
+                List<RemnantItem> list = GetGood(GetEquipment[st].Except(exclusion).ToList());
+                return list[rd.Next(list.Count)];
+            }
+            catch (Exception)
+            {
+                return GetEquipment[st][0];
+            }
+        }
+        private RemnantItem RerollMod()
+        {
+            try
+            {
+                Random rd = MainWindow.rd;
+                List<RemnantItem> modlist = GetEquipment[SlotType.MO].Take(28).ToList();
+                return GetGood(modlist)[rd.Next(GetGood(modlist).Count)];
+            }
+            catch (Exception)
+            {
+                return GetEquipment[SlotType.MO][0];
+            }
+        }
+        private RemnantItem RerollMod(params RemnantItem[] exclusion)
+        {
+            try
+            {
+                Random rd = MainWindow.rd;
+                List<RemnantItem> modlist = GetEquipment[SlotType.MO].Take(28).Except(exclusion).ToList();
+                return GetGood(modlist)[rd.Next(GetGood(modlist).Count)];
+            }
+            catch (Exception)
+            {
+                return GetEquipment[SlotType.MO][0];
+            }
+        }
+
+
+
+        private List<RemnantItem> GetGood(List<RemnantItem> ri)
+        {
+            return ri.Where(X => X.Disabled == false && X.Missing == false).ToList();
+        }
+
         public RemnantItem FindItem(SlotType st, string index)
         {
             int val = int.Parse(index);
@@ -234,33 +328,40 @@ namespace RemnantBuildRandomizer
         {
             try
             {
-                return GearList[st][index];
+
+                return GearInfo.GetEquipment[st][index];
             }
             catch (ArgumentOutOfRangeException)
             {
 
-                int val = MainWindow.rd.Next(GearList[st].Count);
-                Debug.WriteLine("OutOfRangeException: " + index + " Choosing random instead:" + val);
-                return GearList[st][val];
+
+                Debug.WriteLine("OutOfRangeException: " + index + " Setting to default instead:" + 0);
+                return GearInfo.GetEquipment[st][0];
             }
         }
         public string toCode()
         {
             string code = "";
             //code += BuildName+":";
-            code += hg.Data.ID + "-";
-            code += hgm.Data.ID + "-";
-            code += lg.Data.ID + "-";
-            code += lgm.Data.ID + "-";
-            code += m.Data.ID + "-";
-            code += he.Data.ID + "-";
-            code += ch.Data.ID + "-";
-            code += le.Data.ID + "-";
-            code += am.Data.ID + "-";
-            code += r1.Data.ID + "-";
-            code += r2.Data.ID;
+            code += HandGun.Data.ID + "-";
+            code += HandMod.Data.ID + "-";
+            code += LongGun.Data.ID + "-";
+            code += LongMod.Data.ID + "-";
+            code += Melee.Data.ID + "-";
+            code += Head.Data.ID + "-";
+            code += Chest.Data.ID + "-";
+            code += Legs.Data.ID + "-";
+            code += Amulet.Data.ID + "-";
+            code += Ring1.Data.ID + "-";
+            code += Ring2.Data.ID;
 
             return code;
+        }
+        public static Build FromData(string data)
+        {
+            string[] args = data.Split(':');
+            Build b = new Build(args[0], args[1]);
+            return b;
         }
 
         public bool Equals(Build b)
@@ -269,7 +370,10 @@ namespace RemnantBuildRandomizer
             return false;
 
         }
-
+        public string ToData()
+        {
+            return BuildName + ":" + Code;
+        }
         public override string ToString()
         {
             return BuildName + ":" + Code + ":" + (Disabled ? 1 : 0);
