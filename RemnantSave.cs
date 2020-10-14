@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
-
+using System.Diagnostics;
 
 namespace RemnantBuildRandomizer
 {
@@ -61,7 +61,21 @@ namespace RemnantBuildRandomizer
 
         public void UpdateCharacters()
         {
-            saveCharacters = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath);
+            var test = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath);
+            if (saveCharacters != null && test.Equals(saveCharacters))
+            {
+                Debug.WriteLine("Data Not Updated");
+            }
+            else
+            {
+                Debug.WriteLine("New Char data");
+                saveCharacters = test;
+                MainWindow.SlogMessage("Updating Character Info:");
+                foreach (RemnantCharacter rc in this.Characters)
+                {
+                    MainWindow.SlogMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
+                }
+            }
         }
 
         public void UpdateCharacters(RemnantCharacter.CharacterProcessingMode mode)

@@ -32,6 +32,7 @@ namespace RemnantBuildRandomizer
         public static Dictionary<SlotType, List<RemnantItem>> GetEquipment { get => getEquipment; set => getEquipment = value; }
 
         private static Dictionary<int, List<Build>> presets;
+        private static Dictionary<int, int> saveSlot;
 
         public static readonly Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>() {
             {"Chest",SlotType.CH },{"Head",SlotType.HE }, {"Legs",SlotType.LE },{"BossHand",SlotType.HG },
@@ -65,37 +66,66 @@ namespace RemnantBuildRandomizer
                 if (presets == null) { presets = new Dictionary<int, List<Build>>(); }
                 if (presets.Values.Count == 0)
                 {
-                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { presets.Add(rc.charNum, new List<Build>()); }
+                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                    {
+                        foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { presets.Add(rc.charNum, new List<Build>()); }
+                    }
+                    else { presets.Add(0, new List<Build>()); }
                 }
+
                 return presets;
             }
         }
 
-
-
-        public static void GetData()
+        public static Dictionary<int, int> SaveSlot
         {
-            string path = MainWindow.BackupDirPath + @"/Data.txt";
-            List<RemnantCharacter> chars = MainWindow.ActiveSave.Characters;
+            get
+            {
+                if (saveSlot == null) { saveSlot = new Dictionary<int, int>(); }
+                if (saveSlot.Values.Count == 0)
+                {
+                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { saveSlot.Add(rc.charNum, rc.charNum); }
+                }
+                return saveSlot;
+            }
+        }
+
+        public static void CreateData(string path, List<RemnantCharacter> chars)
+        {
+
             if (!File.Exists(path))
             {
                 using (StreamWriter sw = File.CreateText(path))
                 {
-                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters)
+                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
                     {
-                        Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
-                        foreach (Build b in Presets[rc.charNum])
+                        foreach (RemnantCharacter rc in chars)
                         {
-                            sw.WriteLine("$:" + rc.charNum + ":" + b);
+
+                            Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
+                            foreach (Build b in Presets[rc.charNum])
+                            {
+                                sw.WriteLine("$:" + rc.charNum + ":" + b);
+                            }
+                        }
+
+
+                    }
+                    else
+                    {
+                        foreach (Build b in Presets[0])
+                        {
+                            sw.WriteLine("$:" + 0 + ":" + b);
                         }
                     }
+
                     foreach (RemnantItem ri in StrToRI.Values)
                     {
                         if (ri.disabled.Count == 0)
                         {
                             ri.missing.Clear();
                             ri.disabled.Clear();
-                            for (int i = 0; i < MainWindow.ActiveSave.Characters.Count; i++)
+                            for (int i = 0; i < chars.Count; i++)
                             {
                                 ri.disabled.Add(false);
                                 ri.missing.Add(false);
@@ -106,42 +136,71 @@ namespace RemnantBuildRandomizer
                 }
             }
 
-
-            // Open the file to read from.
+        }
+        public static void ReadData(string path, List<RemnantCharacter> chars)
+        {
             using (StreamReader sr = File.OpenText(path))
             {
                 string s = "";
                 while ((s = sr.ReadLine()) != null)
                 {
-                    string[] args = s.Split(':');
-                    switch (args[0].ToCharArray()[0])
-                    {
-                        case '$':
-                            Build b = new Build(args[2], args[3]);
-                            b.Disabled = (int.Parse(args[4]) == 1);
-                            Presets[int.Parse(args[1])].Add(b);
-                            break;
-                        case '#':
-                            string[] sown = args[2].Split('|');
-                            List<bool> owned = new List<bool>();
-                            string[] sdis = args[3].Split('|');
-                            List<bool> disabled = new List<bool>();
-                            for (int i = 0; i < chars.Count; i++)
-                            {
-                                owned.Add((int.Parse(sown[i]) == 1));
-                                disabled.Add((int.Parse(sdis[i]) == 1));
-                            }
-                            StrToRI[args[1]].missing = owned;
-                            StrToRI[args[1]].disabled = disabled;
-                            break;
-                    }
+                    //try{
+                    
+                        string[] args = s.Split(':');
+                        switch (args[0].ToCharArray()[0])
+                        {
+                            case '$':
+                                Build b = new Build(args[2], args[3]);
+                                b.Disabled = (int.Parse(args[4]) == 1);
+                                Presets[int.Parse(args[1])].Add(b);
+                                break;
+                            case '#':
+                                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                                {
+                                    string[] sown = args[2].Split('|');
+                                    List<bool> owned = new List<bool>();
+                                    string[] sdis = args[3].Split('|');
+                                    List<bool> disabled = new List<bool>();
+                                    for (int i = 0; i < chars.Count; i++)
+                                    {
+                                        if (sown[i] == null) { sown[i] = "0"; }
+                                        if (sdis[i] == null) { sdis[i] = "0"; }
+
+                                        owned.Add((int.Parse(sown[i]) == 1));
+                                        disabled.Add((int.Parse(sdis[i]) == 1));
+                                    }
+                                    StrToRI[args[1]].missing = owned;
+                                    StrToRI[args[1]].disabled = disabled;
+                                }
+                                else
+                                {
+                                    StrToRI[args[1]].missing = new List<bool>() { (int.Parse(args[2]) == 1) };
+                                    StrToRI[args[1]].disabled = new List<bool>() { (int.Parse(args[3]) == 1) };
+                                }
+
+                                break;
+                        }
+                    
+                   // }catch (Exception pd) { MainWindow.SlogMessage("Unknown Error While Parsing Data: " + pd.Message); }
                 }
-                foreach (RemnantCharacter rc in chars)
-                {
-                    MainWindow.SlogMessage(rc + " Has " + Presets[rc.charNum].Count + " Builds");
-                }
+
             }
         }
+        public static void GetData()
+        {
+            string path = MainWindow.BackupDirPath + @"/Data.txt";
+
+            List<RemnantCharacter> chars;
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                chars = MainWindow.ActiveSave.Characters;
+
+            }
+            else { chars = new List<RemnantCharacter>(); }
+            CreateData(path, chars);
+            ReadData(path, chars);
+        }
+
 
         public static void ReadXML()
         {
@@ -166,13 +225,13 @@ namespace RemnantBuildRandomizer
             foreach (XmlElement xe in doc.GetElementsByTagName(tag))
             {
                 RemnantItem ri = new RemnantItem(XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
-                if (xe.InnerText != null &&xe.InnerText!="")
+                if (xe.InnerText != null && xe.InnerText != "")
                 {
-                    
+
                     Item rItem = new Item(xe.InnerText);
                     rItem.ItemAltName = ri.Itemname;
                     items.Add(rItem);
-                    Debug.WriteLine("Adding: "+ri.Itemname+" Inner text: "+xe.InnerText);
+                    // Debug.WriteLine("Adding: "+ri.Itemname+" Inner text: "+xe.InnerText);
                 }
                 ri.Mod = xe.GetAttribute("mod");
                 StrToRI.Add(ri.Itemname, ri);

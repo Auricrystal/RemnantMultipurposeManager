@@ -67,9 +67,10 @@ namespace RemnantBuildRandomizer
 
         public enum CharacterProcessingMode { All, NoEvents };
 
+        
         public static List<RemnantCharacter> GetCharactersFromSave(string saveFolderPath)
         {
-            Debug.WriteLine("GET CHAR FROM SAVE!!!");
+            
             return GetCharactersFromSave(saveFolderPath, CharacterProcessingMode.All);
         }
 
@@ -79,6 +80,7 @@ namespace RemnantBuildRandomizer
             try
             {
                 string profileData = File.ReadAllText(saveFolderPath + "\\profile.sav");
+                
                 string[] characters = profileData.Split(new string[] { "/Game/Characters/Player/Base/Character_Master_Player.Character_Master_Player_C" }, StringSplitOptions.None);
                 for (var i = 1; i < characters.Length; i++)
                 {

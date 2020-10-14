@@ -25,6 +25,9 @@
                 <MenuItem Header="Open Data Folder" Click="DataFolder_Click"></MenuItem>
             </MenuItem>
             <ComboBox Name="cmbCharacter" SelectionChanged="CmbCharacter_SelectionChanged" Width="120"></ComboBox>
+            <TextBlock Name="SaveTime" Text="Last Save:"/>
+            <CheckBox Name="KeepCheckpoint" Content="Keep Current Checkpoint" Checked="KeepCheckpoint_Checked" />
+
         </Menu>
         <TabControl Margin="0,23,0,0" Background="#222222">
             <TabItem Header="Build Generator">
@@ -125,11 +128,19 @@
 
                 </Grid>
             </TabItem>
+            <TabItem Name="BossManagerTab" Header="Boss Manager">
+                <Grid>
+                    <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" Margin="235,10,0,0" TextWrapping="Wrap" Text="Boss Settings " VerticalAlignment="Top" Width="326" FontSize="36" Foreground="White"/>
+                    <ComboBox IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="BossList"  Height="27" Margin="234,232,263,371"/>
+                    <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Boss" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="27" Margin="448,278,0,0" VerticalAlignment="Top" Width="113"/>
+                    <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="162,84,0,0" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="22"/>
+                    <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="373,84,132,461"/>
+                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="27" Margin="234,278,0,0" VerticalAlignment="Top" Width="113"/>
+                    <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="234,337,263,208"/>
+                </Grid>
+            </TabItem>
             <TabItem Header="Log">
                 <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
                     <TextBox x:Name="txtLog" TextWrapping="Wrap" Background="White" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
             </TabItem>

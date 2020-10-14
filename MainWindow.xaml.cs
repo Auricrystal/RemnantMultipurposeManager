@@ -37,27 +37,34 @@ namespace RemnantBuildRandomizer
     public partial class MainWindow : Window
     {
 
-        private static MainWindow MW = null;
-        private static string saveDirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames";
-
+        public static MainWindow MW = null;
+        private static string saveDirPath;
+        //private static string bossDirPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\BossSaves";
         readonly public static Random rd = new Random();
         private static RemnantSave activeSave;
         private static int badluck = 0;
 
+        private Assembly assembly;
+        List<string> BossData;
+
         private FileSystemWatcher saveWatcher;
+        private FileSystemWatcher worldWatcher;
+
+
         private DateTime lastUpdateCheck;
 
         public static RemnantSave ActiveSave
         {
             get
             {
-                if (activeSave == null) { ActiveSave = new RemnantSave(saveDirPath); }
+                if (activeSave == null) { ActiveSave = new RemnantSave(SaveDirPath); }
                 return activeSave;
 
             }
             set => activeSave = value;
         }
         public RemnantCharacter ActiveCharacter { get => ActiveSave.Characters[cmbCharacter.SelectedIndex]; }
+        public int ActiveSaveSlot { get => SaveSlot[ActiveCharacter.charNum]; set => SaveSlot[ActiveCharacter.charNum] = value; }
         public static string BackupDirPath
         {
             get
@@ -66,6 +73,25 @@ namespace RemnantBuildRandomizer
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR";
             }
         }
+        public static string BossDirPath
+        {
+            get
+            {
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\BossSaves\\Backup");
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\BossSaves";
+            }
+        }
+
+        public static string SaveDirPath
+        {
+            get
+            {
+                string path = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames";
+                return path;
+            }
+            set => saveDirPath = value;
+        }
+
         public enum LogType
         {
             Normal,
@@ -76,38 +102,106 @@ namespace RemnantBuildRandomizer
         {
             MW = this;
             InitializeComponent();
+            assembly = Assembly.GetExecutingAssembly();
+            BossData = getBossData();
+            File.Delete(BackupDirPath + "\\log.txt");
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                saveWatcher = new FileSystemWatcher();
+                worldWatcher = new FileSystemWatcher();
 
-            saveWatcher = new FileSystemWatcher();
-            saveWatcher.Path = saveDirPath;
 
-            // Watch for changes in LastWrite times.
-            saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                saveWatcher.Path = SaveDirPath;
+                worldWatcher.Path = SaveDirPath;
 
-            // Only watch sav files.
-            saveWatcher.Filter = "profile.sav";
 
-            // Add event handlers.
-            saveWatcher.Changed += OnSaveFileChanged;
-            saveWatcher.Created += OnSaveFileChanged;
-            saveWatcher.Deleted += OnSaveFileChanged;
+                // Watch for changes in LastWrite times.
+                //saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
+                worldWatcher.NotifyFilter = NotifyFilters.LastWrite;
+
+
+                // Only watch sav files.
+                saveWatcher.Filter = "profile.sav";
+                worldWatcher.Filter = "save_*.sav";
+
+
+                // Add event handlers.
+                saveWatcher.Changed += OnSaveFileChanged;
+                saveWatcher.Created += OnSaveFileChanged;
+                saveWatcher.Deleted += OnSaveFileChanged;
+
+                worldWatcher.Changed += OnWorldFileChanged;
+                worldWatcher.Created += OnWorldFileChanged;
+                worldWatcher.Deleted += OnWorldFileChanged;
+            }
             //watcher.Renamed += OnRenamed;
 
             ((MenuItem)BuildList.ContextMenu.Items[0]).Click += GrabBuild_Click;
             ((MenuItem)BuildList.ContextMenu.Items[1]).Click += CopyBuildObj_Click;
             ((MenuItem)BuildList.ContextMenu.Items[2]).Click += PasteBuildObj_Click;
+            //RandomBoss.IsChecked = false;
+
+            //Debug.WriteLine(new RemnantBoss(RemnantBoss.Boss.Ent, RemnantBoss.Modifier.None, RemnantBoss.Difficulty.Apocalypse).toFilename());
+
         }
 
+        private void OnWorldFileChanged(object source, FileSystemEventArgs e)
+        {
+            // Specify what is done when a file is changed, created, or deleted.
+            logMessage("World save " + e.Name + " was written to");
+            int save = int.Parse(e.Name.Replace("save_", "").Replace(".sav", ""));
+            if (!Dispatcher.CheckAccess())
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (ActiveSaveSlot != save)
+                    {
+                        var confirmResult = MessageBox.Show("Save Slot does not match Character Slot, Update Save Index?\n\nIf you just restored a save select 'No'", "Mismatch Error", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                        if (confirmResult == MessageBoxResult.Yes)
+                        {
+                            logMessage(ActiveCharacter + " save index updated to " + e.Name);
+                            ActiveSaveSlot = save;
+                        }
+                    }
+                });
+            }
+            else
+            {
+                if (ActiveSaveSlot != save)
+                {
+                    var confirmResult = MessageBox.Show("Save Slot does not match Character Slot, Update Save Index?", "Mismatch Error", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (confirmResult == MessageBoxResult.Yes)
+                    {
+                        logMessage(ActiveCharacter + " save index updated to " + e.Name);
+                        ActiveSaveSlot = save;
+                    }
+                }
+            }
+
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Debug.WriteLine("Current save date: " + File.GetLastWriteTime(saveDirPath + "\\profile.sav").ToString());
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                Debug.WriteLine("Current save date: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav").ToString());
 
-            saveWatcher.EnableRaisingEvents = true;
+                saveWatcher.EnableRaisingEvents = true;
+                worldWatcher.EnableRaisingEvents = true;
 
-            ActiveSave = new RemnantSave(saveDirPath);
+                ActiveSave = new RemnantSave(SaveDirPath);
 
-            cmbCharacter.ItemsSource = ActiveSave.Characters;
-            cmbCharacter.SelectedIndex = 0;
+                cmbCharacter.ItemsSource = ActiveSave.Characters;
+                cmbCharacter.SelectedIndex = 0;
+            }
+            else
+            {
+                cmbCharacter.IsEnabled = false;
+                BossManagerTab.IsEnabled = false;
+                KeepCheckpoint.IsEnabled = false;
+            }
+
 
             ReadXML();
             GetData();
@@ -115,9 +209,12 @@ namespace RemnantBuildRandomizer
             checkForUpdate();
 
             SetupData();
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                UpdateCharacterData();
+                disablemissing();
+            }
 
-            UpdateCharacterData();
-            disablemissing();
         }
         private void SetupData()
         {
@@ -135,11 +232,17 @@ namespace RemnantBuildRandomizer
 
             WeaponList.ItemsSource = Combine(hglist, lglist, mlist).Except(empties).ToList();
             ArmorList.ItemsSource = Combine(helist, chlist, lelist).Except(empties).ToList();
-            AmuletList.ItemsSource = amlist.Except(empties);
-            RingList.ItemsSource = rilist.Except(empties);
-            ModList.ItemsSource = molist.Except(empties);
-            BuildList.ItemsSource = Presets[ActiveCharacter.charNum].ToList();
+            AmuletList.ItemsSource = amlist.Except(empties).ToList();
+            RingList.ItemsSource = rilist.Except(empties).ToList();
+            ModList.ItemsSource = molist.Except(empties).ToList();
+
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                BuildList.ItemsSource = Presets[ActiveCharacter.charNum].ToList();
+            }
+            else { BuildList.ItemsSource = Presets[0].ToList(); }
             EmptySlots.ItemsSource = empties;
+            BossList.ItemsSource = getBossData();
 
             cmbHG.ItemsSource = hglist;
             cmbHGM.ItemsSource = molist;
@@ -165,6 +268,48 @@ namespace RemnantBuildRandomizer
             cmbR1.SelectedIndex = 0;
             cmbR2.SelectedIndex = 0;
         }
+        private string LoadBossSave()
+        {
+            var Name = BossData[rd.Next(BossData.Count)];
+
+            using (Stream stream = assembly.GetManifestResourceStream("RemnantBuildRandomizer.Bosses." + Name))
+            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
+            {
+                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
+            }
+            return Name;
+        }
+        private void LoadBossSave(RemnantBoss rb)
+        {
+
+            using (Stream stream = assembly.GetManifestResourceStream(Name))
+            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
+            {
+                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
+            }
+
+        }
+        private void LoadBossSave(string rb)
+        {
+
+            using (Stream stream = assembly.GetManifestResourceStream(rb))
+            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
+            {
+                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
+            }
+
+        }
+
+        private List<string> getBossData()
+        {
+            List<string> bosses = assembly.GetManifestResourceNames().Where(x => x.Contains(".sav")).ToList();
+            for (int i = 0; i < bosses.Count; i++)
+            {
+                bosses[i] = bosses[i].Replace("RemnantBuildRandomizer.Bosses.", "");
+            }
+            return bosses;
+        }
+
         private static List<T> Combine<T>(params IEnumerable<T>[] rils)
         {
             List<T> li = new List<T>();
@@ -263,13 +408,52 @@ namespace RemnantBuildRandomizer
         private void OnSaveFileChanged(object source, FileSystemEventArgs e)
         {
             // Specify what is done when a file is changed, created, or deleted.
-            logMessage("Save File Changed...");
+
+
+            KeepCheck();
             UpdateCharacterData();
+
         }
+
+        private void KeepCheck()
+        {
+            if (!Dispatcher.CheckAccess())
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    if (KeepCheckpoint.IsChecked == true)
+                    {
+                        LoadCheckpoint();
+                    }
+                });
+            }
+            else
+            {
+                if (KeepCheckpoint.IsChecked == true)
+                {
+                    LoadCheckpoint();
+                }
+            }
+        }
+
+
+
         private void UpdateCharacterData()
         {
-            logMessage("Updating Character Info:");
+            logMessage("Save File Changed...");
             ActiveSave.UpdateCharacters();
+            if (!Dispatcher.CheckAccess())
+            {
+                this.Dispatcher.Invoke(() =>
+                {
+                    SaveTime.Text = "Last Save: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav");
+                });
+            }
+            else
+            {
+                SaveTime.Text = "Last Save: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav");
+            }
+
             if (!Dispatcher.CheckAccess())
             {
                 this.Dispatcher.Invoke(() =>
@@ -285,17 +469,20 @@ namespace RemnantBuildRandomizer
                 cmbCharacter.SelectedIndex = 0;
                 cmbCharacter.Items.Refresh();
             }
-            logMessage("Characters: " + ActiveSave.Characters.Count);
-            foreach (RemnantCharacter rc in ActiveSave.Characters)
-            {
-                logMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
-            }
+            //logMessage("Characters: " + ActiveSave.Characters.Count);
+
         }
 
 
         private void Reroll_Click(object sender, RoutedEventArgs e)
         {
-            List<Build> builds = Presets[ActiveCharacter.charNum];
+            int slot;
+            if (File.Exists(SaveDirPath + "\\profile.sav"))
+            {
+                slot = ActiveCharacter.charNum;
+            }
+            else { slot = 0; }
+            List<Build> builds = Presets[slot];
 
             List<Build> list = builds.Where(x => x.Disabled == false).ToList();
             if (list.Count > 0 && rd.Next(100) <= badluck)
@@ -399,6 +586,16 @@ namespace RemnantBuildRandomizer
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //MessageBox.Show("Closing called");
+            if (AlterFile.IsChecked == true)
+            {
+                LoadCheckpoint(BossDirPath + "\\Backup", "BackupSave");
+            }
+            else if (KeepCheckpoint.IsChecked == true)
+            {
+                LoadCheckpoint();
+            }
+
+
             SaveData();
         }
 
@@ -410,13 +607,23 @@ namespace RemnantBuildRandomizer
             {
                 if (BuildNameEnter.Text == "") { throw new Exception("No BuildName Assigned to Build!"); }
                 Build b = new Build(BuildNameEnter.Text, BuildCodeEnter.Text);
-                if (!Presets[ActiveCharacter.charNum].Contains(new Build(BuildNameEnter.Text, BuildCodeEnter.Text)))
+                int slot;
+                if (File.Exists(SaveDirPath + "\\profile.sav"))
+                {
+                    slot = ActiveCharacter.charNum;
+                }
+                else { slot = 0; }
+                if (!Presets[slot].Contains(new Build(BuildNameEnter.Text, BuildCodeEnter.Text)))
                 {
                     BuildNameEnter.Text = "";
                     BuildCodeEnter.Text = "";
-                    Presets[ActiveCharacter.charNum].Add(b);
+
+                    Presets[slot].Add(b);
+                    BuildList.ItemsSource = Presets[slot];
+                    Debug.WriteLine("Preset count" + Presets[slot].Count);
                     BuildList.Items.Refresh();
                 }
+                BuildList.Items.Refresh();
             }
             catch (Exception ce)
             {
@@ -462,6 +669,7 @@ namespace RemnantBuildRandomizer
                 disablemissing();
                 safeRefresh(WeaponList, ArmorList, AmuletList, RingList, ModList, BuildList, EmptySlots);
             }
+
         }
         private void safeRefresh(params DataGrid[] dg)
         {
@@ -475,8 +683,6 @@ namespace RemnantBuildRandomizer
                 d.CommitEdit();
                 d.CommitEdit();
             }
-
-
         }
 
 
@@ -492,8 +698,6 @@ namespace RemnantBuildRandomizer
             {
                 StrToRI[ri.ItemAltName].Missing = true;
             }
-
-            //BuildList.Items.Refresh();
 
         }
 
@@ -521,16 +725,35 @@ namespace RemnantBuildRandomizer
         {
             string headername = e.Column.Header.ToString();
             //Cancel the column you don't want to generate
+
+            if (headername == "Missing")
+            {
+                string path = SaveDirPath + "\\profile.sav ";
+                Debug.WriteLine("header is " + headername + " " + path + " Exists " + File.Exists(SaveDirPath + "\\profile.sav"));
+                if (File.Exists(SaveDirPath + "\\profile.sav"))
+                {
+                    Debug.WriteLine("Readonly " + headername);
+                    e.Column.IsReadOnly = true;
+                }
+                else
+                {
+                    Debug.WriteLine("Cancelling " + headername);
+                    e.Cancel = true;
+                }
+            }
+
+
             switch (headername)
             {
                 case "Data":
                 case "Description":
                 case "Character": e.Cancel = true; break;
 
+
+
                 case "Itemname":
                 case "Slot":
-                case "Mod":
-                case "Missing": e.Column.IsReadOnly = true; break;
+                case "Mod": e.Column.IsReadOnly = true; break;
                 default: break;
             }
 
@@ -546,10 +769,10 @@ namespace RemnantBuildRandomizer
                 case "Mod":
                 case "Character": e.Cancel = true; break;
 
+                case "Missing": if (!File.Exists(SaveDirPath + "\\profile.sav")) { e.Cancel = true; } else { e.Column.IsReadOnly = true; } break;
                 case "Itemname":
                 case "Slot":
-                case "Description":
-                case "Missing": e.Column.IsReadOnly = true; break;
+                case "Description": e.Column.IsReadOnly = true; break;
                 default: break;
             }
         }
@@ -565,9 +788,9 @@ namespace RemnantBuildRandomizer
                 case "Slot":
                 case "Character": e.Cancel = true; break;
 
+                case "Missing": if (!File.Exists(SaveDirPath + "\\profile.sav")) { e.Cancel = true; } else { e.Column.IsReadOnly = true; } break;
                 case "Itemname":
-                case "Description":
-                case "Missing": e.Column.IsReadOnly = true; break;
+                case "Description": e.Column.IsReadOnly = true; break;
                 default: break;
             }
         }
@@ -747,7 +970,7 @@ namespace RemnantBuildRandomizer
             {
                 Build selectedBuild = (Build)(BuildList.SelectedItem);
                 logMessage("Grabbing Build Object of (" + selectedBuild.BuildName + ")");
-                Clipboard.SetText(selectedBuild.ToData());
+                Clipboard.SetText(selectedBuild.ToData().Trim());
                 BuildList.SelectedItem = null;
             }
         }
@@ -755,11 +978,17 @@ namespace RemnantBuildRandomizer
         {
             try
             {
-                Build b = Build.FromData(Clipboard.GetText());
-                logMessage("Pasting Build (" + b + ")");
-                if (!Presets[ActiveCharacter.charNum].Contains(b))
+                int slot;
+                if (File.Exists(SaveDirPath + "\\profile.sav"))
                 {
-                    Presets[ActiveCharacter.charNum].Add(b);
+                    slot = ActiveCharacter.charNum;
+                }
+                else { slot = 0; }
+                Build b = Build.FromData(Clipboard.GetText().Trim());
+                logMessage("Pasting Build (" + b + ")");
+                if (!Presets[slot].Contains(b))
+                {
+                    Presets[slot].Add(b);
                     safeRefresh(BuildList);
                 }
                 else
@@ -824,6 +1053,106 @@ namespace RemnantBuildRandomizer
                 ri.Disabled = true;
             }
             EmptySlots.Items.Refresh();
+        }
+        private void SaveCheckpoint()
+        {
+            SaveCheckpoint("KeepSave", BossDirPath + "\\Backup");
+        }
+        private void SaveCheckpoint(string savename)
+        {
+            SaveCheckpoint(savename, BossDirPath + "\\Backup");
+        }
+
+        private void SaveCheckpoint(string savename, string saveTo)
+        {
+            string save = "save_" + ActiveSaveSlot + ".sav";
+            string back = "save_" + ActiveSaveSlot + ".bak";
+            File.Copy(SaveDirPath + "\\" + save, saveTo + "\\" + savename + ".sav", true);
+            File.Copy(SaveDirPath + "\\" + back, saveTo + "\\" + savename + ".bak", true);
+            logMessage("Saving checkpoint: " + savename + " to " + saveTo);
+        }
+        private void LoadCheckpoint()
+        {
+            LoadCheckpoint(BossDirPath + "\\Backup", "KeepSave");
+        }
+        private void LoadCheckpoint(string path, string savename)
+        {
+            try
+            {
+                string save = "save_" + ActiveSaveSlot + ".sav";
+                string backup = "save_" + ActiveSaveSlot + ".bak";
+                File.Copy(path + "\\" + savename + ".sav", SaveDirPath + "\\" + save, true);
+                File.Copy(path + "\\" + savename + ".bak", SaveDirPath + "\\" + backup, true);
+                logMessage("Loading Checkpoint: " + savename + " from " + path);
+            }
+            catch (IOException ex)
+            {
+                if (ex.Message.Contains("being used by another process"))
+                {
+                    Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
+
+                    System.Threading.Thread.Sleep(5000);
+                    LoadCheckpoint(path, savename);
+                }
+            }
+        }
+        private void LoadCheckpointTest(string path, string savename)
+        {
+            string save = "save_" + ActiveSaveSlot + ".sav";
+            string backup = "save_" + ActiveSaveSlot + ".bak";
+
+            using (StreamWriter sw = File.CreateText(SaveDirPath + "\\" + save))
+            {
+                using (StreamReader sr = File.OpenText(path + "\\" + savename + ".sav"))
+                {
+                    sw.WriteLine(sr.ReadLine());
+                }
+            }
+            logMessage("Loading Checkpoint: " + savename + " from " + path);
+        }
+
+        private void RandomBoss_Checked(object sender, RoutedEventArgs e)
+        {
+
+
+        }
+        private void RandomBoss_Unchecked(object sender, RoutedEventArgs e)
+        {
+        }
+
+
+        private void RerollBoss_Click(object sender, RoutedEventArgs e)
+        {
+            KeepCheck();
+        }
+
+        private void KeepCheckpoint_Checked(object sender, RoutedEventArgs e)
+        {
+            SaveCheckpoint();
+        }
+
+        private void LoadBoss_Click(object sender, RoutedEventArgs e)
+        {
+            if (BossList.SelectedIndex > -1)
+                LoadBossSave("RemnantBuildRandomizer.Bosses." + ((string)BossList.SelectedItem));
+        }
+
+        private void AlterFile_Checked(object sender, RoutedEventArgs e)
+        {
+            SaveCheckpoint("BackupSave", BossDirPath + "\\Backup");
+        }
+
+        private void AlterFile_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+            LoadCheckpoint(BossDirPath + "\\Backup", "BackupSave");
+        }
+
+        private void FeelingLucky_Click(object sender, RoutedEventArgs e)
+        {
+            string s = LoadBossSave();
+            BossList.SelectedIndex = BossList.Items.IndexOf(s);
+            BossList.Items.Refresh();
         }
     }
 }

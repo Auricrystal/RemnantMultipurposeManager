@@ -6,6 +6,7 @@ using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using static RemnantBuildRandomizer.DataObj;
 using static RemnantBuildRandomizer.GearInfo;
+using System.IO;
 
 namespace RemnantBuildRandomizer
 {
@@ -45,8 +46,48 @@ namespace RemnantBuildRandomizer
             this.disabled = new List<bool>();
             this.Character = 0;
         }
-        public bool Missing { get => missing[character]; set => missing[character] = value; }
-        public bool Disabled { get => disabled[character]; set => disabled[character] = value; }
+        public bool Missing
+        {
+            get
+            {
+                if (this.missing == null) { this.missing = new List<bool>(); this.missing.Add(false); }
+                if (character > this.missing.Count) { for (int i = 0; i < character - this.missing.Count; i++) { this.missing.Add(false); } }
+
+                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                {
+                    return missing[character];
+                }
+                else { return false; }
+            }
+            set
+            {
+                if (this.missing == null) { this.missing = new List<bool>(); this.missing.Add(false); }
+                if (character > this.missing.Count) { for (int i = 0; i < character - this.missing.Count; i++) { this.missing.Add(false); } }
+
+                //Debug.WriteLine("Setting "+character+" Missing to "+value);
+                if (this.missing.Count == 0) { this.missing.Add(false); }
+                missing[character] = value;
+            }
+        }
+        public bool Disabled
+        {
+            get
+            {
+                if (disabled.Count == 0) { disabled.Add(false); }
+                return disabled[character];
+            }
+            set
+            {
+
+                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                {
+                    disabled[character] = value;
+                }
+                else { disabled[0] = value; }
+
+
+            }
+        }
         public SlotType Slot { get => Data.Slot; }
         public string Itemname { get => itemname; set => itemname = value; }
         public string Description { get => description; set => description = value; }
@@ -72,7 +113,20 @@ namespace RemnantBuildRandomizer
         }
         public string ToData()
         {
-            return Itemname + ":" + listToString(missing, '|') + ":" + listToString(disabled, '|');
+            string miss;
+            string dis;
+            if (!File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+            {
+                miss = (Missing ? 1 : 0).ToString();
+                dis = (Disabled ? 1 : 0).ToString();
+            }
+            else
+            {
+                miss = listToString(missing, '|');
+                dis = listToString(disabled, '|');
+            }
+
+            return Itemname + ":" + miss + ":" + dis;
         }
         public bool Equals(RemnantItem b)
         {
