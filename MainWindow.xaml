@@ -131,12 +131,27 @@
             <TabItem Name="BossManagerTab" Header="Boss Manager">
                 <Grid>
                     <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" Margin="235,10,0,0" TextWrapping="Wrap" Text="Boss Settings " VerticalAlignment="Top" Width="326" FontSize="36" Foreground="White"/>
-                    <ComboBox IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="BossList"  Height="27" Margin="234,232,263,371"/>
-                    <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Boss" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="27" Margin="448,278,0,0" VerticalAlignment="Top" Width="113"/>
-                    <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="162,84,0,0" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="22"/>
-                    <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="373,84,132,461"/>
-                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="27" Margin="234,278,0,0" VerticalAlignment="Top" Width="113"/>
-                    <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="234,337,263,208"/>
+                    <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="485,531,0,0" VerticalAlignment="Top" Width="113"/>
+                    <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="22,71,0,0" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="22"/>
+                    <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="201,71,10,486"/>
+                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="178,531,0,0" VerticalAlignment="Top" Width="113"/>
+                    <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="178,564,226,28"/>
+                    <TabControl Margin="178,195,226,0" Height="297" VerticalAlignment="Top">
+                        <TabItem Header="Boss List">
+                            <DataGrid Name="BossList">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Name="FileName" Header="Check Filename" Click="FileName_Click"/>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                                
+                            </DataGrid>
+                        </TabItem>
+                        <TabItem Header="Vendor List">
+                            <DataGrid Name="VendorList"/>
+                        </TabItem>
+                    </TabControl>
+
                 </Grid>
             </TabItem>
             <TabItem Header="Log">
@@ -144,6 +159,7 @@
                     <TextBox x:Name="txtLog" TextWrapping="Wrap" Background="White" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
             </TabItem>
+
         </TabControl>
     </Grid>
 </Window>

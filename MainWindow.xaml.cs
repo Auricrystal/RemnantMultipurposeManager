@@ -28,6 +28,7 @@ using System.Windows.Markup;
 using Path = System.IO.Path;
 using static RemnantBuildRandomizer.DataObj;
 using System.Dynamic;
+using System.IO.Compression;
 
 namespace RemnantBuildRandomizer
 {
@@ -104,6 +105,7 @@ namespace RemnantBuildRandomizer
             InitializeComponent();
             assembly = Assembly.GetExecutingAssembly();
             BossData = getBossData();
+            Debug.WriteLine("Test Boss: "+RemnantBoss.FromFilename(BossData[0]));
             File.Delete(BackupDirPath + "\\log.txt");
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
             {
@@ -242,7 +244,15 @@ namespace RemnantBuildRandomizer
             }
             else { BuildList.ItemsSource = Presets[0].ToList(); }
             EmptySlots.ItemsSource = empties;
-            BossList.ItemsSource = getBossData();
+            List<RemnantBoss> bosses=new List<RemnantBoss>();
+            foreach (string boss in getBossData()) {
+                bosses.Add(RemnantBoss.FromFilename(boss));
+            }
+
+
+            BossList.ItemsSource = bosses.ToList();
+            BossList.Items.Refresh();
+
 
             cmbHG.ItemsSource = hglist;
             cmbHGM.ItemsSource = molist;
@@ -303,6 +313,7 @@ namespace RemnantBuildRandomizer
         private List<string> getBossData()
         {
             List<string> bosses = assembly.GetManifestResourceNames().Where(x => x.Contains(".sav")).ToList();
+            Debug.WriteLine("Boss count: "+bosses.Count);
             for (int i = 0; i < bosses.Count; i++)
             {
                 bosses[i] = bosses[i].Replace("RemnantBuildRandomizer.Bosses.", "");
@@ -1153,6 +1164,22 @@ namespace RemnantBuildRandomizer
             string s = LoadBossSave();
             BossList.SelectedIndex = BossList.Items.IndexOf(s);
             BossList.Items.Refresh();
+        }
+
+        private void BossListName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void FileName_Click(object sender, RoutedEventArgs e)
+        {
+            logMessage(BossList.SelectedItem.ToString());
+
+        }
+
+        public static void UnZip(string zipFile, string folderPath)
+        {
+            ZipFile.ExtractToDirectory(zipPath, extractPath);
         }
     }
 }

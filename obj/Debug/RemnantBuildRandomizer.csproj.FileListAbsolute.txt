@@ -18,11 +18,13 @@ D:\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRa
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe.config
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.pdb
+C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\BuildWindow.g.cs
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\MainWindow.g.cs
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\App.g.cs
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_Content.g.cs
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.cache
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.lref
+C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\BuildWindow.baml
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\MainWindow.baml
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.g.resources
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.Properties.Resources.resources
@@ -31,5 +33,3 @@ C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuil
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.exe
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.pdb
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
-C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\BuildWindow.g.cs
-C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\BuildWindow.baml
