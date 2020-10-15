@@ -103,37 +103,37 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="Bosses\AncientConstruct_Apocalypse_Hearty.sav" />
-    <EmbeddedResource Include="Bosses\AncientConstruct_Apocalypse_Regenerator.sav" />
-    <EmbeddedResource Include="Bosses\BarbedTerror_Apocalypse_Vicious.sav" />
-    <EmbeddedResource Include="Bosses\Brabus_Apocalypse_Skullcracker.sav" />
-    <EmbeddedResource Include="Bosses\Gorefist_Apocalypse_Skullcracker.sav" />
-    <EmbeddedResource Include="Bosses\Mangler_Apocalypse_Vicious.sav" />
-    <EmbeddedResource Include="Bosses\Maul_Apocalypse_Hearty.sav" />
-    <EmbeddedResource Include="Bosses\Maul_Apocalypse_Regenerator.sav" />
-    <EmbeddedResource Include="Bosses\Maul_Apocalypse_Skullcracker.sav" />
-    <EmbeddedResource Include="Bosses\Raze_Apocalypse_Vicious.sav" />
-    <EmbeddedResource Include="Bosses\Riphide_Apocalypse_Vicious.sav" />
-    <EmbeddedResource Include="Bosses\Scourge_Apocalypse_Skullcracker.sav" />
-    <EmbeddedResource Include="Bosses\ShatterShade_Apocalypse_Hearty_Hearty.sav" />
-    <EmbeddedResource Include="Bosses\ShatterShade_Apocalypse_Skullcracker_Regenerator.sav" />
-    <EmbeddedResource Include="Bosses\ShatterShade_Apocalypse_Skullcracker_Vicious.sav" />
-    <EmbeddedResource Include="Bosses\Shroud_Apocalypse_Enchanter.sav" />
-    <EmbeddedResource Include="Bosses\Shroud_Apocalypse_Skullcracker.sav" />
-    <EmbeddedResource Include="Bosses\Thrall_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\AncientConstruct_Apocalypse_Hearty.sav" />
+    <None Include="Bosses\AncientConstruct_Apocalypse_Regenerator.sav" />
+    <None Include="Bosses\BarbedTerror_Apocalypse_Vicious.sav" />
+    <None Include="Bosses\Brabus_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\Gorefist_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\Mangler_Apocalypse_Vicious.sav" />
+    <None Include="Bosses\Maul_Apocalypse_Hearty.sav" />
+    <None Include="Bosses\Maul_Apocalypse_Regenerator.sav" />
+    <None Include="Bosses\Maul_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\Raze_Apocalypse_Vicious.sav" />
+    <None Include="Bosses\Riphide_Apocalypse_Vicious.sav" />
+    <None Include="Bosses\Scourge_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\ShatterShade_Apocalypse_Hearty_Hearty.sav" />
+    <None Include="Bosses\ShatterShade_Apocalypse_Skullcracker_Regenerator.sav" />
+    <None Include="Bosses\ShatterShade_Apocalypse_Skullcracker_Vicious.sav" />
+    <None Include="Bosses\Shroud_Apocalypse_Enchanter.sav" />
+    <None Include="Bosses\Shroud_Apocalypse_Skullcracker.sav" />
+    <None Include="Bosses\Thrall_Apocalypse_Skullcracker.sav" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Bosses\Claviger_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Ent_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Harrow_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\IskalQueen_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Ixillis_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Ravager_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Singe_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\UncleanOne_Apocalypse_World.sav" />
-    <EmbeddedResource Include="Bosses\Ikro_Apocalypse_Hearty.sav" />
+    <None Include="Bosses\Claviger_Apocalypse_World.sav" />
+    <None Include="Bosses\Ent_Apocalypse_World.sav" />
+    <None Include="Bosses\Harrow_Apocalypse_World.sav" />
+    <None Include="Bosses\IskalQueen_Apocalypse_World.sav" />
+    <None Include="Bosses\Ixillis_Apocalypse_World.sav" />
+    <None Include="Bosses\Ravager_Apocalypse_World.sav" />
+    <None Include="Bosses\Singe_Apocalypse_World.sav" />
+    <None Include="Bosses\UncleanOne_Apocalypse_World.sav" />
+    <None Include="Bosses\Ikro_Apocalypse_Hearty.sav" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

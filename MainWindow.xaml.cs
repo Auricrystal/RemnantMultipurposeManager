@@ -99,39 +99,54 @@ namespace RemnantBuildRandomizer
             Success,
             Error
         }
-        private void DownloadBossFiles() {
+        private void DownloadIMGFiles()
+        {
+            WebClient client = new WebClient();
+            if (!Directory.Exists(BackupDirPath + "\\IMG"))
+            {
+                client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/IMG.zip", BackupDirPath + "\\IMG.zip");
+                ZipFile.ExtractToDirectory(BackupDirPath + "\\IMG.zip", BackupDirPath + "\\IMG");
+            }
+            
+        }
+        private void DownloadBossFiles()
+        {
             WebClient client = new WebClient();
             if (!Directory.Exists(BackupDirPath + "\\Bosses"))
             {
                 client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
                 ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Bosses");
             }
-            else {
+            else
+            {
                 if (File.Exists(BackupDirPath + "\\Bosses.zip")) { File.Delete(BackupDirPath + "\\Bosses.zip"); }
                 client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
+                if (Directory.Exists(BackupDirPath + "\\Temp")) { Directory.Delete(BackupDirPath + "\\Temp",true); }
                 ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Temp");
                 string[] BossFiles = Directory.GetFiles(BackupDirPath + "\\Bosses");
                 string[] TempFiles = Directory.GetFiles(BackupDirPath + "\\Temp");
                 foreach (string temp in TempFiles)
                 {
                     Debug.WriteLine(temp);
-                    if (!BossFiles.Contains(temp))
+                    if (BossFiles.Where(x => x.EndsWith(temp.Replace(BackupDirPath + "\\Temp", ""))).Count() > 0)
                     {
-                        Debug.WriteLine("Doesnt exists!");
+                        Debug.WriteLine("Already exists!");
                     }
-                    else { Debug.WriteLine("Already exists!"); }
+                    else { Debug.WriteLine("Doesnt exists!"); }
                 }
+                
 
             }
         }
-       
+
         private List<string> getBossData()
         {
-            List<string> bosses = assembly.GetManifestResourceNames().Where(x => x.Contains(".sav")).ToList();
+            DownloadBossFiles();
+            List<string> bosses = Directory.GetFiles(BackupDirPath + "\\Bosses").ToList();
             Debug.WriteLine("Boss count: " + bosses.Count);
             for (int i = 0; i < bosses.Count; i++)
             {
-                bosses[i] = bosses[i].Replace("RemnantBuildRandomizer.Bosses.", "");
+                bosses[i] = bosses[i].Replace(BackupDirPath + "\\Bosses\\", "");
             }
             return bosses;
         }
@@ -141,7 +156,7 @@ namespace RemnantBuildRandomizer
             InitializeComponent();
             assembly = Assembly.GetExecutingAssembly();
             BossData = getBossData();
-            Debug.WriteLine("Test Boss: "+RemnantBoss.FromFilename(BossData[0]));
+            Debug.WriteLine("Test Boss: " + RemnantBoss.FromFilename(BossData[0]));
             File.Delete(BackupDirPath + "\\log.txt");
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
             {
@@ -239,13 +254,13 @@ namespace RemnantBuildRandomizer
                 BossManagerTab.IsEnabled = false;
                 KeepCheckpoint.IsEnabled = false;
             }
-
+            DownloadIMGFiles();
 
             ReadXML();
             GetData();
 
             checkForUpdate();
-            DownloadBossFiles();
+
             SetupData();
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
             {
@@ -280,8 +295,9 @@ namespace RemnantBuildRandomizer
             }
             else { BuildList.ItemsSource = Presets[0].ToList(); }
             EmptySlots.ItemsSource = empties;
-            List<RemnantBoss> bosses=new List<RemnantBoss>();
-            foreach (string boss in getBossData()) {
+            List<RemnantBoss> bosses = new List<RemnantBoss>();
+            foreach (string boss in getBossData())
+            {
                 bosses.Add(RemnantBoss.FromFilename(boss));
             }
 
@@ -346,7 +362,7 @@ namespace RemnantBuildRandomizer
 
         }
 
-        
+
 
         private static List<T> Combine<T>(params IEnumerable<T>[] rils)
         {
@@ -1204,7 +1220,7 @@ namespace RemnantBuildRandomizer
 
         }
 
-        
+
     }
 }
 

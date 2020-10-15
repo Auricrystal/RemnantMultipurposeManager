@@ -159,7 +159,7 @@ namespace RemnantBuildRandomizer
 
         public void SetImage(string value)
         {
-            this.image = new BitmapImage(new Uri("pack://application:,,,/Resources/IMG" + value, UriKind.RelativeOrAbsolute));
+            this.image = new BitmapImage(new Uri(MainWindow.BackupDirPath+"\\IMG" + value, UriKind.RelativeOrAbsolute));
 
         }
         public SlotType Slot { get => slot; set => slot = value; }
