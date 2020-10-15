@@ -78,8 +78,8 @@ namespace RemnantBuildRandomizer
         {
             get
             {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\BossSaves\\Backup");
-                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\BossSaves";
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\Bosses");
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR\\Bosses";
             }
         }
 
@@ -98,6 +98,42 @@ namespace RemnantBuildRandomizer
             Normal,
             Success,
             Error
+        }
+        private void DownloadBossFiles() {
+            WebClient client = new WebClient();
+            if (!Directory.Exists(BackupDirPath + "\\Bosses"))
+            {
+                client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
+                ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Bosses");
+            }
+            else {
+                if (File.Exists(BackupDirPath + "\\Bosses.zip")) { File.Delete(BackupDirPath + "\\Bosses.zip"); }
+                client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
+                ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Temp");
+                string[] BossFiles = Directory.GetFiles(BackupDirPath + "\\Bosses");
+                string[] TempFiles = Directory.GetFiles(BackupDirPath + "\\Temp");
+                foreach (string temp in TempFiles)
+                {
+                    Debug.WriteLine(temp);
+                    if (!BossFiles.Contains(temp))
+                    {
+                        Debug.WriteLine("Doesnt exists!");
+                    }
+                    else { Debug.WriteLine("Already exists!"); }
+                }
+
+            }
+        }
+       
+        private List<string> getBossData()
+        {
+            List<string> bosses = assembly.GetManifestResourceNames().Where(x => x.Contains(".sav")).ToList();
+            Debug.WriteLine("Boss count: " + bosses.Count);
+            for (int i = 0; i < bosses.Count; i++)
+            {
+                bosses[i] = bosses[i].Replace("RemnantBuildRandomizer.Bosses.", "");
+            }
+            return bosses;
         }
         public MainWindow()
         {
@@ -209,7 +245,7 @@ namespace RemnantBuildRandomizer
             GetData();
 
             checkForUpdate();
-
+            DownloadBossFiles();
             SetupData();
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
             {
@@ -310,16 +346,7 @@ namespace RemnantBuildRandomizer
 
         }
 
-        private List<string> getBossData()
-        {
-            List<string> bosses = assembly.GetManifestResourceNames().Where(x => x.Contains(".sav")).ToList();
-            Debug.WriteLine("Boss count: "+bosses.Count);
-            for (int i = 0; i < bosses.Count; i++)
-            {
-                bosses[i] = bosses[i].Replace("RemnantBuildRandomizer.Bosses.", "");
-            }
-            return bosses;
-        }
+        
 
         private static List<T> Combine<T>(params IEnumerable<T>[] rils)
         {
@@ -1067,11 +1094,11 @@ namespace RemnantBuildRandomizer
         }
         private void SaveCheckpoint()
         {
-            SaveCheckpoint("KeepSave", BossDirPath + "\\Backup");
+            SaveCheckpoint("KeepSave", BackupDirPath + "\\Backup");
         }
         private void SaveCheckpoint(string savename)
         {
-            SaveCheckpoint(savename, BossDirPath + "\\Backup");
+            SaveCheckpoint(savename, BackupDirPath + "\\Backup");
         }
 
         private void SaveCheckpoint(string savename, string saveTo)
@@ -1084,7 +1111,7 @@ namespace RemnantBuildRandomizer
         }
         private void LoadCheckpoint()
         {
-            LoadCheckpoint(BossDirPath + "\\Backup", "KeepSave");
+            LoadCheckpoint(BackupDirPath + "\\Backup", "KeepSave");
         }
         private void LoadCheckpoint(string path, string savename)
         {
@@ -1150,13 +1177,13 @@ namespace RemnantBuildRandomizer
 
         private void AlterFile_Checked(object sender, RoutedEventArgs e)
         {
-            SaveCheckpoint("BackupSave", BossDirPath + "\\Backup");
+            SaveCheckpoint("BackupSave", BackupDirPath + "\\Backup");
         }
 
         private void AlterFile_Unchecked(object sender, RoutedEventArgs e)
         {
 
-            LoadCheckpoint(BossDirPath + "\\Backup", "BackupSave");
+            LoadCheckpoint(BackupDirPath + "\\Backup", "BackupSave");
         }
 
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
@@ -1177,10 +1204,7 @@ namespace RemnantBuildRandomizer
 
         }
 
-        public static void UnZip(string zipFile, string folderPath)
-        {
-            ZipFile.ExtractToDirectory(zipPath, extractPath);
-        }
+        
     }
 }
 

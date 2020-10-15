@@ -4,64 +4,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Documents.DocumentStructures;
-using static RemnantBuildRandomizer.RemnantBoss.Boss;
 namespace RemnantBuildRandomizer
 {
     public class RemnantBoss
     {
-        public enum Boss
-        {
-            //Earth
-            Ent, Singe, Brabus, Gorefist, Shroud, Riphide, Mangler, Dreamer,
-            //Rhom
-            Claviger, Harrow, UndyingKing, Scourge, ShatterShade, Raze, AncientConstruct, Maul,
-            //Corsus
-            Ixillis, UncleanOne, IskalQueen, Thrall, Dreameater, Canker, BarbedTerror,
-            //Yaesha
-            TotemFather, Ravager, Stormcaller, ScaldSear, TheWarden, Onslaught,
-            //Reisum
-            BrudvaakVargr, Harsgaard, Tian, Obryk, Ikro, Erfor
-        }
-        public enum WorldZone { Earth, Rhom, Corsus, Yaesha, Reisum }
-        public enum Mod { None, Vicious, Regenerator, Skullcracker, Hearty, Enchanter, World }
-        public enum Diff { Normal, Hard, Nightmare, Apocalypse }
-        private Boss name;
-        private Mod m1;
-        private Mod? m2;
-        private Diff d;
-        private WorldZone w;
-        public Diff Difficulty { get => d; set => d = value; }
-        public WorldZone World { get => w; set => w = value; }
-        public Boss Name { get => name; set => name = value; }
-        public Mod Modifier1 { get => m1; set => m1 = value; }
-        public Mod? Modifier2 { get => m2; set => m2 = value; }
+        private static Dictionary<string, string> getWorld;
+        
 
-        private static int Eval<T>(T t)
+        private string name;
+        private string m1;
+        private string m2;
+        private string d;
+        private string w;
+        public string Difficulty { get => d; set => d = value; }
+        public string World { get => w; set => w = value; }
+        public string Name { get => name; set => name = value; }
+        public string Modifier1 { get => m1; set => m1 = value; }
+        public string Modifier2 { get => m2; set => m2 = value; }
+        private static Dictionary<string, string> GetWorld
         {
-            return Convert.ToInt32(t);
+            get
+            {
+                if (getWorld == null)
+                {
+                    getWorld = new Dictionary<string, string>() {
+                        //Earth
+                        { "Ent","Earth" }, {"Singe","Earth" }, {"Brabus","Earth" }, {"Gorefist","Earth" }, {"Shroud","Earth" }, {"Riphide","Earth" }, {"Mangler","Earth" }, {"Dreamer","Earth" },
+                        //Rhom
+                        { "Claviger","Rhom" }, {"Harrow","Rhom" }, {"UndyingKing","Rhom" }, {"Scourge","Rhom" }, {"ShatterShade","Rhom" }, {"Raze","Rhom" }, {"AncientConstruct","Rhom" }, {"Maul","Rhom" },
+                        //Corsus
+                        { "Ixillis","Corsus" }, {"UncleanOne","Corsus" }, {"IskalQueen","Corsus" }, {"Thrall","Corsus" }, {"Dreameater","Corsus" }, {"Canker","Corsus" }, {"BarbedTerror","Corsus" },
+                        //Yaesha
+                        { "TotemFather","Yaesha" }, {"Ravager","Yaesha" },{ "Stormcaller","Yaesha" }, {"ScaldSear","Yaesha" },{ "TheWarden","Yaesha" }, {"Onslaught","Yaesha" },
+                        //Reisum
+                        { "BrudvaakVargr","Reisum" }, {"Harsgaard","Reisum" }, {"Tian","Reisum" },{ "Obryk","Reisum" },{ "Ikro","Reisum" }, {"Erfor","Reisum" }
+                    };
+                }
+                return getWorld;
+            }
         }
-        private static WorldZone getWorld(Boss b)
-        {
-            if (Eval(b) >= Eval(BrudvaakVargr))
-            {
-                return WorldZone.Reisum;
-            }
-            else if (Eval(b) >= Eval(TotemFather))
-            {
-                return WorldZone.Yaesha;
-            }
-            else if (Eval(b) >= Eval(Ixillis))
-            {
-                return WorldZone.Corsus;
-            }
-            else if (Eval(b) >= Eval(Claviger))
-            {
-                return WorldZone.Rhom;
-            }
-            else { return WorldZone.Earth; }
-        }
-
-        public RemnantBoss(WorldZone w, Boss name, Diff d, Mod m1)
+        public RemnantBoss(string w, string name, string d, string m1)
         {
             this.Name = name;
             this.Modifier1 = m1;
@@ -69,7 +51,7 @@ namespace RemnantBuildRandomizer
             this.Difficulty = d;
             this.World = w;
         }
-        public RemnantBoss(WorldZone w, Boss name, Diff d, Mod m1, Mod m2)
+        public RemnantBoss(string w, string name, string d, string m1, string m2)
         {
             this.Name = name;
             this.Modifier1 = m1;
@@ -77,27 +59,19 @@ namespace RemnantBuildRandomizer
             this.Difficulty = d;
             this.World = w;
         }
-        
+
         public static RemnantBoss FromFilename(string s)
         {
             s = s.Replace(".sav", "");
             string[] data = s.Split('_');
 
-            
-            Boss b = (Boss)Enum.Parse(typeof(Boss), data[0]);
-
-            Diff d = (Diff)Enum.Parse(typeof(Diff), data[1]);
-
-            Mod m= (Mod)Enum.Parse(typeof(Mod), data[2]);
-
             if (data.Length > 3)
             {
-                Mod n = (Mod)Enum.Parse(typeof(Mod), data[3]);
-                return new RemnantBoss(getWorld(b), b, d, m, n);
-
+                return new RemnantBoss(GetWorld[data[0]], data[0], data[1], data[2], data[3]);
             }
-            else {
-                return new RemnantBoss(getWorld(b), b, d, m);
+            else
+            {
+                return new RemnantBoss(GetWorld[data[0]], data[0], data[1], data[2]);
             }
 
         }
@@ -105,7 +79,7 @@ namespace RemnantBuildRandomizer
         public override string ToString()
         {
             string mods;
-            if (Modifier2!=null) { mods = Modifier1 + "_" + Modifier2; } else { mods = Modifier1 + ""; }
+            if (Modifier2 != null) { mods = Modifier1 + "_" + Modifier2; } else { mods = Modifier1 + ""; }
 
             return Name + "_" + Difficulty + "_" + mods;
         }
