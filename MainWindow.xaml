@@ -96,8 +96,11 @@
             </TabItem>
             <TabItem Header="Build List">
                 <Grid Background="#222222" Margin="-2" >
-                    <Image Margin="13,0,10,-15" Source="Resources/IMG/Rigs.png" Height="553" VerticalAlignment="Bottom" Stretch="UniformToFill"/>
-                    <DataGrid Name="BuildList"  SelectionMode="Single"  SelectionChanged="BuildList_SelectionChanged"  AutoGeneratingColumn="BuildList_AutoGeneratingColumn"  Margin="10,260,352,10" BeginningEdit="BuildList_BeginningEdit"  CellEditEnding="BuildList_CellEditEnding"  RowEditEnding="BuildList_RowEditEnding" Background="#222222">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Image Margin="13,10,-294,0" Source="Resources/IMG/Rigs.jpg" VerticalAlignment="Top" HorizontalAlignment="Left" />
+                    <DataGrid Name="BuildList"  SelectionMode="Single"  SelectionChanged="BuildList_SelectionChanged"  AutoGeneratingColumn="BuildList_AutoGeneratingColumn"  Margin="352,199,10,10" BeginningEdit="BuildList_BeginningEdit"  CellEditEnding="BuildList_CellEditEnding"  RowEditEnding="BuildList_RowEditEnding" Background="#222222">
                         <DataGrid.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Name="GrabBuildImage" Header="Grab Build Image" />
@@ -106,45 +109,43 @@
                             </ContextMenu>
                         </DataGrid.ContextMenu>
                     </DataGrid>
-                    <TextBox Name="BuildNameEnter" HorizontalAlignment="Left" Height="22" Margin="13,199,0,0" TextWrapping="Wrap" Text="Build Name" VerticalAlignment="Top" Width="180"  />
-                    <TextBox Name="BuildCodeEnter" HorizontalAlignment="Left" Height="22" Margin="13,221,0,0" TextWrapping="Wrap" Text="Build Code" VerticalAlignment="Top" Width="180"/>
-                    <Button Name="AddBuild" Click="Add_Build_Click" Content="Add Build" HorizontalAlignment="Left" Height="22" Margin="198,221,0,0" VerticalAlignment="Top" Width="84"/>
-                    <ComboBox Name="cmbHG" SelectionChanged="cmbHG_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,56,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbLG" SelectionChanged="cmbLG_SelectionChanged"  VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,76,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbM" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,96,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbHGM" SelectionChanged="cmbHGM_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,56,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbLGM" SelectionChanged="cmbLGM_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,76,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbHE" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,116,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbCH" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,116,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbLE" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="307,116,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbAM" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,136,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbR1" SelectionChanged="cmbR1_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,136,0,0" VerticalAlignment="Top" Width="142"/>
-                    <ComboBox Name="cmbR2" SelectionChanged="cmbR2_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="307,136,0,0" VerticalAlignment="Top" Width="142"/>
-                    <Button x:Name="GenBuildCode" Click="GenBuildCode_Click"  Content="Generate Code" HorizontalAlignment="Left" Height="22" Margin="13,161,0,0" VerticalAlignment="Top" Width="84"/>
-                    <TextBlock HorizontalAlignment="Left" Height="37" Margin="13,19,0,0" TextWrapping="Wrap" Text="Build Code Maker" VerticalAlignment="Top" Width="206" Foreground="White" FontSize="24"/>
-                    <Image HorizontalAlignment="Left" Height="94" Margin="322,161,0,0" VerticalAlignment="Top" Width="114" Source="Resources/IMG/T_Icon_Crafting.png" RenderTransformOrigin="0.5,0.5"/>
-                    <Image HorizontalAlignment="Left" Height="137" Margin="683,-1,0,0" VerticalAlignment="Top" Width="135" Source="Resources/IMG/T_Icon_Item_Resource_LumeniteCrystal.png" RenderTransformOrigin="0.5,0.5"/>
-                    <Image HorizontalAlignment="Left" Height="142" Margin="470,-6,0,0" VerticalAlignment="Top" Width="162" Source="Resources/IMG/T_Icon_Item_Resource_HardenedIron.png" RenderTransformOrigin="0.5,0.5"/>
+                    <TextBox Name="BuildNameEnter" HorizontalAlignment="Left" Height="22" Margin="352,150,0,0" TextWrapping="Wrap" Text="Build Name" VerticalAlignment="Top" Width="173"  />
+                    <TextBox Name="BuildCodeEnter" HorizontalAlignment="Left" Height="22" Margin="352,172,0,0" TextWrapping="Wrap" Text="Build Code" VerticalAlignment="Top" Width="173"/>
+                    <Button Name="AddBuild" Click="Add_Build_Click" Content="Add Build" HorizontalAlignment="Left" Height="22" Margin="530,172,0,0" VerticalAlignment="Top" Width="84"/>
+                    <ComboBox Name="cmbHG" SelectionChanged="cmbHG_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,18,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbLG" SelectionChanged="cmbLG_SelectionChanged"  VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,38,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbM" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,58,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbHGM" SelectionChanged="cmbHGM_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,18,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbLGM" SelectionChanged="cmbLGM_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,38,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbHE" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,78,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbCH" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,78,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbLE" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="307,78,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbAM" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="13,98,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbR1" SelectionChanged="cmbR1_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="160,98,0,0" VerticalAlignment="Top" Width="142"/>
+                    <ComboBox Name="cmbR2" SelectionChanged="cmbR2_SelectionChanged" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="20" Margin="307,98,0,0" VerticalAlignment="Top" Width="142"/>
+                    <Button x:Name="GenBuildCode" Click="GenBuildCode_Click"  Content="Generate Code" HorizontalAlignment="Left" Height="22" Margin="13,134,0,0" VerticalAlignment="Top" Width="106"/>
+                    <TextBlock Height="37" Margin="0,27,10,0" TextWrapping="Wrap" Text="Build Code Maker" VerticalAlignment="Top" Foreground="White" FontSize="27" HorizontalAlignment="Right" Width="253"/>
+                    <Image Height="94" Margin="673,69,41,0" VerticalAlignment="Top" Source="Resources/IMG/T_Icon_Crafting.png" RenderTransformOrigin="-0.355,1.261"/>
 
                 </Grid>
             </TabItem>
-            <TabItem Name="BossManagerTab" Header="Boss Manager">
+            <TabItem Name="BossManagerTab" Header="Checkpoint Manager">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" Margin="235,10,0,0" TextWrapping="Wrap" Text="Boss Settings " VerticalAlignment="Top" Width="326" FontSize="36" Foreground="White"/>
+                    <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" Margin="178,10,0,0" TextWrapping="Wrap" Text="Checkpoint Manager" VerticalAlignment="Top" Width="420" FontSize="36" Foreground="White"/>
                     <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="485,531,0,0" VerticalAlignment="Top" Width="113"/>
                     <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="22,71,0,0" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="22"/>
                     <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="201,71,10,486"/>
                     <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="178,531,0,0" VerticalAlignment="Top" Width="113"/>
                     <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="178,564,226,28"/>
-                    <TabControl Margin="178,195,226,0" Height="297" VerticalAlignment="Top">
+                    <TabControl Margin="178,195,226,0" Height="297" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" >
                         <TabItem Header="Boss List">
-                            <DataGrid Name="BossList">
+                            <DataGrid Name="BossList" SelectionMode="Single" AutoGeneratingColumn="BossList_AutoGeneratingColumn">
                                 <DataGrid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Name="FileName" Header="Check Filename" Click="FileName_Click"/>
                                     </ContextMenu>
                                 </DataGrid.ContextMenu>
-                                
+
                             </DataGrid>
                         </TabItem>
                         <TabItem Header="Vendor List">

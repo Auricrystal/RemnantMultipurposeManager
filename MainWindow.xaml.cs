@@ -106,8 +106,10 @@ namespace RemnantBuildRandomizer
             {
                 client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/IMG.zip", BackupDirPath + "\\IMG.zip");
                 ZipFile.ExtractToDirectory(BackupDirPath + "\\IMG.zip", BackupDirPath + "\\IMG");
+                if (File.Exists(BackupDirPath + "\\IMG.zip")) { File.Delete(BackupDirPath + "\\IMG.zip"); }
             }
-            
+            else { if (File.Exists(BackupDirPath + "\\IMG.zip")) { File.Delete(BackupDirPath + "\\IMG.zip"); } }
+
         }
         private void DownloadBossFiles()
         {
@@ -116,12 +118,13 @@ namespace RemnantBuildRandomizer
             {
                 client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
                 ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Bosses");
+                if (File.Exists(BackupDirPath + "\\Bosses.zip")) { File.Delete(BackupDirPath + "\\Bosses.zip"); }
             }
             else
             {
                 if (File.Exists(BackupDirPath + "\\Bosses.zip")) { File.Delete(BackupDirPath + "\\Bosses.zip"); }
                 client.DownloadFile("https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/Bosses.zip", BackupDirPath + "\\Bosses.zip");
-                if (Directory.Exists(BackupDirPath + "\\Temp")) { Directory.Delete(BackupDirPath + "\\Temp",true); }
+                if (Directory.Exists(BackupDirPath + "\\Temp")) { Directory.Delete(BackupDirPath + "\\Temp", true); }
                 ZipFile.ExtractToDirectory(BackupDirPath + "\\Bosses.zip", BackupDirPath + "\\Temp");
                 string[] BossFiles = Directory.GetFiles(BackupDirPath + "\\Bosses");
                 string[] TempFiles = Directory.GetFiles(BackupDirPath + "\\Temp");
@@ -132,9 +135,14 @@ namespace RemnantBuildRandomizer
                     {
                         Debug.WriteLine("Already exists!");
                     }
-                    else { Debug.WriteLine("Doesnt exists!"); }
+                    else { 
+                        Debug.WriteLine("Doesnt exists!");
+                        File.Copy(temp, BackupDirPath + "\\Bosses\\"+ temp.Replace(BackupDirPath + "\\Temp", ""));
+                    }
                 }
-                
+                if (File.Exists(BackupDirPath + "\\Bosses.zip")) { File.Delete(BackupDirPath + "\\Bosses.zip"); }
+                if (Directory.Exists(BackupDirPath + "\\Temp")) { Directory.Delete(BackupDirPath + "\\Temp", true); }
+
 
             }
         }
@@ -292,18 +300,21 @@ namespace RemnantBuildRandomizer
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
             {
                 BuildList.ItemsSource = Presets[ActiveCharacter.charNum].ToList();
+
+                List<RemnantBoss> bosses = new List<RemnantBoss>();
+                foreach (string boss in getBossData())
+                {
+                    bosses.Add(RemnantBoss.FromFilename(boss));
+                }
+                BossList.ItemsSource = bosses.ToList();
+                BossList.Items.Refresh();
             }
             else { BuildList.ItemsSource = Presets[0].ToList(); }
             EmptySlots.ItemsSource = empties;
-            List<RemnantBoss> bosses = new List<RemnantBoss>();
-            foreach (string boss in getBossData())
-            {
-                bosses.Add(RemnantBoss.FromFilename(boss));
-            }
+            
 
 
-            BossList.ItemsSource = bosses.ToList();
-            BossList.Items.Refresh();
+            
 
 
             cmbHG.ItemsSource = hglist;
@@ -332,36 +343,17 @@ namespace RemnantBuildRandomizer
         }
         private string LoadBossSave()
         {
-            var Name = BossData[rd.Next(BossData.Count)];
+            BossList.SelectedIndex = rd.Next(BossList.Items.Count);
+            Debug.WriteLine("SELINDEX: "+ BossList.SelectedIndex+" "+ BossList.SelectedItem);
+            BossList.Items.Refresh();
 
-            using (Stream stream = assembly.GetManifestResourceStream("RemnantBuildRandomizer.Bosses." + Name))
-            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
-            {
-                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
-            }
+            File.Copy(BossDirPath + "\\" + BossList.SelectedItem + ".sav", SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", true);
             return Name;
         }
         private void LoadBossSave(RemnantBoss rb)
         {
-
-            using (Stream stream = assembly.GetManifestResourceStream(Name))
-            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
-            {
-                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
-            }
-
+            File.Copy(BossDirPath + "\\" + rb.ToString() + ".sav", SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav",true);
         }
-        private void LoadBossSave(string rb)
-        {
-
-            using (Stream stream = assembly.GetManifestResourceStream(rb))
-            using (StreamReader reader = new StreamReader(stream, Encoding.Default, true))
-            {
-                File.WriteAllText(SaveDirPath + "\\save_" + ActiveSaveSlot + ".sav", reader.ReadToEnd(), Encoding.Default);
-            }
-
-        }
-
 
 
         private static List<T> Combine<T>(params IEnumerable<T>[] rils)
@@ -1098,6 +1090,10 @@ namespace RemnantBuildRandomizer
                 default: break;
             }
         }
+        private void BossList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            e.Column.IsReadOnly = true;
+        }
 
         private void DisableEmpties_Click(object sender, RoutedEventArgs e)
         {
@@ -1121,6 +1117,7 @@ namespace RemnantBuildRandomizer
         {
             string save = "save_" + ActiveSaveSlot + ".sav";
             string back = "save_" + ActiveSaveSlot + ".bak";
+            if (!Directory.Exists(saveTo)) { Directory.CreateDirectory(saveTo); }
             File.Copy(SaveDirPath + "\\" + save, saveTo + "\\" + savename + ".sav", true);
             File.Copy(SaveDirPath + "\\" + back, saveTo + "\\" + savename + ".bak", true);
             logMessage("Saving checkpoint: " + savename + " to " + saveTo);
@@ -1188,7 +1185,7 @@ namespace RemnantBuildRandomizer
         private void LoadBoss_Click(object sender, RoutedEventArgs e)
         {
             if (BossList.SelectedIndex > -1)
-                LoadBossSave("RemnantBuildRandomizer.Bosses." + ((string)BossList.SelectedItem));
+                LoadBossSave((RemnantBoss)BossList.SelectedItem);
         }
 
         private void AlterFile_Checked(object sender, RoutedEventArgs e)

@@ -64,14 +64,15 @@ namespace RemnantBuildRandomizer
         {
             s = s.Replace(".sav", "");
             string[] data = s.Split('_');
-
+            string world;
+            try { world = GetWorld[data[0]]; } catch(Exception) { world = ""; }
             if (data.Length > 3)
             {
-                return new RemnantBoss(GetWorld[data[0]], data[0], data[1], data[2], data[3]);
+                return new RemnantBoss(world, data[0], data[1], data[2], data[3]);
             }
             else
             {
-                return new RemnantBoss(GetWorld[data[0]], data[0], data[1], data[2]);
+                return new RemnantBoss(world, data[0], data[1], data[2]);
             }
 
         }
