@@ -139,7 +139,8 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\IMG\Trinkets\desktop.ini" />
-    <None Include="Vendors\GraveyardElf_1HRStamina.sav" />
+    <None Include="Vendors\GraveyardElf_Apocalypse_1HRStamina.sav" />
+    <None Include="Vendors\Sebum_Apocalypse_Icefruit.sav" />
     <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />
@@ -455,6 +456,7 @@
     <None Include="Resources\ItemCodes.txt" />
     <Resource Include="Resources\IMG\RedCrystal.ico" />
     <Resource Include="Resources\IMG\Rigs.jpg" />
+    <Resource Include="Resources\IMG\remnant_of_mankind_bg.jpg" />
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -131,13 +131,14 @@
             </TabItem>
             <TabItem Name="BossManagerTab" Header="Checkpoint Manager">
                 <Grid>
-                    <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" Margin="178,10,0,0" TextWrapping="Wrap" Text="Checkpoint Manager" VerticalAlignment="Top" Width="420" FontSize="36" Foreground="White"/>
-                    <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="485,531,0,0" VerticalAlignment="Top" Width="113"/>
-                    <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="35" Margin="22,71,0,0" VerticalAlignment="Top" Width="174" Foreground="White" FontSize="22"/>
-                    <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="201,71,10,486"/>
-                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="178,531,0,0" VerticalAlignment="Top" Width="113"/>
-                    <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="178,564,226,28"/>
-                    <TabControl Margin="178,195,226,0" Height="297" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" >
+                    <Image Source="Resources/IMG/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,106,0,0"/>
+                    <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="61" Margin="10,10,0,0" TextWrapping="Wrap" Text="Checkpoint Manager" VerticalAlignment="Top" Width="374" FontSize="36" Foreground="White"/>
+                    <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="407,127,0,0" VerticalAlignment="Top" Width="113"/>
+                    <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="525,0,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
+                    <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="389,35,10,524"/>
+                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="407,285,0,0" VerticalAlignment="Top" Width="113"/>
+                    <TextBlock TextWrapping="Wrap" Text="ONLY reroll or choose Boss checkpoints while at the Main Menu, doing it during gameplay will have no effect." Foreground="White" Margin="407,179,266,350"/>
+                    <TabControl Margin="10,106,422,0" Height="514" VerticalAlignment="Top" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" >
                         <TabItem Header="Boss List">
                             <DataGrid Name="BossList" SelectionMode="Single" AutoGeneratingColumn="BossList_AutoGeneratingColumn">
                                 <DataGrid.ContextMenu>

@@ -145,43 +145,43 @@ namespace RemnantBuildRandomizer
                 while ((s = sr.ReadLine()) != null)
                 {
                     //try{
-                    
-                        string[] args = s.Split(':');
-                        switch (args[0].ToCharArray()[0])
-                        {
-                            case '$':
-                                Build b = new Build(args[2], args[3]);
-                                b.Disabled = (int.Parse(args[4]) == 1);
-                                Presets[int.Parse(args[1])].Add(b);
-                                break;
-                            case '#':
-                                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
-                                {
-                                    string[] sown = args[2].Split('|');
-                                    List<bool> owned = new List<bool>();
-                                    string[] sdis = args[3].Split('|');
-                                    List<bool> disabled = new List<bool>();
-                                    for (int i = 0; i < chars.Count; i++)
-                                    {
-                                        if (sown[i] == null) { sown[i] = "0"; }
-                                        if (sdis[i] == null) { sdis[i] = "0"; }
 
-                                        owned.Add((int.Parse(sown[i]) == 1));
-                                        disabled.Add((int.Parse(sdis[i]) == 1));
-                                    }
-                                    StrToRI[args[1]].missing = owned;
-                                    StrToRI[args[1]].disabled = disabled;
-                                }
-                                else
+                    string[] args = s.Split(':');
+                    switch (args[0].ToCharArray()[0])
+                    {
+                        case '$':
+                            Build b = new Build(args[2], args[3]);
+                            b.Disabled = (int.Parse(args[4]) == 1);
+                            Presets[int.Parse(args[1])].Add(b);
+                            break;
+                        case '#':
+                            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                            {
+                                string[] sown = args[2].Split('|');
+                                List<bool> owned = new List<bool>();
+                                string[] sdis = args[3].Split('|');
+                                List<bool> disabled = new List<bool>();
+                                for (int i = 0; i < chars.Count; i++)
                                 {
-                                    StrToRI[args[1]].missing = new List<bool>() { (int.Parse(args[2]) == 1) };
-                                    StrToRI[args[1]].disabled = new List<bool>() { (int.Parse(args[3]) == 1) };
+                                    bool val;
+                                    if (i < sown.Length) { val = (int.Parse(sown[i]) == 1); } else { val = false; }
+                                    owned.Add(val);
+                                    if (i < sdis.Length) { val = (int.Parse(sdis[i]) == 1); } else { val = false; }
+                                    disabled.Add(val);
                                 }
+                                StrToRI[args[1]].missing = owned;
+                                StrToRI[args[1]].disabled = disabled;
+                            }
+                            else
+                            {
+                                StrToRI[args[1]].missing = new List<bool>() { (int.Parse(args[2]) == 1) };
+                                StrToRI[args[1]].disabled = new List<bool>() { (int.Parse(args[3]) == 1) };
+                            }
 
-                                break;
-                        }
-                    
-                   // }catch (Exception pd) { MainWindow.SlogMessage("Unknown Error While Parsing Data: " + pd.Message); }
+                            break;
+                    }
+
+                    // }catch (Exception pd) { MainWindow.SlogMessage("Unknown Error While Parsing Data: " + pd.Message); }
                 }
 
             }

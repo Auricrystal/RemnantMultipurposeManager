@@ -34,10 +34,12 @@ namespace RemnantBuildRandomizer
                         { "Claviger","Rhom" }, {"Harrow","Rhom" }, {"UndyingKing","Rhom" }, {"Scourge","Rhom" }, {"ShatterShade","Rhom" }, {"Raze","Rhom" }, {"AncientConstruct","Rhom" }, {"Maul","Rhom" },
                         //Corsus
                         { "Ixillis","Corsus" }, {"UncleanOne","Corsus" }, {"IskalQueen","Corsus" }, {"Thrall","Corsus" }, {"Dreameater","Corsus" }, {"Canker","Corsus" }, {"BarbedTerror","Corsus" },
+                        { "GraveyardElf","Corsus" }, 
                         //Yaesha
                         { "TotemFather","Yaesha" }, {"Ravager","Yaesha" },{ "Stormcaller","Yaesha" }, {"ScaldSear","Yaesha" },{ "TheWarden","Yaesha" }, {"Onslaught","Yaesha" },
                         //Reisum
-                        { "BrudvaakVargr","Reisum" }, {"Harsgaard","Reisum" }, {"Tian","Reisum" },{ "Obryk","Reisum" },{ "Ikro","Reisum" }, {"Erfor","Reisum" }
+                        { "BrudvaakVargr","Reisum" }, {"Harsgaard","Reisum" }, {"Tian","Reisum" },{ "Obryk","Reisum" },{ "Ikro","Reisum" }, {"Erfor","Reisum" },
+                        { "Sebum","Reisum" }
                     };
                 }
                 return getWorld;

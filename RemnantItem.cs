@@ -159,7 +159,7 @@ namespace RemnantBuildRandomizer
 
         public void SetImage(string value)
         {
-            this.image = new BitmapImage(new Uri(MainWindow.BackupDirPath+"\\IMG" + value, UriKind.RelativeOrAbsolute));
+            this.image = new BitmapImage(new Uri(MainWindow.BackupDirPath + "\\IMG" + value, UriKind.RelativeOrAbsolute));
 
         }
         public SlotType Slot { get => slot; set => slot = value; }
@@ -302,13 +302,29 @@ namespace RemnantBuildRandomizer
             Ring1 = Reroll(SlotType.RI);
             Ring2 = Reroll(SlotType.RI, Ring1);
 
-            if (HandGun.Mod != "" || HandGun.Mod != "~") { HandMod = RerollMod(); } else { HandMod = StrToRI[HandGun.Mod]; }
-            if (LongGun.Mod != "" || LongGun.Mod != "~")
+
+            if (HandGun.Mod.Length < 2)
             {
-                if (HandGun.Mod != "" || HandGun.Mod != "~") { LongMod = RerollMod(HandMod); }
-                else { LongMod = RerollMod(); }
+                HandMod = RerollMod();
+            }
+            else
+            {
+                HandMod = StrToRI[HandGun.Mod];
+            }
+            if (LongGun.Mod.Length < 2)
+            {
+                if (HandGun.Mod.Length < 2)
+                {
+                    LongMod = RerollMod(HandMod);
+                }
+                else
+                {
+                    LongMod = RerollMod();
+                }
             }
             else { LongMod = StrToRI[LongGun.Mod]; }
+            Debug.WriteLine("HG:" + HandGun.Itemname + ":"+HandGun.Mod+":" + HandMod.Itemname);
+            Debug.WriteLine("LG:" + LongGun.Itemname + ":" + LongGun.Mod + ":" + LongMod.Itemname);
         }
 
         private RemnantItem Reroll(SlotType st)
