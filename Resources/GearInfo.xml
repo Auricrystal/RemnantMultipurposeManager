@@ -5,13 +5,13 @@
     <Chest name="_No Chest" desc="No Chestpiece"/>
     <Legs  name="_No Legs"   desc="No Legs"/>
 
-    <Head  name="Adventurer Goggles"  desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Head_Adventurer</Head>
-    <Chest name="Adventurer Tunic"    desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Body_Adventurer</Chest>
-    <Legs  name="Adventurer Leggings" desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables.&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Legs_Adventurer</Legs>
+    <Head  name="Adventurer Goggles"  desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables. &#10;Increases the amount of scrap picked up by 20%&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Head_Adventurer</Head>
+    <Chest name="Adventurer Tunic"    desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables. &#10;Increases the amount of scrap picked up by 20%&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Body_Adventurer</Chest>
+    <Legs  name="Adventurer Leggings" desc="Treasure Hunter &#10;Increases chance to get loot from destroying breakables. &#10;Increases the amount of scrap picked up by 20%&#10;10%/20%/35%">/Items/Armor/Adventurer/Armor_Legs_Adventurer</Legs>
 
-    <Head  name="Akari Mask"          desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Head_Akari</Head>
-    <Chest name="Akari Garb"          desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Body_Akari</Chest>
-    <Legs  name="Akari Leggings"      desc="Opportunist&#10;Perfect dodging enemy attacks increases Melee Attack Speed and grants 100% Melee Critical Chance for 5 seconds.&#10;5%/10%/20% Melee Attack Speed">/Items/Armor/Akari/Armor_Legs_Akari</Legs>
+    <Head  name="Akari Mask"          desc="Opportunist&#10;Perfect Dodging increases Firing, Melee, Reload, and Evade Speed for 20 seconds. Slightly increases Evade Window.&#10;7.5%/15%/30% Speed Boost">/Items/Armor/Akari/Armor_Head_Akari</Head>
+    <Chest name="Akari Garb"          desc="Opportunist&#10;Perfect Dodging increases Firing, Melee, Reload, and Evade Speed for 20 seconds. Slightly increases Evade Window.&#10;7.5%/15%/30% Speed Boost">/Items/Armor/Akari/Armor_Body_Akari</Chest>
+    <Legs  name="Akari Leggings"      desc="Opportunist&#10;Perfect Dodging increases Firing, Melee, Reload, and Evade Speed for 20 seconds. Slightly increases Evade Window.&#10;7.5%/15%/30% Speed Boost">/Items/Armor/Akari/Armor_Legs_Akari</Legs>
 
     <Head  name="Bandit's Mask"       desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance">/Items/Armor/Bandit/Armor_Head_Bandit</Head>
     <Chest name="Bandit Jacket"       desc="Freeloader&#10;Chance to replace spent bullet on hit.&#10;10%/20%/35% Chance">/Items/Armor/Bandit/Armor_Body_Bandit</Chest>
@@ -21,17 +21,17 @@
     <Chest name="Carapace Shell"      desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction">/Items/Armor/Carapace/Armor_Body_Carapace</Chest>
     <Legs  name="Carapace Greaves"    desc="Harden&#10;After avoiding damage for 15s, armor hardens 1x per piece granting damage reduction. &#10;Damage removes a stack. If all stacks are removed, gain 10% bonus Movement Speed &#10;per piece (30% Max) for 5s. Increases Total damage from all sources by 5% per piece.&#10;7.5%/15%/25% Reduction">/Items/Armor/Carapace/Armor_Legs_Carapace</Legs>
 
-    <Head  name="Cultist Hat"         desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Head_Cultist</Head>
-    <Chest name="Cultist Duster"      desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Body_Cultist</Chest>
-    <Legs  name="Cultist Britches"    desc="Blood Pact&#10;Hits generate additional mod power.&#10;12.5%/25%/40% Mod Power on Crits">/Items/Armor/Cultist/Armor_Legs_Cultist</Legs>
+    <Head  name="Cultist Hat"         desc="Blood Pact&#10;Increases Weapon Mod duration. Mod Power is  generated slowly over time.&#10;30%/60%/100% Mod Duration">/Items/Armor/Cultist/Armor_Head_Cultist</Head>
+    <Chest name="Cultist Duster"      desc="Blood Pact&#10;Increases Weapon Mod duration. Mod Power is generated slowly over time.&#10;30%/60%/100% Mod Duration">/Items/Armor/Cultist/Armor_Body_Cultist</Chest>
+    <Legs  name="Cultist Britches"    desc="Blood Pact&#10;Increases Weapon Mod duration. Mod Power is generated slowly over time.&#10;30%/60%/100% Mod Duration">/Items/Armor/Cultist/Armor_Legs_Cultist</Legs>
 
-    <Head  name="Drifter's Mask"      desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Head_Drifter</Head>
-    <Chest name="Drifter's Overcoat"  desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Body_Drifter</Chest>
-    <Legs  name="Drifter's Trousers"  desc="Wanderer&#10;Stamina usage is reduced.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Legs_Drifter</Legs>
+    <Head  name="Drifter's Mask"      desc="Wanderer&#10;Sprinting for 1s. Evading, or sliding adds 1 stack of inertia. Inertia stacks increase Ranged and Melee damage. &#10;Max 5 Stacks. Lasts 10 seconds. Increases Stamina Regen by 15 per second.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Head_Drifter</Head>
+    <Chest name="Drifter's Overcoat"  desc="Wanderer&#10;Sprinting for 1s. Evading, or sliding adds 1 stack of inertia. Inertia stacks increase Ranged and Melee damage. &#10;Max 5 Stacks. Lasts 10 seconds. Increases Stamina Regen by 15 per second.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Body_Drifter</Chest>
+    <Legs  name="Drifter's Trousers"  desc="Wanderer&#10;Sprinting for 1s. Evading, or sliding adds 1 stack of inertia. Inertia stacks increase Ranged and Melee damage. &#10;Max 5 Stacks. Lasts 10 seconds. Increases Stamina Regen by 15 per second.&#10;10%/20%/35% Stamina Usage">/Items/Armor/Drifter/Armor_Legs_Drifter</Legs>
 
-    <Head  name="Elder Headdress"     desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Head_Elder</Head>
-    <Chest name="Elder Raiment"       desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Body_Elder</Chest>
-    <Legs  name="Elder Leggings"      desc="Believer&#10;Dragon Hearts will heal teammates within 15 meters.&#10;25%50%/100% Heal Amount">/Items/Armor/Elder/Armor_Legs_Elder</Legs>
+    <Head  name="Elder Headdress"     desc="Believer&#10;Dragon Hearts increases the Total damage dealt by all allies standing within 40 meters for 30 seconds. &#10;Gives a 25% chance to not consume a Dragon Heart.&#10;7.5%/15%/30% Damage">/Items/Armor/Elder/Armor_Head_Elder</Head>
+    <Chest name="Elder Raiment"       desc="Believer&#10;Dragon Hearts increases the Total damage dealt by all allies standing within 40 meters for 30 seconds. &#10;Gives a 25% chance to not consume a Dragon Heart.&#10;7.5%/15%/30% Damage">/Items/Armor/Elder/Armor_Body_Elder</Chest>
+    <Legs  name="Elder Leggings"      desc="Believer&#10;Dragon Hearts increases the Total damage dealt by all allies standing within 40 meters for 30 seconds. &#10;Gives a 25% chance to not consume a Dragon Heart.&#10;7.5%/15%/30% Damage">/Items/Armor/Elder/Armor_Legs_Elder</Legs>
 
     <Head  name="Hunter Shroud"       desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage">/Items/Armor/Hunter/Armor_Head_Hunter</Head>
     <Chest name="Hunter Trenchcoat"   desc="Sharpshooter&#10;Increases total Ranged and Weakspot damage. Reduces Spread of firearms by 20%.&#10;5%/10%/20% Ranged/Weakspot Damage">/Items/Armor/Hunter/Armor_Body_Hunter</Chest>

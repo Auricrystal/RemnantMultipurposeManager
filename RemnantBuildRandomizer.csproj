@@ -139,8 +139,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <None Include="Resources\IMG\Trinkets\desktop.ini" />
-    <None Include="Vendors\GraveyardElf_Apocalypse_1HRStamina.sav" />
-    <None Include="Vendors\Sebum_Apocalypse_Icefruit.sav" />
     <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />
@@ -168,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\Resources\" />
+    <Folder Include="Vendors\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="RedCrystal.ico" />
@@ -190,7 +189,7 @@
     <None Include="Resources\IMG\Armor\Chest\Twisted Cage.png" />
     <None Include="Resources\IMG\Armor\Chest\Void Carapace.png" />
     <None Include="Resources\IMG\Armor\Chest\Warlord Armor.png" />
-    <None Include="Resources\IMG\Armor\Chest\_No Chest.png" />
+    <Resource Include="Resources\IMG\Armor\Chest\_No Chest.png" />
     <None Include="Resources\IMG\Armor\Head\Adventurer Goggles.png" />
     <None Include="Resources\IMG\Armor\Head\Akari Mask.png" />
     <None Include="Resources\IMG\Armor\Head\Bandit%27s Mask.png" />
@@ -211,7 +210,7 @@
     <None Include="Resources\IMG\Armor\Head\Twisted Mask.png" />
     <None Include="Resources\IMG\Armor\Head\Void Skull.png" />
     <None Include="Resources\IMG\Armor\Head\Warlord Skull.png" />
-    <None Include="Resources\IMG\Armor\Head\_No Head.png" />
+    <Resource Include="Resources\IMG\Armor\Head\_No Head.png" />
     <None Include="Resources\IMG\Armor\Legs\Adventurer Leggings.png" />
     <None Include="Resources\IMG\Armor\Legs\Akari Leggings.png" />
     <None Include="Resources\IMG\Armor\Legs\Bandit Trousers.png" />
@@ -230,7 +229,7 @@
     <None Include="Resources\IMG\Armor\Legs\Twisted Tassets.png" />
     <None Include="Resources\IMG\Armor\Legs\Void Greaves.png" />
     <None Include="Resources\IMG\Armor\Legs\Warlord Boots.png" />
-    <None Include="Resources\IMG\Armor\Legs\_No Legs.png" />
+    <Resource Include="Resources\IMG\Armor\Legs\_No Legs.png" />
     <None Include="Resources\IMG\Menu\GFG_TEX_UI_Info_Back.png" />
     <None Include="Resources\IMG\Menu\GFG_TEX_UI_Info_Header_Back.png" />
     <None Include="Resources\IMG\Menu\GFG_TEX_UI_MenuBackground.png" />
@@ -277,12 +276,12 @@
     <None Include="Resources\IMG\Mods\RegularMods\Very Good Boy.png" />
     <None Include="Resources\IMG\Mods\RegularMods\Wildfire Shot.png" />
     <None Include="Resources\IMG\Mods\RegularMods\_No Mod.png" />
-    <Resource Include="Resources\IMG\RedCrystal.png" />
-    <Resource Include="Resources\IMG\RemnantBlanInv.png" />
-    <Resource Include="Resources\IMG\RemnantBuildView.png" />
-    <Resource Include="Resources\IMG\Rigs.png" />
-    <Resource Include="Resources\IMG\SidePanel.png" />
-    <Resource Include="Resources\IMG\TopPanel.png" />
+    <Resource Include="Resources\IMG\Menu\RedCrystal.png" />
+    <Resource Include="Resources\IMG\Menu\RemnantBlanInv.png" />
+    <Resource Include="Resources\IMG\Menu\RemnantBuildView.png" />
+    <Resource Include="Resources\IMG\Menu\Rigs.png" />
+    <Resource Include="Resources\IMG\Menu\SidePanel.png" />
+    <Resource Include="Resources\IMG\Menu\TopPanel.png" />
     <None Include="Resources\IMG\Trinkets\Amulets\Abrasive Amulet.png" />
     <None Include="Resources\IMG\Trinkets\Amulets\Amulet Of Epicaricacy.png" />
     <None Include="Resources\IMG\Trinkets\Amulets\Black Rose.png" />
@@ -319,7 +318,7 @@
     <None Include="Resources\IMG\Trinkets\Amulets\Vengeance Idol.png" />
     <None Include="Resources\IMG\Trinkets\Amulets\Vulcan%27s Detonator.png" />
     <None Include="Resources\IMG\Trinkets\Amulets\White Rose.png" />
-    <None Include="Resources\IMG\Trinkets\Amulets\_No Amulet.png" />
+    <Resource Include="Resources\IMG\Trinkets\Amulets\_No Amulet.png" />
     <None Include="Resources\IMG\Trinkets\Rings\Aggressor%27s Bane.png" />
     <None Include="Resources\IMG\Trinkets\Rings\Akari War Band.png" />
     <None Include="Resources\IMG\Trinkets\Rings\Alchemist%27s Jewel.png" />
@@ -394,14 +393,14 @@
     <None Include="Resources\IMG\Trinkets\Rings\Swashbuckler%27s Signet.png" />
     <None Include="Resources\IMG\Trinkets\Rings\Vanguard Ring.png" />
     <None Include="Resources\IMG\Trinkets\Rings\Volatile Gem.png" />
-    <None Include="Resources\IMG\Trinkets\Rings\_No Ring.png" />
-    <Resource Include="Resources\IMG\T_Icon_Crafting.png" />
-    <Resource Include="Resources\IMG\T_Icon_Item_Resource_HardenedIron.png" />
-    <Resource Include="Resources\IMG\T_Icon_Item_Resource_LaystoneShard.png" />
-    <Resource Include="Resources\IMG\T_Icon_Item_Resource_LumeniteCrystal.png" />
-    <Resource Include="Resources\IMG\T_Icon_Item_Simulacrum.png" />
-    <Resource Include="Resources\IMG\T_Icon_Item_WorldFragment.png" />
-    <Resource Include="Resources\IMG\T_Icon_RedCrystal.png" />
+    <Resource Include="Resources\IMG\Trinkets\Rings\_No Ring.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Crafting.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Item_Resource_HardenedIron.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Item_Resource_LaystoneShard.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Item_Resource_LumeniteCrystal.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Item_Simulacrum.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_Item_WorldFragment.png" />
+    <Resource Include="Resources\IMG\Menu\T_Icon_RedCrystal.png" />
     <None Include="Resources\IMG\Weapons\Hand\BossHand\Curse Of The Jungle God.png" />
     <None Include="Resources\IMG\Weapons\Hand\BossHand\Defiler.png" />
     <None Include="Resources\IMG\Weapons\Hand\BossHand\Hive Cannon.png" />
@@ -414,7 +413,7 @@
     <None Include="Resources\IMG\Weapons\Hand\RegHand\Sawed-Off.png" />
     <None Include="Resources\IMG\Weapons\Hand\RegHand\Submachine Gun.png" />
     <None Include="Resources\IMG\Weapons\Hand\RegHand\Twin Shot.png" />
-    <None Include="Resources\IMG\Weapons\Hand\RegHand\_No Hand Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Hand\RegHand\_No Hand Gun.png" />
     <None Include="Resources\IMG\Weapons\Long\BossLong\Alternator.png" />
     <None Include="Resources\IMG\Weapons\Long\BossLong\Devastator.png" />
     <None Include="Resources\IMG\Weapons\Long\BossLong\Eye Of The Storm.png" />
@@ -432,7 +431,7 @@
     <None Include="Resources\IMG\Weapons\Long\RegLong\Ricochet Rifle.png" />
     <None Include="Resources\IMG\Weapons\Long\RegLong\Shotgun.png" />
     <None Include="Resources\IMG\Weapons\Long\RegLong\Sniper.png" />
-    <None Include="Resources\IMG\Weapons\Long\RegLong\_No Long Gun.png" />
+    <Resource Include="Resources\IMG\Weapons\Long\RegLong\_No Long Gun.png" />
     <None Include="Resources\IMG\Weapons\Melee\Butcher%27s Flail.png" />
     <None Include="Resources\IMG\Weapons\Melee\Chain Blade.png" />
     <None Include="Resources\IMG\Weapons\Melee\Frostborne.png" />
@@ -452,11 +451,12 @@
     <None Include="Resources\IMG\Weapons\Melee\Wastelander Flail.png" />
     <None Include="Resources\IMG\Weapons\Melee\World Breaker.png" />
     <None Include="Resources\IMG\Weapons\Melee\World%27s Edge.png" />
-    <None Include="Resources\IMG\Weapons\Melee\_Fists.png" />
+    <Resource Include="Resources\IMG\Weapons\Melee\_Fists.png" />
     <None Include="Resources\ItemCodes.txt" />
-    <Resource Include="Resources\IMG\RedCrystal.ico" />
-    <Resource Include="Resources\IMG\Rigs.jpg" />
-    <Resource Include="Resources\IMG\remnant_of_mankind_bg.jpg" />
+    <Resource Include="Resources\IMG\Menu\RedCrystal.ico" />
+    <Resource Include="Resources\IMG\Menu\Rigs.jpg" />
+    <Resource Include="Resources\IMG\Menu\remnant_of_mankind_bg.jpg" />
+    <Resource Include="Resources\IMG\Menu\RemnantLoading.gif" />
     <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -101,15 +101,16 @@ namespace RemnantBuildRandomizer
                     {
                         foreach (RemnantCharacter rc in chars)
                         {
-
-                            Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
-                            foreach (Build b in Presets[rc.charNum])
+                            try
                             {
-                                sw.WriteLine("$:" + rc.charNum + ":" + b);
+                                Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
+                                foreach (Build b in Presets[rc.charNum])
+                                {
+                                    sw.WriteLine("$:" + rc.charNum + ":" + b);
+                                }
                             }
+                            catch (Exception) { }
                         }
-
-
                     }
                     else
                     {
