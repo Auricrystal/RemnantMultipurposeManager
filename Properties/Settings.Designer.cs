@@ -22,5 +22,65 @@ namespace RemnantBuildRandomizer.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int Char0SaveSlot {
+            get {
+                return ((int)(this["Char0SaveSlot"]));
+            }
+            set {
+                this["Char0SaveSlot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int Char1SaveSlot {
+            get {
+                return ((int)(this["Char1SaveSlot"]));
+            }
+            set {
+                this["Char1SaveSlot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int Char2SaveSlot {
+            get {
+                return ((int)(this["Char2SaveSlot"]));
+            }
+            set {
+                this["Char2SaveSlot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int Char3SaveSlot {
+            get {
+                return ((int)(this["Char3SaveSlot"]));
+            }
+            set {
+                this["Char3SaveSlot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int Char4SaveSlot {
+            get {
+                return ((int)(this["Char4SaveSlot"]));
+            }
+            set {
+                this["Char4SaveSlot"] = value;
+            }
+        }
     }
 }

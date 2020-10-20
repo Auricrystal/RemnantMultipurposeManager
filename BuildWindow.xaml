@@ -9,7 +9,7 @@
     <Grid Name="FullBuildScreen" Background="#222222">
         <Viewbox  Stretch="Uniform" StretchDirection="Both" VerticalAlignment="Bottom">
             <Grid Name="BuildScreen"  HorizontalAlignment="Center" VerticalAlignment="Bottom">
-                <Image Name="BuildView" Source="Resources/IMG/RemnantBuildView.png" Width="489" Height="622"/>
+                <Image Name="BuildView" Source="Resources/IMG/Menu/RemnantBuildView.png" Width="489" Height="622"/>
                 <Image Name="HandGunImg" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png" Margin="5,10,5,525" Stretch="Uniform" Width="396" Height="99"/>
                 <Image Name="HandModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,14,5,529" Width="91" Height="91"/>
                 <Image Name="HandCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,14,5,529" Width="91" Height="91"/>

@@ -166,7 +166,62 @@
                     <TextBox x:Name="txtLog" TextWrapping="Wrap" Background="White" VerticalScrollBarVisibility="Auto"/>
                 </Grid>
             </TabItem>
+            <TabItem Header="Credits">
+                <Viewbox Stretch="Uniform"  StretchDirection="Both">
+                    <Grid Width="824" Height="630">
+                        <TextBlock Text="CoolUsername" FontSize="24" Foreground="White" Width="172" Height="32" Margin="35,109,617,489"/>
+                        <TextBlock Margin="206,109,519,489" Height="32">           
+                                <Hyperlink NavigateUri="https://www.youtube.com/user/CharlieM780/" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Youtube
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="24" Text="Boss Saves" Margin="333,109,319,489"  Width="172" Height="32"/>
+                        <TextBlock Text="Bolt Jamison" FontSize="24" Foreground="White" Margin="34,72,618,526" Width="172" Height="32"/>
+                        <TextBlock Margin="206,72,519,526" Height="32">           
+                                <Hyperlink NavigateUri="https://www.youtube.com/channel/UCbkN9vpjqx-PDKSISbFPidQ" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Youtube
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="24" Text="Boss Saves/Bug Fixes" Margin="334,72,262,526" Height="32"/>
+                        <TextBlock Text="Glaras" FontSize="24" Foreground="White" Margin="34,146,618,452" Width="172" Height="32"/>
+                        <TextBlock Margin="206,146,519,452" Height="32">           
+                                <Hyperlink NavigateUri="https://www.youtube.com/channel/UCvq5gYVtRsqgiMkZ18Ixi2Q" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Youtube
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="24" Text="Boss Saves/Bug Fixes" Margin="334,152,262,446" Height="32"/>
+                        <TextBlock Text="Anh Lam" FontSize="24" Foreground="White" Margin="34,40,618,558" Width="172" Height="32"/>
+                        <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="18" Text="Smaller IMG sizes/Background IMGs" Margin="334,46,200,552" Height="32"/>
+                        <TextBlock Text="Razzmatazz" FontSize="24" Foreground="White" Margin="34,183,618,415" Width="172" Height="32"/>
+                        <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="24" Text="Save Reader Code" Margin="334,189,262,409" Height="32"/>
+                        <TextBlock Text="Additional Links" Margin="246,305,337,293" FontSize="30" Foreground="White" Height="32" TextDecorations="Underline"/>
+                        <TextBlock Text="devious21" FontSize="24" Foreground="White" Margin="34,342,618,256" Width="172" Height="32"/>
+                        <TextBlock Height="32" Margin="454,342,64,256">           
+                                <Hyperlink NavigateUri="https://wtgclan.com/" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Remnant Loadout Generator
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="Razzmatazz" FontSize="24" Foreground="White" Margin="34,416,618,182" Width="172" Height="32"/>
+                        <TextBlock Height="32" Margin="454,416,82,182">           
+                                <Hyperlink NavigateUri="https://github.com/Razzmatazzz/RemnantSaveManager/releases/latest" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Razzmatazz Save Analyzer
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Text="Gregolas" FontSize="24" Foreground="White" Margin="35,379,617,219" Width="172" Height="32"/>
+                        <TextBlock Height="32" Margin="454,379,64,219">           
+                                <Hyperlink NavigateUri="https://remnant-builds.glideapp.io/" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Remnant Builds Gallery
+                                </Hyperlink>
+                        </TextBlock>
+                        <TextBlock Height="32" Margin="206,379,519,219">           
+                                <Hyperlink NavigateUri="https://www.youtube.com/user/PianoSamurai88" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White">
+                                    Youtube
+                                </Hyperlink>
+                        </TextBlock>
 
+                    </Grid>
+                </Viewbox>
+            </TabItem>
         </TabControl>
     </Grid>
 </Window>

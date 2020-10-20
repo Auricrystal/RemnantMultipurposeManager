@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
@@ -138,7 +139,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\IMG\Trinkets\desktop.ini" />
     <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />

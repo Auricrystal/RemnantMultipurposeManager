@@ -32,7 +32,7 @@ namespace RemnantBuildRandomizer
         public static Dictionary<SlotType, List<RemnantItem>> GetEquipment { get => getEquipment; set => getEquipment = value; }
 
         private static Dictionary<int, List<Build>> presets;
-        private static Dictionary<int, int> saveSlot;
+        //private static Dictionary<int, int> saveSlot;
 
         public static readonly Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>() {
             {"Chest",SlotType.CH },{"Head",SlotType.HE }, {"Legs",SlotType.LE },{"BossHand",SlotType.HG },
@@ -76,20 +76,29 @@ namespace RemnantBuildRandomizer
                 return presets;
             }
         }
-
+        /*
         public static Dictionary<int, int> SaveSlot
         {
             get
             {
+
                 if (saveSlot == null) { saveSlot = new Dictionary<int, int>(); }
                 if (saveSlot.Values.Count == 0)
                 {
-                    foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { saveSlot.Add(rc.charNum, rc.charNum); }
+                    var chars = MainWindow.ActiveSave.Characters;
+
+                    var set = Properties.Settings.Default;
+                    int[] settings = new int[] { set.Char0SaveSlot, set.Char1SaveSlot, set.Char2SaveSlot, set.Char3SaveSlot, set.Char4SaveSlot };
+
+                    for (int i = 0; i < MainWindow.ActiveSave.Characters.Count; i++) {
+                        saveSlot.Add(chars[i].charNum, settings[i]);
+                    }
+                    
                 }
                 return saveSlot;
             }
         }
-
+        */
         public static void CreateData(string path, List<RemnantCharacter> chars)
         {
 
@@ -189,7 +198,7 @@ namespace RemnantBuildRandomizer
         }
         public static void GetData()
         {
-            string path = MainWindow.BackupDirPath + @"/Data.txt";
+            string path = MainWindow.RBRDirPath + @"/Data.txt";
 
             List<RemnantCharacter> chars;
             if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
