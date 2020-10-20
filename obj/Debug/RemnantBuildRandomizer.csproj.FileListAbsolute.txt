@@ -32,4 +32,3 @@ C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuil
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CoreCompileInputs.cache
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.exe
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.pdb
-C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache

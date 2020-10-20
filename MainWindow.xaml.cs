@@ -129,6 +129,7 @@ namespace RemnantBuildRandomizer
         {
             MW = this;
             InitializeComponent();
+            DownloadIMGFiles();
             assembly = Assembly.GetExecutingAssembly();
             File.Delete(RBRDirPath + "\\log.txt");
             for (int i = 0; i < 5; i++)
@@ -193,7 +194,7 @@ namespace RemnantBuildRandomizer
                 BossManagerTab.IsEnabled = false;
                 KeepCheckpoint.IsEnabled = false;
             }
-            DownloadIMGFiles();
+            
 
             ReadXML();
             GetData();
