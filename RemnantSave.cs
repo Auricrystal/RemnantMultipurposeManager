@@ -31,7 +31,10 @@ namespace RemnantBuildRandomizer
                 throw new Exception(saveProfilePath + " does not exist.");
             }
             this.profilePath = saveProfilePath;
-            saveCharacters = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath, RemnantCharacter.CharacterProcessingMode.NoEvents);
+            if (saveCharacters == null)
+            {
+                saveCharacters = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath);
+            }
         }
 
         public string SaveFolderPath
@@ -62,19 +65,26 @@ namespace RemnantBuildRandomizer
         public void UpdateCharacters()
         {
             var test = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath);
-            if (saveCharacters != null && test.Equals(saveCharacters))
+
+            if (saveCharacters != null && test.Count == saveCharacters.Count)
             {
+                for (int i = 0; i < test.Count; i++)
+                {
+                    if (test[i].Progression > saveCharacters[i].Progression) { NewData(test); break; }
+                }
                 Debug.WriteLine("Data Not Updated");
             }
-            else
+            else { NewData(test); }
+
+        }
+        private void NewData(List<RemnantCharacter> test)
+        {
+            Debug.WriteLine("New Char data");
+            saveCharacters = test;
+            MainWindow.SlogMessage("Updating Character Info:");
+            foreach (RemnantCharacter rc in this.Characters)
             {
-                Debug.WriteLine("New Char data");
-                saveCharacters = test;
-                MainWindow.SlogMessage("Updating Character Info:");
-                foreach (RemnantCharacter rc in this.Characters)
-                {
-                    MainWindow.SlogMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
-                }
+                MainWindow.SlogMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
             }
         }
 

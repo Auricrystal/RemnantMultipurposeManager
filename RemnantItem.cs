@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using static RemnantBuildRandomizer.DataObj;
 using static RemnantBuildRandomizer.GearInfo;
 using System.IO;
+using System.IO.Compression;
 
 namespace RemnantBuildRandomizer
 {
@@ -22,7 +23,7 @@ namespace RemnantBuildRandomizer
         public List<Boolean> disabled;
 
 
-        public RemnantItem(string path, string description, SlotType slot)
+        public RemnantItem(ZipArchive za,string path, string description, SlotType slot)
         {
             this.Itemname = path.Substring(path.LastIndexOf("/") + 1).Replace(".png", "");
             this.Description = description;
@@ -40,7 +41,7 @@ namespace RemnantBuildRandomizer
                 case "_No Ring": ID = 0; Index = 1; break;
                 default: ID = Index++; break;
             }
-            this.Data = new DataObj(path, slot, ID);
+            this.Data = new DataObj(za,path.Substring(1), slot, ID);
             this.missing = new List<bool>();
 
             this.disabled = new List<bool>();
@@ -68,9 +69,12 @@ namespace RemnantBuildRandomizer
             set
             {
                 if (this.missing == null) { this.missing = new List<bool>(); this.missing.Add(false); }
-                try {
-                    missing[character] = value; 
-                } catch(ArgumentOutOfRangeException) {
+                try
+                {
+                    missing[character] = value;
+                }
+                catch (ArgumentOutOfRangeException)
+                {
                     this.missing.Add(false);
                     Missing = value;
                 }
@@ -92,7 +96,7 @@ namespace RemnantBuildRandomizer
                         this.disabled.Add(false);
                         return No;
                     }
-                    
+
                 }
                 else { return false; }
             }
@@ -166,9 +170,9 @@ namespace RemnantBuildRandomizer
         static private int index = 0;
         private int id;
 
-        public DataObj(string path, SlotType st, int ID)
+        public DataObj(ZipArchive za,string path, SlotType st, int ID)
         {
-            this.SetImage(path);
+            this.SetImage(za,path);
             this.Slot = st;
             this.ID = ID;
         }
@@ -178,11 +182,29 @@ namespace RemnantBuildRandomizer
         {
             return image;
         }
-
-        public void SetImage(string value)
+        public void SetImage(ZipArchive za,string value)
         {
-            this.image = new BitmapImage(new Uri(MainWindow.RBRDirPath + "\\IMG" + value, UriKind.RelativeOrAbsolute));
+            Debug.WriteLine(value);
+            
+                var entry = za.GetEntry(value);
+                if (entry != null)
+                {
+                    using (var zipStream = entry.Open())
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        zipStream.CopyTo(memoryStream); // here
+                        memoryStream.Position = 0;
 
+                        var bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.StreamSource = memoryStream;
+                        bitmap.EndInit();
+
+                        this.image = bitmap;
+                    }
+                }
+            
         }
         public SlotType Slot { get => slot; set => slot = value; }
         public int ID { get => id; set => id = value; }
@@ -208,7 +230,7 @@ namespace RemnantBuildRandomizer
 
         public bool Disabled { get => disabled; set => disabled = value; }
         public string BuildName { get => name; set => name = value; }
-        public string Code { get => toCode(); set => init(value); }
+        public string Code { get => toStringCode(); set => init(value); }
         public RemnantItem HandGun { get => hg; set => hg = value; }
         public RemnantItem HandMod { get => hgm; set => hgm = value; }
         public RemnantItem LongGun { get => lg; set => lg = value; }
@@ -274,7 +296,7 @@ namespace RemnantBuildRandomizer
             {
                 init("0-0-0-0-0-0-0-0-0-0-0");
             }
-            Code = this.toCode();
+            Code = this.toStringCode();
         }
 
 
@@ -290,9 +312,9 @@ namespace RemnantBuildRandomizer
             }
             catch (Exception)
             {
-                init("0-0-0-0-0-0-0-0-0-0-0");
+                init("00-00-00-00-00-00-00-00-00-00-00");
             }
-            Code = this.toCode();
+            Code = this.toStringCode();
 
         }
         public Build(string name, string code)
@@ -307,7 +329,7 @@ namespace RemnantBuildRandomizer
             {
                 init("0-0-0-0-0-0-0-0-0-0-0");
             }
-            Code = this.toCode();
+            Code = this.toStringCode();
 
         }
         public Build(string name)
@@ -345,7 +367,7 @@ namespace RemnantBuildRandomizer
                 }
             }
             else { LongMod = StrToRI[LongGun.Mod]; }
-            Debug.WriteLine("HG:" + HandGun.Itemname + ":"+HandGun.Mod+":" + HandMod.Itemname);
+            Debug.WriteLine("HG:" + HandGun.Itemname + ":" + HandGun.Mod + ":" + HandMod.Itemname);
             Debug.WriteLine("LG:" + LongGun.Itemname + ":" + LongGun.Mod + ":" + LongMod.Itemname);
         }
 
@@ -431,22 +453,17 @@ namespace RemnantBuildRandomizer
                 return GearInfo.GetEquipment[st][0];
             }
         }
-        public string toCode()
+        public int[] toCodeArray()
         {
-            string code = "";
-            //code += BuildName+":";
-            code += HandGun.Data.ID + "-";
-            code += HandMod.Data.ID + "-";
-            code += LongGun.Data.ID + "-";
-            code += LongMod.Data.ID + "-";
-            code += Melee.Data.ID + "-";
-            code += Head.Data.ID + "-";
-            code += Chest.Data.ID + "-";
-            code += Legs.Data.ID + "-";
-            code += Amulet.Data.ID + "-";
-            code += Ring1.Data.ID + "-";
-            code += Ring2.Data.ID;
-
+            return new int[] { HandGun.Data.ID, HandMod.Data.ID, LongGun.Data.ID, LongMod.Data.ID, Melee.Data.ID,
+                Head.Data.ID, Chest.Data.ID, Legs.Data.ID,
+                Amulet.Data.ID, Ring1.Data.ID, Ring2.Data.ID };
+            
+        }
+        public string toStringCode()
+        {
+            string code = 
+                string.Join("-", HandGun.Data.ID, HandMod.Data.ID, LongGun.Data.ID, LongMod.Data.ID, Melee.Data.ID, Head.Data.ID, Chest.Data.ID, Legs.Data.ID, Amulet.Data.ID, Ring1.Data.ID, Ring2.Data.ID);
             return code;
         }
         public static Build FromData(string data)

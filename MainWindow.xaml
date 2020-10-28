@@ -22,13 +22,16 @@
             <MenuItem Header="Options">
                 <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click"></MenuItem>
                 <MenuItem Header="Check for Update" Click="UpdateCheck_Click"></MenuItem>
+                <MenuItem Header="Power Cycle Game" Click="GameRestart_Click"></MenuItem>
             </MenuItem>
             <MenuItem Header="View">
                 <MenuItem Header="Data Folder" Click="DataFolder_Click"/>
             </MenuItem>
+
             <ComboBox Name="cmbCharacter" SelectionChanged="CmbCharacter_SelectionChanged" Width="120"></ComboBox>
+            <ComboBox Name="cmbSaveSlot" SelectionChanged="cmbSaveSlot_SelectionChanged"  Width="120"></ComboBox>
             <TextBlock Name="SaveTime" Text="Last Save:"/>
-            <CheckBox Name="KeepCheckpoint" Content="Keep Current Checkpoint" Checked="KeepCheckpoint_Checked" />
+
 
         </Menu>
         <TabControl Margin="0,23,0,0" Background="#222222">
@@ -38,18 +41,29 @@
                         <Grid Name="BuildScreen" Margin="0,0,340,0" HorizontalAlignment="Center" VerticalAlignment="Center">
                             <Image Name="BuildView" Source="Resources/IMG/Menu/RemnantBuildView.png" Width="489" Height="622"/>
                             <Image Name="HandGunImg" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png" Margin="5,10,5,525" Stretch="Uniform" Width="396" Height="99"/>
+                            <TextBlock Name="HandGunText" Text="Hand Gun" Margin="10,16,173,602" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" />
                             <Image Name="HandModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,14,5,529" Width="91" Height="91"/>
+                            <TextBlock Name="HandGunModText" Text="Hand Mod" TextAlignment="Right" Margin="234,95,104,534" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" />
                             <Image Name="HandCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,14,5,529" Width="91" Height="91"/>
                             <Image Name="LongGunImg" Source="Resources/IMG/Weapons/Long/RegLong/_No Long Gun.png" Margin="5,118,5,416" Stretch="Uniform" Width="400" Height="100"/>
                             <Image Name="LongModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,123,5,420" Width="91" Height="91"/>
                             <Image Name="LongCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,123,5,420" Width="91" Height="91"/>
-                            <Image Name="MeleeImg" Source="Resources/IMG/Weapons/Melee/_Fists.png" Margin="5,225,5,309" Stretch="Uniform" Width="400" Height="100" />
-                            <Image Name="HeadImg" Source="Resources/IMG/Armor/Head/_No Head.png" Margin="10,332,333,160" Width="146" Height="146"/>
-                            <Image x:Name="ChestImg" Source="Resources/IMG/Armor/Chest/_No Chest.png" Margin="170,332,173,160" Width="146"/>
-                            <Image x:Name="LegImg" Source="Resources/IMG/Armor/Legs/_No Legs.png" Margin="334,330,9,162" Width="146" Height="146"/>
-                            <Image x:Name="AmImg" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png" Margin="0,478,324,5" Width="146" Height="146"/>
-                            <Image x:Name="Ri1Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="161,478,163,5" Width="146" Height="146"/>
-                            <Image x:Name="Ri2Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="324,478,0,5" Width="146" Height="146"/>
+                            <Image Name="MeleeImg" Source="Resources/IMG/Weapons/Melee/_Fists.png" Margin="44,227,45,319" Stretch="Uniform" Width="400" Height="90" />
+                            <Image Name="HeadImg" Source="Resources/IMG/Armor/Head/_No Head.png" Margin="14,354,349,163" Width="136" Height="136"/>
+                            <Image x:Name="ChestImg" Source="Resources/IMG/Armor/Chest/_No Chest.png" Margin="180,349,183,168" Width="136" Height="136"/>
+                            <Image x:Name="LegImg" Source="Resources/IMG/Armor/Legs/_No Legs.png" Margin="344,349,19,168" Width="136" Height="136"/>
+                            <Image x:Name="AmImg" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png" Margin="20,507,343,10" Width="136" Height="136"/>
+                            <Image x:Name="Ri1Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="180,507,183,10" Width="136" Height="136"/>
+                            <Image x:Name="Ri2Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="344,507,19,10" Width="136" Height="136"/>
+                            <TextBlock x:Name="LongGunText" Text="Long Gun" Margin="10,133,339,487" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="LongGunModText" Text="Long Mod" TextAlignment="Right" Margin="245,202,104,425" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" />
+                            <TextBlock x:Name="MeleeText" Text="Melee" Margin="10,236,339,384" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="HeadText" Text="Head" Margin="14,343,335,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="ChestText" Text="Chest" Margin="176,343,173,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="LegText" Text="Legs" Margin="339,343,10,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="AmuletText" Text="Amulet" TextWrapping="WrapWithOverflow"  Margin="10,488,331,117" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="Ring1Text" Text="Ring 1" Margin="176,495,173,125" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
+                            <TextBlock x:Name="Ring2Text" Text="Ring 2" Margin="339,495,10,125" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
                         </Grid>
                         <Grid Margin="490,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="620">
                             <Image Name="SideView" Source="Resources/IMG/Menu/SidePanel.png" Stretch="UniformToFill" Margin="0,38,0,0" Width="343" />
@@ -137,6 +151,7 @@
                 <Viewbox  Stretch="Uniform"  StretchDirection="Both">
                     <Grid Width="824" Height="630">
                         <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,106,0,0"/>
+                        <CheckBox Name="KeepCheckpoint" Content="Keep Current Checkpoint" Checked="KeepCheckpoint_Checked" Height="20" Margin="602,118,10,492" VerticalContentAlignment="Center" Foreground="White" FontSize="16"/>
                         <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="61" Margin="10,10,0,0" TextWrapping="Wrap" Text="Checkpoint Manager" VerticalAlignment="Top" Width="374" FontSize="36" Foreground="White"/>
                         <Button IsEnabled="{Binding ElementName=AlterFile, Path=IsChecked}" Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="427,130,0,0" VerticalAlignment="Top" Width="113"/>
                         <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="525,0,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>

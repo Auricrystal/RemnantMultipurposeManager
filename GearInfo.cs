@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -14,7 +15,7 @@ namespace RemnantBuildRandomizer
 {
     class GearInfo
     {
-        private static Dictionary<string, RemnantItem> strToRI = new Dictionary<string, RemnantItem>();
+        private static Dictionary<string, RemnantItem> strToRI = new Dictionary<string, RemnantItem>(StringComparer.InvariantCultureIgnoreCase);
         private static Dictionary<BitmapImage, RemnantItem> imgToRI = new Dictionary<BitmapImage, RemnantItem>();
         private static Dictionary<SlotType, List<RemnantItem>> getEquipment = new Dictionary<SlotType, List<RemnantItem>>() {
             {SlotType.HG,new List<RemnantItem>()},
@@ -34,7 +35,7 @@ namespace RemnantBuildRandomizer
         private static Dictionary<int, List<Build>> presets;
         //private static Dictionary<int, int> saveSlot;
 
-        public static readonly Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>() {
+        public static readonly Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>(StringComparer.InvariantCultureIgnoreCase) {
             {"Chest",SlotType.CH },{"Head",SlotType.HE }, {"Legs",SlotType.LE },{"BossHand",SlotType.HG },
             {"RegHand",SlotType.HG },{"BossLong",SlotType.LG },{"RegLong",SlotType.LG },{"Melee",SlotType.M },
             {"Amulets",SlotType.AM },{"Rings",SlotType.RI }, {"RegularMods",SlotType.MO }, {"LongMod",SlotType.MO },
@@ -46,7 +47,7 @@ namespace RemnantBuildRandomizer
 
         private static List<Item> items = new List<Item>();
 
-        private static Dictionary<string, string> archetypes = new Dictionary<string, string>() { { "Undefined", "Undefined" }, { "Scrapper", "Scrapper" }, { "Cultist", "Cultist" }, { "Hunter", "Hunter" } };
+        private static Dictionary<string, string> archetypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) { { "Undefined", "Undefined" }, { "Scrapper", "Scrapper" }, { "Cultist", "Cultist" }, { "Hunter", "Hunter" } };
 
         public static List<Item> Items
         {
@@ -179,8 +180,14 @@ namespace RemnantBuildRandomizer
                                     if (i < sdis.Length) { val = (int.Parse(sdis[i]) == 1); } else { val = false; }
                                     disabled.Add(val);
                                 }
-                                StrToRI[args[1]].missing = owned;
-                                StrToRI[args[1]].disabled = disabled;
+                                Debug.WriteLine(s);
+                                Debug.WriteLine(args[1]);
+                                try
+                                {
+                                    StrToRI[args[1]].missing = owned;
+                                    StrToRI[args[1]].disabled = disabled;
+                                }
+                                catch (KeyNotFoundException knfe) { MainWindow.SlogMessage(knfe.Message); }
                             }
                             else
                             {
@@ -232,21 +239,24 @@ namespace RemnantBuildRandomizer
         }
         public static void parseItems(string tag)
         {
-            foreach (XmlElement xe in doc.GetElementsByTagName(tag))
+            using (var archive = ZipFile.OpenRead(MainWindow.RBRDirPath + "\\IMG.zip"))
             {
-                RemnantItem ri = new RemnantItem(XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
-                if (xe.InnerText != null && xe.InnerText != "")
+                foreach (XmlElement xe in doc.GetElementsByTagName(tag))
                 {
+                    RemnantItem ri = new RemnantItem(archive,XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
+                    if (xe.InnerText != null && xe.InnerText != "")
+                    {
 
-                    Item rItem = new Item(xe.InnerText);
-                    rItem.ItemAltName = ri.Itemname;
-                    items.Add(rItem);
-                    // Debug.WriteLine("Adding: "+ri.Itemname+" Inner text: "+xe.InnerText);
+                        Item rItem = new Item(xe.InnerText);
+                        rItem.ItemAltName = ri.Itemname;
+                        items.Add(rItem);
+                        // Debug.WriteLine("Adding: "+ri.Itemname+" Inner text: "+xe.InnerText);
+                    }
+                    ri.Mod = xe.GetAttribute("mod");
+                    StrToRI.Add(ri.Itemname, ri);
+                    ImgToRI.Add(ri.Data.GetImage(), ri);
+                    GetEquipment[Slots[tag]].Add(ri);
                 }
-                ri.Mod = xe.GetAttribute("mod");
-                StrToRI.Add(ri.Itemname, ri);
-                ImgToRI.Add(ri.Data.GetImage(), ri);
-                GetEquipment[Slots[tag]].Add(ri);
             }
         }
     }

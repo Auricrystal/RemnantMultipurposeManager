@@ -39,7 +39,7 @@ namespace RemnantBuildRandomizer
         private void DisplayBuild(Build b)
         {
             BuildName.Text = b.BuildName;
-            BuildNum.Text = b.toCode();
+            BuildNum.Text = b.toStringCode();
 
             setImage(HandGunImg, b.HandGun);
             setImage(HandModImg, b.HandMod);

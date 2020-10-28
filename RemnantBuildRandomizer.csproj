@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,6 +46,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -69,6 +71,7 @@
     </Compile>
     <Compile Include="RemnantBoss.cs" />
     <Compile Include="RemnantCharacter.cs" />
+    <Compile Include="RemnantProfile.cs" />
     <Compile Include="RemnantSave.cs" />
     <Compile Include="XmlElementExtension.cs" />
     <Page Include="BuildWindow.xaml">
@@ -139,6 +142,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <EmbeddedResource Include="Resources\NewProfile.sav" />
     <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />
@@ -170,7 +174,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="RedCrystal.ico" />
-    <None Include="Resources\Blacklist.txt" />
     <None Include="Resources\IMG\Armor\Chest\Adventurer Tunic.png" />
     <None Include="Resources\IMG\Armor\Chest\Akari Garb.png" />
     <None Include="Resources\IMG\Armor\Chest\Bandit Jacket.png" />
@@ -452,12 +455,10 @@
     <None Include="Resources\IMG\Weapons\Melee\World Breaker.png" />
     <None Include="Resources\IMG\Weapons\Melee\World%27s Edge.png" />
     <Resource Include="Resources\IMG\Weapons\Melee\_Fists.png" />
-    <None Include="Resources\ItemCodes.txt" />
     <Resource Include="Resources\IMG\Menu\RedCrystal.ico" />
     <Resource Include="Resources\IMG\Menu\Rigs.jpg" />
     <Resource Include="Resources\IMG\Menu\remnant_of_mankind_bg.jpg" />
     <Resource Include="Resources\IMG\Menu\RemnantLoading.gif" />
-    <Content Include="Resources\RedCrystal.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
