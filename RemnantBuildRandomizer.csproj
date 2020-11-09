@@ -69,7 +69,8 @@
     <Compile Include="BuildWindow.xaml.cs">
       <DependentUpon>BuildWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RemnantBoss.cs" />
+    <Compile Include="MyExtensions.cs" />
+    <Compile Include="WorldSave.cs" />
     <Compile Include="RemnantCharacter.cs" />
     <Compile Include="RemnantProfile.cs" />
     <Compile Include="RemnantSave.cs" />

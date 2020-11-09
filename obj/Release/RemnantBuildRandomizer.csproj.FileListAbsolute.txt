@@ -1,0 +1,17 @@
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Release\RemnantBuildRandomizer.exe.config
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Release\RemnantBuildRandomizer.exe
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Release\RemnantBuildRandomizer.pdb
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.csprojAssemblyReference.cache
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\BuildWindow.g.cs
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\MainWindow.g.cs
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\App.g.cs
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer_MarkupCompile.cache
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer_MarkupCompile.lref
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\BuildWindow.baml
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\MainWindow.baml
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.g.resources
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.Properties.Resources.resources
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.csproj.GenerateResource.cache
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.csproj.CoreCompileInputs.cache
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.exe
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Release\RemnantBuildRandomizer.pdb

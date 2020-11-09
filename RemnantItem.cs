@@ -184,7 +184,7 @@ namespace RemnantBuildRandomizer
         }
         public void SetImage(ZipArchive za,string value)
         {
-            Debug.WriteLine(value);
+            //Debug.WriteLine(value);
             
                 var entry = za.GetEntry(value);
                 if (entry != null)
@@ -447,8 +447,6 @@ namespace RemnantBuildRandomizer
             }
             catch (ArgumentOutOfRangeException)
             {
-
-
                 Debug.WriteLine("OutOfRangeException: " + index + " Setting to default instead:" + 0);
                 return GearInfo.GetEquipment[st][0];
             }

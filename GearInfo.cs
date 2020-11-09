@@ -77,29 +77,7 @@ namespace RemnantBuildRandomizer
                 return presets;
             }
         }
-        /*
-        public static Dictionary<int, int> SaveSlot
-        {
-            get
-            {
-
-                if (saveSlot == null) { saveSlot = new Dictionary<int, int>(); }
-                if (saveSlot.Values.Count == 0)
-                {
-                    var chars = MainWindow.ActiveSave.Characters;
-
-                    var set = Properties.Settings.Default;
-                    int[] settings = new int[] { set.Char0SaveSlot, set.Char1SaveSlot, set.Char2SaveSlot, set.Char3SaveSlot, set.Char4SaveSlot };
-
-                    for (int i = 0; i < MainWindow.ActiveSave.Characters.Count; i++) {
-                        saveSlot.Add(chars[i].charNum, settings[i]);
-                    }
-                    
-                }
-                return saveSlot;
-            }
-        }
-        */
+       
         public static void CreateData(string path, List<RemnantCharacter> chars)
         {
 
@@ -113,7 +91,7 @@ namespace RemnantBuildRandomizer
                         {
                             try
                             {
-                                Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
+                                //Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
                                 foreach (Build b in Presets[rc.charNum])
                                 {
                                     sw.WriteLine("$:" + rc.charNum + ":" + b);
@@ -180,8 +158,8 @@ namespace RemnantBuildRandomizer
                                     if (i < sdis.Length) { val = (int.Parse(sdis[i]) == 1); } else { val = false; }
                                     disabled.Add(val);
                                 }
-                                Debug.WriteLine(s);
-                                Debug.WriteLine(args[1]);
+                                //Debug.WriteLine(s);
+                                //Debug.WriteLine(args[1]);
                                 try
                                 {
                                     StrToRI[args[1]].missing = owned;
