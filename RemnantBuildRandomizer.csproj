@@ -7,7 +7,7 @@
     <ProjectGuid>{BEED9BAF-DEA0-4425-99C0-47CD1AB877CC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>RemnantBuildRandomizer</RootNamespace>
-    <AssemblyName>RemnantBuildRandomizer</AssemblyName>
+    <AssemblyName>Remnant Multipurpose Manager</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -460,6 +460,15 @@
     <Resource Include="Resources\IMG\Menu\Rigs.jpg" />
     <Resource Include="Resources\IMG\Menu\remnant_of_mankind_bg.jpg" />
     <Resource Include="Resources\IMG\Menu\RemnantLoading.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\_BetaVersion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\_OutOfDateVersion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\_CurrentVersion.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

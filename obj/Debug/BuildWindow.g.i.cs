@@ -196,7 +196,7 @@ namespace RemnantBuildRandomizer {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/RemnantBuildRandomizer;component/buildwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Remnant Multipurpose Manager;component/buildwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\BuildWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

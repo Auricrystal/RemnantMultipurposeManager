@@ -22,6 +22,7 @@ using Microsoft.Win32;
 using System.Threading.Tasks;
 using System.Text;
 
+
 namespace RemnantBuildRandomizer
 {
     /// <summary>
@@ -140,10 +141,6 @@ namespace RemnantBuildRandomizer
             DownloadIMGFiles();
             assembly = Assembly.GetExecutingAssembly();
             File.Delete(RBRDirPath + "\\log.txt");
-            for (int i = 0; i < 5; i++)
-            {
-                logMessage("Char:" + i + " Save:" + GetSetting(i));
-            }
 
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
@@ -296,7 +293,7 @@ namespace RemnantBuildRandomizer
                     SaveManipulator.IsEnabled = true;
                     logMessage("Finished! " + watch.ElapsedMilliseconds + "ms");
                     watch.Stop();
-                    Debug.WriteLine("SaveCount: " + WorldSave.getSave.Count);
+                    Debug.WriteLine("SaveCount: " + WorldSave.GetSave.Count);
                     Debug.WriteLine("Time:" + watch.ElapsedMilliseconds);
                 });
             });
@@ -358,8 +355,18 @@ namespace RemnantBuildRandomizer
         private void OnWorldFileChanged(object source, FileSystemEventArgs e)
         {
             // Specify what is done when a file is changed, created, or deleted.
-            //logMessage("World save " + e.Name + " was written to");
+            this.Dispatcher.Invoke(() =>
+            {
+                if (cmbSaveSlot.SelectedItem.ToString() != e.Name)
+                {
+                    logMessage(e.Name + " was written to");
+                    logMessage("Char/Save Mismatch", LogType.Error);
+                    lblLastMessage.ToolTip = "Expected " + cmbSaveSlot.SelectedItem.ToString() + " but got " + e.Name;
+                }
 
+
+
+            });
         }
 
         private List<WorldSave> ParseSaveFiles(string directory)
@@ -432,18 +439,17 @@ namespace RemnantBuildRandomizer
                 // Debug.WriteLine("Adding: " + task.Result.Name);
                 data.Add(task.Result);
             }
+
             return data;
         }
         private void LoadSave()
         {
-
-
             BossList.SelectedIndex = rd.Next(BossList.Items.Count);
             LoadSave((WorldSave)BossList.SelectedItem);
         }
         private void LoadSave(WorldSave rb)
         {
-            logMessage("Loading:\n" + rb.path.Split('\\', '/').Last());
+            logMessage("Loading: " + rb.path.Split('\\', '/').Last());
             if (rb.path.Contains(".zip"))
             {
                 grabFileFromZip(rb.path, SaveDirPath + "\\" + ActiveSaveSlot);
@@ -452,7 +458,8 @@ namespace RemnantBuildRandomizer
             {
                 File.Copy(rb.path, SaveDirPath + "\\" + ActiveSaveSlot, true);
             }
-
+            File.SetLastWriteTime(SaveDirPath + "\\" + ActiveSaveSlot, DateTime.Now);
+            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
         }
 
 
@@ -464,51 +471,59 @@ namespace RemnantBuildRandomizer
             return li;
         }
 
-        private void checkForUpdate()
+        private int checkForUpdate()
         {
-            if (!Properties.Settings.Default.ShowedUpdate)
+            Debug.WriteLine("Checking version" + Properties.Settings.Default.ShowedUpdate);
+            int compare = 0;
+            using (WebClient client = new WebClient())
             {
-                new Thread(() =>
+                try
                 {
-                    Thread.CurrentThread.IsBackground = true;
+                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                    string remoteVer = Regex.Match(source, @"Remnant Multipurpose Manager (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value + ".0";
 
-                    try
-                    {
-                        WebClient client = new WebClient();
-                        string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
-                        string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-                        string remoteVer = Regex.Match(source, @"Remnant Build Randomizer (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value;
-
-                        Version remoteVersion = new Version(remoteVer);
-                        Version localVersion = typeof(MainWindow).Assembly.GetName().Version;
-
-                        this.Dispatcher.Invoke(() =>
+                    Version remoteVersion = new Version(remoteVer);
+                    Version localVersion = typeof(MainWindow).Assembly.GetName().Version;
+                    Debug.WriteLine("remote:" + remoteVersion + '\n' + "local:" + localVersion);
+                    this.Dispatcher.Invoke(() =>
                         {
-                            //do stuff in here with the interface
-                            if (localVersion.CompareTo(remoteVersion) == -1)
+                            compare = localVersion.CompareTo(remoteVersion);
+                            if (compare == -1)
                             {
-                                var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?",
-                                         "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                                if (confirmResult == MessageBoxResult.Yes)
-                                {
-                                    Process.Start("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
-                                    System.Environment.Exit(1);
-                                }
-                                else { Properties.Settings.Default.ShowedUpdate = true; Properties.Settings.Default.Save(); }
+                                Debug.WriteLine("Inside Update value: " + compare);
+                                Debug.WriteLine("New Version Available");
+                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_OutOfDateVersion.png"));
+                                Version.Header = new Image { Source = bmp };
+                                Version.ToolTip = "Update Available!";
+                            }
+                            else if (compare == 1)
+                            {
+
+                                Debug.WriteLine("Beta Version Detected");
+                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_BetaVersion.png"));
+                                Version.Header = new Image { Source = bmp };
+                                Version.ToolTip = "Beta Version";
                             }
                             else
                             {
                                 logMessage("No new version found.");
-                            }
-                        });
-                    }
-                    catch (Exception)
-                    {
-                    }
-                }).Start();
+                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_CurrentVersion.png"));
+                                Version.Header = new Image { Source = bmp };
+                                Version.ToolTip = "No Update Found";
 
-                lastUpdateCheck = DateTime.Now;
+                            }
+                        }
+                     );
+                }
+                catch (Exception)
+                {
+                }
             }
+            lastUpdateCheck = DateTime.Now;
+            Debug.WriteLine("Update value: " + compare);
+            return compare;
+
         }
 
         public static void SlogMessage(string msg)
@@ -519,6 +534,7 @@ namespace RemnantBuildRandomizer
         {
             logMessage(msg, Colors.White);
         }
+
 
         public void logMessage(string msg, LogType lt)
         {
@@ -534,8 +550,10 @@ namespace RemnantBuildRandomizer
             logMessage(msg, color);
         }
 
+
         public void logMessage(string msg, Color color)
         {
+
             if (!Dispatcher.CheckAccess())
             {
                 this.Dispatcher.Invoke(() => { logMessage(msg, color); });
@@ -543,7 +561,8 @@ namespace RemnantBuildRandomizer
             else
             {
                 txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
-                lblLastMessage.Content = msg;
+                lblLastMessage.Text = msg;
+                lblLastMessage.ToolTip = null;
                 lblLastMessage.Foreground = new SolidColorBrush(color);
                 if (color.Equals(Colors.White))
                 {
@@ -570,63 +589,30 @@ namespace RemnantBuildRandomizer
 
 
             KeepCheck();
+
             UpdateCharacterData();
 
         }
 
         private void KeepCheck()
         {
-            if (!Dispatcher.CheckAccess())
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    if (KeepCheckpoint.IsChecked == true)
-                    {
-                        LoadCheckpoint();
-                    }
-                });
-            }
-            else
+            this.Dispatcher.Invoke(() =>
             {
                 if (KeepCheckpoint.IsChecked == true)
                 {
                     LoadCheckpoint();
                 }
-            }
+            });
         }
 
         private void UpdateCharacterData()
         {
             ActiveSave.UpdateCharacters();
-            if (!Dispatcher.CheckAccess())
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    SaveTime.Text = "Last Save: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav");
-                });
-            }
-            else
+
+            this.Dispatcher.Invoke(() =>
             {
                 SaveTime.Text = "Last Save: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav");
-            }
-
-            if (!Dispatcher.CheckAccess())
-            {
-                this.Dispatcher.Invoke(() =>
-                {
-                    //cmbCharacter.ItemsSource = ActiveSave.Characters;
-                    // cmbCharacter.SelectedIndex = 0;
-                    //cmbCharacter.Items.Refresh();
-                });
-            }
-            else
-            {
-                //cmbCharacter.ItemsSource = ActiveSave.Characters;
-                //cmbCharacter.SelectedIndex = 0;
-                //cmbCharacter.Items.Refresh();
-            }
-
-
+            });
         }
 
 
@@ -761,9 +747,11 @@ namespace RemnantBuildRandomizer
                 foreach (string s in Directory.GetFiles(RBRDirPath + "\\Backup\\", "save_*.sav"))
                 {
                     File.Copy(s, saveDirPath + '\\' + s.Split('\\').Last(), true);
+                    File.SetLastWriteTime(saveDirPath + '\\' + s.Split('\\').Last(), DateTime.Now);
                     logMessage("Reverting " + s.Split('\\').Last());
                 }
             }
+            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
             SaveData();
         }
 
@@ -891,9 +879,17 @@ namespace RemnantBuildRandomizer
 
         private void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
-            Properties.Settings.Default.ShowedUpdate = false;
-            Properties.Settings.Default.Save();
-            checkForUpdate();
+            if (checkForUpdate() == -1)
+            {
+                var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?",
+                                         "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (confirmResult == MessageBoxResult.Yes)
+                {
+                    Process.Start("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    System.Environment.Exit(1);
+                }
+            }
+
         }
 
         private void WeaponList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -1254,16 +1250,21 @@ namespace RemnantBuildRandomizer
 
         private void LoadCheckpoint()
         {
-            LoadCheckpoint(RBRDirPath + "\\Backup\\KeepSave.sav");
+            LoadCheckpoint(RBRDirPath + "\\Backup\\Keep.sav");
         }
         private void LoadCheckpoint(string path)
         {
             try
             {
+                worldWatcher.EnableRaisingEvents = false;
+                saveWatcher.EnableRaisingEvents = false;
                 Debug.WriteLine("Path: " + path);
                 File.Copy(path, SaveDirPath + "\\" + ActiveSaveSlot, true);
-
-                logMessage("Loading Checkpoint: " + path);
+                File.SetLastWriteTime(SaveDirPath + "\\" + ActiveSaveSlot, DateTime.Now);
+                File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
+                logMessage("Loading: " + path.Split('/', '\\').Last() + " to " + ActiveSaveSlot);
+                worldWatcher.EnableRaisingEvents = true;
+                saveWatcher.EnableRaisingEvents = true;
             }
             catch (IOException ex)
             {
@@ -1271,7 +1272,7 @@ namespace RemnantBuildRandomizer
                 {
                     Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
 
-                    Thread.Sleep(5000);
+                    Thread.Sleep(500);
                     LoadCheckpoint(path);
                 }
             }
@@ -1295,9 +1296,31 @@ namespace RemnantBuildRandomizer
 
         private void KeepCheckpoint_Checked(object sender, RoutedEventArgs e)
         {
+            worldWatcher.EnableRaisingEvents = false;
+            saveWatcher.EnableRaisingEvents = false;
+            logMessage("KeepCheck Enabled");
             File.Copy(saveDirPath + "\\" + ActiveSaveSlot, RBRDirPath + "\\Backup\\Keep.sav", true);
+            File.SetLastWriteTime(RBRDirPath + "\\Backup\\Keep.sav", DateTime.Now);
+            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
+            worldWatcher.EnableRaisingEvents = true;
+            saveWatcher.EnableRaisingEvents = true;
+
+
+
+            LoadButtonSettings();
+
+        }
+        private void KeepCheckpoint_Unchecked(object sender, RoutedEventArgs e)
+        {
+            logMessage("KeepCheck Disabled");
+            LoadButtonSettings();
         }
 
+        private void LoadButtonSettings() {
+
+            LoadBoss.IsEnabled = AlterFile.IsChecked.Value && !KeepCheckpoint.IsChecked.Value;
+            FeelingLucky.IsEnabled = AlterFile.IsChecked.Value && !KeepCheckpoint.IsChecked.Value;
+        }
         private void LoadBoss_Click(object sender, RoutedEventArgs e)
         {
             TabItem t = ((TabItem)SaveManager.SelectedItem);
@@ -1311,22 +1334,33 @@ namespace RemnantBuildRandomizer
 
         private void AlterFile_Checked(object sender, RoutedEventArgs e)
         {
+            List<string> files = new List<string>();
             foreach (string s in Directory.GetFiles(saveDirPath, "save_*.sav"))
             {
                 File.Copy(s, RBRDirPath + "\\Backup\\" + s.Split('\\').Last(), true);
-                logMessage("Backing Up " + s.Split('\\').Last());
+                File.SetLastWriteTime(RBRDirPath + "\\Backup\\" + s.Split('\\').Last(), DateTime.Now);
+                files.Add(s.Split('\\').Last());
             }
-
+            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
+            logMessage("Backing Up: " + string.Join(", ", files), LogType.Success);
+            LoadButtonSettings();
         }
 
         private void AlterFile_Unchecked(object sender, RoutedEventArgs e)
         {
+            worldWatcher.EnableRaisingEvents = false;
+            KeepCheckpoint.IsChecked = false;
+            List<string> files = new List<string>();
             foreach (string s in Directory.GetFiles(RBRDirPath + "\\Backup\\", "save_*.sav"))
             {
                 File.Copy(s, saveDirPath + '\\' + s.Split('\\').Last(), true);
-                logMessage("Reverting "+ s.Split('\\').Last());
+                File.SetLastWriteTime(saveDirPath + '\\' + s.Split('\\').Last(), DateTime.Now);
+                files.Add(s.Split('\\').Last());
             }
-
+            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
+            logMessage("Restoring: " + string.Join(", ", files), LogType.Success);
+            worldWatcher.EnableRaisingEvents = true;
+            LoadButtonSettings();
         }
 
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
@@ -1412,6 +1446,7 @@ namespace RemnantBuildRandomizer
                 {
                     string localfile = s.Split(new char[] { '\\', '|', '/' }).Last();
                     File.Copy(s, RBRDirPath + "\\Misc Saves\\" + localfile, true);
+                    File.SetLastWriteTime(RBRDirPath + "\\Misc Saves\\" + localfile, DateTime.Now);
                 }
                 var parse = ParseSaveFiles(RBRDirPath + "\\Misc Saves\\");
                 Debug.WriteLine("Get Check Name:" + parse[0].Name);
@@ -1488,6 +1523,14 @@ namespace RemnantBuildRandomizer
             }
 
         }
+
+        private void ToString_Click(object sender, RoutedEventArgs e)
+        {
+            Debug.WriteLine(((WorldSave)BossList.SelectedItem).ToData());
+
+        }
+
+
     }
 }
 

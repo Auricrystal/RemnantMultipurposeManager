@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +16,7 @@ namespace RemnantBuildRandomizer
     public class WorldSave
     {
 
-        public static Dictionary<string, WorldSave> getSave = new Dictionary<string, WorldSave>();
+        private static ConcurrentDictionary<string, WorldSave> getSave = new ConcurrentDictionary<string, WorldSave>();
         public string path;
         private string diff = "";
         private string world = "";
@@ -42,7 +43,19 @@ namespace RemnantBuildRandomizer
             { "Nightmare", "Night"} };
         public string Diff { get => diff; set => diff = value; }
         public string World { get => world; set => world = value; }
-        public string Name { get => name; set => name = value; }
+        public string Name
+        {
+            get
+            {
+                string[] index;
+                if ((index = name.Split('&')).Length > 1)
+                {
+                    return index[0] + " &\n" + index[1];
+                }
+                else { return name; }
+            }
+            set => name = value;
+        }
         public string Modifiers
         {
             get
@@ -85,7 +98,15 @@ namespace RemnantBuildRandomizer
             }
         }
 
-
+        public static ConcurrentDictionary<string, WorldSave> GetSave
+        {
+            get
+            {
+                if (getSave == null) { getSave = new ConcurrentDictionary<string, WorldSave>(); }
+                return getSave;
+            }
+            set => getSave = value;
+        }
 
         public WorldSave(string path, string diff, string world, string name, params string[] m)
         {
@@ -98,10 +119,25 @@ namespace RemnantBuildRandomizer
         public static void addWS(WorldSave ws)
         {
 
-            if (!getSave.ContainsKey(ws.path))
+            if (!GetSave.ContainsKey(ws.path))
             {
                 //Debug.WriteLine("ADDWORLD:"+ws.ToData());
-                try { getSave.Add(ws.path, ws); } catch (Exception ex) { Debug.WriteLine(ex.Message); }
+                try
+                {
+                    string path = ws.path;
+                    WorldSave w = ws.Copy();
+                    if (!GetSave.ContainsKey(path))
+                    {
+                       
+                        GetSave.TryAdd(path, w);
+                        
+                    }
+                    else
+                    {
+                        GetSave[path] = w;
+                    }
+                }
+                catch (Exception ex) { Debug.WriteLine(ex.Message); }
             }
 
         }
@@ -179,23 +215,24 @@ namespace RemnantBuildRandomizer
 
         public List<string> ReadFile()
         {
-            
-         
+
+
             if (this.path.Contains(".zip"))
             {
                 using (ZipArchive zip = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Update))
                 {
-                  return parseData(zip.GetEntry(path.Split('|').Last()).Open());
+                    return parseData(zip.GetEntry(path.Split('|').Last()).Open());
                 }
             }
             else
             {
-              return parseData(new FileStream(this.path, FileMode.Open));
+                return parseData(new FileStream(this.path, FileMode.Open));
             }
-            
+
 
         }
-        private List<string> parseData(Stream s) {
+        private List<string> parseData(Stream s)
+        {
             List<string> data = new List<string>();
             using (StreamReader sr = new StreamReader(s))
             {
@@ -205,7 +242,7 @@ namespace RemnantBuildRandomizer
                 foreach (Match m in mc)
                 {
                     string test;
-                    if (!data.Contains((test = m.Groups["Test"].Value))) {data.Add(test); }
+                    if (!data.Contains((test = m.Groups["Test"].Value))) { data.Add(test); }
                 }
             }
             return data;
@@ -226,24 +263,24 @@ namespace RemnantBuildRandomizer
 
         public string Filename()
         {
-            return Name + "_" + string.Join("_", this.modifiers);
+            return Name.Replace(" &\n", "&") + "_" + string.Join("_", this.modifiers);
         }
 
         public string ToData()
         {
-            return string.Join(":", this.path + this.Description);
+            return string.Join(":", new string[] { Diff, Filename(), description });
         }
         public void FromData(string s)
         {
             string[] d = s.Split(':');
             WorldSave ws;
-            if ((ws = getSave[d.First()]) != null) { ws.Description = d.Last(); }
+            if ((ws = GetSave[d.First()]) != null) { ws.Description = d.Last(); }
         }
 
         public bool Contains(string s)
         {
             s = s.ToLower();
-            return Name.ToLower().Contains(s) || World.ToLower().Contains(s) || Diff.ToLower().Contains(s) || Modifiers.ToLower().Contains(s) || Description.ToLower().Contains(s);
+            return Name.Replace(" &\n", "&").ToLower().Contains(s) || World.ToLower().Contains(s) || Diff.ToLower().Contains(s) || Modifiers.ToLower().Contains(s) || Description.ToLower().Contains(s);
         }
 
         public bool Contains(params string[] st)

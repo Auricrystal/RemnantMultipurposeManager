@@ -32,20 +32,20 @@ C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuil
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.exe
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.pdb
 C:\Users\Josh\Documents\VisualBasic\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe.config
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.exe
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\RemnantBuildRandomizer.pdb
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\BuildWindow.g.cs
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.g.cs
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\App.g.cs
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.cache
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer_MarkupCompile.lref
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\BuildWindow.baml
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.baml
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.g.resources
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.Properties.Resources.resources
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.GenerateResource.cache
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CoreCompileInputs.cache
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.exe
-C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.pdb
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Remnant Multipurpose Manager.exe.config
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Remnant Multipurpose Manager.exe
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Remnant Multipurpose Manager.pdb
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.cache
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.lref
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.g.resources
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.exe
+C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.pdb
 C:\Users\Josh\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
