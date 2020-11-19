@@ -27,7 +27,7 @@ namespace RemnantBuildRandomizer
 
         public static WorldSave Copy(this WorldSave rb)
         {
-            return new WorldSave(rb.path, rb.Diff, rb.Name, rb.World, rb.Modifiers);
+            return new WorldSave(rb.path, rb.Diff, rb.Name, rb.World, rb.Modifiers,rb.Description);
         }
 
     }

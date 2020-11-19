@@ -34,17 +34,5 @@ namespace RemnantBuildRandomizer.Properties {
                 this["SaveSlotData"] = value;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool ShowedUpdate {
-            get {
-                return ((bool)(this["ShowedUpdate"]));
-            }
-            set {
-                this["ShowedUpdate"] = value;
-            }
-        }
     }
 }

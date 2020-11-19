@@ -7,13 +7,15 @@
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="RemnantBuildRandomizer.MainWindow"
         mc:Ignorable="d"
         Title="Remnant Multipurpose Manager" Height="711.531" Width="837.522"
-        x:Name="RemnantMultipurposeManager" Icon="Resources/IMG/Menu/RedCrystal.png"
+        x:Name="RemnantMultipurposeManager" Icon="Resources/IMG/Menu/Image_Test.ico"
         Background="#111"
         Closing="RemnantBuildRandomizer_Closing" Loaded="Window_Loaded"
         
         MinHeight="722" MinWidth="837.522"
         >
+
     <Window.Resources>
+
         <ResourceDictionary>
             <ScaleTransform x:Key="windowScaleTransform" ScaleX="0.5" ScaleY="0.5" />
             <Style x:Key="FocusVisual">
@@ -912,19 +914,19 @@
                     <Grid Background="#222222" HorizontalAlignment="Left" VerticalAlignment="Top" Height="681" Width="893" >
                         <TabControl Margin="10,258,10,10"  Background="{x:Null}" Width="873" Height="413" >
                             <TabItem Header="Weapons">
-                                <DataGrid RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="WeaponList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding" x:Name="WeaponList"/>
+                                <DataGrid CanUserDeleteRows="False" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="WeaponList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding" x:Name="WeaponList"/>
                             </TabItem>
                             <TabItem Header="Armor">
-                                <DataGrid RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="ArmorList"/>
+                                <DataGrid CanUserDeleteRows="False" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="ArmorList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="ArmorList"/>
                             </TabItem>
                             <TabItem Header="Amulets">
-                                <DataGrid RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="AmuletList" />
+                                <DataGrid CanUserDeleteRows="False" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="AmuletList" />
                             </TabItem>
                             <TabItem Header="Rings">
-                                <DataGrid RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="RingList" />
+                                <DataGrid CanUserDeleteRows="False" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="RingList" />
                             </TabItem>
                             <TabItem Header="General Mods">
-                                <DataGrid RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="ModList" />
+                                <DataGrid CanUserDeleteRows="False" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="TrinketList_AutoGeneratingColumn" BeginningEdit="RemItem_BeginningEdit"  CellEditEnding="RemItem_CellEditEnding"  RowEditEnding="RemItem_RowEditEnding"  x:Name="ModList" />
                             </TabItem>
                         </TabControl>
                         <Button Content="Reset Blacklist" Click="ResetBlack_Click" HorizontalAlignment="Left" Height="32" Margin="10,139,0,0" VerticalAlignment="Top" Width="136"/>
@@ -984,29 +986,26 @@
                             <TabItem x:Name="BossManagerTab" Header="Save Manager">
                                 <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
                                     <Grid Width="824" Height="496">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
                                         <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5"/>
                                         <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="422,35,0,0" VerticalAlignment="Top" Width="113"/>
                                         <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="422,68,0,0" VerticalAlignment="Top" Width="113"/>
                                         <TextBlock TextWrapping="Wrap" Foreground="White" Margin="422,101,227,235"><Run Text="ONLY Load checkpoints while at the Main Menu."/><LineBreak/><Run/><LineBreak/><Run Text="If your using the Razzmatazz Save Manager, the Analyzer will update 10 seconds after loading a save from here."/></TextBlock>
-                                        <TabControl x:Name="SaveManager" Margin="5,10,412,0" Height="452" VerticalAlignment="Top"  >
+                                        <TabControl x:Name="SaveManager" Margin="5,10,412,0" Height="452" VerticalAlignment="Top">
                                             <TabItem Header="Boss Saves">
-                                                <DataGrid x:Name="BossList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="BossList_AutoGeneratingColumn">
-                                                    <DataGrid.ContextMenu>
-                                                        <ContextMenu>
-                                                            <MenuItem Name="OutputData" Header="Output Data" Click="OutputData_Click"></MenuItem>
-                                                            <MenuItem Name="ToString" Header="Debug String" Click="ToString_Click"></MenuItem>
-                                                        </ContextMenu>
-                                                    </DataGrid.ContextMenu>
-                                                </DataGrid>
+                                                <DataGrid x:Name="BossList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="BossList_AutoGeneratingColumn" CanUserDeleteRows="False"/>
                                             </TabItem>
                                             <TabItem Header="Vendor Saves">
-                                                <DataGrid x:Name="VendList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="VendorList_AutoGeneratingColumn"/>
+                                                <DataGrid x:Name="VendList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="VendorList_AutoGeneratingColumn" CanUserDeleteRows="False"/>
                                             </TabItem>
                                             <TabItem Header="Other Saves">
-                                                <DataGrid x:Name="MiscList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="MiscList_AutoGeneratingColumn" BeginningEdit="MiscList_BeginningEdit"  CellEditEnding="MiscList_CellEditEnding" >
+                                                <DataGrid x:Name="MiscList" RowHeaderWidth="0" SelectionMode="Single"   CellEditEnding="MiscList_CellEditEnding" CanUserDeleteRows="False" >
                                                     <DataGrid.ContextMenu>
                                                         <ContextMenu>
-                                                            <MenuItem x:Name="AddFiles" Header="Add Files"  Click="AddFiles_Click"/>
+                                                            <MenuItem x:Name="AddCurrentCheckpoint" Header="Add Current Save"  Click="AddCurrentCheckpoint_Click"/>
+                                                            <MenuItem x:Name="DeleteFiles" Header="Delete File"  Click="DeleteFile_Click"/>
                                                         </ContextMenu>
                                                     </DataGrid.ContextMenu>
                                                 </DataGrid>
@@ -1017,11 +1016,19 @@
                                     </Grid>
                                 </Viewbox>
                             </TabItem>
-                            <TabItem x:Name="ProfileManager" Header="Profile Manager" IsEnabled="False">
+                            <TabItem x:Name="ProfileManager" Header="Profile Manager" IsEnabled="true">
                                 <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
                                     <Grid Width="824" Height="496">
                                         <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2"/>
-                                        <DataGrid Margin="0,10,412,0" Height="452" VerticalAlignment="Top"/>
+                                        <DataGrid x:Name="ProfileList" Margin="0,10,456,0" Height="452" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged">
+                                            <DataGrid.ContextMenu>
+                                                <ContextMenu>
+                                                    <MenuItem Name="LoadProfile" Header="Load Profile" Click="LoadProfile_Click" ToolTip="Loads This Profile" IsEnabled="False"/>
+                                                    <MenuItem Name="SaveProfile" Header="Save to Profile" Click="SaveProfile_Click"  ToolTip="Saves Current Profile This Profile" IsEnabled="False"/>
+                                                    <MenuItem Name="CreateProfile" Header="Create Profile" Click="CreateProfile_Click"  ToolTip="Create Profile"/>
+                                                </ContextMenu>
+                                            </DataGrid.ContextMenu>
+                                        </DataGrid>
                                     </Grid>
                                 </Viewbox>
                             </TabItem>

@@ -52,7 +52,7 @@ namespace RemnantBuildRandomizer
             get
             {
                 if (this.missing == null) { this.missing = new List<bool>(); this.missing.Add(false); }
-                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav") && MainWindow.ActiveSave.Characters.Count > 0)
                 {
                     try
                     {
@@ -85,7 +85,7 @@ namespace RemnantBuildRandomizer
             get
             {
                 if (this.disabled == null) { this.disabled = new List<bool>(); this.disabled.Add(false); }
-                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav") && MainWindow.ActiveSave.Characters.Count > 0)
                 {
                     try
                     {
@@ -141,15 +141,15 @@ namespace RemnantBuildRandomizer
         {
             string miss;
             string dis;
-            if (!File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
-            {
-                miss = (Missing ? 1 : 0).ToString();
-                dis = (No ? 1 : 0).ToString();
-            }
-            else
+            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav")&& MainWindow.ActiveSave.Characters.Count>0)
             {
                 miss = listToString(missing, '|');
                 dis = listToString(disabled, '|');
+            }
+            else
+            {miss = (Missing ? 1 : 0).ToString();
+                dis = (No ? 1 : 0).ToString();
+                
             }
 
             return Itemname + ":" + miss + ":" + dis;

@@ -5,8 +5,5 @@
     <Setting Name="SaveSlotData" Type="System.String" Scope="User">
       <Value Profile="(Default)">0,1,2,3,4</Value>
     </Setting>
-    <Setting Name="ShowedUpdate" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
   </Settings>
 </SettingsFile>

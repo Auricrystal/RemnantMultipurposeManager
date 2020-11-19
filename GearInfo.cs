@@ -64,10 +64,10 @@ namespace RemnantBuildRandomizer
         {
             get
             {
-                if (presets == null) { presets = new Dictionary<int, List<Build>>(); }
-                if (presets.Values.Count == 0)
+                if (presets == null) { presets = new Dictionary<int, List<Build>>();}
+                if (!presets.ContainsKey(0))
                 {
-                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
+                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav") && MainWindow.ActiveSave.Characters.Count > 0)
                     {
                         foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { presets.Add(rc.charNum, new List<Build>()); }
                     }

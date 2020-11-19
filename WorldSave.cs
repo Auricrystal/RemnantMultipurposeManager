@@ -5,11 +5,9 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
+
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Shapes;
-using static RemnantBuildRandomizer.MyExtensions;
+
 
 namespace RemnantBuildRandomizer
 {
@@ -21,48 +19,57 @@ namespace RemnantBuildRandomizer
         private string diff = "";
         private string world = "";
         private string name = "";
-        private string[] modifiers = { "", "" };
+        private string modifiers = "";
         private string description = "";
-        private static readonly Dictionary<string, string> AdventureMode = new Dictionary<string, string>() {
-            { "Quest_AdventureMode_City_C", "Earth"},
-            { "Quest_AdventureMode_Wasteland_C", "Rhom"},
-            { "Quest_AdventureMode_Swamp_C", "Corsus"},
-            { "Quest_AdventureMode_Jungle_C", "Yaesha"},
-            { "Quest_AdventureMode_Snow_C", "Reisum"}};
+        private static WorldData[] worldstuff =
+        {
+            new WorldData("Ward13","Ace"),
+            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe Dreamer MudTooth"),
+            new WorldData("Rhom","AncientConstruct Scourge Maul Raze Shatter&Shade UndyingKing Claviger Harrow"),
+            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf"),
+            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant"),
+            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum"),
+            new WorldData("WardPrime","Harsgaard")
 
-        private static readonly Dictionary<string, string> CampaignMode = new Dictionary<string, string>() {
-            { "/Game/Campaign_Main/Quest_Campaign_Main.Quest_Campaign_Main_C", "Earth"},
-            { "Quest_AdventureMode_Wasteland_C", "Rhom"},
-            { "Quest_AdventureMode_Swamp_C", "Corsus"},
-            { "Quest_AdventureMode_Jungle_C", "Yaesha"},
-            { "Quest_AdventureMode_Snow_C", "Reisum"}};
-        private static readonly Dictionary<string, string> Difficulty = new Dictionary<string, string>() {
-            { "Apocalypse", "Apoc"},
-            { "Normal", "Norm"},
-            { "Hard", "Hard"},
-            { "Nightmare", "Night"} };
+        };
+        private static string GetWorld(string name)
+        {
+            string output = "";
+            foreach (WorldData w in worldstuff)
+            {
+                if ((output = w.getWorld(name)) != "") { break; }
+            }
+            return output;
+
+        }
         public string Diff { get => diff; set => diff = value; }
-        public string World { get => world; set => world = value; }
+        public string World { get => SplitByCapitalization(world); set => world = value; }
+
         public string Name
         {
             get
             {
-                string[] index;
-                if ((index = name.Split('&')).Length > 1)
-                {
-                    return index[0] + " &\n" + index[1];
-                }
-                else { return name; }
+                return SplitByCapitalization(name);
             }
             set => name = value;
+        }
+        public string SplitByCapitalization(string s)
+        {
+            string[] split = Regex.Split(s, @"(?<!^)(?=[A-Z])");
+            return string.Join("\n", split);
         }
         public string Modifiers
         {
             get
             {
-                return string.Join("\n", modifiers);
+                while (modifiers.StartsWith("_")) { modifiers=modifiers.Remove(0,1); }
+                return modifiers.Replace('_', '\n').Replace(' ', '\n');
             }
-            set { modifiers = value.Split(' '); }
+            set {
+                string input = value;
+                if (input.StartsWith("_")) { input = input.Remove(0,1); }
+                modifiers = input.Replace("__","_");
+            }
 
         }
         public string Description { get => description; set => description = value; }
@@ -70,6 +77,7 @@ namespace RemnantBuildRandomizer
 
 
         private static Dictionary<char, string> bossModifiers;
+        private static Dictionary<char, string> DiffLevels;
         public class CharComparer : IEqualityComparer<char>
         {
             public bool Equals(char c1, char c2)
@@ -97,6 +105,23 @@ namespace RemnantBuildRandomizer
                 return bossModifiers;
             }
         }
+        private static Dictionary<char, string> Difficulty
+        {
+            //Apocalypse,Nightmare,Hard,Normal
+            get
+            {
+                if (DiffLevels == null)
+                {
+                    DiffLevels = new Dictionary<char, string>(new CharComparer())
+                    {
+                        {'A',"Apoc"},{'I',"Night"},{'H',"Hard"},{'N',"Norm"}
+                    };
+                }
+                return DiffLevels;
+            }
+        }
+
+
 
         public static ConcurrentDictionary<string, WorldSave> GetSave
         {
@@ -108,29 +133,27 @@ namespace RemnantBuildRandomizer
             set => getSave = value;
         }
 
-        public WorldSave(string path, string diff, string world, string name, params string[] m)
+        public WorldSave(string path, string diff, string world, string name, string m, string desc)
         {
             this.path = path;
             this.Diff = diff;
             this.World = world;
             this.Name = name;
-            this.modifiers = m;
+            this.Modifiers = m;
+            this.Description = desc;
         }
         public static void addWS(WorldSave ws)
         {
 
             if (!GetSave.ContainsKey(ws.path))
             {
-                //Debug.WriteLine("ADDWORLD:"+ws.ToData());
                 try
                 {
                     string path = ws.path;
                     WorldSave w = ws.Copy();
                     if (!GetSave.ContainsKey(path))
                     {
-                       
                         GetSave.TryAdd(path, w);
-                        
                     }
                     else
                     {
@@ -144,79 +167,28 @@ namespace RemnantBuildRandomizer
 
         public static WorldSave Parse(string file)
         {
+
             if (!file.Contains(".sav")) { throw new Exception("Invalid Format"); }
             else
             {
                 string localfile = file.Split(new char[] { '\\', '|', '/' }).Last();
                 string[] name = localfile.Replace(".sav", "").Split('_');
                 WorldSave rb;
-
-
-                string world = FindWorld(new FileStream(file, FileMode.Open));
-
-                string diff = FindDiff(new FileStream(file, FileMode.Open));
-
-                rb = new WorldSave(file, diff, world, name.First(), name.Skip(1).ToArray());
-                WorldSave.addWS(rb);
+                string diff = "";
+                var list = new string[] { "Apocalypse", "Nightmare", "Hard", "Normal" }.Where(x => file.Contains(x));
+                if (list.Count() > 0) { diff = list.First(); }
+                string world = GetWorld(name.First());
+                Debug.WriteLine(file);
+                rb = new WorldSave(file, diff, world, name.First(), string.Join(" ", name.Skip(1).ToArray()), "");
+                addWS(rb);
 
                 return rb;
             }
         }
-        public static string FindDiff(string parse)
-        {
-            string diff = "";
-            foreach (string s in new string[] { "Apocalypse", "Normal", "Hard", "Nightmare" }) { if (parse.Contains(s)) { diff = Difficulty[s]; break; } }
-            return diff;
-        }
 
-        public static string FindWorld(string parse)
-        {
-
-            string adventureZone = "Ward13";
-            foreach (string s in AdventureMode.Keys.Reverse()) { if (parse.Contains(s)) { adventureZone = AdventureMode[s]; break; } }
-            return adventureZone;
-        }
-
-        public static string FindDiff(Stream st)
-        {
-            string diff = "";
-            using (StreamReader sr = new StreamReader(st))
-            {
-                diff = FindDiff(sr.ReadToEnd());
-            }
-
-            return diff;
-        }
-
-        public static string FindWorld(Stream st)
-        {
-
-            Dictionary<string, string> world = new Dictionary<string, string>();
-            world.Add("City", "Earth");
-            world.Add("Wasteland", "Rhom");
-            world.Add("Swamp", "Corsus");
-            world.Add("Jungle", "Yaesha");
-            world.Add("Snow", "Reisum");
-
-            string adventureZone = "Ward13";
-            using (StreamReader sr = new StreamReader(st))
-            {
-                Match m = new Regex(@"Quest_AdventureMode_(?<world>\w*)_C").Match(sr.ReadToEnd());
-                string match;
-                if ((match = m.Groups["world"].Value) != "")
-                {
-                    adventureZone = world[match];
-                }
-
-            }
-            st.Dispose();
-            return adventureZone;
-        }
 
         public List<string> ReadFile()
         {
-
-
             if (this.path.Contains(".zip"))
             {
                 using (ZipArchive zip = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Update))
@@ -263,18 +235,19 @@ namespace RemnantBuildRandomizer
 
         public string Filename()
         {
-            return Name.Replace(" &\n", "&") + "_" + string.Join("_", this.modifiers);
+            return Name.Replace(" &\n", "&").Replace("\n", "").Replace(" ", "") + "_" + this.Modifiers.Replace("\n", "_").Replace(" ", "_");
         }
 
         public string ToData()
         {
-            return string.Join(":", new string[] { Diff, Filename(), description });
+            string[] arr = Filename().Split('_');
+            return string.Join(";", new string[] { path, diff, world, arr.First(), string.Join("_", arr.Skip(1)), description });
         }
-        public void FromData(string s)
+        public static WorldSave FromData(string s)
         {
-            string[] d = s.Split(':');
-            WorldSave ws;
-            if ((ws = GetSave[d.First()]) != null) { ws.Description = d.Last(); }
+            string[] p = s.Split(';');
+            WorldSave ws = new WorldSave(p[0], p[1], p[2], p[3], p[4], p[5]);
+            return ws;
         }
 
         public bool Contains(string s)
@@ -289,4 +262,21 @@ namespace RemnantBuildRandomizer
             return true;
         }
     }
+    public class WorldData
+    {
+        private string input;
+        private string output;
+        public WorldData(string output, params string[] inputs)
+        {
+            this.input = string.Join(" ", inputs);
+            this.output = output;
+        }
+        public string getWorld(string name)
+        {
+            if (input.Contains(name)) { return output; } else { return ""; }
+        }
+
+
+    }
+
 }

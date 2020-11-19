@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -7,47 +8,30 @@ using System.Threading.Tasks;
 
 namespace RemnantBuildRandomizer
 {
-    class RemnantProfile
+    public class RemnantProfile
     {
-        
-        string foldername;
 
-
-
-        public string FolderName
+        private string foldername;
+        private List<RemnantCharacter> chars;
+        public RemnantProfile(string path)
         {
-            get => foldername; 
-            set
-            { 
-                if (Directory.Exists(BackupProfileFolder + "\\" + foldername)) {
-                    
-                } 
-            }
-        }
-
-       
-        public string BackupProfileFolder
-        {
-            get
-            {
-                string folder = MainWindow.RBRDirPath + "\\Profiles";
-                Directory.CreateDirectory(folder);
-                return folder;
-            }
-        }
-
-
-
-        List<RemnantCharacter> chars;
-
-        public RemnantProfile(string path, string filename)
-        {
-
-            this.FolderName = filename;
-            chars = RemnantCharacter.GetCharactersFromSave(path, filename);
+            this.foldername = path.Split('\\').Last();
+            chars = RemnantCharacter.GetCharactersFromSave(path);
 
         }
 
-
+        public string Profile
+        {
+            get => foldername; set =>RenameFolder(value);
+        }
+        public string Characters { get => string.Join(",", chars); }
+        public void RenameFolder(string name)
+        {
+            Debug.WriteLine(MainWindow.RBRDirPath + "\\Profiles\\" + Profile);
+            Debug.WriteLine(MainWindow.RBRDirPath + "\\Profiles\\" + name);
+            Directory.Move(MainWindow.RBRDirPath + "\\Profiles\\" + Profile, MainWindow.RBRDirPath + "\\Profiles\\" + name);
+            foldername = name;
+        }
     }
+
 }
