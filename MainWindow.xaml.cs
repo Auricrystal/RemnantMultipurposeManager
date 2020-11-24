@@ -125,7 +125,22 @@ namespace RemnantBuildRandomizer
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR";
             }
         }
-
+        public static string MiscDirPath
+        {
+            get
+            {
+                Directory.CreateDirectory(RBRDirPath + "\\Misc Saves");
+                return (RBRDirPath + "\\" + "Misc Saves");
+            }
+        }
+        public static string ProfilesDirPath
+        {
+            get
+            {
+                Directory.CreateDirectory(RBRDirPath + "\\Profiles");
+                return (RBRDirPath + "\\" + "Profiles");
+            }
+        }
 
         public static string SaveDirPath
         {
@@ -219,6 +234,55 @@ namespace RemnantBuildRandomizer
             }
             checkForUpdate();
         }
+        private int checkForUpdate()
+        {
+            int compare = 0;
+            using (WebClient client = new WebClient())
+            {
+                try
+                {
+                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
+                    string remoteVer = Regex.Match(source, @"Remnant Multipurpose Manager (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value + ".0";
+
+                    Version remoteVersion = new Version(remoteVer);
+                    Version localVersion = typeof(MainWindow).Assembly.GetName().Version;
+                    Debug.WriteLine("remote:" + remoteVersion + '\n' + "local:" + localVersion);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        compare = localVersion.CompareTo(remoteVersion);
+                        if (compare == -1)
+                        {
+                            Debug.WriteLine("Inside Update value: " + compare);
+                            Debug.WriteLine("New Version Available");
+                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_OutOfDateVersion.png"));
+                            Version.Header = new Image { Source = bmp };
+                            Version.ToolTip = "Update Available!";
+                        }
+                        else if (compare == 1)
+                        {
+                            Debug.WriteLine("Beta Version Detected");
+                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_BetaVersion.png"));
+                            Version.Header = new Image { Source = bmp };
+                            Version.ToolTip = "Beta Version";
+                        }
+                        else
+                        {
+                            logMessage("No new version found.");
+                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_CurrentVersion.png"));
+                            Version.Header = new Image { Source = bmp };
+                            Version.ToolTip = "No Update Found";
+                        }
+                    }
+                     );
+                }
+                catch (Exception) { }
+            }
+            lastUpdateCheck = DateTime.Now;
+            Debug.WriteLine("Update value: " + compare);
+            return compare;
+
+        }
         private void SetupData()
         {
             List<RemnantItem>
@@ -242,8 +306,8 @@ namespace RemnantBuildRandomizer
 
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
-
-                ProfileList.ItemsSource = Directory.GetDirectories(RBRDirPath + "\\Profiles").Select(x => new RemnantProfile(x)).ToList();
+                
+                ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 if (ActiveSave.Characters.Count > 0)
                 {
                     disablemissing();
@@ -253,8 +317,6 @@ namespace RemnantBuildRandomizer
                 {
                     BuildList.ItemsSource = Presets[0].ToList();
                 }
-
-
                 long time = -1;
                 if (!File.Exists(RBRDirPath + @"/WorldSaveData.txt"))
                 {
@@ -262,23 +324,34 @@ namespace RemnantBuildRandomizer
                 }
                 else
                 {
-                    try
+                    //try
                     {
                         time = ReadWorldSaveData(RBRDirPath + @"/WorldSaveData.txt");
                         bool boss = false, vend = false;
-                        if (boss = CheckDownloadZip("Bosses2")) { BossList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + "Bosses2" + ".zip"); }
-                        if (vend = CheckDownloadZip("Vendors")) { VendList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + "Vendors" + ".zip"); }
+                        int bosssize = 0, vendsize = 0;
+                        using (ZipArchive b = ZipFile.OpenRead(RBRDirPath + "\\" + "Bosses2" + ".zip"), v = ZipFile.OpenRead(RBRDirPath + "\\" + "Vendors" + ".zip"))
+                        {
+                            bosssize = b.Entries.Where(x => x.FullName.Contains(".sav")).Count();
+                            vendsize = v.Entries.Where(x => x.FullName.Contains(".sav")).Count();
+                        }
+                        if (boss = CheckDownloadZip("Bosses2") || bosssize > BossList.Items.Count)
+                        {
+                            Debug.WriteLine(bosssize + ">" + BossList.Items.Count);
+                            logMessage("Updating Bosses"); BossList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + "Bosses2" + ".zip");
+                        }
+                        if (vend = CheckDownloadZip("Vendors") || vendsize > VendList.Items.Count) { logMessage("Updating Vendors"); VendList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + "Vendors" + ".zip"); }
+                        Directory.CreateDirectory(RBRDirPath + "\\" + "Misc Saves");
                         if (Directory.GetFiles(RBRDirPath + "\\" + "Misc Saves").Length > MiscList.Items.Count)
                         {
                             logMessage("More Misc Files Detected, Updating List");
-                            MiscList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\Misc Saves");
+                            MiscList.ItemsSource = ParseSaveFiles(MiscDirPath);
                         }
                         logMessage("Finished! " + time + "ms");
                     }
-                    catch (Exception)
+                    //catch (Exception)
                     {
-                        logMessage("Had A Problem Reading WorldSaveData.txt", LogType.Error);
-                        SaveFileInit();
+                        //logMessage("Had A Problem Reading WorldSaveData.txt", LogType.Error);
+                        // SaveFileInit();
                     }
                 }
                 BossList.Items.Refresh();
@@ -319,7 +392,7 @@ namespace RemnantBuildRandomizer
                 List<WorldSave>
                 boss = ParseSaveFiles(DownloadZip("Bosses2")),
                 vend = ParseSaveFiles(DownloadZip("Vendors")),
-                misc = ParseSaveFiles(RBRDirPath + "\\Misc Saves");
+                misc = ParseSaveFiles(MiscDirPath);
 
                 this.Dispatcher.Invoke(() =>
                 {
@@ -367,6 +440,7 @@ namespace RemnantBuildRandomizer
                 if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
                 {
                     client.DownloadFile(bossURL, RBRDirPath + "\\" + zipName + ".zip");
+                    update = true;
                 }
                 else
                 {
@@ -524,59 +598,7 @@ namespace RemnantBuildRandomizer
             return li;
         }
 
-        private int checkForUpdate()
-        {
-            int compare = 0;
-            using (WebClient client = new WebClient())
-            {
-                try
-                {
-                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
-                    string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
-                    string remoteVer = Regex.Match(source, @"Remnant Multipurpose Manager (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value + ".0";
 
-                    Version remoteVersion = new Version(remoteVer);
-                    Version localVersion = typeof(MainWindow).Assembly.GetName().Version;
-                    Debug.WriteLine("remote:" + remoteVersion + '\n' + "local:" + localVersion);
-                    this.Dispatcher.Invoke(() =>
-                        {
-                            compare = localVersion.CompareTo(remoteVersion);
-                            if (compare == -1)
-                            {
-                                Debug.WriteLine("Inside Update value: " + compare);
-                                Debug.WriteLine("New Version Available");
-                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_OutOfDateVersion.png"));
-                                Version.Header = new Image { Source = bmp };
-                                Version.ToolTip = "Update Available!";
-                            }
-                            else if (compare == 1)
-                            {
-
-                                Debug.WriteLine("Beta Version Detected");
-                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_BetaVersion.png"));
-                                Version.Header = new Image { Source = bmp };
-                                Version.ToolTip = "Beta Version";
-                            }
-                            else
-                            {
-                                logMessage("No new version found.");
-                                BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_CurrentVersion.png"));
-                                Version.Header = new Image { Source = bmp };
-                                Version.ToolTip = "No Update Found";
-
-                            }
-                        }
-                     );
-                }
-                catch (Exception)
-                {
-                }
-            }
-            lastUpdateCheck = DateTime.Now;
-            Debug.WriteLine("Update value: " + compare);
-            return compare;
-
-        }
 
         public static void SlogMessage(string msg)
         {
@@ -1285,8 +1307,22 @@ namespace RemnantBuildRandomizer
         }
         private void DeleteFile_Click(object sender, RoutedEventArgs e)
         {
+
             File.Delete(GetSelectedSave().path);
             (MiscList.ItemsSource as List<WorldSave>).Remove(GetSelectedSave());
+            var icv = CollectionViewSource.GetDefaultView(MiscList.ItemsSource);
+            icv.Filter = o =>
+            {
+                if ((o as WorldSave).path == GetSelectedSave().path)
+                {
+                    return false;
+                }
+                else
+                {
+                    return (o as WorldSave).Contains(CheckSearchBar.Text.Split(' '));
+                }
+
+            };
             MiscList.Items.Refresh();
         }
         private void AddCurrentCheckpoint_Click(object sender, RoutedEventArgs e)
@@ -1300,12 +1336,12 @@ namespace RemnantBuildRandomizer
         }
         private void CreateProfile_Click(object sender, RoutedEventArgs e)
         {
-            Directory.CreateDirectory(RBRDirPath + "\\Profiles");
+            
             int num = 0;
             while (Directory.Exists(RBRDirPath + "\\Profiles\\" + "NewProfile" + num)) { num++; }
             Directory.CreateDirectory(RBRDirPath + "\\Profiles\\" + "NewProfile" + num);
             DownloadNewProfile(RBRDirPath + "\\Profiles\\" + "NewProfile" + num);
-            ProfileList.ItemsSource = Directory.GetDirectories(RBRDirPath + "\\Profiles").Select(x => new RemnantProfile(x)).ToList();
+            ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
             ProfileList.Items.Refresh();
         }
         private void LoadProfile_Click(object sender, RoutedEventArgs e)
@@ -1323,7 +1359,7 @@ namespace RemnantBuildRandomizer
                 logMessage("Successfully Loaded " + foldername, LogType.Success);
                 confirmResult = MessageBox.Show("Restart Game?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                 if (confirmResult == MessageBoxResult.Yes) { RestartGame(); }
-                ProfileList.ItemsSource = Directory.GetDirectories(RBRDirPath + "\\Profiles").Select(x => new RemnantProfile(x)).ToList();
+                ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 ProfileList.Items.Refresh();
             }
         }
@@ -1336,7 +1372,7 @@ namespace RemnantBuildRandomizer
                 File.Copy(RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", RBRDirPath + "\\Profiles\\" + foldername + "\\profile.bak", true);
                 File.Copy(saveDirPath + "\\profile.sav", RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", true);
                 logMessage("Successfully Overwrote " + foldername, LogType.Success);
-                ProfileList.ItemsSource = Directory.GetDirectories(RBRDirPath + "\\Profiles").Select(x => new RemnantProfile(x)).ToList();
+                ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 ProfileList.Items.Refresh();
             }
         }

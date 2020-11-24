@@ -976,11 +976,11 @@
                     </Grid>
                 </Viewbox>
             </TabItem>
-            <TabItem x:Name="SaveManipulator" Header="Checkpoint Manager">
+            <TabItem x:Name="SaveManipulator" Header="Game Tools">
                 <Viewbox  Stretch="Uniform"  StretchDirection="Both">
                     <Grid Width="824" Height="630" >
-                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="61" Margin="0,10,0,0" TextWrapping="Wrap" Text="Checkpoint Manager" VerticalAlignment="Top" Width="374" FontSize="36" Foreground="White"/>
-                        <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter Save File" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="525,0,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
+                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="61" Margin="0,10,0,0" TextWrapping="Wrap" Text="Game Tools" VerticalAlignment="Top" Width="374" FontSize="36" Foreground="White"/>
+                        <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter (.sav) Files" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="525,0,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
                         <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="389,35,10,524"/>
                         <TabControl Background="{x:Null}" Margin="0,107,0,0" >
                             <TabItem x:Name="BossManagerTab" Header="Save Manager">
@@ -1020,7 +1020,7 @@
                                 <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
                                     <Grid Width="824" Height="496">
                                         <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2"/>
-                                        <DataGrid x:Name="ProfileList" Margin="0,10,456,0" Height="452" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged">
+                                        <DataGrid x:Name="ProfileList" Margin="0,83,456,0" Height="403" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged" ToolTip="Right-Click For Options!">
                                             <DataGrid.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Name="LoadProfile" Header="Load Profile" Click="LoadProfile_Click" ToolTip="Loads This Profile" IsEnabled="False"/>
@@ -1029,6 +1029,7 @@
                                                 </ContextMenu>
                                             </DataGrid.ContextMenu>
                                         </DataGrid>
+                                        <TextBlock HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" TextWrapping="Wrap" Text="Right-Click the list for profile options&#x0a;&#x0a;If you are using the Save Analyzer make sure to keep some backup saves of the other profiles or it will overwrite them.  " VerticalAlignment="Top" Width="358" FontSize="12"/>
                                     </Grid>
                                 </Viewbox>
                             </TabItem>

@@ -23,13 +23,15 @@ namespace RemnantBuildRandomizer
         private string description = "";
         private static WorldData[] worldstuff =
         {
-            new WorldData("Ward13","Ace"),
-            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe Dreamer MudTooth"),
-            new WorldData("Rhom","AncientConstruct Scourge Maul Raze Shatter&Shade UndyingKing Claviger Harrow"),
-            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf"),
-            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant"),
-            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum"),
-            new WorldData("WardPrime","Harsgaard")
+            new WorldData("Ward13","Ace IntroSkip"),
+            new WorldData("Ward17","Dreamer"),
+            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe MudTooth ArmorTwist WailingWood"),
+            new WorldData("Rhom","AncientConstruct Scourge Maul Raze Shatter&Shade UndyingKing Claviger Harrow ArmorAkari"),
+            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf Mar'Gosh"),
+            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant TheRisen"),
+            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum ArmorScav"),
+            new WorldData("WardPrime","Harsgaard"),
+            new WorldData("Labyrinth","ArmorLab")
 
         };
         private static string GetWorld(string name)
@@ -62,13 +64,14 @@ namespace RemnantBuildRandomizer
         {
             get
             {
-                while (modifiers.StartsWith("_")) { modifiers=modifiers.Remove(0,1); }
+                while (modifiers.StartsWith("_")) { modifiers = modifiers.Remove(0, 1); }
                 return modifiers.Replace('_', '\n').Replace(' ', '\n');
             }
-            set {
+            set
+            {
                 string input = value;
-                if (input.StartsWith("_")) { input = input.Remove(0,1); }
-                modifiers = input.Replace("__","_");
+                if (input.StartsWith("_")) { input = input.Remove(0, 1); }
+                modifiers = input.Replace("__", "_");
             }
 
         }
@@ -136,9 +139,26 @@ namespace RemnantBuildRandomizer
         public WorldSave(string path, string diff, string world, string name, string m, string desc)
         {
             this.path = path;
-            this.Diff = diff;
-            this.World = world;
+
+
             this.Name = name;
+            this.World = world;
+            if (World == "")
+            {
+                if ((World = GetWorld(name)) != "")
+                {
+                    Debug.WriteLine("Correcting World for" + name + modifiers);
+                }
+            }
+            this.Diff = diff;
+            if (Diff == "")
+            {
+                var list = new string[] { "Apocalypse", "Nightmare", "Hard", "Normal" }.Where(x => path.Contains(x));
+                if (list.Count() > 0)
+                {
+                    if ((Diff = list.First()) != "") { Debug.WriteLine("Correcting Diff for " + name + modifiers); }
+                }
+            }
             this.Modifiers = m;
             this.Description = desc;
         }
@@ -245,6 +265,7 @@ namespace RemnantBuildRandomizer
         }
         public static WorldSave FromData(string s)
         {
+            //string path, string diff, string world, string name, string m, string desc
             string[] p = s.Split(';');
             WorldSave ws = new WorldSave(p[0], p[1], p[2], p[3], p[4], p[5]);
             return ws;
