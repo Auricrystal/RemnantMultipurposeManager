@@ -40,10 +40,36 @@ namespace RemnantBuildRandomizer
         private static Properties.Settings set = Properties.Settings.Default;
         private string[] saveFiles;
 
-
-
         private DateTime lastUpdateCheck;
 
+        public string ProfilesDirPath
+        {
+            get
+            {
+                if (Properties.Settings.Default.ProfileFolder == null || Properties.Settings.Default.ProfileFolder == "")
+                {
+                    Directory.CreateDirectory(RBRDirPath + "\\Profiles");
+                    Properties.Settings.Default.ProfileFolder = (RBRDirPath + "\\" + "Profiles");
+                    Properties.Settings.Default.Save();
+                    ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
+                    return Properties.Settings.Default.ProfileFolder;
+                }
+                else
+                {
+                    ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
+                    return Properties.Settings.Default.ProfileFolder;
+                }
+            }
+            set
+            {
+                if (Directory.Exists(value))
+                {
+                    Properties.Settings.Default.ProfileFolder = value;
+                    Properties.Settings.Default.Save();
+                }
+                else { logMessage("Not a valid folder", LogType.Error); }
+            }
+        }
         public static RemnantSave ActiveSave
         {
             get
@@ -133,14 +159,7 @@ namespace RemnantBuildRandomizer
                 return (RBRDirPath + "\\" + "Misc Saves");
             }
         }
-        public static string ProfilesDirPath
-        {
-            get
-            {
-                Directory.CreateDirectory(RBRDirPath + "\\Profiles");
-                return (RBRDirPath + "\\" + "Profiles");
-            }
-        }
+
 
         public static string SaveDirPath
         {
@@ -306,7 +325,8 @@ namespace RemnantBuildRandomizer
 
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
-                
+
+                Debug.WriteLine("ProfileFolder:" + ProfilesDirPath);
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 if (ActiveSave.Characters.Count > 0)
                 {
@@ -1336,7 +1356,7 @@ namespace RemnantBuildRandomizer
         }
         private void CreateProfile_Click(object sender, RoutedEventArgs e)
         {
-            
+
             int num = 0;
             while (Directory.Exists(RBRDirPath + "\\Profiles\\" + "NewProfile" + num)) { num++; }
             Directory.CreateDirectory(RBRDirPath + "\\Profiles\\" + "NewProfile" + num);
@@ -1357,8 +1377,7 @@ namespace RemnantBuildRandomizer
                     );
                 File.Copy(RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", saveDirPath + "\\profile.sav", true);
                 logMessage("Successfully Loaded " + foldername, LogType.Success);
-                confirmResult = MessageBox.Show("Restart Game?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                if (confirmResult == MessageBoxResult.Yes) { RestartGame(); }
+                RestartGame();
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 ProfileList.Items.Refresh();
             }
@@ -1558,17 +1577,25 @@ namespace RemnantBuildRandomizer
 
         private void RestartGame()
         {
-            //Process p = Process.GetProcessById(7364);
-            //Debug.WriteLine("Process: "+p.ProcessName);
-
-
             var process = Process.GetProcessesByName("Remnant-Win64-Shipping");
             if (process.Length > 0)
             {
                 string path = process[0].MainModule.FileName;
                 Debug.WriteLine(process.Length + " Remnant Is Running! " + path + " PID:" + process[0].Id);
-                while (!process[0].WaitForExit(1000)) { process[0].Kill(); }
-                if (path.Contains("steam")) { Process.Start("steam://rungameid/617290"); } else { Process.Start(path); }
+                var confirmResult = MessageBox.Show("Restart Game?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                if (confirmResult == MessageBoxResult.Yes)
+                {
+                    while (!process[0].WaitForExit(1000)) { process[0].Kill(); }
+                    if (path.Contains("steam"))
+                    {
+                        Process.Start("steam://rungameid/617290");
+                    }
+                    else
+                    {
+                        Process.Start(path);
+                    }
+
+                }
             }
             else
             {
@@ -1678,6 +1705,57 @@ namespace RemnantBuildRandomizer
             {
                 SaveProfile.IsEnabled = false;
                 LoadProfile.IsEnabled = false;
+            }
+        }
+
+        private void btnProfileChoose_Click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog openFolderDialog = new System.Windows.Forms.FolderBrowserDialog();
+            openFolderDialog.SelectedPath = ProfilesDirPath;
+            openFolderDialog.Description = "Select the folder where you want your profiles kept.";
+            System.Windows.Forms.DialogResult result = openFolderDialog.ShowDialog();
+            if (result == System.Windows.Forms.DialogResult.OK)
+            {
+                string folderName = openFolderDialog.SelectedPath;
+                if (folderName.Equals(saveDirPath))
+                {
+                    MessageBox.Show("Please select a folder other than the game's save folder.",
+                                     "Invalid Folder", MessageBoxButton.OK, MessageBoxImage.Warning, MessageBoxResult.OK);
+                    return;
+                }
+                if (folderName.Equals(ProfilesDirPath))
+                {
+                    return;
+                }
+                if (Directory.GetDirectories(ProfilesDirPath).ToList().Count > 0)
+                {
+                    var confirmResult = MessageBox.Show("Do you want to move your Profiles to this new folder?",
+                                     "Move Profiles", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+                    if (confirmResult == MessageBoxResult.Yes)
+                    {
+                        List<String> backupFiles = Directory.GetDirectories(ProfilesDirPath).ToList();
+                        foreach (string file in backupFiles)
+                        {
+                            if (File.Exists(file + @"\profile.sav"))
+                            {
+                                string subFolderName = file.Substring(file.LastIndexOf(@"\"));
+                                Directory.CreateDirectory(folderName + subFolderName);
+                                Directory.SetCreationTime(folderName + subFolderName, Directory.GetCreationTime(file));
+                                Directory.SetLastWriteTime(folderName + subFolderName, Directory.GetCreationTime(file));
+                                foreach (string filename in Directory.GetFiles(file))
+                                {
+                                    File.Copy(filename, filename.Replace(ProfilesDirPath, folderName));
+                                }
+                                Directory.Delete(file, true);
+                                //Directory.Move(file, folderName + subFolderName);
+                            }
+                        }
+                    }
+                }
+                ProfilePath.Text = folderName;
+                ProfilesDirPath = folderName;
+                ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
+                ProfileList.Items.Refresh();
             }
         }
     }

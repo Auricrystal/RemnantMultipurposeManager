@@ -1030,6 +1030,9 @@
                                             </DataGrid.ContextMenu>
                                         </DataGrid>
                                         <TextBlock HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" TextWrapping="Wrap" Text="Right-Click the list for profile options&#x0a;&#x0a;If you are using the Save Analyzer make sure to keep some backup saves of the other profiles or it will overwrite them.  " VerticalAlignment="Top" Width="358" FontSize="12"/>
+                                        <TextBox x:Name="ProfilePath" HorizontalAlignment="Left" Height="20" Margin="443,10,0,0" TextWrapping="Wrap" Text="Null" VerticalAlignment="Top" Width="371" IsReadOnly="True"/>
+                                        <TextBlock HorizontalAlignment="Left" Height="19" Margin="294,10,0,0" TextWrapping="Wrap" Text="Profile Folder" VerticalAlignment="Top" Width="74"/>
+                                        <Button x:Name="btnProfileChoose" Click="btnProfileChoose_Click" Content="Choose" HorizontalAlignment="Left" Height="20" Margin="373,10,0,0" VerticalAlignment="Top" Width="65"/>
                                     </Grid>
                                 </Viewbox>
                             </TabItem>

@@ -25,11 +25,12 @@ namespace RemnantBuildRandomizer
         {
             new WorldData("Ward13","Ace IntroSkip"),
             new WorldData("Ward17","Dreamer"),
-            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe MudTooth ArmorTwist WailingWood"),
+            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe MudTooth ArmorTwist WailingWood RootMother"),
+            new WorldData("Earth:Rural","Brookhaven"),
             new WorldData("Rhom","AncientConstruct Scourge Maul Raze Shatter&Shade UndyingKing Claviger Harrow ArmorAkari"),
-            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf Mar'Gosh"),
-            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant TheRisen"),
-            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum ArmorScav"),
+            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf Mar'Gosh FetidPools"),
+            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant TheRisen BlinkThief"),
+            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum ArmorScav MagirsDirge KrallMother KrallBaby"),
             new WorldData("WardPrime","Harsgaard"),
             new WorldData("Labyrinth","ArmorLab")
 
@@ -143,7 +144,7 @@ namespace RemnantBuildRandomizer
 
             this.Name = name;
             this.World = world;
-            if (World == "")
+            if (World == ""||World!= GetWorld(name))
             {
                 if ((World = GetWorld(name)) != "")
                 {

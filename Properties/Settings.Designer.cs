@@ -34,5 +34,17 @@ namespace RemnantBuildRandomizer.Properties {
                 this["SaveSlotData"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ProfileFolder {
+            get {
+                return ((string)(this["ProfileFolder"]));
+            }
+            set {
+                this["ProfileFolder"] = value;
+            }
+        }
     }
 }
