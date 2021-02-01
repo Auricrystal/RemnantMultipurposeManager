@@ -49,7 +49,7 @@ namespace RemnantBuildRandomizer
                 if (Properties.Settings.Default.ProfileFolder == null || Properties.Settings.Default.ProfileFolder == "")
                 {
                     Directory.CreateDirectory(RBRDirPath + "\\Profiles");
-                    Properties.Settings.Default.ProfileFolder = (RBRDirPath + "\\" + "Profiles");
+                    Properties.Settings.Default.ProfileFolder = (RBRDirPath + "\\Profiles");
                     Properties.Settings.Default.Save();
                     ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
                     return Properties.Settings.Default.ProfileFolder;
@@ -1358,9 +1358,9 @@ namespace RemnantBuildRandomizer
         {
 
             int num = 0;
-            while (Directory.Exists(RBRDirPath + "\\Profiles\\" + "NewProfile" + num)) { num++; }
-            Directory.CreateDirectory(RBRDirPath + "\\Profiles\\" + "NewProfile" + num);
-            DownloadNewProfile(RBRDirPath + "\\Profiles\\" + "NewProfile" + num);
+            while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
+            Directory.CreateDirectory(ProfilesDirPath + "\\" + "NewProfile" + num);
+            DownloadNewProfile(ProfilesDirPath + "\\" + "NewProfile" + num);
             ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
             ProfileList.Items.Refresh();
         }
@@ -1375,7 +1375,7 @@ namespace RemnantBuildRandomizer
                     saveDirPath + "\\RBRprofile.bak",
                     true
                     );
-                File.Copy(RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", saveDirPath + "\\profile.sav", true);
+                File.Copy(ProfilesDirPath + "\\" + foldername + "\\profile.sav", saveDirPath + "\\profile.sav", true);
                 logMessage("Successfully Loaded " + foldername, LogType.Success);
                 RestartGame();
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
@@ -1385,11 +1385,13 @@ namespace RemnantBuildRandomizer
         private void SaveProfile_Click(object sender, RoutedEventArgs e)
         {
             string foldername = ((RemnantProfile)ProfileList.SelectedItem).Profile;
+            //ProfilesDirPath = ProfilePath.Text;
+            Debug.WriteLine("Stored Profile: "+ ProfilePath.Text);
             var confirmResult = MessageBox.Show("Are you sure you want to overwrite: " + foldername + "?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (confirmResult == MessageBoxResult.Yes)
-            {
-                File.Copy(RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", RBRDirPath + "\\Profiles\\" + foldername + "\\profile.bak", true);
-                File.Copy(saveDirPath + "\\profile.sav", RBRDirPath + "\\Profiles\\" + foldername + "\\profile.sav", true);
+            {  
+                File.Copy(ProfilesDirPath + "\\" + foldername + "\\profile.sav", ProfilesDirPath + "\\" + foldername + "\\profile.bak", true);
+                File.Copy(saveDirPath + "\\profile.sav", ProfilesDirPath + "\\" + foldername + "\\profile.sav", true);
                 logMessage("Successfully Overwrote " + foldername, LogType.Success);
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 ProfileList.Items.Refresh();

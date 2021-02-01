@@ -141,12 +141,13 @@ namespace RemnantBuildRandomizer
         {
             this.path = path;
 
-
             this.Name = name;
             this.World = world;
-            if (World == ""||World!= GetWorld(name))
+
+            if (World == ""||World!= SplitByCapitalization(GetWorld(name)))
             {
-                if ((World = GetWorld(name)) != "")
+                Debug.WriteLine("WCheck:"+World+"/"+ GetWorld(name));
+                if ((World = SplitByCapitalization(GetWorld(name))) != "")
                 {
                     Debug.WriteLine("Correcting World for" + name + modifiers);
                 }
@@ -231,7 +232,6 @@ namespace RemnantBuildRandomizer
             {
                 Regex r = new Regex(@"Quests\/(?<Test>\w*\/\w*)");
                 MatchCollection mc = r.Matches(sr.ReadToEnd());
-                int i = 0;
                 foreach (Match m in mc)
                 {
                     string test;
