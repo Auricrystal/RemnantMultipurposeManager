@@ -1020,11 +1020,12 @@
                                 <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
                                     <Grid Width="824" Height="496">
                                         <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2"/>
-                                        <DataGrid x:Name="ProfileList" Margin="0,83,456,0" Height="403" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged" ToolTip="Right-Click For Options!">
+                                        <DataGrid x:Name="ProfileList" Margin="0,83,386,0" Height="403" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged" ToolTip="Right-Click For Options!">
                                             <DataGrid.ContextMenu>
                                                 <ContextMenu>
                                                     <MenuItem Name="LoadProfile" Header="Load Profile" Click="LoadProfile_Click" ToolTip="Loads This Profile" IsEnabled="False"/>
                                                     <MenuItem Name="SaveProfile" Header="Save to Profile" Click="SaveProfile_Click"  ToolTip="Saves Current Profile This Profile" IsEnabled="False"/>
+                                                    <MenuItem Name="DeleteProfile" Header="Delete this Profile" Click="DeleteProfile_Click"  ToolTip="Deletes Selected Profile" IsEnabled="False"/>
                                                     <MenuItem Name="CreateProfile" Header="Create Profile" Click="CreateProfile_Click"  ToolTip="Create Profile"/>
                                                     <MenuItem Name="CreateProfileRewards" Header="Create Profile (All Account Bound Items)" Click="CreateProfileRewards_Click"  ToolTip="Create Profile (All Account Bound Items)"/>
                                                 </ContextMenu>

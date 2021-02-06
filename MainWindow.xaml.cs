@@ -42,7 +42,7 @@ namespace RemnantBuildRandomizer
 
         private DateTime lastUpdateCheck;
 
-        public string ProfilesDirPath
+        public static string ProfilesDirPath
         {
             get
             {
@@ -51,12 +51,12 @@ namespace RemnantBuildRandomizer
                     Directory.CreateDirectory(RBRDirPath + "\\Profiles");
                     Properties.Settings.Default.ProfileFolder = (RBRDirPath + "\\Profiles");
                     Properties.Settings.Default.Save();
-                    ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
+                    MW.ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
                     return Properties.Settings.Default.ProfileFolder;
                 }
                 else
                 {
-                    ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
+                    MW.ProfilePath.Text = Properties.Settings.Default.ProfileFolder;
                     return Properties.Settings.Default.ProfileFolder;
                 }
             }
@@ -67,7 +67,7 @@ namespace RemnantBuildRandomizer
                     Properties.Settings.Default.ProfileFolder = value;
                     Properties.Settings.Default.Save();
                 }
-                else { logMessage("Not a valid folder", LogType.Error); }
+                else { MW.logMessage("Not a valid folder", LogType.Error); }
             }
         }
         public static RemnantSave ActiveSave
@@ -118,15 +118,20 @@ namespace RemnantBuildRandomizer
         }
         private void SetSettings(int Char, int Save)
         {
-            GetSettings()[Char] = Save;
-            Properties.Settings.Default.SaveSlotData = string.Join(",", GetSettings().Select(x => x.ToString()).ToArray());
+            int[] set = GetSettings();
+            set[Char] = Save;
+
+            Debug.WriteLine(Char+"/"+Save+" | "+string.Join(",", set.Select(x => x.ToString()).ToArray()));
+            Properties.Settings.Default.SaveSlotData = string.Join(",", set.Select(x => x.ToString()).ToArray());
             Properties.Settings.Default.Save();
         }
         private int GetSetting(int Char)
         {
             try
             {
-                return GetSettings()[Char];
+                int test = GetSettings()[Char];
+                Debug.WriteLine(test);
+                return test;
             }
 
             catch (IndexOutOfRangeException)
@@ -138,7 +143,7 @@ namespace RemnantBuildRandomizer
         private int[] GetSettings()
         {
             string prop = Properties.Settings.Default.SaveSlotData;
-            if (prop.Split(',').Length != 5) { prop = "0,1,2,3,4"; }
+            //if (prop.Split(',').Length != ActiveSave.Characters.Count) { prop = "0,1,2,3,4"; }
             int[] set = prop.Split(',').Select(int.Parse).ToArray();
             return set;
         }
@@ -1366,6 +1371,7 @@ namespace RemnantBuildRandomizer
         {
 
             int num = 0;
+            Debug.WriteLine(ProfilesDirPath + "\\NewProfile" + num);
             while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
             Directory.CreateDirectory(ProfilesDirPath + "\\" + "NewProfile" + num);
             DownloadNewProfile(false,ProfilesDirPath + "\\" + "NewProfile" + num);
@@ -1376,7 +1382,8 @@ namespace RemnantBuildRandomizer
         {
 
             int num = 0;
-            while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
+            Debug.WriteLine(ProfilesDirPath + "\\NewProfile" + num);
+            while (Directory.Exists(ProfilesDirPath + "\\NewProfile" + num)) { Debug.WriteLine(ProfilesDirPath + "\\NewProfile" + num); num++; }
             Directory.CreateDirectory(ProfilesDirPath + "\\" + "NewProfile" + num);
             DownloadNewProfile(true,ProfilesDirPath + "\\" + "NewProfile" + num);
             ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
@@ -1720,11 +1727,13 @@ namespace RemnantBuildRandomizer
             {
                 SaveProfile.IsEnabled = true;
                 LoadProfile.IsEnabled = true;
+                DeleteProfile.IsEnabled = true;
             }
             else
             {
                 SaveProfile.IsEnabled = false;
                 LoadProfile.IsEnabled = false;
+                DeleteProfile.IsEnabled = false;
             }
         }
 
@@ -1774,6 +1783,21 @@ namespace RemnantBuildRandomizer
                 }
                 ProfilePath.Text = folderName;
                 ProfilesDirPath = folderName;
+                ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
+                ProfileList.Items.Refresh();
+            }
+        }
+
+        private void DeleteProfile_Click(object sender, RoutedEventArgs e)
+        {
+            string foldername = ((RemnantProfile)ProfileList.SelectedItem).Profile;
+            //ProfilesDirPath = ProfilePath.Text;
+            Debug.WriteLine("Stored Profile: " + ProfilePath.Text);
+            var confirmResult = MessageBox.Show("Are you sure you want to delete: " + foldername + "?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (confirmResult == MessageBoxResult.Yes)
+            {
+                Directory.Delete(ProfilesDirPath+"\\"+foldername,true);
+                logMessage("Successfully Deleted " + foldername, LogType.Success);
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
                 ProfileList.Items.Refresh();
             }

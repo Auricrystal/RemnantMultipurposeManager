@@ -27,9 +27,9 @@ namespace RemnantBuildRandomizer
         public string Characters { get => string.Join(",", chars); }
         public void RenameFolder(string name)
         {
-            Debug.WriteLine(MainWindow.RBRDirPath + "\\Profiles\\" + Profile);
-            Debug.WriteLine(MainWindow.RBRDirPath + "\\Profiles\\" + name);
-            Directory.Move(MainWindow.RBRDirPath + "\\Profiles\\" + Profile, MainWindow.RBRDirPath + "\\Profiles\\" + name);
+            Debug.WriteLine(MainWindow.ProfilesDirPath + "\\" + Profile);
+            Debug.WriteLine(MainWindow.ProfilesDirPath + "\\" + name);
+            Directory.Move(MainWindow.ProfilesDirPath + "\\" + Profile, MainWindow.ProfilesDirPath + "\\" + name);
             foldername = name;
         }
     }
