@@ -471,7 +471,9 @@ namespace RemnantBuildRandomizer
                             //If new file does not exist or the new file is smaller in size than the old
                             if (entry.Name != "")
                             {
-                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length)
+                                Debug.WriteLine(entry.FullName + "old time: " + Old.GetEntry(entry.FullName).LastWriteTime.Ticks);
+                                Debug.WriteLine(entry.FullName + "new time: " + entry.LastWriteTime.Ticks);
+                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
                                 {
                                     logMessage("New " + zipName + " Package Update!", LogType.Success);
                                     update = true;
@@ -505,7 +507,7 @@ namespace RemnantBuildRandomizer
                             //If new file does not exist or the new file is smaller in size than the old
                             if (entry.Name != "")
                             {
-                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length)
+                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
                                 {
                                     logMessage("New " + zipName + " Package Update!\nDownloading!");
                                     Old.Dispose(); New.Dispose();
@@ -519,14 +521,20 @@ namespace RemnantBuildRandomizer
             }
             return RBRDirPath + "\\" + zipName + ".zip";
         }
-        private void DownloadNewProfile(string path)
+        private void DownloadNewProfile(bool rewards, string path)
         {
             string profilesave = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfile.sav";
+            string profilesave2 = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfileRewards.sav";
+
             using (WebClient client = new WebClient())
             {
                 if (!File.Exists(path))
                 {
-                    client.DownloadFile(profilesave, path + "\\profile.sav");
+                    if (!rewards)
+                    {
+                        client.DownloadFile(profilesave, path + "\\profile.sav");
+                    }
+                    else { client.DownloadFile(profilesave2, path + "\\profile.sav"); }
                 }
                 else
                 {
@@ -1360,7 +1368,17 @@ namespace RemnantBuildRandomizer
             int num = 0;
             while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
             Directory.CreateDirectory(ProfilesDirPath + "\\" + "NewProfile" + num);
-            DownloadNewProfile(ProfilesDirPath + "\\" + "NewProfile" + num);
+            DownloadNewProfile(false,ProfilesDirPath + "\\" + "NewProfile" + num);
+            ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
+            ProfileList.Items.Refresh();
+        }
+        private void CreateProfileRewards_Click(object sender, RoutedEventArgs e)
+        {
+
+            int num = 0;
+            while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
+            Directory.CreateDirectory(ProfilesDirPath + "\\" + "NewProfile" + num);
+            DownloadNewProfile(true,ProfilesDirPath + "\\" + "NewProfile" + num);
             ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
             ProfileList.Items.Refresh();
         }
@@ -1386,10 +1404,10 @@ namespace RemnantBuildRandomizer
         {
             string foldername = ((RemnantProfile)ProfileList.SelectedItem).Profile;
             //ProfilesDirPath = ProfilePath.Text;
-            Debug.WriteLine("Stored Profile: "+ ProfilePath.Text);
+            Debug.WriteLine("Stored Profile: " + ProfilePath.Text);
             var confirmResult = MessageBox.Show("Are you sure you want to overwrite: " + foldername + "?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
             if (confirmResult == MessageBoxResult.Yes)
-            {  
+            {
                 File.Copy(ProfilesDirPath + "\\" + foldername + "\\profile.sav", ProfilesDirPath + "\\" + foldername + "\\profile.bak", true);
                 File.Copy(saveDirPath + "\\profile.sav", ProfilesDirPath + "\\" + foldername + "\\profile.sav", true);
                 logMessage("Successfully Overwrote " + foldername, LogType.Success);
