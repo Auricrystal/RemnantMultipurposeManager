@@ -979,17 +979,17 @@
             <TabItem x:Name="SaveManipulator" Header="Game Tools">
                 <Viewbox  Stretch="Uniform"  StretchDirection="Both">
                     <Grid Width="824" Height="630" >
-                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="61" Margin="0,10,0,0" TextWrapping="Wrap" Text="Game Tools" VerticalAlignment="Top" Width="374" FontSize="36" Foreground="White"/>
-                        <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter (.sav) Files" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="525,0,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
-                        <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished.&#xA;&#xA;DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="389,35,10,524"/>
-                        <TabControl Background="{x:Null}" Margin="0,107,0,0" >
+                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" TextWrapping="Wrap" Text="Game Tools" VerticalAlignment="Top" Width="194" FontSize="36" Foreground="White"/>
+                        <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter (.sav) Files" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="10,58,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
+                        <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished. DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="199,58,10,524"/>
+                        <TabControl Background="{x:Null}" Margin="0,107,0,0" HorizontalAlignment="Right" Width="824" >
                             <TabItem x:Name="BossManagerTab" Header="Save Manager">
                                 <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
                                     <Grid Width="824" Height="496">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5"/>
+                                        <Image Source="Resources/IMG/Menu/HarsgaardCrystal.png" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5"/>
                                         <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="LoadBoss" Content="Load Checkpoint" Click="LoadBoss_Click" HorizontalAlignment="Left" Height="28" Margin="422,35,0,0" VerticalAlignment="Top" Width="113"/>
                                         <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="422,68,0,0" VerticalAlignment="Top" Width="113"/>
                                         <TextBlock TextWrapping="Wrap" Foreground="White" Margin="422,101,227,235"><Run Text="ONLY Load checkpoints while at the Main Menu."/><LineBreak/><Run/><LineBreak/><Run Text="If your using the Razzmatazz Save Manager, the Analyzer will update 10 seconds after loading a save from here."/></TextBlock>
@@ -1050,6 +1050,7 @@
             <TabItem Header="Credits">
                 <Viewbox Stretch="Uniform"  StretchDirection="Both">
                     <Grid Width="824" Height="630">
+                        <Image Source="Resources/IMG/Menu/HarsgaardArena.png" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
                         <TextBlock Text="CoolUsername" FontSize="24" Foreground="White" Width="172" Height="32" Margin="35,109,617,489"/>
                         <TextBlock Margin="206,109,519,489" Height="32"><Hyperlink NavigateUri="https://www.youtube.com/user/CharlieM780/" RequestNavigate="Hyperlink_RequestNavigate" FontSize="24"  Foreground="White"><Run Text="Youtube"/></Hyperlink></TextBlock>
                         <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="24" Text="Boss Saves" Margin="333,109,319,489"  Width="172" Height="32"/>

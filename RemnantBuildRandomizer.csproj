@@ -505,5 +505,11 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\HarsgaardCrystal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\IMG\Menu\HarsgaardArena.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

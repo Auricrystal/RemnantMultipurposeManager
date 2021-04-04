@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("image_test.ico")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/img/menu/harsgaardarena.png")]
 
 

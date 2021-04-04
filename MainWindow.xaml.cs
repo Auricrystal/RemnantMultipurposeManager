@@ -90,7 +90,7 @@ namespace RemnantBuildRandomizer
             {
                 if (saveFiles == null)
                 {
-                    string[] files = Directory.GetFiles(SaveDirPath, "save_*.sav");
+                    string[] files = Directory.GetFiles(SaveDirPath, "save_?.sav");
                     for (int i = 0; i < files.Length; i++) { files[i] = files[i].Replace(SaveDirPath + @"\", ""); }
                     saveFiles = files;
                 }
