@@ -13,269 +13,83 @@ namespace RemnantBuildRandomizer
 {
     public class WorldSave
     {
-
-        private static ConcurrentDictionary<string, WorldSave> getSave = new ConcurrentDictionary<string, WorldSave>();
-        public string path;
+        private string filepath = "";
         private string diff = "";
         private string world = "";
         private string name = "";
         private string modifiers = "";
-        private string description = "";
-        private static WorldData[] worldstuff =
-        {
-            new WorldData("Ward13","Ace IntroSkip"),
-            new WorldData("Ward17","Dreamer"),
-            new WorldData("Earth","Shroud Gorefist Brabus Mangler Riphide Ent Singe MudTooth ArmorTwist WailingWood RootMother TwoLizzes"),
-            new WorldData("Earth:Rural","Brookhaven"),
-            new WorldData("Rhom","AncientConstruct Scourge Maul Raze Shatter&Shade UndyingKing Claviger Harrow ArmorAkari"),
-            new WorldData("Corsus","Canker Thrall BarbedTerror Dreameater IskalQueen UncleanOne Ixillis GraveyardElf Mar'Gosh FetidPools"),
-            new WorldData("Yaesha","TheWarden Onslaught Stormcaller Scald&Sear RootHorror Ravager TotemFather StuckMerchant TheRisen BlinkThief"),
-            new WorldData("Reisum","Tian Obryk Ikro Erfor Brudvaak&Vargr Sebum ArmorScav MagirsDirge KrallMother KrallBaby GraveSiege"),
-            new WorldData("WardPrime","Harsgaard"),
-            new WorldData("Labyrinth","ArmorLab")
+       
 
-        };
-        private static string GetWorld(string name)
-        {
-            string output = "";
-            foreach (WorldData w in worldstuff)
-            {
-                if ((output = w.getWorld(name)) != "") { break; }
-            }
-            return output;
-
-        }
         public string Diff { get => diff; set => diff = value; }
-        public string World { get => SplitByCapitalization(world); set => world = value; }
+        public string World { get => world; set => world = value; }
+        public string Name { get => name; set => name = value; }
+        public string Modifiers { get => modifiers; set => modifiers = value; }
+        public string Filepath { get => filepath; set => filepath = value; }
 
-        public string Name
+        public WorldSave(string diff, string world, string name, string m, string path)
         {
-            get
-            {
-                return SplitByCapitalization(name);
-            }
-            set => name = value;
-        }
-        public string SplitByCapitalization(string s)
-        {
-            string[] split = Regex.Split(s, @"(?<!^)(?=[A-Z])");
-            return string.Join("\n", split);
-        }
-        public string Modifiers
-        {
-            get
-            {
-                while (modifiers.StartsWith("_")) { modifiers = modifiers.Remove(0, 1); }
-                return modifiers.Replace('_', '\n').Replace(' ', '\n');
-            }
-            set
-            {
-                string input = value;
-                if (input.StartsWith("_")) { input = input.Remove(0, 1); }
-                modifiers = input.Replace("__", "_");
-            }
-
-        }
-        public string Description { get => description; set => description = value; }
-
-
-
-        private static Dictionary<char, string> bossModifiers;
-        private static Dictionary<char, string> DiffLevels;
-        public class CharComparer : IEqualityComparer<char>
-        {
-            public bool Equals(char c1, char c2)
-            {
-                return char.ToLowerInvariant(c1) == char.ToLowerInvariant(c2);
-            }
-            public int GetHashCode(char c1)
-            {
-                return char.ToLowerInvariant(c1).GetHashCode();
-            }
-
-        }
-        private static Dictionary<char, string> BossModifiers
-        {
-            //Hearty,Regenerator,Vicious,Skullcracker,Enchanter,World,None
-            get
-            {
-                if (bossModifiers == null)
-                {
-                    bossModifiers = new Dictionary<char, string>(new CharComparer())
-                    {
-                        {'H',"Hearty"},{'R',"Regenerator"},{'V',"Vicious"},{'S',"Skullcracker"},{'E',"Enchanter"},{'W',"World"},{'N',"None"}
-                    };
-                }
-                return bossModifiers;
-            }
-        }
-        private static Dictionary<char, string> Difficulty
-        {
-            //Apocalypse,Nightmare,Hard,Normal
-            get
-            {
-                if (DiffLevels == null)
-                {
-                    DiffLevels = new Dictionary<char, string>(new CharComparer())
-                    {
-                        {'A',"Apoc"},{'I',"Night"},{'H',"Hard"},{'N',"Norm"}
-                    };
-                }
-                return DiffLevels;
-            }
-        }
-
-
-
-        public static ConcurrentDictionary<string, WorldSave> GetSave
-        {
-            get
-            {
-                if (getSave == null) { getSave = new ConcurrentDictionary<string, WorldSave>(); }
-                return getSave;
-            }
-            set => getSave = value;
-        }
-
-        public WorldSave(string path, string diff, string world, string name, string m, string desc)
-        {
-            this.path = path;
-
+            this.Diff = diff;
             this.Name = name;
             this.World = world;
-
-            if (World == ""||World!= SplitByCapitalization(GetWorld(name)))
-            {
-                Debug.WriteLine("WCheck:"+World+"/"+ GetWorld(name));
-                if ((World = SplitByCapitalization(GetWorld(name))) != "")
-                {
-                    Debug.WriteLine("Correcting World for" + name + modifiers);
-                }
-            }
-            this.Diff = diff;
-            if (Diff == "")
-            {
-                var list = new string[] { "Apocalypse", "Nightmare", "Hard", "Normal" }.Where(x => path.Contains(x));
-                if (list.Count() > 0)
-                {
-                    if ((Diff = list.First()) != "") { Debug.WriteLine("Correcting Diff for " + name + modifiers); }
-                }
-            }
             this.Modifiers = m;
-            this.Description = desc;
-        }
-        public static void addWS(WorldSave ws)
-        {
-
-            if (!GetSave.ContainsKey(ws.path))
-            {
-                try
-                {
-                    string path = ws.path;
-                    WorldSave w = ws.Copy();
-                    if (!GetSave.ContainsKey(path))
-                    {
-                        GetSave.TryAdd(path, w);
-                    }
-                    else
-                    {
-                        GetSave[path] = w;
-                    }
-                }
-                catch (Exception ex) { Debug.WriteLine(ex.Message); }
-            }
-
+            this.Filepath = path;
         }
 
-        public static WorldSave Parse(string file)
+        public static WorldSave ParseZip(string path)
         {
-
-            if (!file.Contains(".sav")) { throw new Exception("Invalid Format"); }
+            if (!path.Contains(".zip")) { throw new Exception("Invalid Format"); }
             else
             {
-                string localfile = file.Split(new char[] { '\\', '|', '/' }).Last();
-                string[] name = localfile.Replace(".sav", "").Split('_');
-                WorldSave rb;
-                string diff = "";
-                var list = new string[] { "Apocalypse", "Nightmare", "Hard", "Normal" }.Where(x => file.Contains(x));
-                if (list.Count() > 0) { diff = list.First(); }
-                string world = GetWorld(name.First());
-                Debug.WriteLine(file);
-                rb = new WorldSave(file, diff, world, name.First(), string.Join(" ", name.Skip(1).ToArray()), "");
-                addWS(rb);
-
-                return rb;
+                var file = path.Split('|').Last().Split('/').Skip(1).ToArray();
+                return new WorldSave(file[0], file[1], file[2], file[3], path);
             }
         }
-
-
-        public List<string> ReadFile()
+        public static WorldSave ParseFile(string path)
         {
-            if (this.path.Contains(".zip"))
-            {
-                using (ZipArchive zip = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Update))
-                {
-                    return parseData(zip.GetEntry(path.Split('|').Last()).Open());
-                }
-            }
+            if (!File.Exists(path)|| path.Contains(".zip")) { throw new Exception("Invalid Format"); }
             else
             {
-                return parseData(new FileStream(this.path, FileMode.Open));
+                var file =path.Replace(MainWindow.MiscDirPath+"\\","").Split('\\').ToArray();
+                if (file.Length < 4) {
+                    WorldSave ws=new WorldSave("", "", "", file.First(), path);
+                    ws.FixPath();
+                    return ws;
+                }
+                return new WorldSave(file[0], file[1], file[2], file[3], path);
             }
-
-
         }
-        private List<string> parseData(Stream s)
+        
+
+        public static string ReadFile(string path,string file)
         {
-            List<string> data = new List<string>();
-            using (StreamReader sr = new StreamReader(s))
+           // try
             {
-                Regex r = new Regex(@"Quests\/(?<Test>\w*\/\w*)");
-                MatchCollection mc = r.Matches(sr.ReadToEnd());
-                foreach (Match m in mc)
+                if (path.Contains(".zip"))
                 {
-                    string test;
-                    if (!data.Contains((test = m.Groups["Test"].Value))) { data.Add(test); }
+                    string text = "";
+                    Debug.WriteLine("ReadZip: "+path.Split('|').Last() + "/" + file);
+                    using (StreamReader sr = new StreamReader(ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read).GetEntry(path.Split('|').Last().Replace("save.sav",file)).Open()))
+                    {
+                        text= sr.ReadToEnd();
+                        sr.Close();
+                    }
+                    return text;
+                }
+                else
+                {
+                    return File.ReadAllText(path.Replace("\\save.sav", "") + "\\"+file);
                 }
             }
-            return data;
-        }
-        public string fullpath()
-        {
-            string filename;
-            if (path.Contains(".zip"))
-            {
-                filename = path.Split('|').Last().Split('/').Last();
-                path = path.Replace(filename, Filename() + ".sav");
-                return path;
-            }
-            filename = path.Split('\\').Last();
-            path = path.Replace(filename, Filename() + ".sav");
-            return path;
+           // catch (Exception) { return ""; }
         }
 
-        public string Filename()
-        {
-            return Name.Replace(" &\n", "&").Replace("\n", "").Replace(" ", "") + "_" + this.Modifiers.Replace("\n", "_").Replace(" ", "_");
-        }
-
-        public string ToData()
-        {
-            string[] arr = Filename().Split('_');
-            return string.Join(";", new string[] { path, diff, world, arr.First(), string.Join("_", arr.Skip(1)), description });
-        }
-        public static WorldSave FromData(string s)
-        {
-            //string path, string diff, string world, string name, string m, string desc
-            string[] p = s.Split(';');
-            WorldSave ws = new WorldSave(p[0], p[1], p[2], p[3], p[4], p[5]);
-            return ws;
-        }
+       
+       
 
         public bool Contains(string s)
         {
             s = s.ToLower();
-            return Name.Replace(" &\n", "&").ToLower().Contains(s) || World.ToLower().Contains(s) || Diff.ToLower().Contains(s) || Modifiers.ToLower().Contains(s) || Description.ToLower().Contains(s);
+            return Name.ToLower().Contains(s) || World.ToLower().Contains(s) || Diff.ToLower().Contains(s) || Modifiers.ToLower().Contains(s);
         }
 
         public bool Contains(params string[] st)
@@ -283,22 +97,45 @@ namespace RemnantBuildRandomizer
             foreach (string s in st) { if (!Contains(s)) { return false; } }
             return true;
         }
-    }
-    public class WorldData
-    {
-        private string input;
-        private string output;
-        public WorldData(string output, params string[] inputs)
+
+        public override string ToString()
         {
-            this.input = string.Join(" ", inputs);
-            this.output = output;
-        }
-        public string getWorld(string name)
-        {
-            if (input.Contains(name)) { return output; } else { return ""; }
+            return String.Join("|",Diff,Name,Modifiers);
         }
 
+        public void MoveTo(string path) {
 
+            try
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                File.Move(Filepath, path);
+                Filepath = path;
+            }
+            catch (Exception) {
+                FixPath();
+            }
+            
+        }
+        public void FixPath() {
+            int dupe = 0;
+            string backup = "";
+            while (File.Exists((backup = MainWindow.MiscDirPath + "\\Unknown\\Unknown\\Unknown\\" + Name + dupe + "\\Save.sav"))) { dupe++; }
+            Directory.CreateDirectory(Path.GetDirectoryName(backup));
+            File.Move(Filepath, backup);
+            Filepath = backup;
+        }
+
+        public string ToData()
+        {
+            
+            return string.Join(";", new string[] { Diff, World, Name, Modifiers, Filepath});
+        }
+        public static WorldSave FromData(string s)
+        {
+            //string diff, string world, string name, string m, string path
+            string[] p = s.Split(';');
+            WorldSave ws = new WorldSave(p[0], p[1], p[2], p[3], p[4]);
+            return ws;
+        }
     }
-
 }

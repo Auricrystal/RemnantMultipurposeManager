@@ -859,10 +859,10 @@
             <ComboBox x:Name="cmbSaveSlot" Text="Save Slot" SelectionChanged="cmbSaveSlot_SelectionChanged"  Width="83"/>
 
             <TextBlock x:Name="SaveTime" Text="Last Save:" Foreground="White"/>
-            <TextBlock x:Name="lblLastMessage" Text="Test" VerticalAlignment="Top" Background="{x:Null}" Foreground="White"/>
+            <TextBlock x:Name="lblLastMessage" Text="Test" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MouseUp="lblLastMessage_MouseUp"/>
 
         </Menu>
-        <TabControl Margin="0,30,0,0" Background="#222222" >
+        <TabControl x:Name="MainTab" Margin="0,30,0,0" Background="#222222" >
             <TabItem Header="Build Generator">
                 <Viewbox  Stretch="Uniform" StretchDirection="Both">
                     <Grid Background="#222222" Margin="-2,-2,-2,-2" HorizontalAlignment="Center" VerticalAlignment="Center" >
@@ -998,10 +998,10 @@
                                                 <DataGrid x:Name="BossList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="BossList_AutoGeneratingColumn" CanUserDeleteRows="False"/>
                                             </TabItem>
                                             <TabItem Header="Vendor Saves">
-                                                <DataGrid x:Name="VendList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="VendorList_AutoGeneratingColumn" CanUserDeleteRows="False"/>
+                                                <DataGrid x:Name="VendList" RowHeaderWidth="0" SelectionMode="Single" AutoGeneratingColumn="VendorList_AutoGeneratingColumn" CanUserDeleteRows="False" SelectionChanged="VendList_SelectionChanged"/>
                                             </TabItem>
                                             <TabItem Header="Other Saves">
-                                                <DataGrid x:Name="MiscList" RowHeaderWidth="0" SelectionMode="Single"   CellEditEnding="MiscList_CellEditEnding" CanUserDeleteRows="False" >
+                                                <DataGrid x:Name="MiscList" RowHeaderWidth="0" SelectionMode="Single"   CellEditEnding="MiscList_CellEditEnding" CanUserDeleteRows="False" AutoGeneratingColumn="MiscList_AutoGeneratingColumn" >
                                                     <DataGrid.ContextMenu>
                                                         <ContextMenu>
                                                             <MenuItem x:Name="AddCurrentCheckpoint" Header="Add Current Save"  Click="AddCurrentCheckpoint_Click"/>
@@ -1013,6 +1013,7 @@
                                         </TabControl>
                                         <TextBox x:Name="CheckSearchBar" TextChanged="CheckSearchBar_TextChanged"  HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="5,467,0,4" TextWrapping="Wrap" Text="" Width="407"/>
                                         <CheckBox x:Name="KeepCheckpoint" Content="Keep Current Checkpoint" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Checked="KeepCheckpoint_Checked" Unchecked="KeepCheckpoint_Unchecked" Height="20" Margin="422,10,190,466" VerticalContentAlignment="Center" Foreground="White" FontSize="16"/>
+                                        <TextBox x:Name="DescriptionBox" HorizontalAlignment="Left" Height="157" Margin="422,335,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="392"/>
                                     </Grid>
                                 </Viewbox>
                             </TabItem>

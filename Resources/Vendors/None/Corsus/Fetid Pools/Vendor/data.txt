@@ -1,0 +1,10 @@
+[Trinkets]
+Hero's Ring, Heart of Darkness
+
+[Trait]
+Fortification
+
+[Materials]
+3 Simulacrum
+10 Lumenite 
+25 Glowing Fragments
