@@ -1016,7 +1016,9 @@
                                         </TabControl>
                                         <TextBox x:Name="CheckSearchBar" TextChanged="CheckSearchBar_TextChanged"  HorizontalAlignment="Left" VerticalContentAlignment="Center" Margin="5,467,0,4" TextWrapping="Wrap" Text="" Width="407"/>
                                         <CheckBox x:Name="KeepCheckpoint" Content="Keep Current Checkpoint" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Checked="KeepCheckpoint_Checked" Unchecked="KeepCheckpoint_Unchecked" Height="20" Margin="422,10,190,466" VerticalContentAlignment="Center" Foreground="White" FontSize="16"/>
-                                        <TextBlock x:Name="DescriptionBox" HorizontalAlignment="Left" Height="156" Margin="422,336,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="392" Background="Black"/>
+                                        <ScrollViewer Height="156" HorizontalAlignment="Left"  Margin="422,336,0,0" VerticalAlignment="Top" Width="392" VerticalScrollBarVisibility="Auto">
+                                            <TextBlock x:Name="DescriptionBox" TextWrapping="Wrap" Text=""  Background="Black"/>
+                                        </ScrollViewer>
                                         <Button x:Name="NoteButton" Content="Edit Note" HorizontalAlignment="Left" Height="25" Margin="694,306,0,0" VerticalAlignment="Top" Width="120" Click="NoteButton_Click"/>
                                     </Grid>
                                 </Viewbox>

@@ -1695,6 +1695,7 @@ namespace RemnantBuildRandomizer
                 new ICollectionView[] {
                     CollectionViewSource.GetDefaultView(BossList.ItemsSource),
                     CollectionViewSource.GetDefaultView(VendList.ItemsSource),
+                    CollectionViewSource.GetDefaultView(EventList.ItemsSource),
                     CollectionViewSource.GetDefaultView(MiscList.ItemsSource)
                 };
 
@@ -1901,7 +1902,7 @@ namespace RemnantBuildRandomizer
             //Debug.WriteLine("Tab Changed: " + SaveManager.SelectedIndex +" : "+dg.Name);
             SetDescBoxToSelected(dg);
             int num = SaveManager.SelectedIndex;
-            NoteButton.IsEnabled = !(num < 2);
+            NoteButton.IsEnabled = !(num < 3);
         }
 
         private void NoteButton_Click(object sender, RoutedEventArgs e)

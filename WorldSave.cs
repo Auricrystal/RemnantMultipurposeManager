@@ -26,7 +26,7 @@ namespace RemnantBuildRandomizer
         public string Modifiers { get => modifiers; set => modifiers = value; }
         public string Filepath { get => filepath; set => filepath = value; }
 
-        public string Data { get => filepath.Replace("save.sav","data.txt"); }
+        public string Data { get => filepath.Replace("save.sav", "data.txt"); }
         public WorldSave(string diff, string world, string name, string m, string path)
         {
             this.Diff = diff;
@@ -64,31 +64,30 @@ namespace RemnantBuildRandomizer
 
         public static string ReadFile(string path)
         {
-
-            if (path.Contains(".zip"))
+            try
             {
-                string text = "";
-                Debug.WriteLine("ReadZip: " + path.Split('|').Last());
-                using (ZipArchive za = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read))
+                if (path.Contains(".zip"))
                 {
-                    StreamReader sr;
-                    try
+                    string text = "";
+                    Debug.WriteLine("ReadZip: " + path.Split('|').Last());
+                    using (ZipArchive za = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read))
                     {
+                        StreamReader sr;
                         sr = new StreamReader(za.GetEntry(path.Split('|').Last())?.Open());
                         text = sr.ReadToEnd();
                         Debug.WriteLine(text);
                         sr.Close();
                     }
-                    catch (Exception) {
-                        text= ""; 
-                    }
+                    return text;
                 }
-                return text;
-
+                else
+                {
+                    return File.ReadAllText(path);
+                }
             }
-            else
+            catch (Exception)
             {
-                return File.ReadAllText(path);
+                return "";
             }
         }
 
