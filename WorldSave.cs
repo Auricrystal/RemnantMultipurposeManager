@@ -18,7 +18,7 @@ namespace RemnantBuildRandomizer
         private string world = "";
         private string name = "";
         private string modifiers = "";
-       
+
 
         public string Diff { get => diff; set => diff = value; }
         public string World { get => world; set => world = value; }
@@ -26,6 +26,7 @@ namespace RemnantBuildRandomizer
         public string Modifiers { get => modifiers; set => modifiers = value; }
         public string Filepath { get => filepath; set => filepath = value; }
 
+        public string Data { get => filepath.Replace("save.sav","data.txt"); }
         public WorldSave(string diff, string world, string name, string m, string path)
         {
             this.Diff = diff;
@@ -46,45 +47,50 @@ namespace RemnantBuildRandomizer
         }
         public static WorldSave ParseFile(string path)
         {
-            if (!File.Exists(path)|| path.Contains(".zip")) { throw new Exception("Invalid Format"); }
+            if (!File.Exists(path) || path.Contains(".zip")) { throw new Exception("Invalid Format"); }
             else
             {
-                var file =path.Replace(MainWindow.MiscDirPath+"\\","").Split('\\').ToArray();
-                if (file.Length < 4) {
-                    WorldSave ws=new WorldSave("", "", "", file.First(), path);
+                var file = path.Replace(MainWindow.MiscDirPath + "\\", "").Split('\\').ToArray();
+                if (file.Length < 4)
+                {
+                    WorldSave ws = new WorldSave("Unknown", "Unknown", file.First().Replace(".sav", ""), "Unknown", path);
                     ws.FixPath();
                     return ws;
                 }
                 return new WorldSave(file[0], file[1], file[2], file[3], path);
             }
         }
-        
 
-        public static string ReadFile(string path,string file)
+
+        public static string ReadFile(string path)
         {
-           // try
+
+            if (path.Contains(".zip"))
             {
-                if (path.Contains(".zip"))
+                string text = "";
+                Debug.WriteLine("ReadZip: " + path.Split('|').Last());
+                using (ZipArchive za = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read))
                 {
-                    string text = "";
-                    Debug.WriteLine("ReadZip: "+path.Split('|').Last() + "/" + file);
-                    using (StreamReader sr = new StreamReader(ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read).GetEntry(path.Split('|').Last().Replace("save.sav",file)).Open()))
+                    StreamReader sr;
+                    try
                     {
-                        text= sr.ReadToEnd();
+                        sr = new StreamReader(za.GetEntry(path.Split('|').Last())?.Open());
+                        text = sr.ReadToEnd();
+                        Debug.WriteLine(text);
                         sr.Close();
                     }
-                    return text;
+                    catch (Exception) {
+                        text= ""; 
+                    }
                 }
-                else
-                {
-                    return File.ReadAllText(path.Replace("\\save.sav", "") + "\\"+file);
-                }
-            }
-           // catch (Exception) { return ""; }
-        }
+                return text;
 
-       
-       
+            }
+            else
+            {
+                return File.ReadAllText(path);
+            }
+        }
 
         public bool Contains(string s)
         {
@@ -100,10 +106,11 @@ namespace RemnantBuildRandomizer
 
         public override string ToString()
         {
-            return String.Join("|",Diff,Name,Modifiers);
+            return String.Join("|", Diff, Name, Modifiers);
         }
 
-        public void MoveTo(string path) {
+        public void MoveTo(string path)
+        {
 
             try
             {
@@ -111,15 +118,17 @@ namespace RemnantBuildRandomizer
                 File.Move(Filepath, path);
                 Filepath = path;
             }
-            catch (Exception) {
+            catch (Exception)
+            {
                 FixPath();
             }
-            
+
         }
-        public void FixPath() {
+        public void FixPath()
+        {
             int dupe = 0;
             string backup = "";
-            while (File.Exists((backup = MainWindow.MiscDirPath + "\\Unknown\\Unknown\\Unknown\\" + Name + dupe + "\\Save.sav"))) { dupe++; }
+            while (File.Exists((backup = MainWindow.MiscDirPath + "\\Unknown\\Unknown\\Unknown\\" + Name + dupe + "\\save.sav"))) { dupe++; }
             Directory.CreateDirectory(Path.GetDirectoryName(backup));
             File.Move(Filepath, backup);
             Filepath = backup;
@@ -127,8 +136,8 @@ namespace RemnantBuildRandomizer
 
         public string ToData()
         {
-            
-            return string.Join(";", new string[] { Diff, World, Name, Modifiers, Filepath});
+
+            return string.Join(";", new string[] { Diff, World, Name, Modifiers, Filepath });
         }
         public static WorldSave FromData(string s)
         {

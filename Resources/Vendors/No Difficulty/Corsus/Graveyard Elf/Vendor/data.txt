@@ -1,0 +1,8 @@
+[Consumable]
+Beetle Extract
+
+[Trait]
+Potency
+
+[Trinket]
+Ring Of The Unclean
