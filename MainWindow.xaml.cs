@@ -357,9 +357,9 @@ namespace RemnantBuildRandomizer
                     try
                     {
                         time = ReadWorldSaveData(RBRDirPath + @"/WorldSaveData.txt");
-                        bool boss = false, vend = false, eve=false;
-                        int bosssize = 0, vendsize = 0, evesize=0;
-                        using (ZipArchive b = ZipFile.OpenRead(RBRDirPath + "\\" + BossZipName + ".zip"), v = ZipFile.OpenRead(RBRDirPath + "\\" + VendorsZipName + ".zip"),e = ZipFile.OpenRead(RBRDirPath + "\\" + EventsZipName + ".zip"))
+                        bool boss = false, vend = false, eve = false;
+                        int bosssize = 0, vendsize = 0, evesize = 0;
+                        using (ZipArchive b = ZipFile.OpenRead(RBRDirPath + "\\" + BossZipName + ".zip"), v = ZipFile.OpenRead(RBRDirPath + "\\" + VendorsZipName + ".zip"), e = ZipFile.OpenRead(RBRDirPath + "\\" + EventsZipName + ".zip"))
                         {
                             bosssize = b.Entries.Where(x => x.FullName.Contains(".sav")).Count();
                             vendsize = v.Entries.Where(x => x.FullName.Contains(".sav")).Count();
@@ -369,9 +369,9 @@ namespace RemnantBuildRandomizer
                         {
                             logMessage("Updating Bosses"); BossList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + BossZipName + ".zip");
                         }
-                        if (vend = CheckDownloadZip(VendorsZipName) || vendsize > VendList.Items.Count) 
-                        { 
-                            logMessage("Updating Vendors"); VendList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + VendorsZipName + ".zip"); 
+                        if (vend = CheckDownloadZip(VendorsZipName) || vendsize > VendList.Items.Count)
+                        {
+                            logMessage("Updating Vendors"); VendList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + VendorsZipName + ".zip");
                         }
                         if (eve = CheckDownloadZip(EventsZipName) || evesize > EventList.Items.Count)
                         {
@@ -490,8 +490,8 @@ namespace RemnantBuildRandomizer
                             //If new file does not exist or the new file is smaller in size than the old
                             if (entry.Name != "")
                             {
-                                Debug.WriteLine(entry.FullName + "old time: " + Old.GetEntry(entry.FullName).LastWriteTime.Ticks);
-                                Debug.WriteLine(entry.FullName + "new time: " + entry.LastWriteTime.Ticks);
+                                //Debug.WriteLine(entry.FullName + "old time: " + Old.GetEntry(entry.FullName).LastWriteTime.Ticks);
+                                //Debug.WriteLine(entry.FullName + "new time: " + entry.LastWriteTime.Ticks);
                                 if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
                                 {
                                     logMessage("New " + zipName + " Package Update!", LogType.Success);
@@ -1068,18 +1068,13 @@ namespace RemnantBuildRandomizer
                     grid.Items.Refresh();
                     isManualEditCommit = false;
 
-                  
                     WorldSave rb = (WorldSave)MiscList.SelectedItem;
 
-                    
-                    string oldpath = rb.Filepath;
-                
                     string newpath = String.Join("\\", MiscDirPath, rb.Diff, rb.World, rb.Name, rb.Modifiers, "save.sav");
                     Directory.CreateDirectory(Path.GetDirectoryName(newpath));
-                    File.Move(oldpath, newpath);
-                    rb.Filepath = newpath;
+                    rb.MoveTo(newpath);
                     DeleteEmptyFolders(MiscDirPath);
-                 
+
                     grid.Items.Refresh();
                 }
             }
@@ -1369,6 +1364,8 @@ namespace RemnantBuildRandomizer
         {
 
             File.Delete(GetSelectedSave().Filepath);
+            if (File.Exists(GetSelectedSave().Data)) { File.Delete(GetSelectedSave().Data); }
+            DeleteEmptyFolders(MiscDirPath);
             (MiscList.ItemsSource as List<WorldSave>).Remove(GetSelectedSave());
             var icv = CollectionViewSource.GetDefaultView(MiscList.ItemsSource);
             icv.Filter = o =>
@@ -1496,7 +1493,7 @@ namespace RemnantBuildRandomizer
         }
         private void BossList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-           
+
             string header = e.Column.Header.ToString();
             switch (header)
             {
@@ -1745,7 +1742,7 @@ namespace RemnantBuildRandomizer
                 List<WorldSave>
                     Bosses = new List<WorldSave>(),
                     Vendors = new List<WorldSave>(),
-                    Events= new List<WorldSave>(),
+                    Events = new List<WorldSave>(),
                     Other = new List<WorldSave>();
                 while ((s = sr.ReadLine()) != null)
                 {
@@ -1869,15 +1866,19 @@ namespace RemnantBuildRandomizer
             //Debug.WriteLine("Log Clicked!");
             MainTab.SelectedIndex = 4;
         }
-        public void SetDescBoxToSelected(DataGrid dg) {
+        public void SetDescBoxToSelected(DataGrid dg)
+        {
 
-            if (dg.SelectedItem != null)
+            if (dg.Items.Count > 0)
             {
-                WorldSave ws = ((WorldSave)dg.SelectedItem);
-                string text = WorldSave.ReadFile(ws.Data);
-                DescriptionBox.Text = text;
+                if (dg.SelectedItem != null)
+                {
+                    WorldSave ws = ((WorldSave)dg.SelectedItem);
+                    string text = WorldSave.ReadFile(ws.Data);
+                    DescriptionBox.Text = text;
+                }
+                else { dg.SelectedIndex = 0; SetDescBoxToSelected(dg); }
             }
-            else { dg.SelectedIndex = 0; SetDescBoxToSelected(dg); }
         }
 
         private void VendList_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1900,8 +1901,9 @@ namespace RemnantBuildRandomizer
         {
             DataGrid dg = ((SaveManager.SelectedItem as TabItem).Content as DataGrid);
             //Debug.WriteLine("Tab Changed: " + SaveManager.SelectedIndex +" : "+dg.Name);
-            SetDescBoxToSelected(dg);
+
             int num = SaveManager.SelectedIndex;
+            if (num > 0) { SetDescBoxToSelected(dg); }
             NoteButton.IsEnabled = !(num < 3);
         }
 
@@ -1910,17 +1912,32 @@ namespace RemnantBuildRandomizer
             if (MiscList.SelectedItem != null)
             {
                 WorldSave ws = ((WorldSave)MiscList.SelectedItem);
-                if (!File.Exists(ws.Data)) { File.Create(ws.Data); }
-                Process.Start(ws.Data);
+                Stream s;
+                if (!File.Exists(ws.Data))
+                {
+                    s = File.Create(ws.Data);
+                    s.Close();
+                }
+                Process p = Process.Start(ws.Data);
+                p.EnableRaisingEvents = true;
+                p.Exited += new EventHandler(datafile_Closed);
             }
         }
+        private void datafile_Closed(object sender, System.EventArgs e)
+        {
 
-        
+            Debug.WriteLine("data.txt Closed!");
+            this.Dispatcher.Invoke(() =>
+            {
+                SetDescBoxToSelected(MiscList);
+            });
+        }
 
         private void EventList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             SetDescBoxToSelected(EventList);
         }
+
     }
 }
 

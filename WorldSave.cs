@@ -20,10 +20,10 @@ namespace RemnantBuildRandomizer
         private string modifiers = "";
 
 
-        public string Diff { get => diff; set => diff = value; }
-        public string World { get => world; set => world = value; }
-        public string Name { get => name; set => name = value; }
-        public string Modifiers { get => modifiers; set => modifiers = value; }
+        public string Diff { get => diff; set { diff = (value != "") ? value : "Unknown"; } }
+        public string World { get => world; set { world = (value != "") ? value : "Unknown"; } }
+        public string Name { get => name; set { name = (value != "") ? value : "Unknown"; } }
+        public string Modifiers { get => modifiers; set { modifiers = (value != "") ? value : "Unknown"; } }
         public string Filepath { get => filepath; set => filepath = value; }
 
         public string Data { get => filepath.Replace("save.sav", "data.txt"); }
@@ -69,14 +69,19 @@ namespace RemnantBuildRandomizer
                 if (path.Contains(".zip"))
                 {
                     string text = "";
-                    Debug.WriteLine("ReadZip: " + path.Split('|').Last());
+
                     using (ZipArchive za = ZipFile.Open(path.Split('|').First(), ZipArchiveMode.Read))
                     {
                         StreamReader sr;
-                        sr = new StreamReader(za.GetEntry(path.Split('|').Last())?.Open());
-                        text = sr.ReadToEnd();
-                        Debug.WriteLine(text);
-                        sr.Close();
+                        var s = za.GetEntry(path.Split('|').Last())?.Open();
+                        if (s != null)
+                        {
+                            //Debug.WriteLine("ReadZip: " + path.Split('|').Last());
+                            sr = new StreamReader(s);
+                            text = sr.ReadToEnd();
+                            sr.Close();
+                        }
+                        else { text = ""; }
                     }
                     return text;
                 }
@@ -115,6 +120,8 @@ namespace RemnantBuildRandomizer
             {
                 Directory.CreateDirectory(Path.GetDirectoryName(path));
                 File.Move(Filepath, path);
+                if (File.Exists(Data)) { File.Move(Data, path.Replace("save.sav", "data.txt")); }
+
                 Filepath = path;
             }
             catch (Exception)
