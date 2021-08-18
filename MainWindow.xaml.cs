@@ -1523,7 +1523,8 @@ namespace RemnantBuildRandomizer
             {
                 case "Filepath":
                 case "Data":
-                case "Description": e.Cancel = true; break;
+                case "Description":
+                case "Modifiers":  e.Cancel = true; break;
             }
             e.Column.IsReadOnly = true;
         }
