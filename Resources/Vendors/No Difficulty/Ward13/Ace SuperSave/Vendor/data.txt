@@ -11,6 +11,7 @@ Orb of Undoing x50
 Pristine Essence x50
 
 [Materials]
+999 Every Type Iron
 10 Simulacrum
 100 Lumenite
 9 Hardened Carapace
