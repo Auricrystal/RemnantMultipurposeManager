@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -1772,9 +1773,6 @@ namespace RemnantBuildRandomizer
 
         }
 
-
-
-
         private void ProfileList_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
         {
 
@@ -1939,6 +1937,11 @@ namespace RemnantBuildRandomizer
             SetDescBoxToSelected(EventList);
         }
 
+        private void CreateRBB_Click(object sender, RoutedEventArgs e)
+        {
+            Window w = new SavePacker();
+            w.Show();
+        }
     }
 }
 

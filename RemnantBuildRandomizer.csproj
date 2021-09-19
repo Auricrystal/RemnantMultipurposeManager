@@ -56,6 +56,9 @@
   <PropertyGroup />
   <PropertyGroup />
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
@@ -86,7 +89,11 @@
     <Compile Include="BuildWindow.xaml.cs">
       <DependentUpon>BuildWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="JWorldSave.cs" />
     <Compile Include="MyExtensions.cs" />
+    <Compile Include="SavePacker.xaml.cs">
+      <DependentUpon>SavePacker.xaml</DependentUpon>
+    </Compile>
     <Compile Include="WorldSave.cs" />
     <Compile Include="RemnantCharacter.cs" />
     <Compile Include="RemnantProfile.cs" />
@@ -109,6 +116,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SavePacker.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GearInfo.cs" />
@@ -156,6 +167,7 @@
     <None Include="Bosses\Singe_Apocalypse_World.sav" />
     <None Include="Bosses\UncleanOne_Apocalypse_World.sav" />
     <None Include="Bosses\Ikro_Apocalypse_Hearty.sav" />
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

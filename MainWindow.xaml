@@ -850,6 +850,7 @@
             <MenuItem Name="OptionsMenu" Header="Options" Foreground="White" >
                 <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click" Background="black"/>
                 <MenuItem Header="Restart Game" Click="GameRestart_Click" ToolTip="Restarts the Game if it is currently running." Background="black"/>
+                <MenuItem Header="Create RMM File" Click="CreateRBB_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
             <MenuItem Header="View" Foreground="White" HorizontalContentAlignment="Center">
                 <MenuItem Header="Data Folder" Click="DataFolder_Click" Background="black"/>
