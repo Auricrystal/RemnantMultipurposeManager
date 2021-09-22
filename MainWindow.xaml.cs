@@ -1,8 +1,6 @@
-﻿using Microsoft.Win32;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
@@ -11,14 +9,11 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using static RemnantBuildRandomizer.DataObj;
 using static RemnantBuildRandomizer.GearInfo;
 
 
@@ -36,16 +31,9 @@ namespace RemnantBuildRandomizer
         private static RemnantSave activeSave;
         private static int badluck = 0;
 
-        private FileSystemWatcher saveWatcher;
-        private FileSystemWatcher worldWatcher;
-        private static Properties.Settings set = Properties.Settings.Default;
+        private FileSystemWatcher saveWatcher, worldWatcher;
         private string[] saveFiles;
-
-        private DateTime lastUpdateCheck;
-        private string BossZipName = "Bosses";
-        private string VendorsZipName = "Vendors2";
-        private string EventsZipName = "Events";
-
+        public static List<InventoryItem> ItemList { get => ActiveCharacter.Inventory; }
         public static string ProfilesDirPath
         {
             get
@@ -80,7 +68,7 @@ namespace RemnantBuildRandomizer
             {
                 if (activeSave == null)
                 {
-                    ActiveSave = new RemnantSave(SaveDirPath);
+                    activeSave = new RemnantSave(SaveDirPath);
                 }
                 return activeSave;
 
@@ -103,22 +91,25 @@ namespace RemnantBuildRandomizer
             }
         }
 
-        public RemnantCharacter ActiveCharacter
+        public static RemnantCharacter ActiveCharacter
         {
             get
             {
                 try
                 {
-                    return ActiveSave.Characters[cmbCharacter.SelectedIndex];
+                    return ActiveSave.Characters[MW.cmbCharacter.SelectedIndex];
                 }
-                catch (ArgumentOutOfRangeException) { return new RemnantCharacter(0); }
+                catch (ArgumentOutOfRangeException)
+                {
+                    Debug.WriteLine("MainWindow ActiveCharacter problem");
+                    return new RemnantCharacter(0);
+                }
             }
         }
         public string ActiveSaveSlot
         {
             get => (string)cmbSaveSlot.SelectedItem;
             set => cmbSaveSlot.SelectedItem = value;
-
         }
         private void SetSettings(int Char, int Save)
         {
@@ -160,15 +151,6 @@ namespace RemnantBuildRandomizer
                 return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR";
             }
         }
-        public static string MiscDirPath
-        {
-            get
-            {
-                Directory.CreateDirectory(RBRDirPath + "\\Misc Saves");
-                return (RBRDirPath + "\\" + "Misc Saves");
-            }
-        }
-
 
         public static string SaveDirPath
         {
@@ -183,39 +165,28 @@ namespace RemnantBuildRandomizer
             set => saveDirPath = value;
         }
 
-        public enum LogType
+        public enum LogType { Normal, Success, Error }
+
+        void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Normal,
-            Success,
-            Error
+            MessageBox.Show("Unhandled exception occurred: \n" + e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
-
-        public MainWindow()
+        public MainWindow() : base()
         {
-
+            this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
             MW = this;
             InitializeComponent();
-            //ProfileManager.IsEnabled = false;
-            //ProfileManager.ToolTip = "Not Implemented Yet.";
-
             txtLog.IsReadOnly = true;
-            DownloadIMGFiles();
+            DownloadZip("IMG");
             File.Delete(RBRDirPath + "\\log.txt");
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
-                saveWatcher = new FileSystemWatcher();
-                worldWatcher = new FileSystemWatcher();
-
-                saveWatcher.Path = SaveDirPath;
-                worldWatcher.Path = SaveDirPath;
+                saveWatcher = new FileSystemWatcher(SaveDirPath, "profile.sav");
+                worldWatcher = new FileSystemWatcher(SaveDirPath, "save_*.sav");
 
                 // Watch for changes in LastWrite times.
                 saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
                 worldWatcher.NotifyFilter = NotifyFilters.LastWrite;
-
-                // Only watch sav files.
-                saveWatcher.Filter = "profile.sav";
-                worldWatcher.Filter = "save_*.sav";
 
                 // Add event handlers.
                 saveWatcher.Changed += OnProfileSaveChanged;
@@ -226,17 +197,13 @@ namespace RemnantBuildRandomizer
                 worldWatcher.Created += OnWorldFileChanged;
                 worldWatcher.Deleted += OnWorldFileChanged;
             }
-
-            ((MenuItem)BuildList.ContextMenu.Items[0]).Click += GrabBuild_Click;
-            ((MenuItem)BuildList.ContextMenu.Items[1]).Click += CopyBuildObj_Click;
-            ((MenuItem)BuildList.ContextMenu.Items[2]).Click += PasteBuildObj_Click;
         }
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
                 Debug.WriteLine("Current save date: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav").ToString());
-
+                //throw new Exception("test hehehe");
                 saveWatcher.EnableRaisingEvents = true;
                 worldWatcher.EnableRaisingEvents = true;
 
@@ -246,16 +213,11 @@ namespace RemnantBuildRandomizer
                 cmbSaveSlot.SelectedIndex = GetSetting(cmbCharacter.SelectedIndex);
 
                 Debug.WriteLine(cmbSaveSlot.SelectedItem);
-
-                ReadXML();
-                GetData();
                 SetupData();
                 UpdateCharacterData();
-
             }
             else
             {
-                ReadXML();
                 SetupData();
                 cmbCharacter.IsEnabled = false;
                 cmbSaveSlot.IsEnabled = false;
@@ -306,27 +268,25 @@ namespace RemnantBuildRandomizer
                     }
                      );
                 }
-                catch (Exception) { }
+                catch (Exception) { Debug.WriteLine("Check for update problem"); }
             }
-            lastUpdateCheck = DateTime.Now;
             Debug.WriteLine("Update value: " + compare);
             return compare;
-
         }
         private void SetupData()
         {
-            List<RemnantItem>
-                empties = StrToRI.Values.Where(x => x.Itemname.Contains("_")).ToList(),
-                molist = GetEquipment[SlotType.MO].Take(28).ToList(),
-                hglist = GetEquipment[SlotType.HG].ToList(),
-                lglist = GetEquipment[SlotType.LG].ToList(),
-                mlist = GetEquipment[SlotType.M].ToList(),
-                helist = GetEquipment[SlotType.HE].ToList(),
-                chlist = GetEquipment[SlotType.CH].ToList(),
-                lelist = GetEquipment[SlotType.LE].ToList(),
-                amlist = GetEquipment[SlotType.AM].ToList(),
-                rilist = GetEquipment[SlotType.RI].ToList();
-
+            List<InventoryItem> BossMods = Items.Where(x => x.Mod != null).Select(x => x.Mod).ToList();
+            List<InventoryItem>
+                empties = Items.Where(x => x.Name.Contains("_")).ToList(),
+                molist = Items.Where(x => x.Slot == InventoryItem.SlotType.MO).Except(BossMods).ToList(),
+                hglist = Items.Where(x => x.Slot == InventoryItem.SlotType.HG).ToList(),
+                lglist = Items.Where(x => x.Slot == InventoryItem.SlotType.LG).ToList(),
+                mlist = Items.Where(x => x.Slot == InventoryItem.SlotType.M).ToList(),
+                helist = Items.Where(x => x.Slot == InventoryItem.SlotType.HE).ToList(),
+                chlist = Items.Where(x => x.Slot == InventoryItem.SlotType.CH).ToList(),
+                lelist = Items.Where(x => x.Slot == InventoryItem.SlotType.LE).ToList(),
+                amlist = Items.Where(x => x.Slot == InventoryItem.SlotType.AM).ToList(),
+                rilist = Items.Where(x => x.Slot == InventoryItem.SlotType.RI).ToList();
 
             WeaponList.ItemsSource = Combine(hglist, lglist, mlist).Except(empties).ToList();
             ArmorList.ItemsSource = Combine(helist, chlist, lelist).Except(empties).ToList();
@@ -336,70 +296,10 @@ namespace RemnantBuildRandomizer
 
             if (File.Exists(SaveDirPath + "\\profile.sav"))
             {
-
-                Debug.WriteLine("ProfileFolder:" + ProfilesDirPath);
                 ProfileList.ItemsSource = Directory.GetDirectories(ProfilesDirPath).Select(x => new RemnantProfile(x)).ToList();
-                if (ActiveSave.Characters.Count > 0)
-                {
-                    disablemissing();
-                    BuildList.ItemsSource = Presets[ActiveCharacter.charNum].ToList();
-                }
-                else
-                {
-                    BuildList.ItemsSource = Presets[0].ToList();
-                }
-                long time = -1;
-                if (!File.Exists(RBRDirPath + @"/WorldSaveData.txt"))
-                {
-                    SaveFileInit();
-                }
-                else
-                {
-                    try
-                    {
-                        time = ReadWorldSaveData(RBRDirPath + @"/WorldSaveData.txt");
-                        bool boss = false, vend = false, eve = false;
-                        int bosssize = 0, vendsize = 0, evesize = 0;
-                        using (ZipArchive b = ZipFile.OpenRead(RBRDirPath + "\\" + BossZipName + ".zip"), v = ZipFile.OpenRead(RBRDirPath + "\\" + VendorsZipName + ".zip"), e = ZipFile.OpenRead(RBRDirPath + "\\" + EventsZipName + ".zip"))
-                        {
-                            bosssize = b.Entries.Where(x => x.FullName.Contains(".sav")).Count();
-                            vendsize = v.Entries.Where(x => x.FullName.Contains(".sav")).Count();
-                            evesize = e.Entries.Where(x => x.FullName.Contains(".sav")).Count();
-                        }
-                        if (boss = CheckDownloadZip(BossZipName) || bosssize > BossList.Items.Count)
-                        {
-                            logMessage("Updating Bosses"); BossList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + BossZipName + ".zip");
-                        }
-                        if (vend = CheckDownloadZip(VendorsZipName) || vendsize > VendList.Items.Count)
-                        {
-                            logMessage("Updating Vendors"); VendList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + VendorsZipName + ".zip");
-                        }
-                        if (eve = CheckDownloadZip(EventsZipName) || evesize > EventList.Items.Count)
-                        {
-                            logMessage("Updating Events"); EventList.ItemsSource = ParseSaveFiles(RBRDirPath + "\\" + EventsZipName + ".zip");
-                        }
-                        Directory.CreateDirectory(RBRDirPath + "\\" + "Misc Saves");
-                        if (Directory.GetFiles(RBRDirPath + "\\" + "Misc Saves").Length > MiscList.Items.Count)
-                        {
-                            logMessage("More Misc Files Detected, Updating List");
-                            MiscList.ItemsSource = ParseSaveFiles(MiscDirPath);
-                        }
-                        logMessage("Finished! " + time + "ms");
-                    }
-                    catch (Exception)
-                    {
-                        logMessage("Had A Problem Reading WorldSaveData.txt", LogType.Error);
-                        SaveFileInit();
-                    }
-                }
-                BossList.Items.Refresh();
-                VendList.Items.Refresh();
-                EventList.Items.Refresh();
-                MiscList.Items.Refresh();
             }
             else
             {
-                BuildList.ItemsSource = Presets[0].ToList();
             }
 
             EmptySlots.ItemsSource = empties;
@@ -408,7 +308,7 @@ namespace RemnantBuildRandomizer
             cmbHGM.ItemsSource = molist;
             cmbLG.ItemsSource = lglist;
             cmbLGM.ItemsSource = molist;
-            cmbM.ItemsSource = mlist; ;
+            cmbM.ItemsSource = mlist;
             cmbHE.ItemsSource = helist;
             cmbCH.ItemsSource = chlist;
             cmbLE.ItemsSource = lelist;
@@ -419,142 +319,55 @@ namespace RemnantBuildRandomizer
             setSelectedIndex(0, cmbHG, cmbHGM, cmbLG, cmbLGM, cmbM, cmbHE, cmbCH, cmbLE, cmbAM, cmbR1, cmbR2);
         }
 
-        private void SaveFileInit()
-        {
-            SaveManipulator.IsEnabled = false;
-            logMessage("Parsing Save Files...");
-            var watch = new System.Diagnostics.Stopwatch();
-            watch.Start();
-            var task = Task.Run(() =>
-            {
-
-                List<WorldSave>
-                boss = ParseSaveFiles(DownloadZip(BossZipName)),
-                vend = ParseSaveFiles(DownloadZip(VendorsZipName)),
-                eve = ParseSaveFiles(DownloadZip(EventsZipName)),
-                misc = ParseSaveFiles(MiscDirPath);
-
-                this.Dispatcher.Invoke(() =>
-                {
-                    BossList.ItemsSource = from b in boss orderby b.Name select b;
-                    VendList.ItemsSource = vend;
-                    EventList.ItemsSource = eve;
-                    MiscList.ItemsSource = misc;
-                });
-
-            });
-
-
-            task.ContinueWith((t) =>
-          {
-              Dispatcher.Invoke(() =>
-              {
-                  SaveManipulator.IsEnabled = true;
-                  logMessage("Finished! " + watch.ElapsedMilliseconds + "ms");
-                  watch.Stop();
-                  Debug.WriteLine("Time:" + watch.ElapsedMilliseconds);
-                  return watch.ElapsedMilliseconds;
-              });
-          });
-
-
-
-        }
-
         private void setSelectedIndex(int val, params ComboBox[] cmbs)
         {
             foreach (ComboBox cmb in cmbs) { cmb.SelectedIndex = val; }
         }
 
-        private void DownloadIMGFiles()
+        private String DownloadZip(string zipName)
         {
-            DownloadZip("IMG");
-        }
-        private bool CheckDownloadZip(string zipName)
-        {
-            bool update = false;
-            string bossURL = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/" + zipName + ".zip";
-            if (Directory.Exists(RBRDirPath + "\\" + zipName)) { Directory.Delete(RBRDirPath + "\\" + zipName, true); }
-            using (WebClient client = new WebClient())
+            try
             {
-                if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
+                string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/" + zipName + ".zip";
+                using (WebClient client = new WebClient())
                 {
-                    client.DownloadFile(bossURL, RBRDirPath + "\\" + zipName + ".zip");
-                    update = true;
-                }
-                else
-                {
-                    using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(bossURL)))
+                    if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
                     {
-                        foreach (ZipArchiveEntry entry in New.Entries)
+                        client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
+                    }
+                    else
+                    {
+                        using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(zipURL)))
                         {
-                            //If new file does not exist or the new file is smaller in size than the old
-                            if (entry.Name != "")
+                            foreach (ZipArchiveEntry entry in New.Entries)
                             {
-                                //Debug.WriteLine(entry.FullName + "old time: " + Old.GetEntry(entry.FullName).LastWriteTime.Ticks);
-                                //Debug.WriteLine(entry.FullName + "new time: " + entry.LastWriteTime.Ticks);
-                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
+                                //If new file does not exist or the new file is smaller in size than the old
+                                if (entry.Name != "")
                                 {
-                                    logMessage("New " + zipName + " Package Update!", LogType.Success);
-                                    update = true;
-                                    Old.Dispose(); New.Dispose();
-                                    File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(bossURL, RBRDirPath + "\\" + zipName + ".zip");
-                                    break;
+                                    if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
+                                    {
+                                        logMessage("New " + zipName + " Package Update!\nDownloading!");
+                                        Old.Dispose(); New.Dispose();
+                                        File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                return RBRDirPath + "\\" + zipName + ".zip";
             }
-            return update;
-        }
-        private string DownloadZip(string zipName)
-        {
-            string bossURL = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/" + zipName + ".zip";
-            if (Directory.Exists(RBRDirPath + "\\" + zipName)) { Directory.Delete(RBRDirPath + "\\" + zipName, true); }
-            using (WebClient client = new WebClient())
-            {
-                if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
-                {
-                    client.DownloadFile(bossURL, RBRDirPath + "\\" + zipName + ".zip");
-                }
-                else
-                {
-                    using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(bossURL)))
-                    {
-                        foreach (ZipArchiveEntry entry in New.Entries)
-                        {
-                            //If new file does not exist or the new file is smaller in size than the old
-                            if (entry.Name != "")
-                            {
-                                if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
-                                {
-                                    logMessage("New " + zipName + " Package Update!\nDownloading!");
-                                    Old.Dispose(); New.Dispose();
-                                    File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(bossURL, RBRDirPath + "\\" + zipName + ".zip");
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            return RBRDirPath + "\\" + zipName + ".zip";
+            catch (Exception) { logMessage("Problem accessing internet.", LogType.Error); return null; }
         }
         private void DownloadNewProfile(bool rewards, string path)
         {
-            string profilesave = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfile.sav";
-            string profilesave2 = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfileRewards.sav";
-
+            string profilesave = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfile";
             using (WebClient client = new WebClient())
             {
                 if (!File.Exists(path))
                 {
-                    if (!rewards)
-                    {
-                        client.DownloadFile(profilesave, path + "\\profile.sav");
-                    }
-                    else { client.DownloadFile(profilesave2, path + "\\profile.sav"); }
+                    client.DownloadFile(profilesave + (rewards ? "Rewards" : "") + ".sav", path + "\\profile.sav");
                 }
                 else
                 {
@@ -586,63 +399,8 @@ namespace RemnantBuildRandomizer
                     }
                 });
             }
-            catch (Exception) { }
+            catch (Exception) { Debug.WriteLine("MainWindow WorldFile problem"); }
         }
-
-
-        private List<WorldSave> ParseSaveFiles(string directory)
-        {
-            List<WorldSave> list = new List<WorldSave>();
-
-            if (directory.Contains(".zip") && !directory.Contains(".sav"))
-            {
-                using (ZipArchive za = ZipFile.OpenRead(directory))
-                {
-                    list.AddRange(za.Entries.Where(x => x.FullName.Contains(".sav")).Select(x => WorldSave.ParseZip(directory + '|' + x.FullName)));
-                    list.AddRange(za.Entries.Where(x => x.FullName.Contains(".zip")).SelectMany(x => ParseSaveFiles(x.FullName)));
-                }
-            }
-            else if (directory.Contains(".zip") && directory.Contains(".sav"))
-            {
-                list.Add(WorldSave.ParseZip(directory));
-            }
-            else
-            {
-                Debug.WriteLine("PSV Test:" + directory);
-                if (Directory.Exists(directory))
-                {
-                    Directory.GetFiles(directory).ToList().ForEach(x => Debug.WriteLine(x));
-
-                    list.AddRange(Directory.GetDirectories(directory).SelectMany(x => ParseSaveFiles(x)));
-
-                    list.AddRange(Directory.GetFiles(directory).Where(x => x.Contains(".sav")).Select(x => WorldSave.ParseFile(x)));
-                    list.AddRange(Directory.GetFiles(directory).Where(x => x.Contains(".zip") && !x.Contains(".sav")).SelectMany(x => ParseSaveFiles(x)));
-                }
-            }
-            return list;
-        }
-
-        private void LoadSave()
-        {
-            BossList.SelectedIndex = rd.Next(BossList.Items.Count);
-            LoadSave((WorldSave)BossList.SelectedItem);
-        }
-        private void LoadSave(WorldSave rb)
-        {
-            logMessage("Loading: " + rb.ToString(), LogType.Success);
-            if (rb.Filepath.Contains(".zip"))
-            {
-                grabFileFromZip(rb.Filepath, SaveDirPath + "\\" + ActiveSaveSlot);
-            }
-            else
-            {
-                File.Copy(rb.Filepath, SaveDirPath + "\\" + ActiveSaveSlot, true);
-            }
-            File.SetLastWriteTime(SaveDirPath + "\\" + ActiveSaveSlot, DateTime.Now);
-            File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
-        }
-
-
 
         private static List<T> Combine<T>(params IEnumerable<T>[] rils)
         {
@@ -650,8 +408,6 @@ namespace RemnantBuildRandomizer
             foreach (IEnumerable<T> ril in rils) { li.AddRange(ril); }
             return li;
         }
-
-
 
         public static void SlogMessage(string msg)
         {
@@ -661,7 +417,6 @@ namespace RemnantBuildRandomizer
         {
             logMessage(msg, Colors.White);
         }
-
 
         public void logMessage(string msg, LogType lt)
         {
@@ -676,7 +431,6 @@ namespace RemnantBuildRandomizer
             }
             logMessage(msg, color);
         }
-
 
         public void logMessage(string msg, Color color)
         {
@@ -703,12 +457,7 @@ namespace RemnantBuildRandomizer
                 writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
                 writer.Close();
             }
-
-
-
-
         }
-
 
         private void OnProfileSaveChanged(object source, FileSystemEventArgs e)
         {
@@ -727,46 +476,31 @@ namespace RemnantBuildRandomizer
                 cmbSaveSlot.SelectedIndex = GetSetting(cmbCharacter.SelectedIndex);
             });
 
-
-            KeepCheck();
-            UpdateCharacterData();
-        }
-
-        private void KeepCheck()
-        {
             this.Dispatcher.Invoke(() =>
             {
                 if (KeepCheckpoint.IsChecked == true)
                 {
-                    LoadCheckpoint();
+                    LoadCheckpoint(RBRDirPath + "\\Backup\\Keep.sav");
                 }
             });
+            UpdateCharacterData();
         }
 
         private void UpdateCharacterData()
         {
             ActiveSave.UpdateCharacters();
-
             this.Dispatcher.Invoke(() =>
             {
                 SaveTime.Text = "Last Save: " + File.GetLastWriteTime(SaveDirPath + "\\profile.sav");
             });
         }
 
-
-
-        private string Code(int[] arr)
-        {
-            var test = arr.Select(x => string.Format("{0, 0:D2}", x)).ToArray();
-            return string.Join("-", test);
-
-        }
         private void DisplayBuild(Build b)
         {
             setImage(HandGunImg, HandGunText, b.HandGun);
-            setModImage(HandModImg, HandCoverModImg, HandGunModText, b.HandMod);
+            setImage(HandModImg, HandGunModText, b.HandGun.Mod);
             setImage(LongGunImg, LongGunText, b.LongGun);
-            setModImage(LongModImg, LongCoverModImg, LongGunModText, b.LongMod);
+            setImage(LongModImg, LongGunModText, b.LongGun.Mod);
             setImage(MeleeImg, MeleeText, b.Melee);
             setImage(HeadImg, HeadText, b.Head);
             setImage(ChestImg, ChestText, b.Chest);
@@ -775,73 +509,38 @@ namespace RemnantBuildRandomizer
             setImage(Ri1Img, Ring1Text, b.Ring1);
             setImage(Ri2Img, Ring2Text, b.Ring2);
         }
-        private void setImage(Image i, RemnantItem ri)
+        private void setImage(Image i, TextBlock tb, InventoryItem ri)
         {
-            i.Source = ri.Data.GetImage();
-            Debug.WriteLine("Set image:" + ri.Data.GetImage().ToString());
-            ToolTipService.SetShowDuration(i, 60000);
-            i.ToolTip = ri.Description;
+            i.Source = GearInfo.GetImage(ZipFile.OpenRead(RBRDirPath + "\\IMG.zip"), ri.IMG);
+            tb.Text = ri.Name;
         }
-        private void setImage(Image i, TextBlock tb, RemnantItem ri)
-        {
-            i.Source = ri.Data.GetImage();
-            Debug.WriteLine("Set image:" + ri.Data.GetImage().ToString());
-            ToolTipService.SetShowDuration(i, 60000);
-            i.ToolTip = ri.Description;
-            tb.Text = ri.Itemname;
-        }
-        private void setModImage(Image i, Image j, RemnantItem ri)
-        {
-            i.Source = ri.Data.GetImage();
-            ToolTipService.SetShowDuration(j, 60000);
-            j.ToolTip = ri.Description;
-        }
-        private void setModImage(Image i, Image j, TextBlock tb, RemnantItem ri)
-        {
-            i.Source = ri.Data.GetImage();
-            ToolTipService.SetShowDuration(j, 60000);
-            j.ToolTip = ri.Description;
-            tb.Text = ri.Itemname;
-        }
-
 
         private void Conditions(Build b)
         {
-            if (b.Amulet.Itemname == "White Rose")
+            if (b.Amulet.Name == "White Rose")
             {
                 string text = "\n\nWHITE ROSE EFFECT\n";
                 Debug.WriteLine(text);
-                if (rd.Next(2) == 1) { setImage(HandGunImg, HandGunText, StrToRI["_No Hand Gun"]); setImage(HandModImg, HandGunModText, StrToRI["_No Mod"]); HandCoverModImg.ToolTip = null; text += "removed HG\n"; }
-                if (rd.Next(2) == 1) { setImage(LongGunImg, LongGunText, StrToRI["_No Long Gun"]); setImage(LongModImg, LongGunModText, StrToRI["_No Mod"]); LongCoverModImg.ToolTip = null; text += "removed LG"; }
-                AmImg.ToolTip += text;
+                InventoryItem hg = Items.Find(x => x.Name == "_No Hand Gun");
+                InventoryItem lg = Items.Find(x => x.Name == "_No Long Gun");
+                if (rd.Next(2) == 1) { setImage(HandGunImg, HandGunText, hg); setImage(HandModImg, HandGunModText, hg.Mod); HandCoverModImg.ToolTip = null; text += "removed HG\n"; }
+                if (rd.Next(2) == 1) { setImage(LongGunImg, LongGunText, lg); setImage(LongModImg, LongGunModText, lg.Mod); LongCoverModImg.ToolTip = null; text += "removed LG"; }
             }
-            else if (b.Amulet.Itemname == "Daredevil's Charm")
+            else if (b.Amulet.Name == "Daredevil's Charm")
             {
                 string text = "\n\nDDC EFFECT\n";
                 Debug.WriteLine(text);
-                if (rd.Next(2) == 1) { setImage(HeadImg, HeadText, StrToRI["_No Head"]); text += "removed Head\n"; }
-                if (rd.Next(2) == 1) { setImage(ChestImg, ChestText, StrToRI["_No Chest"]); text += "removed Chest\n"; }
-                if (rd.Next(2) == 1) { setImage(LegImg, LegText, StrToRI["_No Legs"]); text += "removed Legs"; }
-                AmImg.ToolTip += text;
+                if (rd.Next(2) == 1) { setImage(HeadImg, HeadText, Items.Find(x => x.Name == "_No Head")); text += "removed Head\n"; }
+                if (rd.Next(2) == 1) { setImage(ChestImg, ChestText, Items.Find(x => x.Name == "_No Chest")); text += "removed Chest\n"; }
+                if (rd.Next(2) == 1) { setImage(LegImg, LegText, Items.Find(x => x.Name == "_No Legs")); text += "removed Legs"; }
             }
-            if (b.Ring1.Itemname.ToLower() == "Ring Of The Unclean".ToLower() || b.Ring2.Itemname.ToLower() == "Ring Of The Unclean".ToLower() ||
-                b.Ring1.Itemname.ToLower() == "Five Fingered Ring".ToLower() || b.Ring2.Itemname.ToLower() == "Five Fingered Ring".ToLower())
+            if (b.Ring1.Name.ToLower() == "Ring Of The Unclean".ToLower() || b.Ring2.Name.ToLower() == "Ring Of The Unclean".ToLower() ||
+                b.Ring1.Name.ToLower() == "Five Fingered Ring".ToLower() || b.Ring2.Name.ToLower() == "Five Fingered Ring".ToLower())
             {
                 Debug.WriteLine("ROTU or FFR Effect");
-                if (rd.Next(2) == 1) { setImage(MeleeImg, MeleeText, StrToRI["_Fists"]); }
-
+                if (rd.Next(2) == 1) { setImage(MeleeImg, MeleeText, Items.Find(x => x.Name == "_Fists")); }
             }
-
         }
-
-        public void SaveData()
-        {
-            string path = RBRDirPath + @"/Data.txt";
-            File.Delete(path);
-            GetData();
-            CreateWorldSaveData(RBRDirPath + @"/WorldSaveData.txt");
-        }
-
 
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -856,12 +555,12 @@ namespace RemnantBuildRandomizer
                 }
                 File.SetLastWriteTime(SaveDirPath + "\\" + "Profile.sav", DateTime.Now);
             }
-            if (ActiveSave.Characters.Count > 0) { SaveData(); }
-
+            if (ActiveSave.Characters.Count > 0)
+            {
+                string path = RBRDirPath + @"/Data.txt";
+                File.Delete(path);
+            }
         }
-
-
-
 
         public static void CopyUIElementToClipboard(FrameworkElement element)
         {
@@ -885,14 +584,10 @@ namespace RemnantBuildRandomizer
             {
                 SetSettings(cmbCharacter.SelectedIndex, cmbSaveSlot.SelectedIndex);
             }
-            catch (IndexOutOfRangeException) { }
-
-
-
+            catch (IndexOutOfRangeException) { Debug.WriteLine("MainWindow SaveSlot problem"); }
         }
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
             if (cmbCharacter.SelectedIndex == -1 && ActiveSave.Characters.Count > 0) return;
             if (cmbCharacter.Items.Count > 0 && cmbCharacter.SelectedIndex > -1)
             {
@@ -900,17 +595,19 @@ namespace RemnantBuildRandomizer
                 safeCommit(WeaponList, ArmorList, AmuletList, RingList, ModList, BuildList, EmptySlots);
                 try
                 {
-                    BuildList.ItemsSource = Presets[ActiveCharacter.charNum];
+                    //BuildList.ItemsSource = Presets[ActiveCharacter.charNum];
                 }
-                catch (KeyNotFoundException) { Presets.Add(ActiveCharacter.charNum, new List<Build>()); }
+                catch (KeyNotFoundException) { 
+                   // Presets.Add(ActiveCharacter.charNum, new List<Build>()); 
+                }
 
-                Debug.WriteLine("CHANGED TO " + ActiveSave.Characters[cmbCharacter.SelectedIndex].ToString());
-                Debug.WriteLine(ActiveSave.Characters[cmbCharacter.SelectedIndex].GetMissingItems().Count);
-                foreach (RemnantItem ri in StrToRI.Values)
-                {
-                    ri.Character = cmbCharacter.SelectedIndex;
-                }
-                disablemissing();
+                //Debug.WriteLine("CHANGED TO " + ActiveSave.Characters[cmbCharacter.SelectedIndex].ToString());
+                var rc = ActiveSave.Characters[cmbCharacter.SelectedIndex];
+                //Debug.WriteLine("Inv:" + rc.Progression + ", Miss:" + rc.GetMissingItems().Count);
+                //foreach (RemnantItem ri in StrToRI.Values)
+                //{
+                //    ri.Character = cmbCharacter.SelectedIndex;
+                //}
                 safeRefresh(WeaponList, ArmorList, AmuletList, RingList, ModList, BuildList, EmptySlots);
             }
         }
@@ -927,62 +624,21 @@ namespace RemnantBuildRandomizer
                 d.CommitEdit();
             }
         }
-
-
-        private void disablemissing()
-        {
-            RemnantCharacter rc = ActiveSave.Characters[cmbCharacter.SelectedIndex];
-            Debug.WriteLine(rc.ToString() + " Has " + rc.GetMissingItems().Count + " Missing items.");
-            foreach (RemnantItem ri in StrToRI.Values)
-            {
-                ri.Missing = false;
-            }
-            foreach (Item ri in rc.GetMissingItems())
-            {
-                StrToRI[ri.ItemAltName].Missing = true;
-            }
-
-        }
-
-
-
+        
         private void WeaponList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             string headername = e.Column.Header.ToString();
             //Cancel the column you don't want to generate
-
-            if (headername == "Missing")
-            {
-                string path = SaveDirPath + "\\profile.sav ";
-                Debug.WriteLine("header is " + headername + " " + path + " Exists " + File.Exists(SaveDirPath + "\\profile.sav"));
-                if (File.Exists(SaveDirPath + "\\profile.sav"))
-                {
-                    Debug.WriteLine("Readonly " + headername);
-                    e.Column.IsReadOnly = true;
-                }
-                else
-                {
-                    Debug.WriteLine("Cancelling " + headername);
-                    e.Cancel = true;
-                }
-            }
-
-
             switch (headername)
             {
                 case "Data":
-                case "Description":
                 case "Character": e.Cancel = true; break;
 
-
-
-                case "Itemname":
+                case "Name":
                 case "Slot":
                 case "Mod": e.Column.IsReadOnly = true; break;
                 default: break;
             }
-
-
         }
         private void ArmorList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
@@ -994,8 +650,7 @@ namespace RemnantBuildRandomizer
                 case "Mod":
                 case "Character": e.Cancel = true; break;
 
-                case "Missing": if (!File.Exists(SaveDirPath + "\\profile.sav")) { e.Cancel = true; } else { e.Column.IsReadOnly = true; } break;
-                case "Itemname":
+                case "Name":
                 case "Slot":
                 case "Description": e.Column.IsReadOnly = true; break;
                 default: break;
@@ -1013,8 +668,7 @@ namespace RemnantBuildRandomizer
                 case "Slot":
                 case "Character": e.Cancel = true; break;
 
-                case "Missing": if (!File.Exists(SaveDirPath + "\\profile.sav")) { e.Cancel = true; } else { e.Column.IsReadOnly = true; } break;
-                case "Itemname":
+                case "Name":
                 case "Description": e.Column.IsReadOnly = true; break;
                 default: break;
             }
@@ -1054,36 +708,8 @@ namespace RemnantBuildRandomizer
 
         private void RemItem_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
         {
-            RemnantItem edit = ((RemnantItem)e.Row.Item);
+            InventoryItem edit = ((InventoryItem)e.Row.Item);
             logMessage("Edited item: " + edit);
-        }
-        private void MiscList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            try
-            {
-                if (!isManualEditCommit)
-                {
-                    isManualEditCommit = true;
-                    DataGrid grid = (DataGrid)sender;
-                    grid.CommitEdit(DataGridEditingUnit.Row, true);
-                    grid.Items.Refresh();
-                    isManualEditCommit = false;
-
-                    WorldSave rb = (WorldSave)MiscList.SelectedItem;
-
-                    string newpath = String.Join("\\", MiscDirPath, rb.Diff, rb.World, rb.Name, rb.Modifiers, "save.sav");
-                    Directory.CreateDirectory(Path.GetDirectoryName(newpath));
-                    rb.MoveTo(newpath);
-                    DeleteEmptyFolders(MiscDirPath);
-
-                    grid.Items.Refresh();
-                }
-            }
-            catch (Exception edit)
-            {
-                logMessage(edit.Message, LogType.Error);
-                logMessage("Problem Naming File", LogType.Error);
-            }
         }
         private static void DeleteEmptyFolders(string startLocation)
         {
@@ -1117,37 +743,20 @@ namespace RemnantBuildRandomizer
                 logMessage("Problem Naming Folder", LogType.Error);
             }
         }
-        private void BuildList_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-
-        }
-        private void RemItem_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-            RemnantItem edit = ((RemnantItem)e.Row.Item);
-            logMessage("Beginning edit: " + edit);
-
-        }
-
-
-
-        private void RemItem_RowEditEnding(object sender, DataGridRowEditEndingEventArgs e)
-        {
-
-        }
-
-
 
         private void cmbHG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RemnantItem hg = (RemnantItem)cmbHG.SelectedItem;
+            InventoryItem hg = (InventoryItem)cmbHG.SelectedItem;
             cmbHGM.SelectedIndex = 0;
-            if (hg.Mod != "")
+            if (hg.Mod != null)
             {
-                cmbHGM.ItemsSource = new List<RemnantItem>() { StrToRI[hg.Mod] };
+                cmbHGM.ItemsSource = new List<InventoryItem>() {hg.Mod};
             }
             else
             {
-                cmbHGM.ItemsSource = GetEquipment[SlotType.MO].Take(28).ToList();
+                cmbHGM.ItemsSource = 
+                    ItemList.Where(x => x.Slot == InventoryItem.SlotType.MO)
+                    .Except(ItemList.Where(x => x.Mod != null).Select(x => x.Mod)).ToList();
             }
             cmbHGM.SelectedIndex = 0;
             cmbHGM.Items.Refresh();
@@ -1155,42 +764,41 @@ namespace RemnantBuildRandomizer
 
         private void cmbLG_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            RemnantItem lg = (RemnantItem)cmbLG.SelectedItem;
+            InventoryItem lg = (InventoryItem)cmbLG.SelectedItem;
             cmbLGM.SelectedIndex = 0;
-            if (lg.Mod != "")
+            if (lg.Mod != null)
             {
-                cmbLGM.ItemsSource = new List<RemnantItem>() { StrToRI[lg.Mod] };
+                cmbLGM.ItemsSource = new List<InventoryItem>() { lg.Mod };
             }
             else
             {
-                cmbLGM.ItemsSource = GetEquipment[SlotType.MO].Take(28).ToList();
+                cmbLGM.ItemsSource =
+                    ItemList.Where(x => x.Slot == InventoryItem.SlotType.MO)
+                    .Except(ItemList.Where(x => x.Mod != null).Select(x => x.Mod)).ToList();
             }
             cmbLGM.SelectedIndex = 0;
             cmbLGM.Items.Refresh();
-
         }
 
         private void cmbR1_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cmbR2.ItemsSource = StrToRI.Values.Where(x => x != (RemnantItem)cmbR1.SelectedItem && x.Data.Slot == SlotType.RI || x.Itemname == "_No Ring");
+            cmbR2.ItemsSource = ItemList.Where(x => (x != (InventoryItem)cmbR1.SelectedItem && x.Slot == InventoryItem.SlotType.RI) || x.Name == "_No Ring");
         }
 
         private void cmbR2_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            cmbR1.ItemsSource = StrToRI.Values.Where(x => x != (RemnantItem)cmbR2.SelectedItem && x.Data.Slot == SlotType.RI || x.Itemname == "_No Ring");
+            cmbR1.ItemsSource = ItemList.Where(x => (x != (InventoryItem)cmbR2.SelectedItem && x.Slot == InventoryItem.SlotType.RI) || x.Name == "_No Ring");
         }
-
-
 
         private void cmbHGM_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbLGM.Items.Count > 1)
             {
-
                 if (cmbLGM.SelectedIndex > 27) { cmbHGM.SelectedIndex = 0; }
-                cmbLGM.ItemsSource = StrToRI.Values.Where(x => x != (RemnantItem)cmbHGM.SelectedItem && x.Data.Slot == SlotType.MO || x.Itemname == "_No Mod").Take(27);
+                cmbLGM.ItemsSource = 
+                    ItemList.Where(x => x != (InventoryItem)cmbHGM.SelectedItem && x.Slot == InventoryItem.SlotType.MO || x.Name == "_No Mod")
+                    .Except(ItemList.Where(x => x.Mod != null).Select(x => x.Mod)).ToList();
             }
-            else { }
         }
 
         private void cmbLGM_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -1199,9 +807,10 @@ namespace RemnantBuildRandomizer
             {
                 if (cmbHGM.SelectedIndex > 27) { cmbHGM.SelectedIndex = 0; }
 
-                cmbHGM.ItemsSource = StrToRI.Values.Where(x => x != (RemnantItem)cmbLGM.SelectedItem && x.Data.Slot == SlotType.MO || x.Itemname == "_No Mod").Take(27);
+                cmbHGM.ItemsSource = 
+                    ItemList.Where(x => x != (InventoryItem)cmbLGM.SelectedItem && x.Slot == InventoryItem.SlotType.MO || x.Name == "_No Mod")
+                    .Except(ItemList.Where(x => x.Mod != null).Select(x => x.Mod)).ToList();
             }
-            else { }
         }
 
 
@@ -1214,40 +823,41 @@ namespace RemnantBuildRandomizer
                 slot = ActiveCharacter.charNum;
             }
             else { slot = 0; }
-            List<Build> builds = Presets[slot];
+            //List<Build> builds = Presets[slot];
 
-            List<Build> list = builds.Where(x => x.Disabled == false).ToList();
-            if (list.Count > 0 && rd.Next(100) <= badluck)
+            //List<Build> list = builds.Where(x => x.Disabled == false).ToList();
+           // if (list.Count > 0 && rd.Next(100) <= badluck)
             {
-                badluck = 0;
-                Build b = list[rd.Next(list.Count)];
-                DisplayBuild(b);
+               // badluck = 0;
+               // Build b = list[rd.Next(list.Count)];
+               // DisplayBuild(b);
 
-                BuildNum.Text = b.BuildName;
-                BuildNum.ToolTip = b.toStringCode();
+                //BuildNum.Text = b.BuildName;
+                //BuildNum.ToolTip = b.toStringCode();
             }
-            else
+            //else
             {
-                if (list.Count > 0)
-                {
-                    badluck++;
-                    Debug.WriteLine(badluck);
-                }
-                Build rand = new Build("");
+                //if (list.Count > 0)
+                //{
+                  //  badluck++;
+                   // Debug.WriteLine(badluck);
+               // }
+                Build rand = Build.Random(ItemList);
                 DisplayBuild(rand);
                 Conditions(rand);
-                Debug.WriteLine(Code(rand.toCodeArray()));
+                //Debug.WriteLine(Code(rand.toCodeArray()));
 
-                BuildNum.Text = Code(rand.toCodeArray());
+                //BuildNum.Text = Code(rand.toCodeArray());
                 BuildNum.ToolTip = null;
             }
         }
         private void Add_Build_Click(object sender, RoutedEventArgs e)
         {
+            /*
             try
             {
                 if (BuildNameEnter.Text == "") { throw new Exception("No BuildName Assigned to Build!"); }
-                Build b = new Build(BuildNameEnter.Text, BuildCodeEnter.Text);
+                //Build b = new Build(BuildNameEnter.Text, BuildCodeEnter.Text);
                 int slot;
                 if (File.Exists(SaveDirPath + "\\profile.sav") && ActiveSave.Characters.Count > 0) { slot = ActiveCharacter.charNum; }
                 else { slot = 0; }
@@ -1263,6 +873,7 @@ namespace RemnantBuildRandomizer
             }
             catch (Exception ce) { MessageBox.Show(ce.Message); }
             BuildList.Items.Refresh();
+            */
         }
         private void CopyBuild_Click(object sender, RoutedEventArgs e)
         {
@@ -1271,8 +882,8 @@ namespace RemnantBuildRandomizer
         }
         private void ResetBlack_Click(object sender, RoutedEventArgs e)
         {
-            StrToRI.Values.ToList().ForEach((x) => { x.No = false; });
-            safeRefresh(WeaponList, ArmorList, AmuletList, RingList, ModList, EmptySlots);
+            //StrToRI.Values.ToList().ForEach((x) => { x.No = false; });
+           //safeRefresh(WeaponList, ArmorList, AmuletList, RingList, ModList, EmptySlots);
         }
         private void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
@@ -1288,6 +899,7 @@ namespace RemnantBuildRandomizer
         }
         private void GenBuildCode_Click(object sender, RoutedEventArgs e)
         {
+            /*
             RemnantItem
                 hg = (RemnantItem)cmbHG.SelectedItem, hgm = (RemnantItem)cmbHGM.SelectedItem,
                 lg = (RemnantItem)cmbLG.SelectedItem, lgm = (RemnantItem)cmbLGM.SelectedItem,
@@ -1302,6 +914,7 @@ namespace RemnantBuildRandomizer
             cmbM.SelectedIndex = 0;
             cmbHE.SelectedIndex = 0; cmbCH.SelectedIndex = 0; cmbLE.SelectedIndex = 0;
             cmbAM.SelectedIndex = 0; cmbR1.SelectedIndex = 0; cmbR2.SelectedIndex = 0;
+            */
         }
         private void BuildCode_Click(object sender, RoutedEventArgs e)
         {
@@ -1311,22 +924,14 @@ namespace RemnantBuildRandomizer
         {
             Process.Start(RBRDirPath);
         }
-        private void GrabBuild_Click(object sender, System.EventArgs e)
-        {
-            if (BuildList.SelectedItem != null)
-            {
-                Build selectedBuild = (Build)(BuildList.SelectedItem);
-                logMessage("Grabbing screenshot of (" + selectedBuild.BuildName + ")");
-                new BuildWindow(selectedBuild);
-            }
-        }
+
         private void CopyBuildObj_Click(object sender, System.EventArgs e)
         {
             if (BuildList.SelectedItem != null)
             {
                 Build selectedBuild = (Build)(BuildList.SelectedItem);
-                logMessage("Grabbing Build Object of (" + selectedBuild.BuildName + ")");
-                Clipboard.SetText(selectedBuild.ToData().Trim());
+                //logMessage("Grabbing Build Object of (" + selectedBuild.BuildName + ")");
+                //Clipboard.SetText(selectedBuild.ToData().Trim());
                 BuildList.SelectedItem = null;
             }
         }
@@ -1336,67 +941,26 @@ namespace RemnantBuildRandomizer
             {
                 int slot;
                 if (File.Exists(SaveDirPath + "\\profile.sav")) { slot = ActiveCharacter.charNum; } else { slot = 0; }
-                Build b = Build.FromData(Clipboard.GetText().Trim());
-                logMessage("Pasting Build (" + b + ")");
-                if (!Presets[slot].Contains(b)) { Presets[slot].Add(b); safeRefresh(BuildList); }
-                else { logMessage("Build (" + b + ") already exists!"); }
+                //Build b = Build.FromData(Clipboard.GetText().Trim());
+                //logMessage("Pasting Build (" + b + ")");
+                //if (!Presets[slot].Contains(b)) { Presets[slot].Add(b); safeRefresh(BuildList); }
+                //else { logMessage("Build (" + b + ") already exists!"); }
             }
             catch (Exception err) { logMessage(err.Message); }
         }
         private void DisableEmpties_Click(object sender, RoutedEventArgs e)
         {
-            StrToRI.Values.Where(x => x.Itemname.Contains("_")).ToList().ForEach((x) => { x.No = true; });
-            EmptySlots.Items.Refresh();
+            //StrToRI.Values.Where(x => x.Itemname.Contains("_")).ToList().ForEach((x) => { x.No = true; });
+            //EmptySlots.Items.Refresh();
         }
-        private void LoadBoss_Click(object sender, RoutedEventArgs e)
-        {
-            WorldSave ws;
-            if ((ws = GetSelectedSave()) != null) { LoadSave(ws); }
-        }
-        private void FeelingLucky_Click(object sender, RoutedEventArgs e)
-        {
-            LoadSave();
-        }
+
         private void GameRestart_Click(object sender, RoutedEventArgs e)
         {
             RestartGame();
         }
-        private void DeleteFile_Click(object sender, RoutedEventArgs e)
-        {
 
-            File.Delete(GetSelectedSave().Filepath);
-            if (File.Exists(GetSelectedSave().Data)) { File.Delete(GetSelectedSave().Data); }
-            DeleteEmptyFolders(MiscDirPath);
-            (MiscList.ItemsSource as List<WorldSave>).Remove(GetSelectedSave());
-            var icv = CollectionViewSource.GetDefaultView(MiscList.ItemsSource);
-            icv.Filter = o =>
-            {
-                if ((o as WorldSave).Filepath == GetSelectedSave().Filepath)
-                {
-                    return false;
-                }
-                else
-                {
-                    return (o as WorldSave).Contains(CheckSearchBar.Text.Split(' '));
-                }
-
-            };
-            MiscList.Items.Refresh();
-        }
-        private void AddCurrentCheckpoint_Click(object sender, RoutedEventArgs e)
-        {
-            int dupe = 0;
-            string path = "";
-            while (File.Exists((path = MiscDirPath + "\\No Difficulty\\No World\\Checkpoint\\" + dupe + "\\save.sav"))) { dupe++; }
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-            File.Copy(SaveDirPath + "\\" + ActiveSaveSlot, path, true);
-            File.SetLastWriteTime(path, DateTime.Now);
-            MiscList.ItemsSource = ParseSaveFiles(MiscDirPath);
-            MiscList.Items.Refresh();
-        }
         private void CreateProfile_Click(object sender, RoutedEventArgs e)
         {
-
             int num = 0;
             Debug.WriteLine(ProfilesDirPath + "\\NewProfile" + num);
             while (Directory.Exists(ProfilesDirPath + "NewProfile" + num)) { num++; }
@@ -1458,10 +1022,11 @@ namespace RemnantBuildRandomizer
             MenuItem PasteBuildCode = ((MenuItem)BuildList.ContextMenu.Items[2]);
             try
             {
-                Build.FromData(Clipboard.GetText());
+                //Build.FromData(Clipboard.GetText());
             }
             catch (Exception)
             {
+                Debug.WriteLine("BuildList Problem");
             }
 
             if (BuildList.SelectedItem == null)
@@ -1525,7 +1090,7 @@ namespace RemnantBuildRandomizer
                 case "Filepath":
                 case "Data":
                 case "Description":
-                case "Modifiers":  e.Cancel = true; break;
+                case "Modifiers": e.Cancel = true; break;
             }
             e.Column.IsReadOnly = true;
         }
@@ -1540,10 +1105,6 @@ namespace RemnantBuildRandomizer
             }
         }
 
-        private void LoadCheckpoint()
-        {
-            LoadCheckpoint(RBRDirPath + "\\Backup\\Keep.sav");
-        }
         private void LoadCheckpoint(string path)
         {
             try
@@ -1608,22 +1169,9 @@ namespace RemnantBuildRandomizer
         private void LoadButtonSettings()
         {
 
-            LoadBoss.IsEnabled = AlterFile.IsChecked.Value && !KeepCheckpoint.IsChecked.Value;
+            LoadSave.IsEnabled = AlterFile.IsChecked.Value && !KeepCheckpoint.IsChecked.Value;
             FeelingLucky.IsEnabled = AlterFile.IsChecked.Value && !KeepCheckpoint.IsChecked.Value;
         }
-
-        private WorldSave GetSelectedSave()
-        {
-            TabItem t = ((TabItem)SaveManager.SelectedItem);
-            DataGrid dg = (DataGrid)t.Content;
-            if (dg.SelectedIndex > -1)
-            {
-                return ((WorldSave)dg.SelectedItem);
-            }
-            return null;
-
-        }
-
         private void AlterFile_Checked(object sender, RoutedEventArgs e)
         {
             if (!Directory.Exists(RBRDirPath + "\\Backup\\")) { Directory.CreateDirectory(RBRDirPath + "\\Backup\\"); }
@@ -1656,7 +1204,6 @@ namespace RemnantBuildRandomizer
             LoadButtonSettings();
         }
 
-
         private void RestartGame()
         {
             var process = Process.GetProcessesByName("Remnant-Win64-Shipping");
@@ -1668,43 +1215,12 @@ namespace RemnantBuildRandomizer
                 if (confirmResult == MessageBoxResult.Yes)
                 {
                     while (!process[0].WaitForExit(1000)) { process[0].Kill(); }
-                    if (path.Contains("steam"))
-                    {
-                        Process.Start("steam://rungameid/617290");
-                    }
-                    else
-                    {
-                        Process.Start(path);
-                    }
-
+                    Process.Start(path.Contains("steam") ? "steam://rungameid/617290" : path);
                 }
             }
             else
             {
                 Debug.WriteLine("Remnant Is NOT Running!");
-            }
-        }
-
-
-        private void CheckSearchBar_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            TextBox textBoxName = (TextBox)sender;
-            string[] filterText = textBoxName.Text.Split(' ');
-            ICollectionView[] arr =
-                new ICollectionView[] {
-                    CollectionViewSource.GetDefaultView(BossList.ItemsSource),
-                    CollectionViewSource.GetDefaultView(VendList.ItemsSource),
-                    CollectionViewSource.GetDefaultView(EventList.ItemsSource),
-                    CollectionViewSource.GetDefaultView(MiscList.ItemsSource)
-                };
-
-            if (!string.IsNullOrEmpty(filterText[0]))
-            {
-                foreach (ICollectionView icv in arr) { icv.Filter = o => { return ((o as WorldSave).Contains(filterText)); }; }
-            }
-            else
-            {
-                foreach (ICollectionView icv in arr) { icv.Filter = o => { return true; }; }
             }
         }
 
@@ -1714,84 +1230,12 @@ namespace RemnantBuildRandomizer
             e.Handled = true;
         }
 
-        public void CreateWorldSaveData(string path)
-        {
-            if (!File.Exists(path))
-            {
-                using (StreamWriter sw = File.CreateText(path))
-                {
-                    try
-                    {
-                        foreach (WorldSave ws in BossList.ItemsSource) { sw.WriteLine("BossList;" + ws.ToData()); }
-                        foreach (WorldSave ws in VendList.ItemsSource) { sw.WriteLine("VendorList;" + ws.ToData()); }
-                        foreach (WorldSave ws in EventList.ItemsSource) { sw.WriteLine("EventList;" + ws.ToData()); }
-                        foreach (WorldSave ws in MiscList.ItemsSource) { sw.WriteLine("MiscList;" + ws.ToData()); }
-                    }
-                    catch (Exception) { }
-                }
-            }
-            else { File.Delete(path); CreateWorldSaveData(path); }
-
-        }
-        public long ReadWorldSaveData(string path)
-        {
-            var watch = System.Diagnostics.Stopwatch.StartNew();
-
-            logMessage("Reading From Index...");
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s = "";
-                List<WorldSave>
-                    Bosses = new List<WorldSave>(),
-                    Vendors = new List<WorldSave>(),
-                    Events = new List<WorldSave>(),
-                    Other = new List<WorldSave>();
-                while ((s = sr.ReadLine()) != null)
-                {
-                    string[] args = s.Split(';');
-
-                    switch (args[0])
-                    {
-                        case "BossList": Bosses.Add(WorldSave.FromData(s.Substring(s.IndexOf(';') + 1))); break;
-                        case "VendorList": Vendors.Add(WorldSave.FromData(s.Substring(s.IndexOf(';') + 1))); break;
-                        case "EventList": Events.Add(WorldSave.FromData(s.Substring(s.IndexOf(';') + 1))); break;
-                        case "MiscList":
-                            WorldSave ws = WorldSave.FromData(s.Substring(s.IndexOf(';') + 1));
-                            if (File.Exists(ws.Filepath)) { Other.Add(ws); }
-                            break;
-                    }
-                }
-
-                BossList.ItemsSource = from b in Bosses orderby b.Name select b;
-                VendList.ItemsSource = Vendors;
-                EventList.ItemsSource = Events;
-                MiscList.ItemsSource = Other;
-
-                watch.Stop();
-                return watch.ElapsedMilliseconds;
-            }
-
-        }
-
-        private void ProfileList_BeginningEdit(object sender, DataGridBeginningEditEventArgs e)
-        {
-
-        }
-
         private void ProfileList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ProfileList.SelectedItem != null)
-            {
-                SaveProfile.IsEnabled = true;
-                LoadProfile.IsEnabled = true;
-                DeleteProfile.IsEnabled = true;
-            }
-            else
-            {
-                SaveProfile.IsEnabled = false;
-                LoadProfile.IsEnabled = false;
-                DeleteProfile.IsEnabled = false;
-            }
+            bool b = ProfileList.SelectedItem != null;
+            SaveProfile.IsEnabled = b;
+            LoadProfile.IsEnabled = b;
+            DeleteProfile.IsEnabled = b;
         }
 
         private void btnProfileChoose_Click(object sender, RoutedEventArgs e)
@@ -1833,7 +1277,6 @@ namespace RemnantBuildRandomizer
                                     File.Copy(filename, filename.Replace(ProfilesDirPath, folderName));
                                 }
                                 Directory.Delete(file, true);
-                                //Directory.Move(file, folderName + subFolderName);
                             }
                         }
                     }
@@ -1865,82 +1308,21 @@ namespace RemnantBuildRandomizer
             //Debug.WriteLine("Log Clicked!");
             MainTab.SelectedIndex = 4;
         }
-        public void SetDescBoxToSelected(DataGrid dg)
-        {
-
-            if (dg.Items.Count > 0)
-            {
-                if (dg.SelectedItem != null)
-                {
-                    WorldSave ws = ((WorldSave)dg.SelectedItem);
-                    string text = WorldSave.ReadFile(ws.Data);
-                    DescriptionBox.Text = text;
-                }
-                else { dg.SelectedIndex = 0; SetDescBoxToSelected(dg); }
-            }
-        }
-
-        private void VendList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetDescBoxToSelected(VendList);
-        }
-
-        private void BossList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //SetDescBoxToSelected(BossList);
-        }
-
-        private void MiscList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetDescBoxToSelected(MiscList);
-        }
-
-
-        private void SaveManager_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            DataGrid dg = ((SaveManager.SelectedItem as TabItem).Content as DataGrid);
-            //Debug.WriteLine("Tab Changed: " + SaveManager.SelectedIndex +" : "+dg.Name);
-
-            int num = SaveManager.SelectedIndex;
-            if (num > 0) { SetDescBoxToSelected(dg); }
-            NoteButton.IsEnabled = !(num < 3);
-        }
-
-        private void NoteButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (MiscList.SelectedItem != null)
-            {
-                WorldSave ws = ((WorldSave)MiscList.SelectedItem);
-                Stream s;
-                if (!File.Exists(ws.Data))
-                {
-                    s = File.Create(ws.Data);
-                    s.Close();
-                }
-                Process p = Process.Start(ws.Data);
-                p.EnableRaisingEvents = true;
-                p.Exited += new EventHandler(datafile_Closed);
-            }
-        }
-        private void datafile_Closed(object sender, System.EventArgs e)
-        {
-
-            Debug.WriteLine("data.txt Closed!");
-            this.Dispatcher.Invoke(() =>
-            {
-                SetDescBoxToSelected(MiscList);
-            });
-        }
-
-        private void EventList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetDescBoxToSelected(EventList);
-        }
 
         private void CreateRBB_Click(object sender, RoutedEventArgs e)
         {
-            Window w = new SavePacker();
-            w.Show();
+
+            File.WriteAllText(@"C:\Users\AuriCrystal\Desktop\Inventory.txt", JsonConvert.SerializeObject(ActiveCharacter.Collected));
+        }
+
+        private void LoadSave_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void FeelingLucky_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

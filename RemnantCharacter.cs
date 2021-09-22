@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
+
 
 namespace RemnantBuildRandomizer
 {
@@ -14,55 +14,46 @@ namespace RemnantBuildRandomizer
     {
         public int charNum;
         public string Archetype { get; set; }
-        public List<string> Inventory { get; set; }
-
-        private List<Item> missingItems;
+        public List<string> Collected { get; set; }
+        public List<InventoryItem> Inventory { get; set; }
 
 
         public int Progression
         {
             get
             {
-                return this.Inventory.Count;
+                return this.Collected.Count;
             }
         }
-
-
 
         public override string ToString()
         {
             return this.Archetype + " (" + this.Progression + ")";
         }
 
-        public string ToFullString()
-        {
-            string str = "CharacterData{ Archetype: " + this.Archetype + ", Inventory: [" + string.Join(", ", this.Inventory) + "]}";
-            return str;
-        }
-
         public RemnantCharacter(int charNum)
         {
             this.charNum = charNum;
             this.Archetype = "";
-            this.Inventory = new List<string>();
-            this.missingItems = new List<Item>();
+            this.Collected = new List<string>();
+            this.Inventory = new List<InventoryItem>();
         }
 
         public void processSaveData(string savetext)
         {
-            missingItems.Clear();
-
-            foreach (Item item in GearInfo.Items)
+            Inventory = new List<InventoryItem>();
+            //Debug.WriteLine("CollectedCount:"+this.Collected.Count);
+            foreach (InventoryItem item in GearInfo.Items)
             {
-                if (!this.Inventory.Contains(item.GetKey()))
+                //Debug.WriteLine(item.File+" : "+ this.Collected.Contains(item.File));
+                
+                if (this.Collected.Contains(item.File)||
+                    new string[]{"_No Mod","_No Ring","_No Amulet","_No Head", "_No Chest", "_No Legs", "_No Hand Gun", "_No Long Gun","_Fists" }.Contains(item.Name))
                 {
-                    if (!missingItems.Contains(item))
-                    {
-                        missingItems.Add(item);
-                    }
+                    Inventory.Add(item);
                 }
             }
-            missingItems.Sort();
+            Inventory.Sort();
         }
 
         public enum CharacterProcessingMode { All, NoEvents };
@@ -95,19 +86,11 @@ namespace RemnantBuildRandomizer
                 {
                     RemnantCharacter cd = new RemnantCharacter(i - 1);
 
-                    cd.Archetype = GearInfo.Archetypes["Undefined"];
+                    cd.Archetype = "Undefined";
                     Match archetypeMatch = new Regex(@"/Game/_Core/Archetypes/[a-zA-Z_]+").Match(characters[i - 1]);
                     if (archetypeMatch.Success)
                     {
-                        string archetype = archetypeMatch.Value.Replace("/Game/_Core/Archetypes/", "").Split('_')[1];
-                        if (GearInfo.Archetypes.ContainsKey(archetype))
-                        {
-                            cd.Archetype = GearInfo.Archetypes[archetype];
-                        }
-                        else
-                        {
-                            cd.Archetype = archetype;
-                        }
+                        cd.Archetype = archetypeMatch.Value.Replace("/Game/_Core/Archetypes/", "").Split('_')[1];
                     }
 
                     List<string> saveItems = new List<string>();
@@ -123,19 +106,22 @@ namespace RemnantBuildRandomizer
                     , new Regex(@"/Quests/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+")
                     , new Regex(@"/Player/Emotes/Emote_[a-zA-Z0-9]+"));
 
-                    cd.Inventory = saveItems;
+                    cd.Collected = saveItems;
                     charData.Add(cd);
                 }
 
                 if (mode == CharacterProcessingMode.All)
                 {
+                    List<RemnantCharacter> copy = new List<RemnantCharacter>();
                     string[] saves = Directory.GetFiles(saveFolderPath, "save_*.sav");
                     for (int i = 0; i < saves.Length && i < charData.Count; i++)
                     {
-                        charData[i].processSaveData(File.ReadAllText(saves[i]));
-                        Debug.WriteLine(charData[i].missingItems.Count);
+                        RemnantCharacter rc = charData[i];
+                        rc.processSaveData(File.ReadAllText(saves[i]));
+                        copy.Add(rc);
+                        Debug.WriteLine("Char:" + rc.charNum + ", Inv:" + rc.Progression + ", Miss:" +(250- rc.Inventory.Count));
                     }
-
+                    charData = new List<RemnantCharacter>(copy);
                 }
             }
             catch (IOException ex)
@@ -163,10 +149,12 @@ namespace RemnantBuildRandomizer
             foreach (Match match in rx.Matches(inventory)) { saveItems.Add(match.Value); }
         }
 
-        public List<Item> GetMissingItems()
+        public List<InventoryItem> GetMissingItems()
         {
-            if (missingItems.Count == 0 && Progression < 382)
+
+            if (Inventory.Count == 0 && Progression < 382)
             {
+                Debug.WriteLine("Progression(max 382):" + Progression + "\nMissingItems:" + Inventory.Count);
                 Debug.WriteLine("Something isnt right, fixing missing data");
                 string[] saves = Directory.GetFiles(MainWindow.SaveDirPath, "save_*.sav");
                 for (int i = 0; i < saves.Length; i++)
@@ -174,7 +162,7 @@ namespace RemnantBuildRandomizer
                     this.processSaveData(File.ReadAllText(saves[i]));
                 }
             }
-            return missingItems;
+            return Inventory;
         }
     }
 }

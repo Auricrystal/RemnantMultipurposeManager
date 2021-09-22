@@ -15,4 +15,6 @@ namespace RemnantBuildRandomizer
         public string Difficulty { get; set; }//Apocalypse
         public Dictionary<string,byte[]> File { get; set; }//sav.sav
     }
+
+  
 }

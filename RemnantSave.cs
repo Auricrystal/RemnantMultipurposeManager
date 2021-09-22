@@ -87,11 +87,6 @@ namespace RemnantBuildRandomizer
                 MainWindow.SlogMessage(rc + " Has " + rc.GetMissingItems().Count + " Missing Items");
             }
         }
-
-        public void UpdateCharacters(RemnantCharacter.CharacterProcessingMode mode)
-        {
-            saveCharacters = RemnantCharacter.GetCharactersFromSave(this.SaveFolderPath, mode);
-        }
     }
 }
 

@@ -51,7 +51,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Image_Test.ico</ApplicationIcon>
+    <ApplicationIcon>Resources\Image_Test.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -82,44 +82,29 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Compile Include="BuildWindow.xaml.cs">
-      <DependentUpon>BuildWindow.xaml</DependentUpon>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="InventoryItem.cs" />
+    <Compile Include="RemnantIndex.cs" />
     <Compile Include="JWorldSave.cs" />
     <Compile Include="MyExtensions.cs" />
-    <Compile Include="SavePacker.xaml.cs">
-      <DependentUpon>SavePacker.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="WorldSave.cs" />
     <Compile Include="RemnantCharacter.cs" />
     <Compile Include="RemnantProfile.cs" />
     <Compile Include="RemnantSave.cs" />
     <Compile Include="XmlElementExtension.cs" />
-    <Page Include="BuildWindow.xaml">
-      <SubType>Designer</SubType>
+    <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="RemnantItem.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SavePacker.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GearInfo.cs" />
@@ -196,14 +181,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\GearInfo.xml" />
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="bin\Debug\Resources\" />
     <Folder Include="Vendors\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="RedCrystal.ico" />
+    <Resource Include="Resources\RedCrystal.ico" />
     <None Include="Resources\IMG\Armor\Chest\Adventurer Tunic.png" />
     <None Include="Resources\IMG\Armor\Chest\Akari Garb.png" />
     <None Include="Resources\IMG\Armor\Chest\Bandit Jacket.png" />
@@ -503,7 +485,7 @@
     <Resource Include="Resources\IMG\Menu\Image_Test.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Image_Test.ico" />
+    <Resource Include="Resources\Image_Test.ico" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

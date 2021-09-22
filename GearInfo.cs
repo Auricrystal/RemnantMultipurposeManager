@@ -1,242 +1,62 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Net;
-using System.Reflection;
 using System.Windows.Media.Imaging;
-using System.Xml;
-using static RemnantBuildRandomizer.DataObj;
-using static RemnantBuildRandomizer.RemnantItem;
 
 namespace RemnantBuildRandomizer
 {
-    class GearInfo
+    public class GearInfo
     {
-        private static Dictionary<string, RemnantItem> strToRI = new Dictionary<string, RemnantItem>(StringComparer.InvariantCultureIgnoreCase);
-        private static Dictionary<BitmapImage, RemnantItem> imgToRI = new Dictionary<BitmapImage, RemnantItem>();
-        private static Dictionary<SlotType, List<RemnantItem>> getEquipment = new Dictionary<SlotType, List<RemnantItem>>() {
-            {SlotType.HG,new List<RemnantItem>()},
-            {SlotType.LG,new List<RemnantItem>()},
-            {SlotType.M,new List<RemnantItem>()},
-            {SlotType.HE,new List<RemnantItem>()},
-            {SlotType.CH,new List<RemnantItem>()},
-            {SlotType.LE,new List<RemnantItem>()},
-            {SlotType.AM,new List<RemnantItem>()},
-            {SlotType.RI,new List<RemnantItem>()},
-            {SlotType.MO,new List<RemnantItem>()}
-        };
-        public static Dictionary<string, RemnantItem> StrToRI { get => strToRI; set => strToRI = value; }
-        public static Dictionary<BitmapImage, RemnantItem> ImgToRI { get => imgToRI; set => imgToRI = value; }
-        public static Dictionary<SlotType, List<RemnantItem>> GetEquipment { get => getEquipment; set => getEquipment = value; }
+        private static List<InventoryItem> items = new List<InventoryItem>();
 
-        private static Dictionary<int, List<Build>> presets;
-        //private static Dictionary<int, int> saveSlot;
+        //private static Dictionary<string, string> archetypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) { { "Undefined", "Undefined" }, { "Scrapper", "Scrapper" }, { "Cultist", "Cultist" }, { "Hunter", "Hunter" } };
 
-        public static readonly Dictionary<string, SlotType> Slots = new Dictionary<string, SlotType>(StringComparer.InvariantCultureIgnoreCase) {
-            {"Chest",SlotType.CH },{"Head",SlotType.HE }, {"Legs",SlotType.LE },{"BossHand",SlotType.HG },
-            {"RegHand",SlotType.HG },{"BossLong",SlotType.LG },{"RegLong",SlotType.LG },{"Melee",SlotType.M },
-            {"Amulets",SlotType.AM },{"Rings",SlotType.RI }, {"RegularMods",SlotType.MO }, {"LongMod",SlotType.MO },
-            {"HandMod",SlotType.MO },
-        };
-
-        private static readonly XmlDocument doc = new XmlDocument();
-
-
-        private static List<Item> items = new List<Item>();
-
-        private static Dictionary<string, string> archetypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) { { "Undefined", "Undefined" }, { "Scrapper", "Scrapper" }, { "Cultist", "Cultist" }, { "Hunter", "Hunter" } };
-
-        public static List<Item> Items
-        {
-            get { return items; }
-        }
-
-
-        public static Dictionary<string, string> Archetypes
-        {
-            get { return archetypes; }
-        }
-
-        public static Dictionary<int, List<Build>> Presets
+        public static List<InventoryItem> Items
         {
             get
             {
-                if (presets == null) { presets = new Dictionary<int, List<Build>>();}
-                if (!presets.ContainsKey(0))
-                {
-                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav") && MainWindow.ActiveSave.Characters.Count > 0)
-                    {
-                        foreach (RemnantCharacter rc in MainWindow.ActiveSave.Characters) { presets.Add(rc.charNum, new List<Build>()); }
-                    }
-                    else { presets.Add(0, new List<Build>()); }
+                if (items.Count == 0) { 
+                    items = JsonConvert.DeserializeObject<List<InventoryItem>>(File.ReadAllText(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\Resources\RemnantItemIndex.txt"));
                 }
-
-                return presets;
+                return items;
             }
         }
-       
-        public static void CreateData(string path, List<RemnantCharacter> chars)
+        public static InventoryItem getItem(string s) {
+            return items.Find(x => x.Name == s);
+        }
+        public static List<InventoryItem> getItems(params string[] str)
         {
-
-            if (!File.Exists(path))
+            List<InventoryItem> list = new List<InventoryItem>();
+            foreach (string s in str) { list.Add(items.Find(x=>x.Name==s)); }
+            return list;
+        }
+        public static BitmapImage GetImage(ZipArchive za, string value)
+        {
+            BitmapImage bmp = null;
+            var entry = za.GetEntry(value);
+            if (entry != null)
             {
-                using (StreamWriter sw = File.CreateText(path))
+                using (var zipStream = entry.Open())
+                using (var memoryStream = new MemoryStream())
                 {
-                    if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
-                    {
-                        foreach (RemnantCharacter rc in chars)
-                        {
-                            try
-                            {
-                                //Debug.WriteLine(rc.charNum + " has" + Presets[rc.charNum].Count + " Builds");
-                                foreach (Build b in Presets[rc.charNum])
-                                {
-                                    sw.WriteLine("$:" + rc.charNum + ":" + b);
-                                }
-                            }
-                            catch (Exception) { }
-                        }
-                    }
-                    else
-                    {
-                        foreach (Build b in Presets[0])
-                        {
-                            sw.WriteLine("$:" + 0 + ":" + b);
-                        }
-                    }
+                    zipStream.CopyTo(memoryStream); // here
+                    memoryStream.Position = 0;
 
-                    foreach (RemnantItem ri in StrToRI.Values)
-                    {
-                        if (ri.disabled.Count == 0)
-                        {
-                            ri.missing.Clear();
-                            ri.disabled.Clear();
-                            for (int i = 0; i < chars.Count; i++)
-                            {
-                                ri.disabled.Add(false);
-                                ri.missing.Add(false);
-                            }
-                        }
-                        sw.WriteLine("#:" + ri.ToData());
-                    }
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.EndInit();
+
+                    bmp = bitmap;
                 }
             }
-
-        }
-        public static void ReadData(string path, List<RemnantCharacter> chars)
-        {
-            using (StreamReader sr = File.OpenText(path))
-            {
-                string s = "";
-                while ((s = sr.ReadLine()) != null)
-                {
-                    //try{
-
-                    string[] args = s.Split(':');
-                    switch (args[0].ToCharArray()[0])
-                    {
-                        case '$':
-                            Build b = new Build(args[2], args[3]);
-                            b.Disabled = (int.Parse(args[4]) == 1);
-                            Presets[int.Parse(args[1])].Add(b);
-                            break;
-                        case '#':
-                            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
-                            {
-                                string[] sown = args[2].Split('|');
-                                List<bool> owned = new List<bool>();
-                                string[] sdis = args[3].Split('|');
-                                List<bool> disabled = new List<bool>();
-                                for (int i = 0; i < chars.Count; i++)
-                                {
-                                    bool val;
-                                    if (i < sown.Length) { val = (int.Parse(sown[i]) == 1); } else { val = false; }
-                                    owned.Add(val);
-                                    if (i < sdis.Length) { val = (int.Parse(sdis[i]) == 1); } else { val = false; }
-                                    disabled.Add(val);
-                                }
-                                //Debug.WriteLine(s);
-                                //Debug.WriteLine(args[1]);
-                                try
-                                {
-                                    StrToRI[args[1]].missing = owned;
-                                    StrToRI[args[1]].disabled = disabled;
-                                }
-                                catch (KeyNotFoundException knfe) { MainWindow.SlogMessage(knfe.Message); }
-                            }
-                            else
-                            {
-                                StrToRI[args[1]].missing = new List<bool>() { (int.Parse(args[2]) == 1) };
-                                StrToRI[args[1]].disabled = new List<bool>() { (int.Parse(args[3]) == 1) };
-                            }
-
-                            break;
-                    }
-
-                    // }catch (Exception pd) { MainWindow.SlogMessage("Unknown Error While Parsing Data: " + pd.Message); }
-                }
-
-            }
-        }
-        public static void GetData()
-        {
-            string path = MainWindow.RBRDirPath + @"/Data.txt";
-
-            List<RemnantCharacter> chars;
-            if (File.Exists(MainWindow.SaveDirPath + "\\profile.sav"))
-            {
-                chars = MainWindow.ActiveSave.Characters;
-
-            }
-            else { chars = new List<RemnantCharacter>(); }
-            CreateData(path, chars);
-            ReadData(path, chars);
-        }
-
-
-        public static void ReadXML()
-        {
-            Stream s = typeof(GearInfo).Assembly.GetManifestResourceStream("RemnantBuildRandomizer.Resources.GearInfo.xml");
-            doc.Load(s);
-            parseItems("RegularMods");
-            parseItems("LongMod");
-            parseItems("HandMod");
-            parseItems("Head");
-            parseItems("Chest");
-            parseItems("Legs");
-            parseItems("RegHand");
-            parseItems("BossHand");
-            parseItems("RegLong");
-            parseItems("BossLong");
-            parseItems("Melee");
-            parseItems("Amulets");
-            parseItems("Rings");
-        }
-        public static void parseItems(string tag)
-        {
-            using (var archive = ZipFile.OpenRead(MainWindow.RBRDirPath + "\\IMG.zip"))
-            {
-                foreach (XmlElement xe in doc.GetElementsByTagName(tag))
-                {
-                    RemnantItem ri = new RemnantItem(archive,XmlElementExtension.GetXPath(xe).Replace("/GearInfo", ""), xe.GetAttribute("desc"), Slots[tag]);
-                    if (xe.InnerText != null && xe.InnerText != "")
-                    {
-
-                        Item rItem = new Item(xe.InnerText);
-                        rItem.ItemAltName = ri.Itemname;
-                        items.Add(rItem);
-                        // Debug.WriteLine("Adding: "+ri.Itemname+" Inner text: "+xe.InnerText);
-                    }
-                    ri.Mod = xe.GetAttribute("mod");
-                    StrToRI.Add(ri.Itemname, ri);
-                    ImgToRI.Add(ri.Data.GetImage(), ri);
-                    GetEquipment[Slots[tag]].Add(ri);
-                }
-            }
+            return bmp;
         }
     }
+
 }
 

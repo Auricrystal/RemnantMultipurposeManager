@@ -52,12 +52,10 @@ C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\R
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Remnant Multipurpose Manager.exe
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Remnant Multipurpose Manager.pdb
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csprojAssemblyReference.cache
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\BuildWindow.g.cs
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.g.cs
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\App.g.cs
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.cache
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.lref
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\BuildWindow.baml
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\MainWindow.baml
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.g.resources
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.Properties.Resources.resources
@@ -68,5 +66,3 @@ C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\R
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Newtonsoft.Json.dll
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Newtonsoft.Json.xml
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CopyComplete
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\SavePacker.g.cs
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\SavePacker.baml
