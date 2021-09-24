@@ -1,37 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Diagnostics;
 
 namespace RemnantBuildRandomizer
 {
     public class RemnantProfile
     {
-
-        private string foldername;
-        private List<RemnantCharacter> chars;
-        public RemnantProfile(string path)
+        public List<RemnantCharacter> Characters { get; }
+        public RemnantProfile(string saveProfilePath)
         {
-            this.foldername = path.Split('\\').Last();
-            chars = RemnantCharacter.GetCharactersFromSave(path);
-
-        }
-
-        public string Profile
-        {
-            get => foldername; set =>RenameFolder(value);
-        }
-        public string Characters { get => string.Join(",", chars); }
-        public void RenameFolder(string name)
-        {
-            Debug.WriteLine(MainWindow.ProfilesDirPath + "\\" + Profile);
-            Debug.WriteLine(MainWindow.ProfilesDirPath + "\\" + name);
-            Directory.Move(MainWindow.ProfilesDirPath + "\\" + Profile, MainWindow.ProfilesDirPath + "\\" + name);
-            foldername = name;
+            try
+            {
+                Debug.WriteLine(saveProfilePath+":"+File.Exists(saveProfilePath));
+                Characters = RemnantCharacter.GetCharactersFromSave(saveProfilePath);
+            }
+            catch (Exception)
+            {
+                MainWindow.MW.LogMessage("Error Parsing Profile", MainWindow.LogType.Error);
+                Characters = null;
+            }
         }
     }
-
 }
+

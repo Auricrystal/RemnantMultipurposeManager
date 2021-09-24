@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,11 +21,38 @@ namespace RemnantBuildRandomizer
 
         public bool Equals(InventoryItem b)
         {
-            if (this.Name.Equals(b.Name)) { return true; }
+            if (Name.Equals(b.Name)) { return true; }
             return false;
         }
 
+        public BitmapImage GetImage()
+        {
+            BitmapImage bmp = null;
+            var zip = ZipFile.OpenRead(MainWindow.RBRDirPath + "\\IMG.zip");
+            
+            var entry = IMG != null ? zip.GetEntry(IMG) : null;
 
+            Debug.WriteLine("GetImage:"+IMG+":"+(entry!=null));
+
+            if (entry != null)
+            {
+                using (var zipStream = entry.Open())
+                using (var memoryStream = new MemoryStream())
+                {
+                    zipStream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = memoryStream;
+                    bitmap.EndInit();
+
+                    bmp = bitmap;
+                }
+            }
+            return bmp;
+        }
         public int CompareTo(object obj)
         {
             //Check for null and compare run-time types.
@@ -69,33 +99,37 @@ namespace RemnantBuildRandomizer
             Ring1 = ring1;
             Ring2 = ring2;
         }
+        public Build() { }
 
-        public static Build Random(List<InventoryItem> inventory)
+        public List<InventoryItem> ToInventory()
         {
-            List<InventoryItem> local = inventory.ConvertAll(x => (InventoryItem)x.Clone());
+            return new List<InventoryItem>() { HandGun, LongGun, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2, HandGun?.Mod, LongGun?.Mod };
+        }
+        public string Code()
+        {
+            return string.Join("-", ToInventory().Select(x => GearInfo.Items.IndexOf(x).ToString("X")));
+        }
 
-            InventoryItem hg = local.Where(x => x.Slot == InventoryItem.SlotType.HG).ToList().RandomElement();
-            InventoryItem lg = local.Where(x => x.Slot == InventoryItem.SlotType.LG).ToList().RandomElement();
-            List<InventoryItem> mods = local.Where(x => x.Slot == InventoryItem.SlotType.MO)
-                .Except(local.Where(x => x.Mod != null).Select(x => x.Mod)).ToList();
-            if (hg.Mod == null) { hg.Mod = mods.RandomElement(); }
-            if (lg.Mod == null) { lg.Mod = mods.Where(x => x.Mod != hg.Mod).ToList().RandomElement(); }
-            List<InventoryItem> rings = local.Where(x => x.Slot == InventoryItem.SlotType.RI).ToList();
-            InventoryItem ring1 = rings.RandomElement();
-            Build b = new Build(
-                hg,
-                lg,
-                local.Where(x => x.Slot == InventoryItem.SlotType.M).ToList().RandomElement(),
-                local.Where(x => x.Slot == InventoryItem.SlotType.HE).ToList().RandomElement(),
-                local.Where(x => x.Slot == InventoryItem.SlotType.CH).ToList().RandomElement(),
-                local.Where(x => x.Slot == InventoryItem.SlotType.LE).ToList().RandomElement(),
-                local.Where(x => x.Slot == InventoryItem.SlotType.AM).ToList().RandomElement(),
-                ring1,
-                rings.Where(x => x != ring1).ToList().RandomElement()
-                );
+    }
+    class InventoryItemComparer : IEqualityComparer<InventoryItem>
+    {
+        public bool Equals(InventoryItem b1, InventoryItem b2)
+        {
 
-            return b;
+            if (b2 == null && b1 == null)
+                return true;
+            else if (b1 == null || b2 == null)
+                return false;
+            else if (b1.Name == b2.Name)
+                return true;
+            else
+                return false;
+        }
 
+        public int GetHashCode(InventoryItem bx)
+        {
+            int hCode = bx.Name.GetHashCode();
+            return hCode.GetHashCode();
         }
     }
 }

@@ -12,92 +12,44 @@ namespace RemnantBuildRandomizer
 {
     public class RemnantCharacter
     {
-        public int charNum;
         public string Archetype { get; set; }
-        public List<string> Collected { get; set; }
+        public int Progression { get; set; }
+        //public List<Build> Builds { get; set; }
         public List<InventoryItem> Inventory { get; set; }
-
-
-        public int Progression
-        {
-            get
-            {
-                return this.Collected.Count;
-            }
-        }
 
         public override string ToString()
         {
-            return this.Archetype + " (" + this.Progression + ")";
+            return Archetype + " (" + Progression + ")";
         }
 
-        public RemnantCharacter(int charNum)
+        public RemnantCharacter()
         {
-            this.charNum = charNum;
             this.Archetype = "";
-            this.Collected = new List<string>();
             this.Inventory = new List<InventoryItem>();
+            
         }
-
-        public void processSaveData(string savetext)
-        {
-            Inventory = new List<InventoryItem>();
-            //Debug.WriteLine("CollectedCount:"+this.Collected.Count);
-            foreach (InventoryItem item in GearInfo.Items)
-            {
-                //Debug.WriteLine(item.File+" : "+ this.Collected.Contains(item.File));
-                
-                if (this.Collected.Contains(item.File)||
-                    new string[]{"_No Mod","_No Ring","_No Amulet","_No Head", "_No Chest", "_No Legs", "_No Hand Gun", "_No Long Gun","_Fists" }.Contains(item.Name))
-                {
-                    Inventory.Add(item);
-                }
-            }
-            Inventory.Sort();
-        }
-
-        public enum CharacterProcessingMode { All, NoEvents };
 
         public static List<RemnantCharacter> GetCharactersFromSave(string saveFolderPath)
-        {
-
-            return GetCharactersFromSave(saveFolderPath, CharacterProcessingMode.All);
-        }
-        public static List<RemnantCharacter> GetCharactersFromSave(string saveFolderPath, string filename)
-        {
-
-            return GetCharactersFromSave(saveFolderPath, filename, CharacterProcessingMode.All);
-        }
-        public static List<RemnantCharacter> GetCharactersFromSave(string saveFolderPath, CharacterProcessingMode mode)
-        {
-
-            return GetCharactersFromSave(saveFolderPath, "\\profile.sav", mode);
-        }
-
-        public static List<RemnantCharacter> GetCharactersFromSave(string saveFolderPath, string filename, CharacterProcessingMode mode)
         {
             List<RemnantCharacter> charData = new List<RemnantCharacter>();
             try
             {
-                string profileData = File.ReadAllText(saveFolderPath + filename);
+                string profileData = File.ReadAllText(saveFolderPath);
 
                 string[] characters = profileData.Split(new string[] { "/Game/Characters/Player/Base/Character_Master_Player.Character_Master_Player_C" }, StringSplitOptions.None);
                 for (var i = 1; i < characters.Length; i++)
                 {
-                    RemnantCharacter cd = new RemnantCharacter(i - 1);
+                    RemnantCharacter cd = new RemnantCharacter();
 
-                    cd.Archetype = "Undefined";
                     Match archetypeMatch = new Regex(@"/Game/_Core/Archetypes/[a-zA-Z_]+").Match(characters[i - 1]);
-                    if (archetypeMatch.Success)
-                    {
-                        cd.Archetype = archetypeMatch.Value.Replace("/Game/_Core/Archetypes/", "").Split('_')[1];
-                    }
+                    cd.Archetype = archetypeMatch.Success ? archetypeMatch.Value.Replace("/Game/_Core/Archetypes/", "").Split('_')[1] : "Undefined";
 
                     List<string> saveItems = new List<string>();
                     string charEnd = "Character_Master_Player_C";
                     string inventory = characters[i].Substring(0, characters[i].IndexOf(charEnd));
 
-                    FindMatches(saveItems, inventory, new Regex(@"/Items/Weapons(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+")
+                    FindMatches(saveItems, inventory,
+                      new Regex(@"/Items/Weapons(/[a-zA-Z0-9_]+)+/[a-zA-Z0-9_]+")
                     , new Regex(@"/Items/Armor/([a-zA-Z0-9_]+/)?[a-zA-Z0-9_]+")
                     , new Regex(@"/Items/Trinkets/(BandsOfCastorAndPollux/)?[a-zA-Z0-9_]+")
                     , new Regex(@"/Items/Mods/[a-zA-Z0-9_]+")
@@ -106,22 +58,20 @@ namespace RemnantBuildRandomizer
                     , new Regex(@"/Quests/[a-zA-Z0-9_]+/[a-zA-Z0-9_]+")
                     , new Regex(@"/Player/Emotes/Emote_[a-zA-Z0-9]+"));
 
-                    cd.Collected = saveItems;
-                    charData.Add(cd);
-                }
-
-                if (mode == CharacterProcessingMode.All)
-                {
-                    List<RemnantCharacter> copy = new List<RemnantCharacter>();
-                    string[] saves = Directory.GetFiles(saveFolderPath, "save_*.sav");
-                    for (int i = 0; i < saves.Length && i < charData.Count; i++)
+                    cd.Progression = saveItems.Count;
+                    cd.Inventory = new List<InventoryItem>();
+                    foreach (InventoryItem item in GearInfo.Items)
                     {
-                        RemnantCharacter rc = charData[i];
-                        rc.processSaveData(File.ReadAllText(saves[i]));
-                        copy.Add(rc);
-                        Debug.WriteLine("Char:" + rc.charNum + ", Inv:" + rc.Progression + ", Miss:" +(250- rc.Inventory.Count));
+                        if (saveItems.Contains(item.File) ||
+                            GearInfo.Items.Where(x => x.Name.Contains("_"))
+                            .Select(x => x.Name)
+                            .Contains(item.Name))
+                        {
+                            cd.Inventory.Add(item);
+                        }
                     }
-                    charData = new List<RemnantCharacter>(copy);
+                    cd.Inventory.Sort();
+                    charData.Add(cd);
                 }
             }
             catch (IOException ex)
@@ -129,9 +79,8 @@ namespace RemnantBuildRandomizer
                 if (ex.Message.Contains("being used by another process"))
                 {
                     Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
-
                     System.Threading.Thread.Sleep(500);
-                    charData = GetCharactersFromSave(saveFolderPath, filename, mode);
+                    charData = GetCharactersFromSave(saveFolderPath);
                 }
             }
             return charData;
@@ -149,21 +98,6 @@ namespace RemnantBuildRandomizer
             foreach (Match match in rx.Matches(inventory)) { saveItems.Add(match.Value); }
         }
 
-        public List<InventoryItem> GetMissingItems()
-        {
-
-            if (Inventory.Count == 0 && Progression < 382)
-            {
-                Debug.WriteLine("Progression(max 382):" + Progression + "\nMissingItems:" + Inventory.Count);
-                Debug.WriteLine("Something isnt right, fixing missing data");
-                string[] saves = Directory.GetFiles(MainWindow.SaveDirPath, "save_*.sav");
-                for (int i = 0; i < saves.Length; i++)
-                {
-                    this.processSaveData(File.ReadAllText(saves[i]));
-                }
-            }
-            return Inventory;
-        }
     }
 }
 

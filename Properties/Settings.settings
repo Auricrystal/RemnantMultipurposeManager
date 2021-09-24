@@ -2,10 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="RemnantBuildRandomizer.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="SaveSlotData" Type="System.String" Scope="User">
-      <Value Profile="(Default)">0,1,2,3,4</Value>
-    </Setting>
-    <Setting Name="ProfileFolder" Type="System.String" Scope="User">
+    <Setting Name="RMMProfilePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -12,8 +12,6 @@ namespace RemnantBuildRandomizer
     {
         private static List<InventoryItem> items = new List<InventoryItem>();
 
-        //private static Dictionary<string, string> archetypes = new Dictionary<string, string>(StringComparer.InvariantCultureIgnoreCase) { { "Undefined", "Undefined" }, { "Scrapper", "Scrapper" }, { "Cultist", "Cultist" }, { "Hunter", "Hunter" } };
-
         public static List<InventoryItem> Items
         {
             get
@@ -24,38 +22,20 @@ namespace RemnantBuildRandomizer
                 return items;
             }
         }
-        public static InventoryItem getItem(string s) {
+        public static InventoryItem GetEmpty(InventoryItem.SlotType st)
+        {
+            return GearInfo.Items.Empties().Where(x => x.Slot == st).FirstOrDefault();
+        }
+        public static InventoryItem GetItem(string s) {
             return items.Find(x => x.Name == s);
         }
-        public static List<InventoryItem> getItems(params string[] str)
+        public static List<InventoryItem> GetItems(params string[] str)
         {
             List<InventoryItem> list = new List<InventoryItem>();
             foreach (string s in str) { list.Add(items.Find(x=>x.Name==s)); }
             return list;
         }
-        public static BitmapImage GetImage(ZipArchive za, string value)
-        {
-            BitmapImage bmp = null;
-            var entry = za.GetEntry(value);
-            if (entry != null)
-            {
-                using (var zipStream = entry.Open())
-                using (var memoryStream = new MemoryStream())
-                {
-                    zipStream.CopyTo(memoryStream); // here
-                    memoryStream.Position = 0;
-
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.StreamSource = memoryStream;
-                    bitmap.EndInit();
-
-                    bmp = bitmap;
-                }
-            }
-            return bmp;
-        }
+        
     }
 
 }
