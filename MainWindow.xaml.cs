@@ -14,10 +14,10 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using static RemnantBuildRandomizer.GearInfo;
+using static RemnantMultipurposeManager.GearInfo;
 
 
-namespace RemnantBuildRandomizer
+namespace RemnantMultipurposeManager
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -27,10 +27,8 @@ namespace RemnantBuildRandomizer
         private static string GameSavePath { get => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames"; }
         public static MainWindow MW = null;
         readonly public static Random rd = new Random();
-        private static InventoryDisplay Display;
-        public static Build curr = new Build();
-        public static List<InventoryItem> ItemList { get => Items; }
         public enum LogType { Normal, Success, Error }
+        private InventoryUI UI;
         public MainWindow() : base()
         {
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
@@ -39,39 +37,31 @@ namespace RemnantBuildRandomizer
             txtLog.IsReadOnly = true;
             DownloadZip("IMG");
             File.Delete(RBRDirPath + "\\log.txt");
+
+            BuildUI.Child = new InventoryUI();
+
+            
+            
+           
+            //g.Children.Add(new Viewbox() {Child = (UI = new InventoryUI()), Stretch = Stretch.Uniform, StretchDirection = StretchDirection.Both, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(10, 0, 0, 20) });
+            
         }
+
+        private void RerollClick(object sender, RoutedEventArgs e)
+        {
+            UI.EquipBuild(GearInfo.Items.RandomBuild(UI.Shown,GearInfo.Items.Empties()));
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            SetupDisplay();
             RemnantProfile p = new RemnantProfile(GameSavePath + "\\profile.sav");
-            File.WriteAllText(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\Resources\RemnantProfile.json", JsonConvert.SerializeObject(p, Formatting.None));
+            File.WriteAllText(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\RemnantProfile.json", JsonConvert.SerializeObject(p, Formatting.None));
             cmbCharacter.IsEnabled = false;
             cmbSaveSlot.IsEnabled = false;
             SaveManipulator.IsEnabled = false;
             KeepCheckpoint.IsEnabled = false;
         }
-        private void SetupDisplay()
-        {
-            Display = new InventoryDisplay()
-            {
-                HandGun = new Slot(ref HandGunImg, ref HandGunText, InventoryItem.SlotType.HG),
-                LongGun = new Slot(ref LongGunImg, ref LongGunText, InventoryItem.SlotType.LG),
-                HandGunMod = new Slot(ref HandModImg, ref HandGunModText, InventoryItem.SlotType.MO),
-                LongGunMod = new Slot(ref LongModImg, ref LongGunModText, InventoryItem.SlotType.MO),
-                Melee = new Slot(ref MeleeImg, ref MeleeText, InventoryItem.SlotType.M),
-                Head = new Slot(ref HeadImg, ref HeadText, InventoryItem.SlotType.HE),
-                Chest = new Slot(ref ChestImg, ref ChestText, InventoryItem.SlotType.CH),
-                Legs = new Slot(ref LegImg, ref LegText, InventoryItem.SlotType.LE),
-                Amulet = new Slot(ref AmuletImg, ref AmuletText, InventoryItem.SlotType.AM),
-                Rings = new Slot[] { new Slot(ref Ri1Img, ref Ring1Text, InventoryItem.SlotType.RI),
-                    new Slot(ref Ri2Img, ref Ring2Text, InventoryItem.SlotType.RI) }
-            };
-        }
 
-        private void DisplayBuild(Build b)
-        {
-            Display.EquipBuild(b);
-        }
         public static string RBRDirPath
         {
             get
@@ -83,7 +73,7 @@ namespace RemnantBuildRandomizer
 
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            //MessageBox.Show("Unhandled exception occurred: \n" + e.Exception.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            LogMessage(e.Exception.Message + "\n" + e.Exception.StackTrace);
         }
 
         private int checkForUpdate()
@@ -93,7 +83,7 @@ namespace RemnantBuildRandomizer
             {
                 try
                 {
-                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    string source = client.DownloadString("https://github.com/Auricrystal/RemnantMultipurposeManager/releases/latest");
                     string title = Regex.Match(source, @"\<title\b[^>]*\>\s*(?<Title>[\s\S]*?)\</title\>", RegexOptions.IgnoreCase).Groups["Title"].Value;
                     string remoteVer = Regex.Match(source, @"Remnant Multipurpose Manager (?<Version>([\d.]+)?)", RegexOptions.IgnoreCase).Groups["Version"].Value + ".0";
 
@@ -137,7 +127,7 @@ namespace RemnantBuildRandomizer
         {
             try
             {
-                string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/" + zipName + ".zip";
+                string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/" + zipName + ".zip";
                 using (WebClient client = new WebClient())
                 {
 
@@ -172,7 +162,7 @@ namespace RemnantBuildRandomizer
         }
         private void DownloadNewProfile(bool rewards, string path)
         {
-            string profilesave = "https://raw.githubusercontent.com/Auricrystal/RemnantBuildRandomizer/master/Resources/NewProfile";
+            string profilesave = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/NewProfile";
             using (WebClient client = new WebClient())
             {
                 if (!File.Exists(path))
@@ -239,28 +229,7 @@ namespace RemnantBuildRandomizer
             }
         }
 
-        private void Conditions(Build b)
-        {
-            if (b.Amulet.Name == "White Rose")
-            {
-                if (rd.Next(2) == 1) { b.HandGun = null; }
-                if (rd.Next(2) == 1) { b.LongGun = null; }
-            }
-            else if (b.Amulet.Name == "Daredevil's Charm")
-            {
-                string text = "\n\nDDC EFFECT\n";
-                Debug.WriteLine(text);
-                if (rd.Next(2) == 1) { b.Head=null; }
-                if (rd.Next(2) == 1) { b.Chest=null; }
-                if (rd.Next(2) == 1) { b.Legs=null; }
-            }
-            if (b.Ring1.Name.ToLower() == "Ring Of The Unclean".ToLower() || b.Ring2.Name.ToLower() == "Ring Of The Unclean".ToLower() ||
-                b.Ring1.Name.ToLower() == "Five Fingered Ring".ToLower() || b.Ring2.Name.ToLower() == "Five Fingered Ring".ToLower())
-            {
-                Debug.WriteLine("ROTU or FFR Effect");
-                if (rd.Next(2) == 1) { b.Melee=null; }
-            }
-        }
+        
 
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -371,23 +340,9 @@ namespace RemnantBuildRandomizer
 
 
         #region Click Events
-        private void Reroll_Click(object sender, RoutedEventArgs e)
-        {
-            Debug.WriteLine("Build:" + curr.ToInventory().Count);
-            Build rand = ItemList.ConvertAll(x => (InventoryItem)x.Clone()).RandomBuild();
-            curr = rand;
-            Conditions(rand);
-            DisplayBuild(rand);
-            
-            BuildNum.Text = rand.Code();
-            BuildNum.ToolTip = null;
-        }
 
-        private void CopyBuild_Click(object sender, RoutedEventArgs e)
-        {
-            CopyUIElementToClipboard(BuildScreen);
-            MessageBox.Show("Copied to Clipboard!");
-        }
+
+
         private void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
             if (checkForUpdate() == -1)
@@ -395,16 +350,12 @@ namespace RemnantBuildRandomizer
                 var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?", "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
                 if (confirmResult == MessageBoxResult.Yes)
                 {
-                    Process.Start("https://github.com/Auricrystal/RemnantBuildRandomizer/releases/latest");
+                    Process.Start("https://github.com/Auricrystal/RemnantMultipurposeManager/releases/latest");
                     System.Environment.Exit(1);
                 }
             }
         }
 
-        private void BuildCode_Click(object sender, RoutedEventArgs e)
-        {
-            Clipboard.SetText(BuildNum.Text);
-        }
         private void DataFolder_Click(object sender, RoutedEventArgs e)
         {
             Process.Start(RBRDirPath);
@@ -508,7 +459,7 @@ namespace RemnantBuildRandomizer
 
         private void CreateRBB_Click(object sender, RoutedEventArgs e)
         {
-
+            var test = Items[300].IMG;
         }
 
         private void LoadSave_Click(object sender, RoutedEventArgs e)

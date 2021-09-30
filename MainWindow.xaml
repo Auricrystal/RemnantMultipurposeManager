@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:RemnantBuildRandomizer"
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="RemnantBuildRandomizer.MainWindow"
+        xmlns:local="clr-namespace:RemnantMultipurposeManager"
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="RemnantMultipurposeManager.MainWindow"
         mc:Ignorable="d"
         Title="Remnant Multipurpose Manager" Height="711.531" Width="837.522"
         x:Name="RemnantMultipurposeManager" Icon="Resources/IMG/Menu/Image_Test.ico"
@@ -847,9 +847,13 @@
     <Grid x:Name="MainGrid" Background="#222222">
         <Menu Height="30" VerticalAlignment="Top" Background="{x:Null}" >
             <MenuItem x:Name="Version" Click="UpdateCheck_Click"/>
-            <MenuItem x:Name="FileMenu" Header="File" Foreground="White"/>
+            <MenuItem x:Name="FileMenu" Header="File" Foreground="White">
+                <MenuItem Name="CreateCharacter" Header="Create Character" Background="Black" ToolTip="Creates an (*.RProfile) from a (profile.sav)"/>
+                <MenuItem Name="SaveCharacter" Header="Save Character" Background="Black" ToolTip="Saves to a (*.RProfile)"/>
+                <MenuItem Name="LoadCharacter" Header="Load Character" Background="Black" ToolTip="Loads a (*.RProfile)"/>
+            </MenuItem>
             <MenuItem Name="OptionsMenu" Header="Options" Foreground="White" >
-                <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click" Background="black"/>
+                <MenuItem Header="Copy Build to Clipboard"  Background="black"/>
                 <MenuItem Header="Restart Game" Click="GameRestart_Click" ToolTip="Restarts the Game if it is currently running." Background="black"/>
                 <MenuItem Header="Create RMM File" Click="CreateRBB_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
@@ -863,63 +867,14 @@
 
         </Menu>
         <TabControl x:Name="MainTab" Margin="0,30,0,0" Background="#222222" >
-            <TabItem Header="Build Generator">
-                <Viewbox  Stretch="Uniform" StretchDirection="Both">
-                    <Grid Background="#222222" Margin="-2,-2,-2,-2" HorizontalAlignment="Center" VerticalAlignment="Center" >
-                        <Grid x:Name="BuildScreen" Margin="0,-10,340,0" HorizontalAlignment="Center" VerticalAlignment="Top">
-                            <Image x:Name="BuildView" Source="Resources/IMG/Menu/RemnantBuildView.png" Width="489" Height="622"/>
-                            <Image x:Name="HandGunImg" Source="Resources/IMG/Weapons/Hand/RegHand/_No Hand Gun.png" Margin="5,10,5,525" Stretch="Uniform" Width="396" Height="99"/>
-                            <TextBlock x:Name="HandGunText" Text="Hand Gun" Margin="14,20,169,599" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" />
-                            <Image x:Name="HandModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,14,5,529" Width="91" Height="91"/>
-                            <TextBlock x:Name="HandGunModText" Text="Hand Mod" TextAlignment="Right" Margin="234,95,104,534" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" />
-                            <Image x:Name="HandCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,14,5,529" Width="91" Height="91"/>
-                            <Image x:Name="LongGunImg" Source="Resources/IMG/Weapons/Long/RegLong/_No Long Gun.png" Margin="5,118,5,416" Stretch="Uniform" Width="400" Height="100"/>
-                            <Image x:Name="LongModImg" Source="Resources/IMG/Mods/RegularMods/_No Mod.png" Margin="374,123,5,420" Width="91" Height="91"/>
-                            <Image x:Name="LongCoverModImg" Source="Resources/IMG/Mods/Mod Overlay.png" Margin="374,123,5,420" Width="91" Height="91"/>
-                            <Image x:Name="MeleeImg" Source="Resources/IMG/Weapons/Melee/_Fists.png" Margin="44,227,45,319" Stretch="Uniform" Width="400" Height="90" />
-                            <Image x:Name="HeadImg" Source="Resources/IMG/Armor/Head/_No Head.png" Margin="20,349,343,168" Width="136" Height="136"/>
-                            <Image x:Name="ChestImg" Source="Resources/IMG/Armor/Chest/_No Chest.png" Margin="180,349,183,168" Width="136" Height="136"/>
-                            <Image x:Name="LegImg" Source="Resources/IMG/Armor/Legs/_No Legs.png" Margin="344,349,19,168" Width="136" Height="136"/>
-                            <Image x:Name="AmuletImg" Source="Resources/IMG/Trinkets/Amulets/_No Amulet.png" Margin="20,507,343,10" Width="136" Height="136"/>
-                            <Image x:Name="Ri1Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="180,507,183,10" Width="136" Height="136"/>
-                            <Image x:Name="Ri2Img" Source="Resources/IMG/Trinkets/Rings/_No Ring.png" Margin="344,507,19,10" Width="136" Height="136"/>
-                            <TextBlock x:Name="LongGunText" Text="Long Gun" Margin="10,133,339,487" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="LongGunModText" Text="Long Mod" TextAlignment="Right" Margin="245,202,104,425" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" />
-                            <TextBlock x:Name="MeleeText" Text="Melee" Margin="10,236,339,384" Foreground="White" FontSize="15" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="HeadText" Text="Head" Margin="14,343,335,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="ChestText" Text="Chest" Margin="176,343,173,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="LegText" Text="Legs" Margin="339,343,10,277" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="AmuletText" Text="Amulet" TextWrapping="WrapWithOverflow"  Margin="10,488,331,117" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="Ring1Text" Text="Ring 1" Margin="176,495,173,125" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                            <TextBlock x:Name="Ring2Text" Text="Ring 2" Margin="339,495,10,125" Foreground="White" FontFamily="/RemnantBuildRandomizer;component/Resources/Fonts/#Montserrat" Width="150" Height="33" />
-                        </Grid>
-                        <Grid Margin="490,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="620">
-                            <Image x:Name="SideView" Source="Resources/IMG/Menu/SidePanel.png" Stretch="UniformToFill" Margin="0,38,0,0" Width="343" />
-                            <Image x:Name="BuildCodeView" Source="Resources/IMG/Menu/TopPanel.png" Stretch="Fill" Margin="0,0,0,587" Width="343" Height="47"  />
-                            <Button x:Name="RerollBuild"  Click="Reroll_Click" Content="Reroll Build" HorizontalAlignment="Left" Height="62" Margin="53,539,0,0" VerticalAlignment="Top" Width="224" FontSize="24"/>
-                            <TextBlock  x:Name="BuildNum" HorizontalAlignment="Left" Height="33" TextWrapping="Wrap" Text="00-00-00-00-00-00-00-00-00-00-00" VerticalAlignment="Top" Width="329" Foreground="White"  FontSize="20" Margin="10,5,0,0">
-                                <TextBlock.ContextMenu>
-                                    <ContextMenu>
-                                        <MenuItem x:Name="BuildCode" Click="BuildCode_Click"  Header="Copy Build Code"/>
-                                    </ContextMenu>
-                                </TextBlock.ContextMenu>
-                            </TextBlock>
-                            <Image HorizontalAlignment="Left" Height="379" Margin="53,123,0,0" VerticalAlignment="Top" Width="204" Source="Resources/IMG/Menu/T_Icon_RedCrystal.png"/>
-                        </Grid>
-                    </Grid>
-                </Viewbox>
-            </TabItem>
-            <TabItem Header="Blacklist">
-                <Viewbox  Stretch="Uniform"  StretchDirection="Both">
-                    <Grid Background="#222222" HorizontalAlignment="Left" VerticalAlignment="Top" Height="681" Width="893" />
-                </Viewbox>
-            </TabItem>
-            <TabItem Header="Build List">
-                <Viewbox  Stretch="Uniform"  StretchDirection="Both">
-                    <Grid Background="#222222" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-2" Height="620" Width="808" >
-                        <Image Margin="-117,0,-156,0" Source="Resources/IMG/Menu/Rigs.jpg" HorizontalAlignment="Center" Width="1081" />
-                    </Grid>
-                </Viewbox>
+            <TabItem Name="BuildGen" Header="Build Generator">
+                <Grid Margin="-5,-5,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Viewbox x:Name="BuildUI" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                </Grid>
             </TabItem>
             <TabItem x:Name="SaveManipulator" Header="Game Tools">
                 <Viewbox  Stretch="Uniform"  StretchDirection="Both">

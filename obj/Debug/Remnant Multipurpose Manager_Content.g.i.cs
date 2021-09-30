@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/img/menu/harsgaardarena.png")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("embeddedassemblies/newtonsoft.json.dll")]
 
 

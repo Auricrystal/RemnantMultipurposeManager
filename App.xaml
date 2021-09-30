@@ -1,7 +1,7 @@
-﻿<Application x:Class="RemnantBuildRandomizer.App"
+﻿<Application x:Class="RemnantMultipurposeManager.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:RemnantBuildRandomizer"
+             xmlns:local="clr-namespace:RemnantMultipurposeManager"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
        

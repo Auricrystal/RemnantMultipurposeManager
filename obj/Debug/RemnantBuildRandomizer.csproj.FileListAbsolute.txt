@@ -63,6 +63,3 @@ C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\R
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CoreCompileInputs.cache
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.exe
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\Remnant Multipurpose Manager.pdb
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Newtonsoft.Json.dll
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\bin\Debug\Newtonsoft.Json.xml
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\RemnantBuildRandomizer.csproj.CopyComplete
