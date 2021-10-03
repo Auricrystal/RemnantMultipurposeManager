@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,21 +15,28 @@ namespace RemnantMultipurposeManager
     public class InventoryItem : IEquatable<InventoryItem>, IComparable, ICloneable
     {
         public enum SlotType { HG, LG, M, HE, CH, LE, AM, RI, MO };
-        public SlotType Slot { get; set; }
+        public int Index
+        {
+            get;
+            set;
+
+        }
+        public SlotType Slot
+        {
+            get; set;
+        }
         public string Name { get; set; }
         public string IMG { get; set; }
         public string File { get; set; }
-        public InventoryItem Mod { get; set; }
+        public bool Boss { get; set; }
+        public int? ModIndex { get; set; }
 
         public bool Equals(InventoryItem b)
         {
             if (Name.Equals(b.Name)) { return true; }
             return false;
         }
-        public string Index()
-        {
-            return GearInfo.Items.Except(GearInfo.Items.Empties()).ToList().IndexOf(this).ToString("X");
-        }
+
 
         public BitmapImage GetImage()
         {
@@ -78,48 +86,86 @@ namespace RemnantMultipurposeManager
 
         public object Clone()
         {
-            return new InventoryItem { File = this.File, IMG = this.IMG, Name = this.Name, Mod = this.Mod, Slot = this.Slot };
+            return new InventoryItem { File = this.File, IMG = this.IMG, Name = this.Name, ModIndex = this.ModIndex, Slot = this.Slot, Index = this.Index, Boss = this.Boss };
+        }
+
+        public override string ToString()
+        {
+            return String.Join(":", Index, Slot, Name, Boss);
         }
     }
 
 
     public class Build
     {
-
-        public InventoryItem HandGun, LongGun, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
-
+        private int handGun;
+        private int handGunMod;
+        private int longGun;
+        private int longGunMod;
+        private int melee;
+        private int head;
+        private int chest;
+        private int legs;
+        private int amulet;
+        private int ring1;
+        private int ring2;
+        public int HandGun { get => handGun; set => handGun = ((int?)value) ?? GearInfo.GetEmpty(HG).Index; }
+        public int HandGunMod { get => handGunMod; set => handGunMod = ((int?)value) ?? GearInfo.GetEmpty(MO).Index; }
+        public int LongGun { get => longGun; set => longGun = ((int?)value) ?? GearInfo.GetEmpty(LG).Index; }
+        public int LongGunMod { get => longGunMod; set => longGunMod = ((int?)value) ?? GearInfo.GetEmpty(MO).Index; }
+        public int Melee { get => melee; set => melee = ((int?)value) ?? GearInfo.GetEmpty(M).Index; }
+        public int Head { get => head; set => head = ((int?)value) ?? GearInfo.GetEmpty(HE).Index; }
+        public int Chest { get => chest; set => chest = ((int?)value) ?? GearInfo.GetEmpty(CH).Index; }
+        public int Legs { get => legs; set => legs = ((int?)value) ?? GearInfo.GetEmpty(LE).Index; }
+        public int Amulet { get => amulet; set => amulet = ((int?)value) ?? GearInfo.GetEmpty(AM).Index; }
+        public int Ring1 { get => ring1; set => ring1 = ((int?)value) ?? GearInfo.GetEmpty(RI).Index; }
+        public int Ring2 { get => ring2; set => ring2 = ((int?)value) ?? GearInfo.GetEmpty(RI).Index; }
         public Build(
-            InventoryItem handGun = null,
-            InventoryItem longGun = null,
-            InventoryItem melee = null,
-            InventoryItem head = null,
-            InventoryItem chest = null,
-            InventoryItem legs = null,
-            InventoryItem amulet = null,
-            InventoryItem ring1 = null,
-            InventoryItem ring2 = null)
-        {
-            HandGun = handGun ?? GearInfo.GetEmpty(HG);
-            LongGun = longGun ?? GearInfo.GetEmpty(LG);
-            Melee = melee ?? GearInfo.GetEmpty(M);
-            Head = head ?? GearInfo.GetEmpty(HE);
-            Chest = chest ?? GearInfo.GetEmpty(CH);
-            Legs = legs ?? GearInfo.GetEmpty(LE);
-            Amulet = amulet ?? GearInfo.GetEmpty(AM);
-            Ring1 = ring1 ?? GearInfo.GetEmpty(RI);
-            Ring2 = ring2 ?? GearInfo.GetEmpty(RI);
-        }
+            InventoryItem HandGun = null,
+            InventoryItem HandGunMod = null,
+            InventoryItem LongGun = null,
+            InventoryItem LongGunMod = null,
+            InventoryItem Melee = null,
+            InventoryItem Head = null,
+            InventoryItem Chest = null,
+            InventoryItem Legs = null,
+            InventoryItem Amulet = null,
+            InventoryItem Ring1 = null,
+            InventoryItem Ring2 = null)
+            : this(HandGun?.Index, HandGunMod?.Index,
+                 LongGun?.Index, LongGunMod?.Index,
+                 Melee?.Index,
+                 Head?.Index, Chest?.Index, Legs?.Index,
+                 Amulet?.Index, Ring1?.Index, Ring2?.Index)
+        { }
 
-
-        public List<InventoryItem> ToInventory()
+        [JsonConstructor]
+        public Build(
+            int? HandGun = null,
+            int? HandGunMod = null,
+            int? LongGun = null,
+            int? LongGunMod = null,
+            int? Melee = null,
+            int? Head = null,
+            int? Chest = null,
+            int? Legs = null,
+            int? Amulet = null,
+            int? Ring1 = null,
+            int? Ring2 = null)
         {
-            return new List<InventoryItem>() { HandGun, HandGun?.Mod, LongGun, LongGun?.Mod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2, }.Where(x => x != null && !x.Name.Contains("_")).ToList();
+            this.HandGun = HandGun.GetValueOrDefault();
+            this.HandGunMod = HandGunMod.GetValueOrDefault();
+            this.LongGun = LongGun.GetValueOrDefault();
+            this.LongGunMod = LongGunMod.GetValueOrDefault();
+            this.Melee = Melee.GetValueOrDefault();
+            this.Head = Head.GetValueOrDefault();
+            this.Chest = Chest.GetValueOrDefault();
+            this.Legs = Legs.GetValueOrDefault();
+            this.Amulet = Amulet.GetValueOrDefault();
+            this.Ring1 = Ring1.GetValueOrDefault();
+            this.Ring2 = Ring2.GetValueOrDefault();
         }
-        public string Code()
-        {
-            return string.Join("", ToInventory().Select(x => x.Index()));
-        }
-
+        public List<int> ToInventory() => new List<int>() { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
     }
     class InventoryItemComparer : IEqualityComparer<InventoryItem>
     {

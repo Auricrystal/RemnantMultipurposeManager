@@ -1,20 +1,17 @@
 ﻿using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using static RemnantMultipurposeManager.GearInfo;
+
 
 
 namespace RemnantMultipurposeManager
@@ -28,7 +25,22 @@ namespace RemnantMultipurposeManager
         public static MainWindow MW = null;
         readonly public static Random rd = new Random();
         public enum LogType { Normal, Success, Error }
-        private InventoryUI UI;
+        private readonly InventoryUI UI;
+        private RemnantProfile profile;
+        public RemnantProfile Profile
+        {
+            get
+            {
+                if (profile != null) { return profile; }
+                string s;
+                if (File.Exists(s = Properties.Settings.Default.CurrentProfile)) {
+                    profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s));
+                    Debug.WriteLine("Builds"+profile.Builds[0].Count());
+                    return profile;
+                } else return null;
+
+            }
+        }
         public MainWindow() : base()
         {
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
@@ -38,27 +50,35 @@ namespace RemnantMultipurposeManager
             DownloadZip("IMG");
             File.Delete(RBRDirPath + "\\log.txt");
 
-            BuildUI.Child = new InventoryUI();
+            BuildUI.Child = (UI = new InventoryUI());
+            Button b;
+            RandomizerGrid.Children.Add(b = new Button() { Content = "Reroll", Width = 200, Height = 66, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Bottom });
+            b.SetValue(Grid.ColumnProperty, 1);
+            b.Click += RerollClick;
 
-            
-            
-           
-            //g.Children.Add(new Viewbox() {Child = (UI = new InventoryUI()), Stretch = Stretch.Uniform, StretchDirection = StretchDirection.Both, HorizontalAlignment = HorizontalAlignment.Left, Margin = new Thickness(10, 0, 0, 20) });
-            
+
         }
 
         private void RerollClick(object sender, RoutedEventArgs e)
         {
-            UI.EquipBuild(GearInfo.Items.RandomBuild(UI.Shown,GearInfo.Items.Empties()));
+            UI.EquipBuild(GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties()));
+            Profile.Builds[0].Add(UI.Shown);
         }
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            RemnantProfile p = new RemnantProfile(GameSavePath + "\\profile.sav");
-            File.WriteAllText(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\RemnantProfile.json", JsonConvert.SerializeObject(p, Formatting.None));
-            cmbCharacter.IsEnabled = false;
+            if (Profile != null)
+            {
+                cmbCharacter.IsEnabled = true;
+                cmbCharacter.ItemsSource = Profile?.Characters;
+                Debug.WriteLine(Profile.Characters[1].Inventory.Count);
+                cmbCharacter.SelectedIndex = 0;
+            }else cmbCharacter.IsEnabled = false;
+
+
             cmbSaveSlot.IsEnabled = false;
-            SaveManipulator.IsEnabled = false;
+            FileManager.IsEnabled = false;
             KeepCheckpoint.IsEnabled = false;
         }
 
@@ -92,29 +112,22 @@ namespace RemnantMultipurposeManager
                     Debug.WriteLine("remote:" + remoteVersion + '\n' + "local:" + localVersion);
                     this.Dispatcher.Invoke(() =>
                     {
+                        string tt = "No Update Found";
+                        string bmptxt = @"/Resources/IMG/Menu/_CurrentVersion.png";
                         compare = localVersion.CompareTo(remoteVersion);
                         if (compare == -1)
                         {
-                            Debug.WriteLine("Inside Update value: " + compare);
-                            Debug.WriteLine("New Version Available");
-                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_OutOfDateVersion.png"));
-                            Version.Header = new Image { Source = bmp };
-                            Version.ToolTip = "Update Available!";
+                            bmptxt = "/Resources/IMG/Menu/_OutOfDateVersion.png";
+                            tt = "Update Available!";
                         }
                         else if (compare == 1)
                         {
-                            Debug.WriteLine("Beta Version Detected");
-                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_BetaVersion.png"));
-                            Version.Header = new Image { Source = bmp };
-                            Version.ToolTip = "Beta Version";
+                            bmptxt = "/Resources/IMG/Menu/_BetaVersion.png";
+                            tt = "Beta Version";
                         }
-                        else
-                        {
-                            LogMessage("No new version found.");
-                            BitmapImage bmp = new BitmapImage(new Uri(@"pack://application:,,,/Resources/IMG/Menu/_CurrentVersion.png"));
-                            Version.Header = new Image { Source = bmp };
-                            Version.ToolTip = "No Update Found";
-                        }
+                        Version.Header = new Image { Source = new BitmapImage(new Uri(@"pack://application:,,," + bmptxt)) };
+                        Version.ToolTip = tt;
+                        LogMessage(tt);
                     }
                      );
                 }
@@ -229,7 +242,7 @@ namespace RemnantMultipurposeManager
             }
         }
 
-        
+
 
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -459,7 +472,7 @@ namespace RemnantMultipurposeManager
 
         private void CreateRBB_Click(object sender, RoutedEventArgs e)
         {
-            var test = Items[300].IMG;
+
         }
 
         private void LoadSave_Click(object sender, RoutedEventArgs e)
@@ -470,6 +483,58 @@ namespace RemnantMultipurposeManager
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void CopyBuild_Click(object sender, RoutedEventArgs e)
+        {
+            CopyUIElementToClipboard(UI);
+            MessageBox.Show("Copied to Clipboard!");
+        }
+
+        private void CreateCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            using (var read = new System.Windows.Forms.OpenFileDialog())
+            {
+
+                read.Title = "Read Save File";
+                read.Filter = "|profile.sav";
+                read.InitialDirectory = GameSavePath;
+                read.ShowDialog();
+
+                if (read.FileName != "")
+                {
+                    var profile = new RemnantProfile(read.FileName);
+                    cmbCharacter.IsEnabled = true;
+                    cmbCharacter.ItemsSource = profile.Characters;
+                    cmbCharacter.SelectedIndex = 0;
+                    cmbCharacter.Items.Refresh();
+
+                    foreach (RemnantCharacter rc in profile.Characters)
+                    {
+                        Debug.WriteLine(rc.ToString());
+                    }
+                    using (var save = new System.Windows.Forms.SaveFileDialog())
+                    {
+                        save.Title = "Save Profile";
+                        save.Filter = "(.json)|*.json";
+                        save.DefaultExt = "json";
+                        save.ShowDialog();
+                        if (save.FileName != "")
+                        {
+                            profile.Save(save.FileName);
+                            Properties.Settings.Default.CurrentProfile = save.FileName;
+                            Properties.Settings.Default.Save();
+                        }
+                    }
+                }
+            }
+
+
+        }
+
+        private void UpdateCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            Profile.Save(Properties.Settings.Default.CurrentProfile);
         }
     }
 }

@@ -26,12 +26,12 @@ namespace RemnantMultipurposeManager.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string RMMProfilePath {
+        public string CurrentProfile {
             get {
-                return ((string)(this["RMMProfilePath"]));
+                return ((string)(this["CurrentProfile"]));
             }
             set {
-                this["RMMProfilePath"] = value;
+                this["CurrentProfile"] = value;
             }
         }
     }

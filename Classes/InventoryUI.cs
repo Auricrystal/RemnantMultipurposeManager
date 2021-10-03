@@ -19,7 +19,7 @@ namespace RemnantMultipurposeManager
         //512x512
         private StackPanel Main, Offense, Defense, Trinkets;
         private double Size;
-        private const int _DefSize = 256;
+        private const int _DefSize = 1024;
         public InventorySlot HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
         public Build Shown { get; private set; }
 
@@ -47,7 +47,7 @@ namespace RemnantMultipurposeManager
             SolidColorBrush bg = new SolidColorBrush(new Color() { R = 21, G = 21, B = 21, A = 255 });
             Offense.Children.Add(HandGun = new InventorySlot(HG, rectH, rectW) { Background = bg }); ;
             HandGun.Children.Add(HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 0.80, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 5, 0) });
-            HandGunMod.Children.Add(new Image() {Name="HGM", Source = bmp });
+            HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp });
             Offense.Children.Add(LongGun = new InventorySlot(LG, rectH, rectW) { Background = bg });
             LongGun.Children.Add(LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 0.80, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 5, 0) });
             LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp });
@@ -63,9 +63,9 @@ namespace RemnantMultipurposeManager
         {
             Shown = b;
             HandGun.Equip(b?.HandGun);
-            HandGunMod.Equip(b?.HandGun?.Mod);
+            HandGunMod.Equip(b?.HandGunMod);
             LongGun.Equip(b?.LongGun);
-            LongGunMod.Equip(b?.LongGun?.Mod);
+            LongGunMod.Equip(b?.LongGunMod);
             Melee.Equip(b?.Melee);
             Head.Equip(b?.Head);
             Chest.Equip(b?.Chest);
@@ -91,12 +91,10 @@ namespace RemnantMultipurposeManager
             DisplayImage = new Image() { Source = (sl != MO) ? Item.GetImage() : null, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
             if (border)
             {
-                Debug.WriteLine("Border True");
                 b = new Border() { BorderBrush = new SolidColorBrush(new Color() { R = 30, G = 30, B = 30, A = 255 }), Child = DisplayImage, BorderThickness = new Thickness(2), Background = new SolidColorBrush(new Color() { R = 15, G = 15, B = 15, A = 255 }) };
             }
             this.Children.Add(b ?? (UIElement)DisplayImage);
-            this.Children.Add(DisplayName = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top, Padding = new Thickness(5, 5, 0, 0), TextWrapping = TextWrapping.Wrap, FontSize = 8 }); ;
-            Debug.WriteLine("Font Size:" + DisplayName.FontSize);
+            this.Children.Add(DisplayName = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top, Padding = new Thickness(5, 5, 0, 0), TextWrapping = TextWrapping.Wrap, FontSize = 30 }); ;
             SlotType = sl;
             Item = null;
         }
@@ -105,15 +103,15 @@ namespace RemnantMultipurposeManager
         {
             if (ii == null || ii.Name.Contains("_")) { UnEquip(); return; }
             if (ii?.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + ii.Slot + "!=" + SlotType); return; }
-
             Item = ii;
-
-            Debug.WriteLine("Equipping: " + Item.Name + " Index: " + Item.Index());
             DisplayImage.Source = Item.GetImage();
             DisplayName.Text = (SlotType != MO) ? Item.Name : null;
-            var img = this?.Children?.OfType<Image>().Where(x=>x.Name=="LGM"||x.Name=="HGM");
+            var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
             if (img.Count() > 0) { img.First().ToolTip = Item.Name; }
-                
+        }
+        public void Equip(int? ii)
+        {
+            Equip(GearInfo.GetItem(ii));
         }
 
 

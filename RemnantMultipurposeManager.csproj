@@ -131,6 +131,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <EmbeddedResource Include="Resources\NewProfile.sav" />
+    <EmbeddedResource Include="Resources\RemnantItemIndex.json" />
     <Resource Include="Resources\Fonts\Montserrat-Black.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-BlackItalic.ttf" />
     <Resource Include="Resources\Fonts\Montserrat-Bold.ttf" />

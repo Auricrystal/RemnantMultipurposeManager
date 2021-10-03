@@ -845,15 +845,19 @@
     </Window.Resources>
 
     <Grid x:Name="MainGrid" Background="#222222">
-        <Menu Height="30" VerticalAlignment="Top" Background="{x:Null}" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="25*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Height="30" VerticalAlignment="Top" Background="{x:Null}" >
             <MenuItem x:Name="Version" Click="UpdateCheck_Click"/>
             <MenuItem x:Name="FileMenu" Header="File" Foreground="White">
-                <MenuItem Name="CreateCharacter" Header="Create Character" Background="Black" ToolTip="Creates an (*.RProfile) from a (profile.sav)"/>
-                <MenuItem Name="SaveCharacter" Header="Save Character" Background="Black" ToolTip="Saves to a (*.RProfile)"/>
+                <MenuItem Name="CreateCharacter" Click="CreateCharacter_Click" Header="Create Character" Background="Black" ToolTip="Creates an (*.RProfile) from a (profile.sav)"/>
+                <MenuItem Name="UpdateCharacter" Click="UpdateCharacter_Click" Header="Update Character" Background="Black" ToolTip="Saves to a (*.RProfile)"/>
                 <MenuItem Name="LoadCharacter" Header="Load Character" Background="Black" ToolTip="Loads a (*.RProfile)"/>
             </MenuItem>
             <MenuItem Name="OptionsMenu" Header="Options" Foreground="White" >
-                <MenuItem Header="Copy Build to Clipboard"  Background="black"/>
+                <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click"  Background="black"/>
                 <MenuItem Header="Restart Game" Click="GameRestart_Click" ToolTip="Restarts the Game if it is currently running." Background="black"/>
                 <MenuItem Header="Create RMM File" Click="CreateRBB_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
@@ -861,22 +865,27 @@
                 <MenuItem Header="Data Folder" Click="DataFolder_Click" Background="black"/>
             </MenuItem>
 
-            <ComboBox x:Name="cmbCharacter" Text="Characters" SelectionChanged="CmbCharacter_SelectionChanged" Width="92"/>
+            <ComboBox x:Name="cmbCharacter"  Text="Characters" SelectionChanged="CmbCharacter_SelectionChanged" Width="92"/>
             <ComboBox x:Name="cmbSaveSlot" Text="Save Slot" SelectionChanged="cmbSaveSlot_SelectionChanged"  Width="83"/>
             <TextBlock x:Name="lblLastMessage" Text="" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MouseUp="lblLastMessage_MouseUp"/>
 
         </Menu>
-        <TabControl x:Name="MainTab" Margin="0,30,0,0" Background="#222222" >
-            <TabItem Name="BuildGen" Header="Build Generator">
-                <Grid Margin="-5,-5,0,15">
+        <TabControl Grid.Row="1" x:Name="MainTab" Background="#222222" >
+            <TabItem Name="RandomizerTab" Header="Randomizer">
+                <Grid x:Name="RandomizerGrid" Margin="0,0,0,5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="4*"/>
                         <ColumnDefinition Width="3*"/>
                     </Grid.ColumnDefinitions>
-                    <Viewbox x:Name="BuildUI" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="90*"/>
+                        <RowDefinition Height="10*"/>
+                    </Grid.RowDefinitions>
+                    <Viewbox x:Name="BuildUI" Grid.Column="0" Grid.RowSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Top"  />
+                    
                 </Grid>
             </TabItem>
-            <TabItem x:Name="SaveManipulator" Header="Game Tools">
+            <TabItem x:Name="FileManager" Header="File Manager">
                 <Viewbox  Stretch="Uniform"  StretchDirection="Both">
                     <Grid Width="824" Height="630" >
                         <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" TextWrapping="Wrap" Text="Game Tools" VerticalAlignment="Top" Width="194" FontSize="36" Foreground="White"/>
