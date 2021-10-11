@@ -121,27 +121,27 @@ namespace RemnantMultipurposeManager
         public static Build RandomBuild(this List<InventoryItem> inventory, Build except = null, List<InventoryItem> blacklist = null)
         {
             blacklist = blacklist ?? new List<InventoryItem>();
-            except = except ?? new Build((InventoryItem)null);
+            except = except ?? new Build("",(InventoryItem)null);
             blacklist.AddRange(except.ToInventory().Select(x => GearInfo.GetItem(x)));
             List<InventoryItem> list = inventory.Select(x => (InventoryItem)x.Clone()).Except(blacklist, new InventoryItemComparer()).ToList();
             InventoryItem hg, lg;
             var rings = list.Rings().RandomElement(2);
             var mods = list.RegMods().RandomElement(2);
 
-            Debug.WriteLine("Mods:\n" + mods[0].ToString() + "\n" + mods[1].ToString());
+            //Debug.WriteLine("Mods:\n" + mods[0].ToString() + "\n" + mods[1].ToString());
 
             Build b = new Build(
-                (hg = list.HandGuns().RandomElement()).Index,
-                hg.ModIndex > 0 ? hg.ModIndex : mods[0].Index,
-                (lg = list.LongGuns().RandomElement()).Index,
-                lg.ModIndex > 0 ? lg.ModIndex : mods[1].Index,
-                list.Melees().RandomElement().Index,
-                list.Heads().RandomElement().Index,
-                list.Chests().RandomElement().Index,
-                list.Legs().RandomElement().Index,
-                list.Amulets().RandomElement().Index,
-                rings?[0].Index,
-               rings?[1].Index
+                HandGun:(hg = list.HandGuns().RandomElement()).Index,
+                HandGunMod:hg.ModIndex > 0 ? hg.ModIndex : mods[0].Index,
+                LongGun:(lg = list.LongGuns().RandomElement()).Index,
+                LongGunMod:lg.ModIndex > 0 ? lg.ModIndex : mods[1].Index,
+                Melee:list.Melees().RandomElement().Index,
+                Head:list.Heads().RandomElement().Index,
+                Chest:list.Chests().RandomElement().Index,
+                Legs:list.Legs().RandomElement().Index,
+                Amulet:list.Amulets().RandomElement().Index,
+                Ring1:rings?[0].Index,
+               Ring2:rings?[1].Index
                 );
             return b.Conditions();
         }

@@ -33,11 +33,13 @@ namespace RemnantMultipurposeManager
             {
                 if (profile != null) { return profile; }
                 string s;
-                if (File.Exists(s = Properties.Settings.Default.CurrentProfile)) {
+                if (File.Exists(s = Properties.Settings.Default.CurrentProfile))
+                {
                     profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s));
-                    Debug.WriteLine("Builds"+profile.Builds[0].Count());
+                    Debug.WriteLine("Builds" + profile.Builds[0].Count());
                     return profile;
-                } else return null;
+                }
+                else return null;
 
             }
         }
@@ -58,11 +60,20 @@ namespace RemnantMultipurposeManager
 
 
         }
+        public void BindProfile(RemnantProfile profile)
+        {
+            cmbCharacter.ItemsSource = profile.Characters;
+            cmbCharacter.SelectedIndex = 0;
+            cmbSaveSlot.ItemsSource = profile.SavePair.Values;
+            cmbSaveSlot.SelectedIndex = 0;
+            cmbCharacter.IsEnabled = true;
+            cmbSaveSlot.IsEnabled = true;
+        }
 
         private void RerollClick(object sender, RoutedEventArgs e)
         {
             UI.EquipBuild(GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties()));
-            Profile.Builds[0].Add(UI.Shown);
+            Profile?.Builds[0]?.Add(UI.Shown);
         }
 
 
@@ -70,14 +81,14 @@ namespace RemnantMultipurposeManager
         {
             if (Profile != null)
             {
-                cmbCharacter.IsEnabled = true;
-                cmbCharacter.ItemsSource = Profile?.Characters;
-                Debug.WriteLine(Profile.Characters[1].Inventory.Count);
-                cmbCharacter.SelectedIndex = 0;
-            }else cmbCharacter.IsEnabled = false;
 
-
-            cmbSaveSlot.IsEnabled = false;
+                BindProfile(Profile);
+            }
+            else
+            {
+                cmbCharacter.IsEnabled = false;
+                cmbSaveSlot.IsEnabled = false;
+            }
             FileManager.IsEnabled = false;
             KeepCheckpoint.IsEnabled = false;
         }
@@ -265,10 +276,17 @@ namespace RemnantMultipurposeManager
 
         private void cmbSaveSlot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
+            if (cmbCharacter.SelectedItem != null)
+            {
+                RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
+                Profile.SavePair[rc.Slot] = cmbSaveSlot.SelectedIndex;
+                Debug.WriteLine("Char:"+rc.Slot+" Set to:"+cmbSaveSlot.SelectedIndex);
+            }
         }
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
+            cmbSaveSlot.SelectedIndex = Profile.SavePair[rc.Slot];
 
         }
         private void safeRefresh(params DataGrid[] dg)

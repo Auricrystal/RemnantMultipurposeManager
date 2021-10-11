@@ -27,3 +27,18 @@ C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Deb
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.CoreCompileInputs.cache
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.exe
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.pdb
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.exe.config
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.exe
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.pdb
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.AssemblyReference.cache
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\MainWindow.g.cs
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\App.g.cs
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.cache
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.lref
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\MainWindow.baml
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.g.resources
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.Properties.Resources.resources
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.GenerateResource.cache
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.CoreCompileInputs.cache
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.exe
+C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.pdb

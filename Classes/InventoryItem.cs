@@ -98,6 +98,7 @@ namespace RemnantMultipurposeManager
 
     public class Build
     {
+        //private string name;
         private int handGun;
         private int handGunMod;
         private int longGun;
@@ -109,6 +110,7 @@ namespace RemnantMultipurposeManager
         private int amulet;
         private int ring1;
         private int ring2;
+        public string Name { get; set; }
         public int HandGun { get => handGun; set => handGun = ((int?)value) ?? GearInfo.GetEmpty(HG).Index; }
         public int HandGunMod { get => handGunMod; set => handGunMod = ((int?)value) ?? GearInfo.GetEmpty(MO).Index; }
         public int LongGun { get => longGun; set => longGun = ((int?)value) ?? GearInfo.GetEmpty(LG).Index; }
@@ -120,7 +122,7 @@ namespace RemnantMultipurposeManager
         public int Amulet { get => amulet; set => amulet = ((int?)value) ?? GearInfo.GetEmpty(AM).Index; }
         public int Ring1 { get => ring1; set => ring1 = ((int?)value) ?? GearInfo.GetEmpty(RI).Index; }
         public int Ring2 { get => ring2; set => ring2 = ((int?)value) ?? GearInfo.GetEmpty(RI).Index; }
-        public Build(
+        public Build(string Name = null,
             InventoryItem HandGun = null,
             InventoryItem HandGunMod = null,
             InventoryItem LongGun = null,
@@ -132,7 +134,7 @@ namespace RemnantMultipurposeManager
             InventoryItem Amulet = null,
             InventoryItem Ring1 = null,
             InventoryItem Ring2 = null)
-            : this(HandGun?.Index, HandGunMod?.Index,
+            : this(Name, HandGun?.Index, HandGunMod?.Index,
                  LongGun?.Index, LongGunMod?.Index,
                  Melee?.Index,
                  Head?.Index, Chest?.Index, Legs?.Index,
@@ -140,7 +142,7 @@ namespace RemnantMultipurposeManager
         { }
 
         [JsonConstructor]
-        public Build(
+        public Build(string Name = null,
             int? HandGun = null,
             int? HandGunMod = null,
             int? LongGun = null,
@@ -153,6 +155,7 @@ namespace RemnantMultipurposeManager
             int? Ring1 = null,
             int? Ring2 = null)
         {
+            this.Name = Name;
             this.HandGun = HandGun.GetValueOrDefault();
             this.HandGunMod = HandGunMod.GetValueOrDefault();
             this.LongGun = LongGun.GetValueOrDefault();
