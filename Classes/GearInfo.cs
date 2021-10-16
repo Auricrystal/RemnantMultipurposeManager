@@ -15,11 +15,12 @@ namespace RemnantMultipurposeManager
     {
         private static List<InventoryItem> items = new List<InventoryItem>();
 
-        public static  List<InventoryItem> Items
+        public static List<InventoryItem> Items
         {
             get
             {
-                if (items.Count == 0) {
+                if (items.Count == 0)
+                {
 
                     var assembly = Assembly.GetExecutingAssembly();
                     var resourceName = "RemnantMultipurposeManager.Resources.RemnantItemIndex.json";
@@ -32,14 +33,15 @@ namespace RemnantMultipurposeManager
                 }
                 return items;
             }
-            
+
 
         }
         public static InventoryItem GetEmpty(InventoryItem.SlotType st)
         {
             return Items.Empties().Where(x => x.Slot == st).FirstOrDefault();
         }
-        public static InventoryItem GetItem(string s) {
+        public static InventoryItem GetItem(string s)
+        {
             return items.Find(x => x.Name == s);
         }
         public static InventoryItem GetItem(int? i)
@@ -47,10 +49,11 @@ namespace RemnantMultipurposeManager
             if (i.HasValue) { return items[i.Value] ?? null; }
             return null;
         }
+        
         public static List<InventoryItem> GetItems(params string[] str)
         {
             List<InventoryItem> list = new List<InventoryItem>();
-            foreach (string s in str) { list.Add(items.Find(x=>x.Name==s)); }
+            foreach (string s in str) { list.Add(items.Find(x => x.Name == s)); }
             return list;
         }
         public static List<InventoryItem> GetItems(params int[] items)

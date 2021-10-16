@@ -58,7 +58,10 @@ namespace RemnantMultipurposeManager
 
         public void Save(string path)
         {
-            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented));
+            File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            }));
         }
         public static RemnantProfile Load(string path)
         {

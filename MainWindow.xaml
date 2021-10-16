@@ -882,7 +882,8 @@
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     <Viewbox x:Name="BuildUI" Grid.Column="0" Grid.RowSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                    
+                    <Button Content="Button" Grid.Column="1" HorizontalAlignment="Center" Margin="101,10,101,0" Grid.Row="1" VerticalAlignment="Top" Width="151" Height="43" Click="RerollClick"/>
+
                 </Grid>
             </TabItem>
             <TabItem x:Name="FileManager" Header="File Manager">

@@ -36,10 +36,14 @@ namespace RemnantMultipurposeManager
                 if (File.Exists(s = Properties.Settings.Default.CurrentProfile))
                 {
                     profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s));
-                    Debug.WriteLine("Builds" + profile.Builds[0].Count());
                     return profile;
                 }
-                else return null;
+                else
+                {
+                    Properties.Settings.Default.CurrentProfile = null;
+                    Properties.Settings.Default.Save();
+                    return null;
+                }
 
             }
         }
@@ -53,11 +57,6 @@ namespace RemnantMultipurposeManager
             File.Delete(RBRDirPath + "\\log.txt");
 
             BuildUI.Child = (UI = new InventoryUI());
-            Button b;
-            RandomizerGrid.Children.Add(b = new Button() { Content = "Reroll", Width = 200, Height = 66, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Bottom });
-            b.SetValue(Grid.ColumnProperty, 1);
-            b.Click += RerollClick;
-
 
         }
         public void BindProfile(RemnantProfile profile)
@@ -72,7 +71,18 @@ namespace RemnantMultipurposeManager
 
         private void RerollClick(object sender, RoutedEventArgs e)
         {
-            UI.EquipBuild(GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties()));
+            Build b = null;
+            if (Profile != null)
+            {
+                b = Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Select(x => GearInfo.GetItem(x)).RandomBuild(UI.Shown, GearInfo.Items.Empties());
+            }
+            else
+            {
+                b = GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties());
+            }
+
+            Debug.WriteLine("Reroll: " + b.ToString());
+            UI.EquipBuild(b);
             Profile?.Builds[0]?.Add(UI.Shown);
         }
 
@@ -280,13 +290,16 @@ namespace RemnantMultipurposeManager
             {
                 RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
                 Profile.SavePair[rc.Slot] = cmbSaveSlot.SelectedIndex;
-                Debug.WriteLine("Char:"+rc.Slot+" Set to:"+cmbSaveSlot.SelectedIndex);
+                Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
             }
         }
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
-            cmbSaveSlot.SelectedIndex = Profile.SavePair[rc.Slot];
+
+
+            cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 :-1;
+
 
         }
         private void safeRefresh(params DataGrid[] dg)
@@ -554,6 +567,8 @@ namespace RemnantMultipurposeManager
         {
             Profile.Save(Properties.Settings.Default.CurrentProfile);
         }
+
+
     }
 }
 
