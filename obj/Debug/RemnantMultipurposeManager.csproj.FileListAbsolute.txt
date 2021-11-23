@@ -15,7 +15,6 @@ C:\Users\AuriCrystal\Documents\VisualProjects\RemnantBuildRandomizer\obj\Debug\R
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.exe.config
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.exe
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Debug\Remnant Multipurpose Manager.pdb
-C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csprojAssemblyReference.cache
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\MainWindow.g.cs
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\App.g.cs
 C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager_MarkupCompile.cache
@@ -42,3 +41,5 @@ C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Re
 C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.CoreCompileInputs.cache
 C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.exe
 C:\Users\drago\OneDrive\Documents\GitHub\RemnantMultipurposeManager\obj\Debug\Remnant Multipurpose Manager.pdb
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.AssemblyReference.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Debug\RemnantMultipurposeManager.csproj.SuggestedBindingRedirects.cache

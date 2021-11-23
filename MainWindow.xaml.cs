@@ -27,6 +27,7 @@ namespace RemnantMultipurposeManager
         public enum LogType { Normal, Success, Error }
         private readonly InventoryUI UI;
         private RemnantProfile profile;
+        //test comment
         public RemnantProfile Profile
         {
             get
