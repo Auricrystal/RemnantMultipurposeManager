@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -48,6 +49,7 @@ namespace RemnantMultipurposeManager
 
             }
         }
+
         public MainWindow() : base()
         {
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
@@ -55,19 +57,42 @@ namespace RemnantMultipurposeManager
             InitializeComponent();
             txtLog.IsReadOnly = true;
             DownloadZip("IMG");
+            checkForUpdate();
+            DownloadZip("Events");
             File.Delete(RBRDirPath + "\\log.txt");
 
             BuildUI.Child = (UI = new InventoryUI());
 
         }
+        public void UnbindProfile(object sender, RoutedEventArgs e)
+        {
+            Properties.Settings.Default.CurrentProfile = null;
+            profile = null;
+            Properties.Settings.Default.Save();
+            cmbCharacter.ItemsSource = null;
+            cmbSaveSlot.ItemsSource = null;
+            cmbCharacter.IsEnabled = false;
+            cmbSaveSlot.IsEnabled = false;
+            FileManager.IsEnabled = false;
+            KeepCheckpoint.IsEnabled = false;
+            LoadedProfile.Header = "No Profile";
+            UpdateCharacter.IsEnabled = false;
+
+        }
         public void BindProfile(RemnantProfile profile)
         {
+            FileManager.IsEnabled = true;
+            KeepCheckpoint.IsEnabled = true;
+            LoadedProfile.Header = profile.Name;
             cmbCharacter.ItemsSource = profile.Characters;
             cmbCharacter.SelectedIndex = 0;
-            cmbSaveSlot.ItemsSource = profile.SavePair.Values;
-            cmbSaveSlot.SelectedIndex = 0;
+            cmbSaveSlot.ItemsSource = profile.SavePair.Keys;
+            cmbSaveSlot.SelectedIndex = profile.SavePair[0];
             cmbCharacter.IsEnabled = true;
             cmbSaveSlot.IsEnabled = true;
+            cmbCharacter.Items.Refresh();
+            cmbSaveSlot.Items.Refresh();
+            UpdateCharacter.IsEnabled = true;
         }
 
         private void RerollClick(object sender, RoutedEventArgs e)
@@ -85,6 +110,9 @@ namespace RemnantMultipurposeManager
             Debug.WriteLine("Reroll: " + b.ToString());
             UI.EquipBuild(b);
             Profile?.Builds[0]?.Add(UI.Shown);
+            File.WriteAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\test.txt",b.ToCode());
+            Debug.WriteLine("BuildID");
+            b.ToCode();
         }
 
 
@@ -92,14 +120,13 @@ namespace RemnantMultipurposeManager
         {
             if (Profile != null)
             {
-
                 BindProfile(Profile);
+                return;
             }
-            else
-            {
-                cmbCharacter.IsEnabled = false;
-                cmbSaveSlot.IsEnabled = false;
-            }
+
+            cmbCharacter.IsEnabled = false;
+            cmbSaveSlot.IsEnabled = false;
+            UpdateCharacter.IsEnabled = false;
             FileManager.IsEnabled = false;
             KeepCheckpoint.IsEnabled = false;
         }
@@ -121,7 +148,7 @@ namespace RemnantMultipurposeManager
         private int checkForUpdate()
         {
             int compare = 0;
-            using (WebClient client = new WebClient())
+            using (WebClient client = new())
             {
                 try
                 {
@@ -169,25 +196,27 @@ namespace RemnantMultipurposeManager
                     if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
                     {
                         client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
+                        LogMessage("Pulling " + zipName + " from Repo", LogType.Success);
+
+                        return RBRDirPath + "\\" + zipName + ".zip";
                     }
-                    else
+
+
+                    using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(zipURL)))
                     {
-                        using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(zipURL)))
+                        foreach (ZipArchiveEntry entry in New.Entries)
                         {
-                            foreach (ZipArchiveEntry entry in New.Entries)
-                            {
-                                //If new file does not exist or the new file is smaller in size than the old
-                                if (entry.Name != "")
-                                {
-                                    if (Old.GetEntry(entry.FullName) == null || entry.Length < Old.GetEntry(entry.FullName).Length || entry.LastWriteTime.Ticks > Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
-                                    {
-                                        LogMessage("New " + zipName + " Package Update!\nDownloading!");
-                                        Old.Dispose(); New.Dispose();
-                                        File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
-                                        break;
-                                    }
-                                }
-                            }
+                            //If new file does not exist or the new file is smaller in size than the old
+                            if (entry.Name == "" ||
+                                Old.GetEntry(entry.FullName) != null ||
+                                entry.Length >= Old.GetEntry(entry.FullName).Length ||
+                                entry.LastWriteTime.Ticks <= Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
+                                continue;
+
+                            LogMessage("Updating " + zipName + " from Repo", LogType.Success);
+                            Old.Dispose(); New.Dispose();
+                            File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
+                            break;
                         }
                     }
                 }
@@ -218,38 +247,28 @@ namespace RemnantMultipurposeManager
                 zip.GetEntry(path.Split('|').Last()).ExtractToFile(filedest, true);
             }
         }
-        public void LogMessage(string msg)
-        {
-            LogMessage(msg, Colors.White);
-        }
 
-        public void LogMessage(string msg, LogType lt)
-        {
-            Color color = Colors.White;
-            if (lt == LogType.Success)
-            {
-                color = Color.FromRgb(0, 200, 0);
-            }
-            else if (lt == LogType.Error)
-            {
-                color = Color.FromRgb(200, 0, 0);
-            }
-            LogMessage(msg, color);
-        }
 
-        public void LogMessage(string msg, Color color)
+        public void LogMessage(string msg, LogType lt = LogType.Normal, Color? color = null)
         {
+
+            switch (lt)
+            {
+                case LogType.Success: color = Color.FromRgb(0, 200, 0); break;
+                case LogType.Error: color = Color.FromRgb(200, 0, 0); break;
+                default: break;
+            }
 
             if (!Dispatcher.CheckAccess())
             {
-                this.Dispatcher.Invoke(() => { LogMessage(msg, color); });
+                this.Dispatcher.Invoke(() => { LogMessage(msg, color: color); });
             }
             else
             {
                 txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
                 lblLastMessage.Text = msg;
                 lblLastMessage.ToolTip = null;
-                lblLastMessage.Foreground = new SolidColorBrush(color);
+                lblLastMessage.Foreground = new SolidColorBrush(color ?? Colors.White);
                 if (color.Equals(Colors.White))
                 {
                     lblLastMessage.FontWeight = FontWeights.Normal;
@@ -299,23 +318,20 @@ namespace RemnantMultipurposeManager
             RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
 
 
-            cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 :-1;
+            cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 : -1;
 
 
         }
         private void safeRefresh(params DataGrid[] dg)
-        {
-            safeCommit(dg);
-            foreach (DataGrid d in dg) { d.Items.Refresh(); }
-        }
-        private void safeCommit(params DataGrid[] dg)
         {
             foreach (DataGrid d in dg)
             {
                 d.CommitEdit();
                 d.CommitEdit();
             }
+            foreach (DataGrid d in dg) { d.Items.Refresh(); }
         }
+
 
 
         private void BuildList_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -390,15 +406,13 @@ namespace RemnantMultipurposeManager
 
         private void UpdateCheck_Click(object sender, RoutedEventArgs e)
         {
-            if (checkForUpdate() == -1)
-            {
-                var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?", "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-                if (confirmResult == MessageBoxResult.Yes)
-                {
-                    Process.Start("https://github.com/Auricrystal/RemnantMultipurposeManager/releases/latest");
-                    System.Environment.Exit(1);
-                }
-            }
+            if (checkForUpdate() != -1)
+                return;
+            var confirmResult = MessageBox.Show("There is a new version available. Would you like to open the download page?", "Update Available", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (confirmResult == MessageBoxResult.No)
+                return;
+            Process.Start("https://github.com/Auricrystal/RemnantMultipurposeManager/releases/latest");
+            System.Environment.Exit(1);
         }
 
         private void DataFolder_Click(object sender, RoutedEventArgs e)
@@ -504,9 +518,24 @@ namespace RemnantMultipurposeManager
 
         private void CreateRBB_Click(object sender, RoutedEventArgs e)
         {
+            JWorldSave.Save(new JWorldSave(JWorldSave.SaveType.Boss, JWorldSave.WorldZone.Earth, JWorldSave.DifficultyType.Normal, "Shroud", new Dictionary<string, byte[]>
+            {
+                {"Save0",File.ReadAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\New folder\save_5.sav").Compress()},
+                {"Save1",File.ReadAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\New folder\save_6.sav").Compress()},
+                {"Save2",File.ReadAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\New folder\save_7.sav").Compress()},
+                {"Save3",File.ReadAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\New folder\save_8.sav").Compress()},
+                {"Save4",File.ReadAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\New folder\save_9.sav").Compress()}
+            }), @"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\SmallTest.rmm");
+        }
+        private void ReadRMM_Click(object sender, RoutedEventArgs e)
+        {
+            var save = JWorldSave.Load(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\Shroud.rmm");
+            var file = save.File.Values.ToList()[0].Decompress();
+            File.WriteAllBytes(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\save_0.sav", file);
+
+            Debug.WriteLine(save.ToString());
 
         }
-
         private void LoadSave_Click(object sender, RoutedEventArgs e)
         {
 
@@ -528,40 +557,39 @@ namespace RemnantMultipurposeManager
             using (var read = new System.Windows.Forms.OpenFileDialog())
             {
 
-                read.Title = "Read Save File";
+                read.Title = "Read Profile File";
                 read.Filter = "|profile.sav";
                 read.InitialDirectory = GameSavePath;
                 read.ShowDialog();
 
-                if (read.FileName != "")
+                if (read.FileName == "")
+                    return;
+
+                var profile = new RemnantProfile(read.FileName);
+
+
+
+                foreach (RemnantCharacter rc in profile.Characters)
                 {
-                    var profile = new RemnantProfile(read.FileName);
-                    cmbCharacter.IsEnabled = true;
-                    cmbCharacter.ItemsSource = profile.Characters;
-                    cmbCharacter.SelectedIndex = 0;
-                    cmbCharacter.Items.Refresh();
-
-                    foreach (RemnantCharacter rc in profile.Characters)
-                    {
-                        Debug.WriteLine(rc.ToString());
-                    }
-                    using (var save = new System.Windows.Forms.SaveFileDialog())
-                    {
-                        save.Title = "Save Profile";
-                        save.Filter = "(.json)|*.json";
-                        save.DefaultExt = "json";
-                        save.ShowDialog();
-                        if (save.FileName != "")
-                        {
-                            profile.Save(save.FileName);
-                            Properties.Settings.Default.CurrentProfile = save.FileName;
-                            Properties.Settings.Default.Save();
-                        }
-                    }
+                    Debug.WriteLine(rc.ToString());
                 }
+                using (var save = new System.Windows.Forms.SaveFileDialog())
+                {
+                    save.Title = "Save RProfile";
+                    save.Filter = "(.RProfile)|*.RProfile";
+                    save.DefaultExt = "RProfile";
+                    save.ShowDialog();
+                    if (save.FileName == "")
+                        return;
+
+                    profile.Name = Path.GetFileNameWithoutExtension(save.FileName);
+                    profile.Save(save.FileName);
+
+                    Properties.Settings.Default.CurrentProfile = save.FileName;
+                    Properties.Settings.Default.Save();
+                }
+                BindProfile(profile);
             }
-
-
         }
 
         private void UpdateCharacter_Click(object sender, RoutedEventArgs e)
@@ -569,7 +597,25 @@ namespace RemnantMultipurposeManager
             Profile.Save(Properties.Settings.Default.CurrentProfile);
         }
 
+        private void LoadCharacter_Click(object sender, RoutedEventArgs e)
+        {
+            using (var read = new System.Windows.Forms.OpenFileDialog())
+            {
+                read.Title = "Read RProfile File";
+                read.Filter = "|*.RProfile";
 
+                read.InitialDirectory = Path.GetDirectoryName(Properties.Settings.Default.CurrentProfile) ?? GameSavePath;
+                read.ShowDialog();
+
+                if (read.FileName == "")
+                    return;
+
+                var profile = RemnantProfile.Load(read.FileName);
+                Properties.Settings.Default.CurrentProfile = read.FileName;
+                Properties.Settings.Default.Save();
+                BindProfile(profile);
+            }
+        }
     }
 }
 

@@ -850,16 +850,19 @@
             <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" Height="30" VerticalAlignment="Top" Background="{x:Null}" >
-            <MenuItem x:Name="Version" Click="UpdateCheck_Click"/>
-            <MenuItem x:Name="FileMenu" Header="File" Foreground="White">
+            <MenuItem Name="LoadedProfile" Header="No Profile" Foreground="Gray"/>
+            <MenuItem Name="Version" Click="UpdateCheck_Click"/>
+            <MenuItem Name="FileMenu" Header="File" Foreground="White">
+                <MenuItem Name="DefaultCharacter" Click="UnbindProfile" Header="Default Character" Background="Black"/>
                 <MenuItem Name="CreateCharacter" Click="CreateCharacter_Click" Header="Create Character" Background="Black" ToolTip="Creates an (*.RProfile) from a (profile.sav)"/>
                 <MenuItem Name="UpdateCharacter" Click="UpdateCharacter_Click" Header="Update Character" Background="Black" ToolTip="Saves to a (*.RProfile)"/>
-                <MenuItem Name="LoadCharacter" Header="Load Character" Background="Black" ToolTip="Loads a (*.RProfile)"/>
+                <MenuItem Name="LoadCharacter" Click="LoadCharacter_Click" Header="Load Character" Background="Black" ToolTip="Loads a (*.RProfile)"/>
             </MenuItem>
             <MenuItem Name="OptionsMenu" Header="Options" Foreground="White" >
                 <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click"  Background="black"/>
                 <MenuItem Header="Restart Game" Click="GameRestart_Click" ToolTip="Restarts the Game if it is currently running." Background="black"/>
                 <MenuItem Header="Create RMM File" Click="CreateRBB_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
+                <MenuItem Header="Read RMM File" Click="ReadRMM_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
             <MenuItem Header="View" Foreground="White" HorizontalContentAlignment="Center">
                 <MenuItem Header="Data Folder" Click="DataFolder_Click" Background="black"/>

@@ -11,7 +11,7 @@ namespace RemnantMultipurposeManager
 {
     public class RemnantProfile
     {
-
+        public string Name { get; set; }
         public List<RemnantCharacter> Characters { get; protected set; }
         public Dictionary<int, int> SavePair { get; }
         public Dictionary<int, List<Build>> Builds { get; }
@@ -36,12 +36,12 @@ namespace RemnantMultipurposeManager
             }
         }
         [JsonConstructor]
-        private RemnantProfile()
+        private RemnantProfile(List<RemnantCharacter> characters, Dictionary<int, int> savePair, Dictionary<int, List<Build>> builds, Dictionary<int, List<int>> blacklists)
         {
-            Characters = new List<RemnantCharacter>();
-            SavePair = new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
-            Builds = new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
-            Blacklists = new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
+            Characters = characters ?? new List<RemnantCharacter>();
+            SavePair = savePair ?? new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
+            Builds = builds ?? new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
+            Blacklists = blacklists ?? new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
         }
 
         public void UpdateCharacters(string path)
@@ -58,6 +58,7 @@ namespace RemnantMultipurposeManager
 
         public void Save(string path)
         {
+           
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore

@@ -51,9 +51,17 @@ namespace RemnantMultipurposeManager
         }
         #region Inventory Stuff
 
+        public static int IndexOf(this List<InventoryItem> list, InventoryItem ii)
+        {
+            return list.IndexOf(ii);
+        }
         public static List<InventoryItem> Empties(this List<InventoryItem> list)
         {
             return list.Where(x => x.Name.Contains("_")).ToList();
+        }
+        public static List<InventoryItem> BySlot(this List<InventoryItem> list,InventoryItem.SlotType st)
+        {
+            return list.Where(x => x.Slot == st).ToList();
         }
         public static List<InventoryItem> HandGuns(this List<InventoryItem> list)
         {
@@ -108,13 +116,13 @@ namespace RemnantMultipurposeManager
             string s = GearInfo.GetItem(b.Data[AM]?[0])?.Name;
             if (s == "White Rose")
             {
-                Debug.WriteLine(s);
+                Debug.WriteLine(s+" Detected");
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed hg"); b.TryRemove(HG); }
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed lg"); b.TryRemove(LG); }
             }
             else if (s == "Daredevil's Charm")
             {
-                Debug.WriteLine(s);
+                Debug.WriteLine(s + " Detected");
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed he"); b.TryRemove(HE); }
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed ch"); b.TryRemove(CH); }
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed le"); b.TryRemove(LE); }
@@ -123,7 +131,7 @@ namespace RemnantMultipurposeManager
             var rings = b.Data[RI].ToList().Where(x => x != null).Select(x => GearInfo.GetItem(x).Name);
             if (rings.Contains(list[0]) || rings.Contains(list[1]))
             {
-                Debug.WriteLine(s);
+                Debug.WriteLine("Ring Removal Detected");
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed m"); b.TryRemove(M); }
             }
 
@@ -158,6 +166,28 @@ namespace RemnantMultipurposeManager
                 new List<int?>() { rings?[0].Index, rings?[1].Index }
                 );
             return b.Conditions();
+        }
+
+        public static byte[] Compress(this byte[] data)
+        {
+            using (var compressedStream = new MemoryStream())
+            using (var zipStream = new GZipStream(compressedStream,CompressionLevel.Optimal))
+            {
+                zipStream.Write(data, 0, data.Length);
+                zipStream.Close();
+                return compressedStream.ToArray();
+            }
+        }
+
+        public static byte[] Decompress(this byte[] data)
+        {
+            using (var compressedStream = new MemoryStream(data))
+            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
+            using (var resultStream = new MemoryStream())
+            {
+                zipStream.CopyTo(resultStream);
+                return resultStream.ToArray();
+            }
         }
     }
 }

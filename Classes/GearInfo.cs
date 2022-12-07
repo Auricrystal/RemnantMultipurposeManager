@@ -36,6 +36,8 @@ namespace RemnantMultipurposeManager
 
 
         }
+       
+
         public static InventoryItem GetEmpty(InventoryItem.SlotType st)
         {
             return Items.Empties().Where(x => x.Slot == st).FirstOrDefault();
@@ -56,7 +58,7 @@ namespace RemnantMultipurposeManager
             foreach (string s in str) { list.Add(items.Find(x => x.Name == s)); }
             return list;
         }
-        public static List<InventoryItem> GetItems(params int[] items)
+        public static List<InventoryItem> GetItems(params int?[] items)
         {
             List<InventoryItem> list = new List<InventoryItem>();
             foreach (int i in items) { list.Add(Items[i]); }

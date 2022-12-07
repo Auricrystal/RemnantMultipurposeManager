@@ -112,7 +112,7 @@ namespace RemnantMultipurposeManager
         {
             this.Data = new Dictionary<SlotType, List<int?>>();
             this.Name = name;
-            foreach(List<int?> t in items)
+            foreach (List<int?> t in items)
             {
                 InventoryItem ii = GearInfo.GetItem(t?[0]);
                 if (!Data.ContainsKey(ii.Slot))
@@ -120,23 +120,49 @@ namespace RemnantMultipurposeManager
             }
         }
 
-        public List<int> getItems() {
+        public List<int> getItems()
+        {
             var list = new List<int>();
-            foreach(List<int?> t in Data.Values)
+            foreach (List<int?> t in Data.Values)
             {
-                list.AddRange(t.ToList().Where(x=>x!=null).Select(x=>x.Value));
+                list.AddRange(t.ToList().Where(x => x != null).Select(x => x.Value));
             }
             return list;
         }
-        public void TryRemove(SlotType st) {
-            if (Data.ContainsKey(st))
-                Data[st].Clear();
-        
+        public void TryRemove(SlotType st)
+        {
+
+            if (!Data.ContainsKey(st))
+                return;
+
+            Data[st].Clear();
+        }
+
+        public byte[] ToCode()
+        {
+
+            List<byte> arr = new List<byte>();
+            foreach (SlotType st in Data.Keys)
+            {
+                Debug.WriteLine("ToCode: " + st.ToString() + ": " + String.Join(",", Data[st]));
+                if (Data[st].Count == 0)
+                {
+                    if (st == HG || st == LG)
+                        arr.Add((byte)0);
+                    arr.Add((byte)0);
+                    continue;
+                }
+
+                arr.AddRange(GearInfo.GetItems(Data[st].ToArray()).Select(x => (byte)GearInfo.Items.BySlot(x.Slot).IndexOf(x)));
+            }
+            Debug.WriteLine("Code: " + String.Concat(arr.Select(x => x.ToString("X2"))));
+            return arr.ToArray();
+
         }
 
         public override string ToString()
         {
-            return string.Join(", ",getItems().Select(x=>GearInfo.GetItem(x).Name));
+            return string.Join(", ", getItems().Select(x => GearInfo.GetItem(x).Name));
         }
     }
     class InventoryItemComparer : IEqualityComparer<InventoryItem>

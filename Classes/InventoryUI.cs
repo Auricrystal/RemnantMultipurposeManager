@@ -64,29 +64,45 @@ namespace RemnantMultipurposeManager
         {
             Shown = b;
 
+
             foreach (InventoryItem.SlotType st in b.Data.Keys)
             {
-                if (st != RI)
-                {
-                    InventorySlot slot = Array.ToList().Find(x => x.SlotType == st);
-                    if (b.Data[st].Count > 0)
-                    {
-                        slot.Equip(b.Data[st]?[0]);
-                        if (st == HG)
-                            HandGunMod.Equip(b.Data[st]?[1]);
-                        if (st == LG)
-                            LongGunMod.Equip(b.Data[st]?[1]);
-                    }
-                }
-                else
+
+                InventorySlot slot = Array.ToList().Find(x => x.SlotType == st);
+                if (st == RI)
                 {
                     var rings = b.Data[st];
-                    if (b.Data[st].Count > 0)
-                        Ring1.Equip(rings?[0]);
+
+                    Ring1.UnEquip();
+                    Ring2.UnEquip();
+
+                    if (b.Data[st].Count == 0)
+                        continue;
+
                     if (b.Data[st].Count > 1)
                         Ring2.Equip(rings?[1]);
 
+                    Ring1.Equip(rings?[0]);
+                    continue;
                 }
+
+                if (b.Data[st].Count == 0)
+                {
+                    if (st == HG)
+                        HandGunMod.UnEquip();
+                    if (st == LG)
+                        LongGunMod.UnEquip();
+                    slot.UnEquip();
+                    continue;
+                }
+
+                slot.Equip(b.Data[st]?[0]);
+
+                if (st == HG)
+                    HandGunMod.Equip(b.Data[st]?[1]);
+                if (st == LG)
+                    LongGunMod.Equip(b.Data[st]?[1]);
+
             }
         }
     }
@@ -127,6 +143,7 @@ namespace RemnantMultipurposeManager
         }
         public void Equip(int? ii)
         {
+            Debug.WriteLine("Equipping: " + GearInfo.GetItem(ii).Name);
             Equip(GearInfo.GetItem(ii));
         }
 
