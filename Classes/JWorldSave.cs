@@ -4,66 +4,110 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RemnantMultipurposeManager
 {
-    class JWorldSave
+    public class JWorldSave
     {
         //Important info: Boss/Event/Vendor, Planet, Modifiers,  Difficulty
-        public enum SaveType { Unknown, Boss, Event, Vendor };
-        public enum WorldZone { Unknown, Earth, Rhom, Corsus, Yaesha, Reisum, Ward17, WardPrime }
-        public enum DifficultyType { Unknown, Normal, Hard, Nightmare, Apocalypse }
+        public enum SaveType { Unknown, Bosses, Events, Vendors };
+        public enum WorldZone { Unknown, Earth, Rhom, Corsus, Yaesha, Reisum, Ward17, WardPrime, Labyrinth, Ward13 }
+        public enum DifficultyType { Unknown, Normal, Hard, Nightmare, Apocalypse, Vendor }
 
-
-        public  SaveType Type { get; private set; }//Boss
-        public WorldZone World { get; private set; }//Corsus
-        public DifficultyType Difficulty { get; private set; }//Apocalypse
         public string Name { get; private set; }//BarbedTerror
-        public Dictionary<string, byte[]> File { get; private set; }//sav.sav
+
+        public WorldZone World { get; private set; }//Corsus
+        public SaveType Type { get; private set; }//Boss
+        
+        public Dictionary<DifficultyType, List<string>> Checkpoints { get; private set; }
+
+
+
         [JsonConstructor]
-        public JWorldSave(SaveType type, WorldZone world, DifficultyType difficulty, string name, Dictionary<string, byte[]> file)
-        {
+        public JWorldSave(string name, WorldZone world,SaveType type, Dictionary<DifficultyType, List<string>> checkpoints )
+        { 
             Type = type;
             World = world;
-            Difficulty = difficulty;
+            Checkpoints = checkpoints;
             Name = name ?? "Unknown";
-            File = file ?? new Dictionary<string, byte[]>();
         }
 
-
-        //public JWorldSave(SaveType type, WorldZone world, DifficultyType difficulty, string name, Dictionary<string, byte[]> file)
-        //{
-        //    Type = type;
-        //    World = world;
-        //    Difficulty = difficulty;
-        //    Name = name;
-        //    File = file;
-        //    Debug.WriteLine("JWorldSave Constructed!");
-        //}
-
-
-
-        public static void Save(JWorldSave worldSave, string path)
+        public bool DownloadFile(string path, DifficultyType dt, string modifier)
         {
-            string text = JsonConvert.SerializeObject(worldSave, Formatting.None, new JsonSerializerSettings
+            using (WebClient client = new())
+            {
+                if (!Checkpoints[dt].Contains(modifier))
+                {
+                    MainWindow.MW.LogMessage("Modifier Not Found!", MainWindow.LogType.Error);
+                    return false;
+                }
+                try
+                {
+                    Debug.WriteLine("URL: " +GetURL(dt, modifier));
+                    client.DownloadFile(GetURL(dt, modifier), path);
+                }
+                catch (WebException we) { MainWindow.MW.LogMessage(we.Message, MainWindow.LogType.Error); return false; }
+                return true;
+            }
+        }
+        public string GetURL(DifficultyType dt, string modifier) {
+            
+
+            string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/";
+            return zipURL + string.Join("/", Type, dt, (World == JWorldSave.WorldZone.WardPrime) ? "Ward Prime" : World, Name, modifier, "save.sav");
+             
+        }
+
+        public static void Save(string path, params JWorldSave[] worldSave)
+        {
+            string text = JsonConvert.SerializeObject(worldSave, Formatting.Indented, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
 
-            System.IO.File.WriteAllBytes(path,Encoding.ASCII.GetBytes(text).Compress() );
+            File.WriteAllText(path, text);
         }
         public static JWorldSave Load(string path)
         {
-            byte[] arr = System.IO.File.ReadAllBytes(path).Decompress();
-            return JsonConvert.DeserializeObject<JWorldSave>(System.Text.Encoding.Default.GetString(arr));
+            return JsonConvert.DeserializeObject<JWorldSave>(File.ReadAllText(path));
+        }
+        public static List<JWorldSave> LoadList(string path)
+        {
+            return JsonConvert.DeserializeObject<List<JWorldSave>>(File.ReadAllText(path));
         }
 
         public override string ToString()
         {
-            return String.Format("Name:{0}\nSaveType:{1}\nDifficulty:{2}\nWorldZone:{3}\nModifiers:{4}",Name, Type, Difficulty, World,string.Join(",",File.Keys));
+            string c = "\n";
+            foreach (DifficultyType dt in Checkpoints.Keys)
+            {
+                c += dt.ToString() + ":\n (" + string.Join(",", Checkpoints[dt]) + ")\n";
+            }
+
+            return String.Format("Name:{0}\nSaveType:{1}\nCheckpoints:{2}\nWorldZone:{3}", Name, Type, c, World);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is JWorldSave save &&
+                   Type == save.Type &&
+                   World == save.World &&
+                   Name == save.Name &&
+                   EqualityComparer<Dictionary<DifficultyType, List<string>>>.Default.Equals(Checkpoints, save.Checkpoints);
+        }
+
+        public override int GetHashCode()
+        {
+            int hashCode = -442467166;
+            hashCode = hashCode * -1521134295 + Type.GetHashCode();
+            hashCode = hashCode * -1521134295 + World.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+            hashCode = hashCode * -1521134295 + EqualityComparer<Dictionary<DifficultyType, List<string>>>.Default.GetHashCode(Checkpoints);
+            return hashCode;
         }
     }
 

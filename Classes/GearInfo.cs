@@ -61,7 +61,11 @@ namespace RemnantMultipurposeManager
         public static List<InventoryItem> GetItems(params int?[] items)
         {
             List<InventoryItem> list = new List<InventoryItem>();
-            foreach (int i in items) { list.Add(Items[i]); }
+            foreach (int? i in items) {
+                if(i==null)
+                    continue;
+                list.Add(Items[i.Value]); 
+            }
             return list;
         }
 

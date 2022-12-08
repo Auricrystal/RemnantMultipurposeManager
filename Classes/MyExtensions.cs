@@ -59,7 +59,7 @@ namespace RemnantMultipurposeManager
         {
             return list.Where(x => x.Name.Contains("_")).ToList();
         }
-        public static List<InventoryItem> BySlot(this List<InventoryItem> list,InventoryItem.SlotType st)
+        public static List<InventoryItem> BySlot(this List<InventoryItem> list, InventoryItem.SlotType st)
         {
             return list.Where(x => x.Slot == st).ToList();
         }
@@ -116,7 +116,7 @@ namespace RemnantMultipurposeManager
             string s = GearInfo.GetItem(b.Data[AM]?[0])?.Name;
             if (s == "White Rose")
             {
-                Debug.WriteLine(s+" Detected");
+                Debug.WriteLine(s + " Detected");
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed hg"); b.TryRemove(HG); }
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed lg"); b.TryRemove(LG); }
             }
@@ -166,28 +166,7 @@ namespace RemnantMultipurposeManager
                 new List<int?>() { rings?[0].Index, rings?[1].Index }
                 );
             return b.Conditions();
-        }
 
-        public static byte[] Compress(this byte[] data)
-        {
-            using (var compressedStream = new MemoryStream())
-            using (var zipStream = new GZipStream(compressedStream,CompressionLevel.Optimal))
-            {
-                zipStream.Write(data, 0, data.Length);
-                zipStream.Close();
-                return compressedStream.ToArray();
-            }
-        }
-
-        public static byte[] Decompress(this byte[] data)
-        {
-            using (var compressedStream = new MemoryStream(data))
-            using (var zipStream = new GZipStream(compressedStream, CompressionMode.Decompress))
-            using (var resultStream = new MemoryStream())
-            {
-                zipStream.CopyTo(resultStream);
-                return resultStream.ToArray();
-            }
         }
     }
 }

@@ -143,7 +143,7 @@ namespace RemnantMultipurposeManager
         }
         public void Equip(int? ii)
         {
-            Debug.WriteLine("Equipping: " + GearInfo.GetItem(ii).Name);
+            Debug.WriteLine("Equipping: " + GearInfo.GetItem(ii)?.Name);
             Equip(GearInfo.GetItem(ii));
         }
 

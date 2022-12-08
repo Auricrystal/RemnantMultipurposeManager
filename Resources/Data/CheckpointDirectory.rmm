@@ -1,0 +1,679 @@
+[
+  {
+    "Name": "Brabus",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Skullcracker",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Ent",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Gorefist",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker"
+      ],
+      "Normal": [
+        "Regenerator"
+      ]
+    }
+  },
+  {
+    "Name": "Mangler",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Riphide",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Shroud",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Enchanter",
+        "Skullcracker"
+      ],
+      "Normal": []
+    }
+  },
+  {
+    "Name": "Singe",
+    "World": 1,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ],
+      "Normal": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Ancient Construct",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator"
+      ]
+    }
+  },
+  {
+    "Name": "Claviger",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Harrow",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ],
+      "Normal": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Maul",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker"
+      ]
+    }
+  },
+  {
+    "Name": "Raze",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Scourge",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Shatter & Shade",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Dual Hearty",
+        "Dual Regenerator",
+        "Hearty Regenerator",
+        "Hearty Skull",
+        "Hearty Vicious",
+        "Regenerator Vicious",
+        "Skull Regen",
+        "Skull Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Undying King",
+    "World": 2,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ],
+      "Normal": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Barbed Terror",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Canker",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker"
+      ]
+    }
+  },
+  {
+    "Name": "Dream Eater",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Skullcracker",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Iskal Queen",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ],
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Ixillis",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Thrall",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker"
+      ]
+    }
+  },
+  {
+    "Name": "Unclean One",
+    "World": 3,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ],
+      "Normal": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Onslaught",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Ravager",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Scald & Sear",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty Regen",
+        "Regen Vicious",
+        "Skull Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Stormcaller",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Skullcracker",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "The Warden",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Skullcracker",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Totem Father",
+    "World": 4,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Brudvaak & Vargr",
+    "World": 5,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Erfor",
+    "World": 5,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Regenerator",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Ikro",
+    "World": 5,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Obryk",
+    "World": 5,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Hearty",
+        "Vicious"
+      ]
+    }
+  },
+  {
+    "Name": "Tian",
+    "World": 5,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Regenerator",
+        "Skullcracker"
+      ]
+    }
+  },
+  {
+    "Name": "Dreamer",
+    "World": 6,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Harsgaard",
+    "World": 7,
+    "Type": 1,
+    "Checkpoints": {
+      "Apocalypse": [
+        "World"
+      ]
+    }
+  },
+  {
+    "Name": "Root Mother",
+    "World": 1,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Root Shrine",
+    "World": 1,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Two Lizzes",
+    "World": 1,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Wailing Wood",
+    "World": 1,
+    "Type": 2,
+    "Checkpoints": {
+      "Normal": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Circlet Hatchery",
+    "World": 3,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Fetid Pools",
+    "World": 3,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Blink Thief",
+    "World": 4,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Root Horror",
+    "World": 4,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "The Risen",
+    "World": 4,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Brookhaven",
+    "World": 5,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Grave Siege",
+    "World": 5,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Magirs Dirge",
+    "World": 5,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
+    "Name": "Mud Tooth",
+    "World": 1,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Root Shrine (Completed)",
+    "World": 1,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Akari Armor",
+    "World": 2,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "HoundMaster",
+    "World": 2,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Graveyard Elf",
+    "World": 3,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Iskal Queen",
+    "World": 3,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Mar'Gosh",
+    "World": 3,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Stuck Merchant",
+    "World": 4,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Krall Baby",
+    "World": 5,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Krall Mother",
+    "World": 5,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Magir's Test",
+    "World": 5,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Sebum",
+    "World": 5,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Labyrinth Armor",
+    "World": 8,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Ace SuperSave",
+    "World": 9,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  },
+  {
+    "Name": "Intro Skip",
+    "World": 9,
+    "Type": 3,
+    "Checkpoints": {
+      "Vendor": [
+        "Vendor"
+      ]
+    }
+  }
+]

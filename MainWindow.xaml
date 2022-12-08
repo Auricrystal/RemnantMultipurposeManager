@@ -6,12 +6,11 @@
         xmlns:local="clr-namespace:RemnantMultipurposeManager"
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2" x:Class="RemnantMultipurposeManager.MainWindow"
         mc:Ignorable="d"
-        Title="Remnant Multipurpose Manager" Height="711.531" Width="837.522"
+        Title="Remnant Multipurpose Manager" Height="710" Width="840"
         x:Name="RemnantMultipurposeManager" Icon="Resources/IMG/Menu/Image_Test.ico"
         Background="#111"
         Closing="RemnantBuildRandomizer_Closing" Loaded="Window_Loaded"
-        
-        MinHeight="722" MinWidth="837.522"
+        ResizeMode="NoResize"
         >
 
     <Window.Resources>
@@ -507,6 +506,7 @@
             <SolidColorBrush x:Key="ComboBoxItem.ItemsviewFocus.Border" Color="#FF26A0DA"/>
             <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Background" Color="DarkGray"/>
             <SolidColorBrush x:Key="ComboBoxItem.ItemsviewHoverFocus.Border" Color="#FF26A0DA"/>
+            
             <Style TargetType="{x:Type ComboBoxItem}">
                 <Setter Property="SnapsToDevicePixels" Value="True"/>
                 <Setter Property="Padding" Value="4,1"/>
@@ -757,7 +757,7 @@
             <SolidColorBrush x:Key="Button.Disabled.Background" Color="#444444"/>
             <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
             <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
-
+            
             <Style TargetType="{x:Type Button}">
 
                 <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
@@ -782,6 +782,7 @@
                                     <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
                                 </Trigger>
+                                
                                 <Trigger Property="IsPressed" Value="true">
                                     <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
                                     <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
@@ -840,18 +841,66 @@
                     </MultiTrigger>
                 </Style.Triggers>
             </Style>
+            <Style TargetType="{x:Type TreeView}">
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
+            <Style TargetType="{x:Type TreeViewItem}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="FontSize" Value="12"/>
+                <Setter Property="FontWeight" Value="Bold"/>
+            </Style>
 
+            <Style TargetType="{x:Type ListViewItem}">
+                <Style.Resources>
+                    <SolidColorBrush x:Key="SelectedBackgroundBrush" Color="blue"/>
+                </Style.Resources>
+                <Style.Triggers>
+                    <Trigger Property="IsSelected" Value="True">
+                        <Setter Property="Background" Value="Black"/>
+                    </Trigger>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Gray"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type GridViewColumnHeader}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Red"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style TargetType="{x:Type ButtonBase}">
+                <Setter Property="Foreground" Value="White"/>
+                <Setter Property="Background" Value="Black"/>
+                <Setter Property="FontWeight" Value="Normal"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="Red"/>
+                        <Setter Property="FontWeight" Value="Bold"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            
         </ResourceDictionary>
-    </Window.Resources>
+       
 
+    </Window.Resources>
+    
     <Grid x:Name="MainGrid" Background="#222222">
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="25*"/>
         </Grid.RowDefinitions>
-        <Menu Grid.Row="0" Height="30" VerticalAlignment="Top" Background="{x:Null}" >
+        <Menu Grid.Row="0" Height="24" VerticalAlignment="Top" Background="{x:Null}" >
             <MenuItem Name="LoadedProfile" Header="No Profile" Foreground="Gray"/>
-            <MenuItem Name="Version" Click="UpdateCheck_Click"/>
+            <MenuItem Name="Version" Margin="0,0,0,0" Padding="0,0,0,0" Width="24" Height="24" Click="UpdateCheck_Click"/>
             <MenuItem Name="FileMenu" Header="File" Foreground="White">
                 <MenuItem Name="DefaultCharacter" Click="UnbindProfile" Header="Default Character" Background="Black"/>
                 <MenuItem Name="CreateCharacter" Click="CreateCharacter_Click" Header="Create Character" Background="Black" ToolTip="Creates an (*.RProfile) from a (profile.sav)"/>
@@ -861,19 +910,20 @@
             <MenuItem Name="OptionsMenu" Header="Options" Foreground="White" >
                 <MenuItem Header="Copy Build to Clipboard" Click="CopyBuild_Click"  Background="black"/>
                 <MenuItem Header="Restart Game" Click="GameRestart_Click" ToolTip="Restarts the Game if it is currently running." Background="black"/>
-                <MenuItem Header="Create RMM File" Click="CreateRBB_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
+                <MenuItem Header="Create RMM File" Click="CreateRMM_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
                 <MenuItem Header="Read RMM File" Click="ReadRMM_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
             <MenuItem Header="View" Foreground="White" HorizontalContentAlignment="Center">
                 <MenuItem Header="Data Folder" Click="DataFolder_Click" Background="black"/>
             </MenuItem>
-
-            <ComboBox x:Name="cmbCharacter"  Text="Characters" SelectionChanged="CmbCharacter_SelectionChanged" Width="92"/>
-            <ComboBox x:Name="cmbSaveSlot" Text="Save Slot" SelectionChanged="cmbSaveSlot_SelectionChanged"  Width="83"/>
+            
+            <ComboBox x:Name="cmbCharacter" Text="Characters" SelectionChanged="CmbCharacter_SelectionChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="100" Height="20" Padding="10,0,0,0"/>
+            <ComboBox x:Name="cmbSaveSlot" Text="Save Slot" SelectionChanged="cmbSaveSlot_SelectionChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  HorizontalAlignment="Right" Width="60" Height="20"  Padding="10,0,0,0"/>
+            
             <TextBlock x:Name="lblLastMessage" Text="" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MouseUp="lblLastMessage_MouseUp"/>
 
         </Menu>
-        <TabControl Grid.Row="1" x:Name="MainTab" Background="#222222" >
+        <TabControl Margin="0,10,0,0" Grid.Row="1" x:Name="MainTab" Background="#222222" >
             <TabItem Name="RandomizerTab" Header="Randomizer">
                 <Grid x:Name="RandomizerGrid" Margin="0,0,0,5">
                     <Grid.ColumnDefinitions>
@@ -885,53 +935,122 @@
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     <Viewbox x:Name="BuildUI" Grid.Column="0" Grid.RowSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Top"  />
-                    <Button Content="Button" Grid.Column="1" HorizontalAlignment="Center" Margin="101,10,101,0" Grid.Row="1" VerticalAlignment="Top" Width="151" Height="43" Click="RerollClick"/>
+                    <Button Content="Reroll Build" FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="300" Height="100" Margin="0,-50,0,0" Click="RerollClick"/>
 
                 </Grid>
             </TabItem>
             <TabItem x:Name="FileManager" Header="File Manager">
-                <Viewbox  Stretch="Uniform"  StretchDirection="Both">
-                    <Grid Width="824" Height="630" >
-                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="53" TextWrapping="Wrap" Text="Game Tools" VerticalAlignment="Top" Width="194" FontSize="36" Foreground="White"/>
-                        <CheckBox x:Name="AlterFile" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Alter (.sav) Files" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="34" Margin="10,58,0,0" VerticalAlignment="Top" Width="169" Foreground="White" FontSize="22"/>
-                        <TextBlock TextWrapping="Wrap" Text="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished. DO NOT disable unless you are at the Main Menu." Foreground="White" Margin="199,58,10,524"/>
-                        <TabControl Background="{x:Null}" Margin="0,107,0,0" HorizontalAlignment="Right" Width="824" >
+                <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top" Stretch="Uniform"  StretchDirection="Both">
+                    <Grid Width="824" Height="630" HorizontalAlignment="Left" VerticalAlignment="Top" >
+                        <TextBlock HorizontalAlignment="Left" TextAlignment="Center" Height="32" TextWrapping="Wrap" Text="Options Panel" VerticalAlignment="Top" Width="128" FontSize="20" Foreground="White"/>
+                        <CheckBox Name="AlterFile" ToolTipService.ShowDuration="60000" IsChecked="False" Checked="AlterFile_Checked" Unchecked="AlterFile_Unchecked"  Content="Backup Local Saves" VerticalContentAlignment="Center" HorizontalAlignment="Left" Height="32" Margin="220,10,0,0" VerticalAlignment="Top" Width="140" Foreground="White" FontSize="12" ToolTip="In order to preserve your personal save you must have this check box enabled, it is responsible for reverting back to your original save when you are finished. DO NOT disable unless you are at the Main Menu."/>
+                        <CheckBox Name="OfflineFileAccess" Content="Offline File Access" Height="32" Width="140" VerticalAlignment="Top" VerticalContentAlignment="Center"  Foreground="white" ToolTipService.ShowDuration="60000" Margin="580,10,0,0" ToolTip="Downloads a zip of all the checkpoints (~300mb)"/>
+                        <CheckBox Name="KeepCheckpoint" Content="Lock Checkpoint" Width="140" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Checked="KeepCheckpoint_Checked" Unchecked="KeepCheckpoint_Unchecked" Height="32" Margin="150,10,0,588" VerticalContentAlignment="Center" Foreground="White" FontSize="12"/>
+                        <TabControl Background="{x:Null}" Margin="0,48,-25,0" HorizontalAlignment="Center" VerticalAlignment="Top">
                             <TabItem x:Name="SaveManager" Header="Save Manager">
-                                <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
-                                    <Grid Width="824" Height="496">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Image Source="Resources/IMG/Menu/HarsgaardCrystal.png" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5"/>
-                                        <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="LoadSave" Content="Load Checkpoint" Click="LoadSave_Click" HorizontalAlignment="Left" Height="28" Margin="422,35,0,0" VerticalAlignment="Top" Width="113"/>
-                                        <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="28" Margin="422,68,0,0" VerticalAlignment="Top" Width="113"/>
-                                        <TextBlock TextWrapping="Wrap" Foreground="White" Margin="422,101,227,235"><Run Text="ONLY Load checkpoints while at the Main Menu."/><LineBreak/><Run/><LineBreak/><Run Text="If your using the Razzmatazz Save Manager, the Analyzer will update 10 seconds after loading a save from here."/></TextBlock>
-                                        <CheckBox x:Name="KeepCheckpoint" Content="Keep Current Checkpoint" IsEnabled="{Binding IsChecked, ElementName=AlterFile}" Checked="KeepCheckpoint_Checked" Unchecked="KeepCheckpoint_Unchecked" Height="20" Margin="422,10,190,466" VerticalContentAlignment="Center" Foreground="White" FontSize="16"/>
-                                        <Grid x:Name="SaveView" HorizontalAlignment="Left" Height="476" Margin="0,10,0,0" VerticalAlignment="Top" Width="417"/>
-                                    </Grid>
-                                </Viewbox>
+                                <Grid >
+                                    <Image Source="Resources/IMG/Menu/HarsgaardCrystal.png" Stretch="Fill" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5"/>
+                                    <ComboBox Name="cmbSaveType" Width="200" Height="30" FontSize="15" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" Margin="0,10,0,0" SelectionChanged="cmbSaveType_SelectionChanged">
+                                        <ComboBoxItem Content="Bosses"/>
+                                        <ComboBoxItem Content="Events"/>
+                                        <ComboBoxItem Content="Vendors"/>
+                                    </ComboBox>
+                                    <DataGrid RowHeaderWidth="0" CanUserReorderColumns="false" CanUserResizeRows="False" RowHeight="20" IsReadOnly="True"  Name="SaveList" Width="280" Height="450" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,50,0,0" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="SaveList_BossName_SelectionChanged">
+                                        <DataGrid.Columns>
+                                            <!--<DataGridTextColumn Binding="{Binding Type}" Header="Type" Width="60"/>-->
+                                            <DataGridTextColumn Binding="{Binding World}" Header="World" Width="120"/>
+                                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="130"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <ListView  Name="SaveListDifficulty" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#111" Foreground="white" SelectionMode="Single" Width="250" Height="120" Margin="300,50,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="SaveList_Difficulty_SelectionChanged">
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False" >
+                                                <GridViewColumn Width="250">
+                                                    <GridViewColumnHeader Content="Difficulty" Foreground="White">
+                                                        <GridViewColumnHeader.Style>
+                                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                                            <Border Background="{TemplateBinding Background}">
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Background" Value="Black"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#222"/>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </GridViewColumnHeader.Style>
+                                                    
+                                                    </GridViewColumnHeader>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <ListView  Name="SaveListModifier" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#111" Foreground="white" SelectionMode="Single" Width="250" Height="300" Margin="300,200,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="SaveList_Modifier_SelectionChanged">
+                                        <ListView.View>
+                                            <GridView AllowsColumnReorder="False" >
+                                                <GridViewColumn Width="250">
+                                                    <GridViewColumnHeader Content="Modifiers" Foreground="White">
+                                                        <GridViewColumnHeader.Style>
+                                                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
+                                                                            <Border Background="{TemplateBinding Background}">
+                                                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                                            </Border>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                                <Setter Property="Background" Value="Black"/>
+                                                                <Style.Triggers>
+                                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                                        <Setter Property="Background" Value="#222"/>
+                                                                    </Trigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </GridViewColumnHeader.Style>
+
+                                                    </GridViewColumnHeader>
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="LoadSave" Content="Load Checkpoint" Click="LoadSave_Click" HorizontalAlignment="Left" Height="40" Width="200" Margin="580,50,0,0" VerticalAlignment="Top" />
+                                    <Button IsEnabled="{Binding IsChecked, ElementName=AlterFile}" x:Name="FeelingLucky" Content="I'm Feeling Lucky" ToolTip="Pick a random boss" Click="FeelingLucky_Click"  HorizontalAlignment="Left" Height="40" Width="200" Margin="580,130,0,0" VerticalAlignment="Top" />
+                                    <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="15"  Margin="580,200,50,50"><Run Text="ONLY Load checkpoints while at the Main Menu."/><LineBreak/><Run/><LineBreak/><Run Text="If your using the Razzmatazz Save Manager, the Analyzer will update 10 seconds after loading a save from here."/>
+                                        <TextBlock.Background>
+                                            <SolidColorBrush Color="black" Opacity="0.7"/>
+                                        </TextBlock.Background>
+                                    </TextBlock>
+                                    <Grid x:Name="SaveView" HorizontalAlignment="Left" Height="476" Margin="0,10,0,0" VerticalAlignment="Top" Width="417"/>
+                                </Grid>
                             </TabItem>
                             <TabItem x:Name="ProfileManager" Header="Profile Manager" IsEnabled="true">
-                                <Viewbox  HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="UniformToFill"  StretchDirection="Both">
-                                    <Grid Width="824" Height="496">
-                                        <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="UniformToFill" Margin="0,-25,0,0" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2"/>
-                                        <DataGrid x:Name="ProfileList" Margin="0,83,386,0" Height="403" VerticalAlignment="Top" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged" ToolTip="Right-Click For Options!">
-                                            <DataGrid.ContextMenu>
-                                                <ContextMenu>
-                                                    <MenuItem Name="LoadProfile" Header="Load Profile" Click="LoadProfile_Click" ToolTip="Loads This Profile" IsEnabled="False"/>
-                                                    <MenuItem Name="SaveProfile" Header="Save to Profile" Click="SaveProfile_Click"  ToolTip="Saves Current Profile This Profile" IsEnabled="False"/>
-                                                    <MenuItem Name="DeleteProfile" Header="Delete this Profile" Click="DeleteProfile_Click"  ToolTip="Deletes Selected Profile" IsEnabled="False"/>
-                                                    <MenuItem Name="CreateProfile" Header="Create Profile" Click="CreateProfile_Click"  ToolTip="Create Profile"/>
-                                                    <MenuItem Name="CreateProfileRewards" Header="Create Profile (All Account Bound Items)" Click="CreateProfileRewards_Click"  ToolTip="Create Profile (All Account Bound Items)"/>
-                                                </ContextMenu>
-                                            </DataGrid.ContextMenu>
-                                        </DataGrid>
-                                        <TextBlock HorizontalAlignment="Left" Height="68" Margin="10,10,0,0" TextWrapping="Wrap" Text="Right-Click the list for profile options&#x0a;&#x0a;If you are using the Save Analyzer make sure to keep some backup saves of the other profiles or it will overwrite them.  " VerticalAlignment="Top" Width="358" FontSize="12"/>
-                                        <TextBox x:Name="ProfilePath" HorizontalAlignment="Left" Height="20" Margin="443,10,0,0" TextWrapping="Wrap" Text="Null" VerticalAlignment="Top" Width="371" IsReadOnly="True"/>
-                                        <TextBlock HorizontalAlignment="Left" Height="19" Margin="294,10,0,0" TextWrapping="Wrap" Text="Profile Folder" VerticalAlignment="Top" Width="74"/>
-                                        <Button x:Name="btnProfileChoose" Click="btnProfileChoose_Click" Content="Choose" HorizontalAlignment="Left" Height="20" Margin="373,10,0,0" VerticalAlignment="Top" Width="65"/>
-                                    </Grid>
-                                </Viewbox>
+                                <Grid>
+                                    <Image Source="Resources/IMG/Menu/remnant_of_mankind_bg.jpg" Stretch="fill" Margin="0,100,0,0" RenderTransformOrigin="0.5,0.5"/>
+                                    <DataGrid x:Name="ProfileList" Margin="5,110,0,5" Width="400" Height="460" VerticalAlignment="Top" HorizontalAlignment="Left" SelectionMode="Single"  CellEditEnding="ProfileList_CellEditEnding" SelectionChanged="ProfileList_SelectionChanged" ToolTip="Right-Click For Options!">
+                                        <DataGrid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Name="LoadProfile" Header="Load Profile" Click="LoadProfile_Click" ToolTip="Loads This Profile" IsEnabled="False"/>
+                                                <MenuItem Name="SaveProfile" Header="Save to Profile" Click="SaveProfile_Click"  ToolTip="Saves Current Profile This Profile" IsEnabled="False"/>
+                                                <MenuItem Name="DeleteProfile" Header="Delete this Profile" Click="DeleteProfile_Click"  ToolTip="Deletes Selected Profile" IsEnabled="False"/>
+                                                <MenuItem Name="CreateProfile" Header="Create Profile" Click="CreateProfile_Click"  ToolTip="Create Profile"/>
+                                                <MenuItem Name="CreateProfileRewards" Header="Create Profile (All Account Bound Items)" Click="CreateProfileRewards_Click"  ToolTip="Create Profile (All Account Bound Items)"/>
+                                            </ContextMenu>
+                                        </DataGrid.ContextMenu>
+                                    </DataGrid>
+                                    <TextBlock HorizontalAlignment="Left" Height="80" Margin="10,10,0,0" TextWrapping="Wrap" Text="Right-Click the list for profile options&#x0a;&#x0a;If you are using the Save Analyzer make sure to keep some backup saves of the other profiles or it will overwrite them.  " VerticalAlignment="Top" Width="250" FontSize="12"/>
+                                    <TextBox x:Name="ProfilePath" HorizontalAlignment="Left" Height="20" Margin="443,32,0,0" TextWrapping="Wrap" Text="Null" VerticalAlignment="Top" Width="371" IsReadOnly="True"/>
+                                    <TextBlock HorizontalAlignment="Left" Height="19" Margin="294,32,0,0" TextWrapping="Wrap" Text="Profile Folder" VerticalAlignment="Top" Width="74"/>
+                                    <Button x:Name="btnProfileChoose" Click="btnProfileChoose_Click" Content="Choose" HorizontalAlignment="Left" Height="20" Margin="373,32,0,0" VerticalAlignment="Top" Width="65"/>
+                                </Grid>
                             </TabItem>
                         </TabControl>
                     </Grid>
