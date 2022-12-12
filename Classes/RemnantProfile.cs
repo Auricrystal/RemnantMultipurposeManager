@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
 using Newtonsoft.Json;
+using System.IO.Compression;
 
 namespace RemnantMultipurposeManager
 {
@@ -16,10 +17,15 @@ namespace RemnantMultipurposeManager
         public Dictionary<int, int> SavePair { get; }
         public Dictionary<int, List<Build>> Builds { get; }
         public Dictionary<int, List<int>> Blacklists { get; }
+        public byte[] Data { get; protected set; }
+
+        //private byte[] data;
+
         public RemnantProfile(string read)
         {
             try
             {
+                PackProfile(read);
                 Characters = RemnantCharacter.GenerateCharacters(read);
                 SavePair = new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
                 Builds = new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
@@ -29,6 +35,7 @@ namespace RemnantMultipurposeManager
             catch (Exception)
             {
                 MainWindow.MW.LogMessage("Error Generating Profile", MainWindow.LogType.Error);
+                Data = null;
                 Characters = new List<RemnantCharacter>();
                 SavePair = new Dictionary<int, int>();
                 Builds = new Dictionary<int, List<Build>>();
@@ -36,12 +43,13 @@ namespace RemnantMultipurposeManager
             }
         }
         [JsonConstructor]
-        private RemnantProfile(List<RemnantCharacter> characters, Dictionary<int, int> savePair, Dictionary<int, List<Build>> builds, Dictionary<int, List<int>> blacklists)
+        private RemnantProfile(List<RemnantCharacter> characters, Dictionary<int, int> savePair, Dictionary<int, List<Build>> builds, Dictionary<int, List<int>> blacklists, byte[] data)
         {
             Characters = characters ?? new List<RemnantCharacter>();
             SavePair = savePair ?? new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
             Builds = builds ?? new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
             Blacklists = blacklists ?? new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
+            Data = data;
         }
 
         public void UpdateCharacters(string path)
@@ -55,10 +63,19 @@ namespace RemnantMultipurposeManager
                 MainWindow.MW.LogMessage("Error Updating Profile", MainWindow.LogType.Error);
             }
         }
+        public void PackProfile(string path)
+        {
+            Debug.WriteLine("Pack Profile");
+            Data=File.ReadAllBytes(path);
+        }
+        public void UnpackProfile(string path)
+        {
+            File.WriteAllBytes(path, Data);
+        }
 
         public void Save(string path)
         {
-           
+
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore

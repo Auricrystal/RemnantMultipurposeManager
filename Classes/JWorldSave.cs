@@ -58,7 +58,7 @@ namespace RemnantMultipurposeManager
             
 
             string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/";
-            return zipURL + string.Join("/", Type, dt, (World == JWorldSave.WorldZone.WardPrime) ? "Ward Prime" : World, Name, modifier, "save.sav");
+            return zipURL + string.Join("/", Type, Type != SaveType.Vendors ? dt : "No Difficulty" , (World == JWorldSave.WorldZone.WardPrime) ? "Ward Prime" : World, Name, modifier, "save.sav");
              
         }
 

@@ -46,11 +46,11 @@ namespace RemnantMultipurposeManager
             this.Width = rectW + 4;
             SolidColorBrush bg = null;//new SolidColorBrush(new Color() { R = 21, G = 21, B = 21, A = 255 });
             Offense.Children.Add(HandGun = new InventorySlot(HG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) }); ;
-            HandGun.Children.Add(HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 0.80, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
-            HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp });
+            HandGun.Children.Add(HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
+            HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
             Offense.Children.Add(LongGun = new InventorySlot(LG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
-            LongGun.Children.Add(LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 0.80, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
-            LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp });
+            LongGun.Children.Add(LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
+            LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
             Offense.Children.Add(Melee = new InventorySlot(M, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
             Defense.Children.Add(Head = new InventorySlot(HE, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
             Defense.Children.Add(Chest = new InventorySlot(CH, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
@@ -119,13 +119,30 @@ namespace RemnantMultipurposeManager
             this.Width = width;
             Item = GearInfo.GetEmpty(sl);
 
-            DisplayImage = new Image() { Source = (sl != MO) ? Item.GetImage() : null, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
+            DisplayImage = new Image() { Source = (sl != MO) ? Item.GetImage() : null, HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Center : HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
             if (border)
             {
                 b = new Border() { BorderBrush = new SolidColorBrush(new Color() { R = 30, G = 30, B = 30, A = 255 }), Child = DisplayImage, BorderThickness = new Thickness(6), CornerRadius = new CornerRadius(24), Background = new SolidColorBrush(new Color() { R = 15, G = 15, B = 15, A = 255 }) };
             }
             this.Children.Add(b ?? (UIElement)DisplayImage);
-            this.Children.Add(DisplayName = new TextBlock() { HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Top, Padding = new Thickness(25, 25, 0, 0), TextWrapping = TextWrapping.Wrap, FontSize = 24, FontFamily = new FontFamily(new Uri(@"pack://application:,,,/"), "./Resources/Fonts/#Montserrat Light") }); ;
+
+            this.Children.Add(new Border()
+            {
+                BorderThickness = new Thickness(2),
+                BorderBrush = new SolidColorBrush(),
+                Child = DisplayName = new TextBlock()
+                {
+
+                    HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Left:HorizontalAlignment.Right,
+                    VerticalAlignment = (sl != MO) ? VerticalAlignment.Top : VerticalAlignment.Bottom,
+                    Padding = new Thickness(25, 25, 0, 0),
+                    Margin = (sl != MO) ? new Thickness(0) : new Thickness(0,0,86,-20),
+                    TextWrapping = (sl != MO) ? TextWrapping.Wrap:TextWrapping.NoWrap,
+                    FontSize = 24,
+                    FontFamily = new FontFamily(new Uri(@"pack://application:,,,/"), "./Resources/Fonts/#Montserrat Light")
+                }
+            });
+
             SlotType = sl;
             Item = null;
         }
@@ -136,7 +153,7 @@ namespace RemnantMultipurposeManager
             if (ii?.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + ii.Slot + "!=" + SlotType); return; }
             Item = ii;
             DisplayImage.Source = Item.GetImage();
-            DisplayName.Text = (SlotType != MO) ? Item.Name : null;
+            DisplayName.Text = Item.Name;
             var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
             if (img.Count() > 0) { img.First().ToolTip = Item.Name; }
 

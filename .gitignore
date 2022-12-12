@@ -3,7 +3,4 @@ bin/Debug/RemnantBuildRandomizer.exe
 *.exe
 bin/Debug/RemnantBuildRandomizer.exe
 obj/Debug/RemnantBuildRandomizer.exe
-*.exe
-*.exe
-*.exe
-*.exe
+*.vsidx

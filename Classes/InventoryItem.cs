@@ -42,7 +42,16 @@ namespace RemnantMultipurposeManager
         public BitmapImage GetImage()
         {
             BitmapImage bmp = null;
+
+            if (!System.IO.File.Exists(MainWindow.RBRDirPath + "\\IMG.zip"))
+                if (!MainWindow.DownloadZip("IMG"))
+                    return new BitmapImage();
+
+
+
             var zip = ZipFile.OpenRead(MainWindow.RBRDirPath + "\\IMG.zip");
+
+
             var entry = IMG != null ? zip.GetEntry(IMG) : null;
             if (entry != null)
             {

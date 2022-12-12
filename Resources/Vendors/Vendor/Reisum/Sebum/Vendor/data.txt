@@ -1,0 +1,14 @@
+[Consumable]
+Ice Fruit
+
+[Armor]
+Warlord Skull
+Warlord Armor
+Warlord Boots
+
+[Weapon]
+Sawed-Off
+
+[Trinket]
+Band of Discord
+Ring of Synergy

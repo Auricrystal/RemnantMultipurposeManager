@@ -1,0 +1,16 @@
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Release\Remnant Multipurpose Manager.exe.config
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Release\Remnant Multipurpose Manager.exe
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\bin\Release\Remnant Multipurpose Manager.pdb
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\RemnantMultipurposeManager.csproj.AssemblyReference.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\RemnantMultipurposeManager.csproj.SuggestedBindingRedirects.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\MainWindow.g.cs
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\App.g.cs
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\Remnant Multipurpose Manager_MarkupCompile.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\Remnant Multipurpose Manager_MarkupCompile.lref
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\MainWindow.baml
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\Remnant Multipurpose Manager.g.resources
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\RemnantMultipurposeManager.Properties.Resources.resources
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\RemnantMultipurposeManager.csproj.GenerateResource.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\RemnantMultipurposeManager.csproj.CoreCompileInputs.cache
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\Remnant Multipurpose Manager.exe
+C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\obj\Release\Remnant Multipurpose Manager.pdb

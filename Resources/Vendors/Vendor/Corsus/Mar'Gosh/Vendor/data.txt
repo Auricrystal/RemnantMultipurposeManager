@@ -1,0 +1,13 @@
+[Prerequisites]
+Need to have Parasite Status in order to initiate dialogue.
+
+[Armor]
+Carapace Great Helm (Requires 1 Hardened Carapace)
+Carapace Shell      (Requires 1 Hardened Carapace)
+Carapace Greaves    (Requires 1 Hardened Carapace)
+
+[Trait]
+Luminescent (Requires Opalescent Shell)
+
+[Trinket]
+Gift Of The Iskal (Requires Killing Mar'Gosh)

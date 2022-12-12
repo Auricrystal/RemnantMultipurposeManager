@@ -1,0 +1,6 @@
+[Consumable]
+Golden Plum
+
+[Armor]
+Radiant Protector
+Radiant Greaves
