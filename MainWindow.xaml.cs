@@ -9,6 +9,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -30,10 +31,11 @@ namespace RemnantMultipurposeManager
         public static MainWindow MW = null;
         readonly public static Random rd = new Random();
         public enum LogType { Normal, Success, Error }
-        private FileSystemWatcher saveWatcher;
+        private FileSystemWatcher ProfileWatcher, SaveWatcher;
         private readonly InventoryUI UI;
         private RemnantProfile profile;
         private List<JWorldSave> checkpoints;
+        private byte[] lockedSave;
         //test comment
         public RemnantProfile Profile
         {
@@ -79,7 +81,10 @@ namespace RemnantMultipurposeManager
             MW = this;
             InitializeComponent();
             txtLog.IsReadOnly = true;
-            DownloadZip("IMG");
+
+
+            if (!File.Exists(RBRDirPath + "\\" + "IMG.zip"))
+                DownloadZip("IMG");
             checkForUpdate();
             File.Delete(RBRDirPath + "\\log.txt");
 
@@ -96,18 +101,21 @@ namespace RemnantMultipurposeManager
                 ReadRMM.Visibility = CreateRMM.Visibility = Visibility.Visible;
             }
 
-            if (Profile != null)
+            if (Profile is null)
             {
-                SetSaveManagerActive(true);
-                
+                SetSaveManagerActive(false);
                 return;
             }
-            SetSaveManagerActive(false);
+            Debug.WriteLine("checkbox " + Properties.Settings.Default.OfflineAccess);
+            OfflineFileAccess.IsChecked = Properties.Settings.Default.OfflineAccess;
+            SetSaveManagerActive(true);
 
         }
-        private void OnProfileSaveChanged(object source, FileSystemEventArgs e) {
+        private void OnProfileSaveChanged(object source, FileSystemEventArgs e)
+        {
             Debug.WriteLine("Profile Updated");
             Profile.PackProfile(GameSavePath + @"\profile.sav");
+
             Profile.Save(Properties.Settings.Default.CurrentProfile);
         }
         private void RerollClick(object sender, RoutedEventArgs e)
@@ -122,39 +130,49 @@ namespace RemnantMultipurposeManager
                 b = GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties());
             }
             UI.EquipBuild(b);
-            Profile?.Builds[0]?.Add(UI.Shown);
+            //Profile?.Builds[0]?.Add(UI.Shown);
         }
         private void DownloadDirectory()
         {
             string Directory = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/Experimental-FileFormat/Resources/Data/CheckpointDirectory.rmm";
+
             using (WebClient client = new WebClient())
             {
+
+
                 if (!File.Exists(RBRDirPath + @"\CheckpointDirectory.rmm"))
                 {
                     client.DownloadFile(Directory, RBRDirPath + @"\CheckpointDirectory.rmm");
                     return;
                 }
+                if (OfflineFileAccess.IsChecked.Value)
+                    return;
 
-                using (StreamReader nw = new StreamReader(client.OpenRead(Directory)), od = new StreamReader(File.OpenRead(RBRDirPath + @"\CheckpointDirectory.rmm")))
+                try
                 {
-
-                    string a;
-                    while ((a = nw.ReadLine()) != null)
+                    using (StreamReader nw = new StreamReader(client.OpenRead(Directory)), od = new StreamReader(File.OpenRead(RBRDirPath + @"\CheckpointDirectory.rmm")))
                     {
-                        if (a != od.ReadLine())
+
+                        string a;
+                        while ((a = nw.ReadLine()) != null)
                         {
-                            nw.Close();
-                            od.Close();
-                            client.DownloadFile(Directory, RBRDirPath + @"\CheckpointDirectory.rmm");
-                            return;
+                            if (a != od.ReadLine())
+                            {
+                                nw.Close();
+                                od.Close();
+                                client.DownloadFile(Directory, RBRDirPath + @"\CheckpointDirectory.rmm");
+                                return;
+                            }
                         }
                     }
                 }
+                catch (WebException) { Debug.WriteLine("Offline Issues"); }
             }
         }
 
         public void UnbindProfile(object sender, RoutedEventArgs e)
         {
+
             Properties.Settings.Default.CurrentProfile = null;
             profile = null;
             Properties.Settings.Default.Save();
@@ -168,16 +186,22 @@ namespace RemnantMultipurposeManager
                 return;
             }
 
-            if (b)
+
+
+            if (ProfileWatcher is null && b)
             {
-                saveWatcher = new FileSystemWatcher();
-                saveWatcher.Path = GameSavePath;
-                saveWatcher.Filter = "profile.sav";
-                saveWatcher.NotifyFilter = NotifyFilters.LastWrite;
-                saveWatcher.Changed += OnProfileSaveChanged;
-                saveWatcher.EnableRaisingEvents = true;
+
+                ProfileWatcher = new FileSystemWatcher()
+                {
+                    Path = GameSavePath,
+                    Filter = "profile.sav",
+                    NotifyFilter = NotifyFilters.LastWrite,
+                };
+                ProfileWatcher.Changed += OnProfileSaveChanged;
             }
-            else { saveWatcher = null; }
+
+            if (ProfileWatcher is not null)
+                ProfileWatcher.EnableRaisingEvents = b;
 
             SaveManager.IsEnabled = b;
             if (!b && MainTab.SelectedIndex == 1)
@@ -210,7 +234,7 @@ namespace RemnantMultipurposeManager
         }
 
         private enum BackupAction { Backup, Revert };
-        private BackupAction lastBackupAction=BackupAction.Revert;
+        private BackupAction lastBackupAction = BackupAction.Revert;
         private void BackupRevert(BackupAction b)
         {
             if (b == BackupAction.Backup)
@@ -236,7 +260,7 @@ namespace RemnantMultipurposeManager
                 {
                     File.Copy(s, GameSavePath + "\\" + s.Split('\\').Last(), true);
                 }
-                Directory.Delete(RBRDirPath + @"\Backup",true);
+                Directory.Delete(RBRDirPath + @"\Backup", true);
             }
 
         }
@@ -289,7 +313,12 @@ namespace RemnantMultipurposeManager
                     }
                      );
                 }
-                catch (Exception) { Debug.WriteLine("Check for update problem"); }
+                catch (WebException)
+                {
+                    Version.Header = new Image { Source = new BitmapImage(new Uri(@"pack://application:,,," + @"/Resources/IMG/Menu/_CurrentVersion.png")) };
+                    Version.ToolTip = "Online Access Restricted or Off";
+                    MW.LogMessage("Online Access Restricted or Off", LogType.Error);
+                }
             }
             Debug.WriteLine("Update value: " + compare);
             return compare;
@@ -346,25 +375,26 @@ namespace RemnantMultipurposeManager
             if (!Dispatcher.CheckAccess())
             {
                 this.Dispatcher.Invoke(() => { LogMessage(msg, color: color); });
+                return;
+            }
+
+
+            txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
+            lblLastMessage.Text = msg;
+            lblLastMessage.ToolTip = null;
+            lblLastMessage.Foreground = new SolidColorBrush(color ?? Colors.White);
+            if (color.Equals(Colors.White))
+            {
+                lblLastMessage.FontWeight = FontWeights.Normal;
             }
             else
             {
-                txtLog.Text = txtLog.Text + Environment.NewLine + DateTime.Now.ToString() + ": " + msg;
-                lblLastMessage.Text = msg;
-                lblLastMessage.ToolTip = null;
-                lblLastMessage.Foreground = new SolidColorBrush(color ?? Colors.White);
-                if (color.Equals(Colors.White))
-                {
-                    lblLastMessage.FontWeight = FontWeights.Normal;
-                }
-                else
-                {
-                    lblLastMessage.FontWeight = FontWeights.Bold;
-                }
-                StreamWriter writer = System.IO.File.AppendText(RBRDirPath + "/log.txt");
-                writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
-                writer.Close();
+                lblLastMessage.FontWeight = FontWeights.Bold;
             }
+            StreamWriter writer = System.IO.File.AppendText(RBRDirPath + "/log.txt");
+            writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
+            writer.Close();
+
         }
 
         public static void CopyUIElementToClipboard(FrameworkElement element)
@@ -384,12 +414,17 @@ namespace RemnantMultipurposeManager
 
         private void CmbSaveSlot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbCharacter.SelectedItem != null)
-            {
-                RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
-                Profile.SavePair[rc.Slot] = cmbSaveSlot.SelectedIndex;
-                Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
-            }
+            if (cmbCharacter.SelectedItem == null)
+                return;
+
+            RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
+            Profile.SavePair[rc.Slot] = cmbSaveSlot.SelectedIndex;
+            // Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
+            if (SaveWatcher is null || !SaveWatcher.EnableRaisingEvents)
+                return;
+            Debug.WriteLine("Switching Locked Save");
+            SaveWatcher.Filter = "save_" + cmbSaveSlot.SelectedIndex + ".sav";
+            lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
         }
         private void CmbCharacter_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -448,19 +483,54 @@ namespace RemnantMultipurposeManager
 
         #endregion
 
-        private void KeepCheckpoint_Checked(object sender, RoutedEventArgs e)
+        private void LockCheckpoint_Checked(object sender, RoutedEventArgs e)
         {
+            if (SaveWatcher is null)
+            {
+                Debug.WriteLine("Making new save watcher");
+                SaveWatcher = new FileSystemWatcher() { Path = GameSavePath, Filter = "save_" + cmbSaveSlot.SelectedIndex + ".sav", NotifyFilter = NotifyFilters.LastWrite };
+                SaveWatcher.Changed += LockedSave_Changed;
+            }
+            SaveWatcher.EnableRaisingEvents = true;
+            lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
+            Debug.WriteLine("Bytes: " + lockedSave.Length);
             LoadButtonSettings();
         }
-        private void KeepCheckpoint_Unchecked(object sender, RoutedEventArgs e)
+
+        private void LockedSave_Changed(object sender, FileSystemEventArgs e)
         {
+            SaveWatcher.EnableRaisingEvents = false;
+            this.Dispatcher.Invoke(() =>
+            {
+                try
+                {
+                    Debug.WriteLine("Overwriting!");
+                    File.WriteAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav", lockedSave);
+                }
+                catch (IOException ex)
+                {
+                    if (ex.Message.Contains("being used by another process"))
+                    {
+                        Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
+
+                        Thread.Sleep(500);
+                        LockedSave_Changed(sender, e);
+                    }
+                }
+            });
+            SaveWatcher.EnableRaisingEvents = true;
+        }
+
+        private void LockCheckpoint_Unchecked(object sender, RoutedEventArgs e)
+        {
+            SaveWatcher.EnableRaisingEvents = false;
             LoadButtonSettings();
         }
 
         private void LoadButtonSettings()
         {
-            LoadSave.IsEnabled =  !LockCheckpoint.IsChecked.Value && SaveList.SelectedIndex != -1;
-            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value && SaveList.SelectedIndex != -1;
+            LoadSave.IsEnabled = !LockCheckpoint.IsChecked.Value && SaveList.SelectedIndex != -1;
+            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value;
         }
         private void AlterFile_Clicked(object sender, RoutedEventArgs e)
         {
@@ -515,12 +585,13 @@ namespace RemnantMultipurposeManager
             {
                 //Debug.WriteLine("Opening: " + zipName);
                 string s = "";
-                if (!File.Exists(s = @"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\" + zipName + ".zip"))
-                {
-                    //Debug.WriteLine("Doesnt exist: " + zipName);
-                    continue;
-                }
-                //Debug.WriteLine("Checking");
+                if (File.Exists(s = @"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\" + zipName + ".zip"))
+                    File.Delete(s);
+
+                var f = zipName == "Vendors2" ? "Vendors" : zipName;
+
+                ZipFile.CreateFromDirectory(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\" + f, s, CompressionLevel.Optimal, true);
+
                 using (ZipArchive zipFile = ZipFile.Open(s, ZipArchiveMode.Read))
                 {
                     string savetype = "";
@@ -533,6 +604,7 @@ namespace RemnantMultipurposeManager
                     {
                         if (!entry.FullName.Contains("save.sav"))
                             continue;
+                        //Debug.WriteLine(entry.FullName);
                         string[] temp = entry.FullName.Split('/');
 
                         if (savetype != temp[0])
@@ -555,7 +627,7 @@ namespace RemnantMultipurposeManager
                                 new Dictionary<JWorldSave.DifficultyType, List<string>>()
                                 {
                                       {
-                                       (JWorldSave.DifficultyType)Enum.Parse(typeof(JWorldSave.DifficultyType),diff) ,
+                                       (JWorldSave.DifficultyType)Enum.Parse(typeof(JWorldSave.DifficultyType),diff=="No Difficulty"?"Vendor":diff) ,
                                         new List<string>(){modifier}
                                       }
                                 }
@@ -626,13 +698,48 @@ namespace RemnantMultipurposeManager
 
             if (SaveList.SelectedIndex == -1)
                 return;
+
+            ProfileWatcher.EnableRaisingEvents = false;
             File.SetLastWriteTime(GameSavePath + "\\profile.sav", DateTime.Now);
-            LogMessage("Loading: " + String.Join(",", Save.Type != JWorldSave.SaveType.Vendors ? Diff : "No Difficulty", Save.Name, Mod), LogType.Success);
-            Save.DownloadFile(GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav", Diff, Mod);
+            if (OfflineFileAccess.IsChecked.Value)
+            {
+                Save.grabFileFromZip(GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav", Diff, Mod);
+            }
+            else
+            {
+                Save.DownloadFile(GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav", Diff, Mod);
+            }
+            ProfileWatcher.EnableRaisingEvents = true;
         }
 
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
         {
+            if (SaveList.ItemsSource is null)
+                return;
+
+            FeelingLucky.IsEnabled = LoadSave.IsEnabled = false;
+            BackupRevert(BackupAction.Backup);
+            ProfileWatcher.EnableRaisingEvents = false;
+            var s = GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav";
+            Thread t = new Thread(() =>
+            {
+                //Thread.Sleep(2000);
+                var save = ((List<JWorldSave>)SaveList.ItemsSource).Where(x => x.Type == JWorldSave.SaveType.Bosses).Shuffle().First();
+                File.SetLastWriteTime(GameSavePath + "\\profile.sav", DateTime.Now);
+                if (!Properties.Settings.Default.OfflineAccess)
+                {
+                    save.DownloadFile(s, JWorldSave.DifficultyType.Apocalypse, save.Checkpoints[JWorldSave.DifficultyType.Apocalypse].Shuffle().First());
+                }
+                else
+                {
+                    save.grabFileFromZip(s, JWorldSave.DifficultyType.Apocalypse, save.Checkpoints[JWorldSave.DifficultyType.Apocalypse].Shuffle().First());
+                }
+                Action action = () => FeelingLucky.IsEnabled = LoadSave.IsEnabled = ProfileWatcher.EnableRaisingEvents = true;
+                this.Dispatcher.BeginInvoke(action);
+            });
+            t.Start();
+
+
 
         }
 
@@ -685,20 +792,17 @@ namespace RemnantMultipurposeManager
                 SetSaveManagerActive(true);
             }
         }
-
-
         private void LoadCharacter_Click(object sender, RoutedEventArgs e)
         {
-            var process = Process.GetProcessesByName("Remnant-Win64-Shipping");
-            if (process.Length > 0)
+            if (Process.GetProcessesByName("Remnant-Win64-Shipping").Length > 0 && Profile is not null)
             {
                 //string path = process[0].MainModule.FileName;
-               // Debug.WriteLine(process.Length + " Remnant Is Running! " + path + " PID:" + process[0].Id);
+                // Debug.WriteLine(process.Length + " Remnant Is Running! " + path + " PID:" + process[0].Id);
                 MessageBox.Show("Loading an (*.RProfile) with the game still running will cause you to lose saved data!\nPlease close the game before trying again.", "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
 
                 return;
             }
-            
+
             using (var read = new System.Windows.Forms.OpenFileDialog())
             {
                 read.Title = "Read RProfile File";
@@ -714,7 +818,7 @@ namespace RemnantMultipurposeManager
                 Properties.Settings.Default.CurrentProfile = read.FileName;
                 Properties.Settings.Default.Save();
 
-                profile.UnpackProfile(GameSavePath+@"\profile.sav");
+                profile.UnpackProfile(GameSavePath + @"\profile.sav");
 
                 SetSaveManagerActive(true);
 
@@ -802,8 +906,14 @@ namespace RemnantMultipurposeManager
 
             LoadButtonSettings();
             SaveListModifier.SelectedIndex = 0;
+        }
 
-
+        private void OfflineFileAccess_Toggle(object sender, RoutedEventArgs e)
+        {
+            if (OfflineFileAccess.IsChecked.Value && !Properties.Settings.Default.OfflineAccess)
+                new List<string> { "Bosses", "Vendors2", "Events" }.ForEach(x => DownloadZip(x));
+            Properties.Settings.Default.OfflineAccess = OfflineFileAccess.IsChecked.Value;
+            Properties.Settings.Default.Save();
         }
 
         private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)

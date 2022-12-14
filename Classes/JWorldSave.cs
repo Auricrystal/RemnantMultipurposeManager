@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static RemnantMultipurposeManager.MainWindow;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace RemnantMultipurposeManager
@@ -22,14 +24,14 @@ namespace RemnantMultipurposeManager
 
         public WorldZone World { get; private set; }//Corsus
         public SaveType Type { get; private set; }//Boss
-        
+
         public Dictionary<DifficultyType, List<string>> Checkpoints { get; private set; }
 
 
 
         [JsonConstructor]
-        public JWorldSave(string name, WorldZone world,SaveType type, Dictionary<DifficultyType, List<string>> checkpoints )
-        { 
+        public JWorldSave(string name, WorldZone world, SaveType type, Dictionary<DifficultyType, List<string>> checkpoints)
+        {
             Type = type;
             World = world;
             Checkpoints = checkpoints;
@@ -47,19 +49,34 @@ namespace RemnantMultipurposeManager
                 }
                 try
                 {
-                    Debug.WriteLine("URL: " +GetURL(dt, modifier));
+                    MainWindow.MW.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
+                    //Debug.WriteLine("URL: " +GetURL(dt, modifier));
                     client.DownloadFile(GetURL(dt, modifier), path);
                 }
                 catch (WebException we) { MainWindow.MW.LogMessage(we.Message, MainWindow.LogType.Error); return false; }
                 return true;
             }
         }
-        public string GetURL(DifficultyType dt, string modifier) {
-            
+        public void grabFileFromZip(string filedest, DifficultyType dt, string modifier)
+        {
+            Debug.WriteLine("Grabbing From Zip File!");
+            var s = string.Join("/", Type, dt == DifficultyType.Vendor ? "No Difficulty" : dt, World, Name, modifier, "save.sav");
+        
+
+            using (ZipArchive zip = ZipFile.Open(RBRDirPath + "\\" + (Type == SaveType.Vendors ? "Vendors2" : Type.ToString()) + ".zip", ZipArchiveMode.Read))
+            {
+                zip.GetEntry(s).ExtractToFile(filedest, true);
+            }
+            MainWindow.MW.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
+
+        }
+        public string GetURL(DifficultyType dt, string modifier)
+        {
+
 
             string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/";
-            return zipURL + string.Join("/", Type, Type != SaveType.Vendors ? dt : "No Difficulty" , (World == JWorldSave.WorldZone.WardPrime) ? "Ward Prime" : World, Name, modifier, "save.sav");
-             
+            return zipURL + string.Join("/", Type, Type != SaveType.Vendors ? dt : "No Difficulty", (World == JWorldSave.WorldZone.WardPrime) ? "Ward Prime" : World, Name, modifier, "save.sav");
+
         }
 
         public static void Save(string path, params JWorldSave[] worldSave)

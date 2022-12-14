@@ -985,8 +985,8 @@
                             </LinearGradientBrush>
                             <!--<SolidColorBrush Color="#222" Opacity="0.5" />-->
                         </Grid.Background>
-                        <CheckBox Height="32" Width="140" Margin="0,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Name="LockCheckpoint"    Content="Lock Checkpoint"  Checked="KeepCheckpoint_Checked" Unchecked="KeepCheckpoint_Unchecked"  Foreground="White" FontSize="12"/>
-                        <CheckBox Height="32" Width="140" Margin="130,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Name="OfflineFileAccess" IsEnabled="False" Content="Offline File Access"  ToolTipService.ShowDuration="60000"  Foreground="white" ToolTip="Downloads a zip of all the checkpoints (~300mb)"/>
+                        <CheckBox Height="32" Width="140" Margin="0,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Name="LockCheckpoint"    Content="Lock Checkpoint"  Checked="LockCheckpoint_Checked" Unchecked="LockCheckpoint_Unchecked"  Foreground="White" FontSize="12"/>
+                        <CheckBox Height="32" Width="140" Margin="130,0,0,0" VerticalAlignment="Top" VerticalContentAlignment="Center" HorizontalAlignment="Left" Name="OfflineFileAccess"  Content="Offline File Access"  ToolTipService.ShowDuration="60000"  Foreground="white" ToolTip="Downloads a zip of all the checkpoints (~300mb)" Checked="OfflineFileAccess_Toggle" Unchecked="OfflineFileAccess_Toggle"/>
                     </Grid>
                     <TextBlock TextWrapping="Wrap" Foreground="White" FontSize="15"  Margin="580,300,30,8"><Run Text="ONLY Load checkpoints while at the Main Menu."/><LineBreak/><Run/><LineBreak/><Run Text="If your using the Razzmatazz Save Manager, the Analyzer will update 10 seconds after loading a save from here."/>
                         <TextBlock.Background>

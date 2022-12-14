@@ -65,7 +65,7 @@ namespace RemnantMultipurposeManager
         }
         public void PackProfile(string path)
         {
-            Debug.WriteLine("Pack Profile");
+            Debug.WriteLine("Pack Profile: "+path);
             Data=File.ReadAllBytes(path);
         }
         public void UnpackProfile(string path)
@@ -75,6 +75,7 @@ namespace RemnantMultipurposeManager
 
         public void Save(string path)
         {
+            Debug.WriteLine("Save Profile: " + path);
 
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {

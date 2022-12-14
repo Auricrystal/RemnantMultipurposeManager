@@ -25,6 +25,30 @@ namespace RemnantMultipurposeManager
             foreach (IEnumerable<T> ril in rils) { li.AddRange(ril); }
             return li;
         }
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
+        {
+            return source.Shuffle(new Random());
+        }
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source, Random rng)
+        {
+            if (source == null) throw new ArgumentNullException(nameof(source));
+            if (rng == null) throw new ArgumentNullException(nameof(rng));
+
+            return source.ShuffleIterator(rng);
+        }
+        private static IEnumerable<T> ShuffleIterator<T>(
+        this IEnumerable<T> source, Random rng)
+        {
+            var buffer = source.ToList();
+            for (int i = 0; i < buffer.Count; i++)
+            {
+                int j = rng.Next(i, buffer.Count);
+                yield return buffer[j];
+
+                buffer[j] = buffer[i];
+            }
+        }
         public static T RandomElement<T>(this List<T> list) where T : new()
         {
             if (list.Count == 0) { return default; }
@@ -137,10 +161,7 @@ namespace RemnantMultipurposeManager
 
             return b;
         }
-        public static List<T> ToList<T>(this Tuple<T, T> tup)
-        {
-            return new List<T>() { tup.Item1, tup.Item2 };
-        }
+       
         public static Build RandomBuild(this IEnumerable<InventoryItem> inventory, Build except = null, List<InventoryItem> blacklist = null)
         {
             blacklist = blacklist ?? new List<InventoryItem>();

@@ -1,6 +1,0 @@
-[Consumables]
-Mudtooth's Stew
-Mudtooth's Tonic
-
-[Trinket]
-Pocket Watch (Requires exhausting dialogue)
