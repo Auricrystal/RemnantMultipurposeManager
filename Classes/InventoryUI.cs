@@ -58,6 +58,7 @@ namespace RemnantMultipurposeManager
             Trinkets.Children.Add(Amulet = new InventorySlot(AM, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
             Trinkets.Children.Add(Ring1 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
             Trinkets.Children.Add(Ring2 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
+
             Array = new InventorySlot[] { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
         }
         public void EquipBuild(Build b)
@@ -154,8 +155,8 @@ namespace RemnantMultipurposeManager
             Item = ii;
             DisplayImage.Source = Item.GetImage();
             DisplayName.Text = Item.Name;
-            var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
-            if (img.Count() > 0) { img.First().ToolTip = Item.Name; }
+            //var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
+            //if (img.Count() > 0) { img.First().ToolTip = Item.Name; }
 
         }
         public void Equip(int? ii)
@@ -173,11 +174,6 @@ namespace RemnantMultipurposeManager
             DisplayName.Text = null;
             var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
             if (img.Count() > 0) { img.First().ToolTip = null; }
-
         }
-
-
-
     }
-
 }

@@ -911,7 +911,6 @@
             <ComboBox x:Name="cmbSaveSlot" Text="Save Slot" SelectionChanged="CmbSaveSlot_SelectionChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  HorizontalAlignment="Right" Width="60" Height="20"  Padding="10,0,0,0"/>
 
             <TextBlock x:Name="lblLastMessage" Text="" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" MouseUp="lblLastMessage_MouseUp"/>
-
         </Menu>
         <TabControl Margin="0,10,0,0" Grid.Row="1" x:Name="MainTab" Background="#222222" >
             <TabItem Name="RandomizerTab" Header="Randomizer">
@@ -932,7 +931,11 @@
                         <TextBlock Text="Rig's Workbench" HorizontalAlignment="Center" FontSize="29"/>
                     </Border>
                     <Viewbox x:Name="BuildUI" Grid.Column="0" Grid.RowSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Top" />
-                    <Button  Content="Reroll Build"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="300" Height="50" Margin="0,-50,0,0" Click="RerollClick"/>
+                    <Button Content="Reroll Build"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="50" Margin="80,-30,0,0" Click="RerollClick"/>
+                    <Button Content="Options" FontSize="20" x:Name="CreateBuild" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Height="50" Margin="-250,-30,0,0" Click="CreateBuild_Click"/>
+                    <Expander Content="Test" Background="Gray" ExpandDirection="Up" Grid.Column="1" Grid.Row="0" Width="300" Height="400">
+                        
+                    </Expander>
                 </Grid>
             </TabItem>
             <TabItem x:Name="SaveManager" Header="Save Manager" ToolTipService.ShowOnDisabled="True" ToolTipService.ShowDuration="60000">

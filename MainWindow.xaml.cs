@@ -916,6 +916,11 @@ namespace RemnantMultipurposeManager
             Properties.Settings.Default.Save();
         }
 
+        private void CreateBuild_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SaveList.ItemsSource == null)
