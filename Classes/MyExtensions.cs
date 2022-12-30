@@ -58,6 +58,8 @@ namespace RemnantMultipurposeManager
         }
         public static List<InventoryItem> RandomElement(this List<InventoryItem> list, int count)
         {
+            if (list.Count < count)
+                return new List<InventoryItem>();
             List<InventoryItem> items = new List<InventoryItem>();
             while (count > 0 && list.Count > 0)
             {
@@ -66,7 +68,7 @@ namespace RemnantMultipurposeManager
                 items.Add(list[r]);
                 list.RemoveAt(r);
             }
-            while (items.Count < count) { items.Add(null); }
+           // while (items.Count < count) { items.Add(GearInfo.GetEmpty(list[0].Slot)); }
             return items;
         }
         public static List<int?> ToInt(this InventoryItem ii)
@@ -137,7 +139,7 @@ namespace RemnantMultipurposeManager
         {
 
             Random rd = MainWindow.rd;
-            string s = GearInfo.GetItem(b.Data[AM]?[0])?.Name;
+            string s = GearInfo.GetItem((int)b.Data[AM])?.Name;
             if (s == "White Rose")
             {
                 Debug.WriteLine(s + " Detected");
@@ -152,7 +154,7 @@ namespace RemnantMultipurposeManager
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed le"); b.TryRemove(LE); }
             }
             var list = new List<string> { "Ring Of The Unclean", "Five Fingered Ring" };
-            var rings = b.Data[RI].ToList().Where(x => x != null).Select(x => GearInfo.GetItem(x).Name);
+            var rings = (b.Data[RI] as List<int>).Select(x => GearInfo.GetItem(x).Name);
             if (rings.Contains(list[0]) || rings.Contains(list[1]))
             {
                 Debug.WriteLine("Ring Removal Detected");
@@ -170,24 +172,25 @@ namespace RemnantMultipurposeManager
             List<InventoryItem> list = inventory.Select(x => (InventoryItem)x.Clone()).Except(blacklist, new InventoryItemComparer()).ToList();
             InventoryItem hg = list.HandGuns().RandomElement() ?? GearInfo.GetEmpty(HG), lg = list.LongGuns().RandomElement() ?? GearInfo.GetEmpty(LG);
             var rings = list.Rings().RandomElement(2);
-            var mods = list.RegMods().RandomElement(2).Select(x => x?.Index ?? null).ToList();
-            if (mods.Count < 2) { mods.Add(null); }
-            Debug.WriteLine("Mods: " + mods.Count());
+            var mods = list.RegMods().RandomElement(2).Select(x => x.Index).ToList();
+            while (mods.Count < 2) { mods.Add(0); }
+            //Debug.WriteLine("Mods: " + mods.Count());
             var mod1 = hg.ModIndex ?? mods.ToArray()[0];
             var mod2 = lg.ModIndex ?? mods.ToArray()[1];
-            Debug.WriteLine("Mods: " + mod1 + " : " + mod2);
+           // Debug.WriteLine("Mods: " + mod1 + " : " + mod2);
             Build b = new("",
-                new List<int?>() { hg.Index, mod1 },
-                new List<int?>() { lg.Index, mod2 },
-                new List<int?>() { list.Melees().RandomElement().Index },
-                new List<int?>() { list.Heads().RandomElement().Index },
-                new List<int?>() { list.Chests().RandomElement().Index },
-                new List<int?>() { list.Legs().RandomElement().Index },
-                new List<int?>() { list.Amulets().RandomElement().Index },
-                new List<int?>() { rings?[0].Index, rings?[1].Index }
+                new List<int>() { hg.Index, mod1 },
+                new List<int>() { lg.Index, mod2 },
+               list.Melees().RandomElement().Index,
+                list.Heads().RandomElement().Index ,
+                list.Chests().RandomElement().Index ,
+                list.Legs().RandomElement().Index ,
+               list.Amulets().RandomElement().Index ,
+                new List<int>() { rings[0].Index, rings[1].Index }
                 );
             return b.Conditions();
 
         }
     }
+
 }

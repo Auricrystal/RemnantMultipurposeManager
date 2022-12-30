@@ -21,7 +21,7 @@ namespace RemnantMultipurposeManager
         private double Size;
         private const int _DefSize = 1024;
         public InventorySlot HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
-        public Build Shown { get; private set; }
+        public Build Shown { get => CaptureSlots(); }
         public InventorySlot[] Array { get; private set; }
         public InventoryUI(double size = 1)
         {
@@ -47,9 +47,11 @@ namespace RemnantMultipurposeManager
             SolidColorBrush bg = null;//new SolidColorBrush(new Color() { R = 21, G = 21, B = 21, A = 255 });
             Offense.Children.Add(HandGun = new InventorySlot(HG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) }); ;
             HandGun.Children.Add(HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
+            //Panel.SetZIndex(HandGunMod, 0);
             HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
             Offense.Children.Add(LongGun = new InventorySlot(LG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
             LongGun.Children.Add(LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
+            //Panel.SetZIndex(LongGunMod, 0);
             LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
             Offense.Children.Add(Melee = new InventorySlot(M, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
             Defense.Children.Add(Head = new InventorySlot(HE, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
@@ -60,50 +62,59 @@ namespace RemnantMultipurposeManager
             Trinkets.Children.Add(Ring2 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
 
             Array = new InventorySlot[] { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
+
+
         }
+        public Build CaptureSlots()
+        {
+
+            return new Build("Shown", new Dictionary<InventoryItem.SlotType, object>()
+            {
+                {HG,new List<int>(){HandGun.Item.Index,HandGunMod.Item.Index}},
+                {LG,new List<int>(){LongGun.Item.Index,LongGunMod.Item.Index}},
+                {M, Melee.Item.Index},
+                {HE, Head.Item.Index},
+                {CH, Chest.Item.Index},
+                {LE, Legs.Item.Index},
+                {AM, Amulet.Item.Index},
+                {RI,new List<int>(){Ring1.Item.Index,Ring2.Item.Index}},
+            });
+
+
+        }
+
         public void EquipBuild(Build b)
         {
-            Shown = b;
 
-
+            if (b.Data.Count == 0)
+                foreach (var slot in Array)
+                    slot.UnEquip();
             foreach (InventoryItem.SlotType st in b.Data.Keys)
             {
 
                 InventorySlot slot = Array.ToList().Find(x => x.SlotType == st);
                 if (st == RI)
                 {
-                    var rings = b.Data[st];
+                    var rings = b.Data[st] as List<int>;
 
-                    Ring1.UnEquip();
-                    Ring2.UnEquip();
-
-                    if (b.Data[st].Count == 0)
-                        continue;
-
-                    if (b.Data[st].Count > 1)
-                        Ring2.Equip(rings?[1]);
-
-                    Ring1.Equip(rings?[0]);
+                    Ring2.Equip(rings[1]);
+                    Ring1.Equip(rings[0]);
                     continue;
                 }
-
-                if (b.Data[st].Count == 0)
-                {
-                    if (st == HG)
-                        HandGunMod.UnEquip();
-                    if (st == LG)
-                        LongGunMod.UnEquip();
-                    slot.UnEquip();
-                    continue;
-                }
-
-                slot.Equip(b.Data[st]?[0]);
 
                 if (st == HG)
-                    HandGunMod.Equip(b.Data[st]?[1]);
+                {
+                    slot.Equip(((List<int>)b.Data[st])[0]);
+                    HandGunMod.Equip(((List<int>)b.Data[st])[1]);
+                    continue;
+                }
                 if (st == LG)
-                    LongGunMod.Equip(b.Data[st]?[1]);
-
+                {
+                    slot.Equip(((List<int>)b.Data[st])[0]);
+                    LongGunMod.Equip(((List<int>)b.Data[st])[1]);
+                    continue;
+                }
+                slot.Equip((int)b.Data[st]);
             }
         }
     }
@@ -112,15 +123,26 @@ namespace RemnantMultipurposeManager
         private Image DisplayImage { get; set; }
         private TextBlock DisplayName { get; set; }
         public InventoryItem.SlotType SlotType { get; set; }
-        public InventoryItem Item { get; private set; }
+        private InventoryItem item;
+        public InventoryItem Item
+        {
+            get
+            {
+                if (item is null)
+                    item = GearInfo.GetEmpty(SlotType);
+                return item;
+            }
+            set { Equip(value); item = value; }
+        }
         public InventorySlot(InventoryItem.SlotType sl, double height, double width, bool border = true)
         {
+
+            MouseDown += MainWindow.MW.InventorySlot_MouseDown;
             Border b = null;
             this.Height = height;
             this.Width = width;
-            Item = GearInfo.GetEmpty(sl);
-
-            DisplayImage = new Image() { Source = (sl != MO) ? Item.GetImage() : null, HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Center : HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
+            item = GearInfo.GetEmpty(sl);
+            DisplayImage = new Image() { Source = (sl != MO) ? item.GetImage : null, HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Center : HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
             if (border)
             {
                 b = new Border() { BorderBrush = new SolidColorBrush(new Color() { R = 30, G = 30, B = 30, A = 255 }), Child = DisplayImage, BorderThickness = new Thickness(6), CornerRadius = new CornerRadius(24), Background = new SolidColorBrush(new Color() { R = 15, G = 15, B = 15, A = 255 }) };
@@ -134,30 +156,37 @@ namespace RemnantMultipurposeManager
                 Child = DisplayName = new TextBlock()
                 {
 
-                    HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Left:HorizontalAlignment.Right,
+                    HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Left : HorizontalAlignment.Right,
                     VerticalAlignment = (sl != MO) ? VerticalAlignment.Top : VerticalAlignment.Bottom,
                     Padding = new Thickness(25, 25, 0, 0),
-                    Margin = (sl != MO) ? new Thickness(0) : new Thickness(0,0,86,-20),
-                    TextWrapping = (sl != MO) ? TextWrapping.Wrap:TextWrapping.NoWrap,
+                    Margin = (sl != MO) ? new Thickness(0) : new Thickness(0, 0, 86, -20),
+                    TextWrapping = (sl != MO) ? TextWrapping.Wrap : TextWrapping.NoWrap,
                     FontSize = 24,
                     FontFamily = new FontFamily(new Uri(@"pack://application:,,,/"), "./Resources/Fonts/#Montserrat Light")
                 }
             });
 
             SlotType = sl;
-            Item = null;
+            item = null;
         }
+
+
 
         public void Equip(InventoryItem ii)
         {
             if (ii == null || ii.Name.Contains("_")) { UnEquip(); return; }
             if (ii?.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + ii.Slot + "!=" + SlotType); return; }
-            Item = ii;
-            DisplayImage.Source = Item.GetImage();
+            item = ii;
+            DisplayImage.Source = Item.GetImage;
             DisplayName.Text = Item.Name;
-            //var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
-            //if (img.Count() > 0) { img.First().ToolTip = Item.Name; }
 
+            if (this.Children.OfType<InventorySlot>().Count() == 0)
+                return;
+            var modslot = Children.OfType<InventorySlot>().First();
+            if (ii.Boss)
+                modslot.Equip(ii?.ModIndex);
+            else
+                modslot.UnEquip();
         }
         public void Equip(int? ii)
         {
@@ -168,12 +197,16 @@ namespace RemnantMultipurposeManager
 
         public void UnEquip()
         {
-            Item = GearInfo.GetEmpty(SlotType);
+            item = GearInfo.GetEmpty(SlotType);
 
-            DisplayImage.Source = (SlotType != MO) ? Item.GetImage() : null;
+            DisplayImage.Source = (SlotType != MO) ? item.GetImage : null;
             DisplayName.Text = null;
             var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
             if (img.Count() > 0) { img.First().ToolTip = null; }
+
+            if (this.Children.OfType<InventorySlot>().Count() == 0)
+                return;
+            Children.OfType<InventorySlot>().First().UnEquip();
         }
     }
 }

@@ -91,12 +91,13 @@ namespace RemnantMultipurposeManager
             BuildUI.Child = (UI = new InventoryUI());
 
         }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
-            if (File.Exists(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\RemnantMultipurposeManager.sln"))
+            if (Debugger.IsAttached)
             {
-                Debug.WriteLine("Local Creator Detected");
+                LogMessage("Local Creator Detected");
                 ReadRMM.IsEnabled = CreateRMM.IsEnabled = true;
                 ReadRMM.Visibility = CreateRMM.Visibility = Visibility.Visible;
             }
@@ -106,7 +107,7 @@ namespace RemnantMultipurposeManager
                 SetSaveManagerActive(false);
                 return;
             }
-            Debug.WriteLine("checkbox " + Properties.Settings.Default.OfflineAccess);
+            //Debug.WriteLine("checkbox " + Properties.Settings.Default.OfflineAccess);
             OfflineFileAccess.IsChecked = Properties.Settings.Default.OfflineAccess;
             SetSaveManagerActive(true);
 
@@ -580,17 +581,18 @@ namespace RemnantMultipurposeManager
         {
             //throw new Exception();
             string[] zipArray = { "Bosses", "Vendors2", "Events" };
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
 
             foreach (string zipName in zipArray)
             {
                 //Debug.WriteLine("Opening: " + zipName);
                 string s = "";
-                if (File.Exists(s = @"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\" + zipName + ".zip"))
+                if (File.Exists(s = baseDir + zipName + ".zip"))
                     File.Delete(s);
 
                 var f = zipName == "Vendors2" ? "Vendors" : zipName;
 
-                ZipFile.CreateFromDirectory(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\" + f, s, CompressionLevel.Optimal, true);
+                ZipFile.CreateFromDirectory(baseDir + f, s, CompressionLevel.Optimal, true);
 
                 using (ZipArchive zipFile = ZipFile.Open(s, ZipArchiveMode.Read))
                 {
@@ -642,7 +644,9 @@ namespace RemnantMultipurposeManager
 
         private void MergeRMM(JWorldSave save)
         {
-            var savelist = JWorldSave.LoadList(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\CheckpointDirectory.rmm");
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
+
+            var savelist = JWorldSave.LoadList(baseDir + @"Data\CheckpointDirectory.rmm");
             if (!savelist.Select(x => (x.Name, x.World, x.Type)).Contains((save.Name, save.World, save.Type)))
             {
                 Debug.WriteLine("Inserting: (" + String.Join(",", save.Type, save.World, save.Name) + ")");
@@ -667,7 +671,7 @@ namespace RemnantMultipurposeManager
 
                 }
             }
-            JWorldSave.Save(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\CheckpointDirectory.rmm", savelist.OrderBy(x => x.Type).ThenBy(x => x.World).ThenBy(x => x.Name).ToArray());
+            JWorldSave.Save(baseDir + @"Data\CheckpointDirectory.rmm", savelist.OrderBy(x => x.Type).ThenBy(x => x.World).ThenBy(x => x.Name).ToArray());
         }
         private void CreateRMM_Click(object sender, RoutedEventArgs e)
         {
@@ -676,7 +680,11 @@ namespace RemnantMultipurposeManager
         }
         private void ReadRMM_Click(object sender, RoutedEventArgs e)
         {
-            var save = JWorldSave.LoadList(@"C:\Users\AuriCrystal\Documents\VisualProjects\RemnantMultipurposeManager\Resources\Data\CheckpointDirectory.rmm");
+            string path;
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
+            if (!File.Exists(path = baseDir + @"Data\CheckpointDirectory.rmm"))
+                return;
+            var save = JWorldSave.LoadList(path);
 
             Debug.WriteLine("RMM Count:" + save.Count);
 
@@ -738,9 +746,6 @@ namespace RemnantMultipurposeManager
                 this.Dispatcher.BeginInvoke(action);
             });
             t.Start();
-
-
-
         }
 
         private void CopyBuild_Click(object sender, RoutedEventArgs e)
@@ -777,12 +782,12 @@ namespace RemnantMultipurposeManager
                 {
                     save.Title = "Save RProfile";
                     save.Filter = "(.RProfile)|*.RProfile";
-                    save.FileName = "Default.RProfile";
-                    save.DefaultExt = "RProfile";
+                    save.FileName = "Default";
+                    //save.DefaultExt = "RProfile";
                     save.ShowDialog();
                     if (save.FileName == "")
                         return;
-
+                    Debug.WriteLine("FILENAME: " + save.FileName);
                     profile.Name = Path.GetFileNameWithoutExtension(save.FileName);
                     profile.Save(save.FileName);
 
@@ -916,10 +921,83 @@ namespace RemnantMultipurposeManager
             Properties.Settings.Default.Save();
         }
 
-        private void CreateBuild_Click(object sender, RoutedEventArgs e)
+        private void Options_Click(object sender, RoutedEventArgs e)
         {
+            InvList.IsEnabled = !InvList.IsEnabled;
+            InvList.Visibility = InvList.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
+            AddBuild.Visibility = InvList.Visibility;
+
+            UI.EquipBuild(new Build());
 
         }
+
+        private void AddBuild_Click(object sender, RoutedEventArgs e)
+        {
+            if (Profile is null)
+                return;
+
+            Debug.WriteLine("Build Shown:\n" + UI.Shown.ToString());
+            //Profile.Builds[cmbCharacter.SelectedIndex].Add(UI.Shown);
+        }
+        private InventorySlot _SelectedInventorySlot = null;
+
+        public void InventorySlot_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            _SelectedInventorySlot = (e.OriginalSource as FrameworkElement).Parent as InventorySlot ?? (InventorySlot)sender;
+
+
+            InvList.ItemsSource = GearInfo.Items.BySlot(_SelectedInventorySlot.SlotType).Where(x => x.Slot != InventoryItem.SlotType.MO || !x.Boss);
+
+            InventoryItem item = _SelectedInventorySlot.Item;
+
+
+            if (_SelectedInventorySlot.Parent is not InventorySlot)
+                return;
+
+            var slot = _SelectedInventorySlot.Parent as InventorySlot;
+            if (slot.Item is not null && !slot.Item.Boss)
+                return;
+
+            _SelectedInventorySlot = null;
+            InvList.ItemsSource = null;
+        }
+
+        private void InvList_DoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (InvList.SelectedItem is null)
+                return;
+            Debug.WriteLine(((InventoryItem)InvList.SelectedItem).Name);
+            if (_SelectedInventorySlot is null)
+                return;
+
+            if (CanDoEquip(_SelectedInventorySlot, (InventoryItem)InvList.SelectedItem))
+                _SelectedInventorySlot.Equip((InventoryItem)InvList.SelectedItem);
+            else
+                Debug.WriteLine("Cant Equip Duplicate already Equipped");
+        }
+
+        private bool CanDoEquip(InventorySlot slot, InventoryItem item)
+        {
+            if (slot.SlotType is not InventoryItem.SlotType.RI && slot.SlotType is not InventoryItem.SlotType.MO)
+                return true;
+            bool check1 = false, check2 = false;
+            if (slot.SlotType is InventoryItem.SlotType.RI)
+            {
+                check1 = UI.Ring1.Item is not null && !UI.Ring1.Item.Equals(item);
+                check2 = UI.Ring2.Item is not null && !UI.Ring2.Item.Equals(item);
+                //Debug.WriteLine("Ring check: " + (check1 && check2));
+                return check1 && check2;
+            }
+            else
+            {
+                check1 = UI.HandGunMod.Item is not null && !UI.HandGunMod.Item.Equals(item);
+                check2 = UI.LongGunMod.Item is not null && !UI.LongGunMod.Item.Equals(item);
+                //Debug.WriteLine("Mod check: " + (check1 && check2));
+                return check1 && check2;
+
+            }
+        }
+
 
         private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

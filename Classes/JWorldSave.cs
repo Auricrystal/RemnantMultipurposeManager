@@ -94,6 +94,9 @@ namespace RemnantMultipurposeManager
         }
         public static List<JWorldSave> LoadList(string path)
         {
+            if (!File.Exists(path))
+                File.Create(path);
+          
             return JsonConvert.DeserializeObject<List<JWorldSave>>(File.ReadAllText(path));
         }
 
