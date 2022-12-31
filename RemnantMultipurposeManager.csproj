@@ -89,8 +89,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Build.cs" />
+    <Compile Include="Classes\Equipment.cs" />
     <Compile Include="Classes\InventoryUI.cs" />
-    <Compile Include="Classes\InventoryItem.cs" />
     <Compile Include="Classes\RemnantIndex.cs" />
     <Compile Include="Classes\JWorldSave.cs" />
     <Compile Include="Classes\MyExtensions.cs" />
@@ -135,6 +136,7 @@
     </None>
     <EmbeddedResource Include="Resources\NewProfile.sav" />
     <EmbeddedResource Include="Resources\RemnantItemIndex.json" />
+    <EmbeddedResource Include="Resources\RemnantItemIndex2.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\Resources\" />

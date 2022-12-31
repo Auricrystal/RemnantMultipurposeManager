@@ -10,7 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using static RemnantMultipurposeManager.InventoryItem.SlotType;
+using static RemnantMultipurposeManager.Equipment.SlotType;
 
 
 namespace RemnantMultipurposeManager
@@ -49,146 +49,65 @@ namespace RemnantMultipurposeManager
                 buffer[j] = buffer[i];
             }
         }
-        public static T RandomElement<T>(this List<T> list) where T : new()
-        {
-            if (list.Count == 0) { return default; }
-            T ii = list[rng.Next(list.Count)];
-            list.Remove(ii);
-            return ii;
-        }
-        public static List<InventoryItem> RandomElement(this List<InventoryItem> list, int count)
-        {
-            if (list.Count < count)
-                return new List<InventoryItem>();
-            List<InventoryItem> items = new List<InventoryItem>();
-            while (count > 0 && list.Count > 0)
-            {
-                count--;
-                int r = MainWindow.rd.Next(list.Count);
-                items.Add(list[r]);
-                list.RemoveAt(r);
-            }
-           // while (items.Count < count) { items.Add(GearInfo.GetEmpty(list[0].Slot)); }
-            return items;
-        }
-        public static List<int?> ToInt(this InventoryItem ii)
-        {
-            return new List<int?>() { ii.Index, ii.ModIndex };
-        }
-        #region Inventory Stuff
 
-        public static int IndexOf(this List<InventoryItem> list, InventoryItem ii)
+        public static IEnumerable<T> RandomElement<T>(this IEnumerable<T> list, int count = 1)
         {
-            return list.IndexOf(ii);
+            if (list.Count() < count)
+                return list;
+            IEnumerable<T> items = list;
+            if (count == 0 || list.Count() == 0)
+                return list;
+            return items.Shuffle().Take(count);
         }
-        public static List<InventoryItem> Empties(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Name.Contains("_")).ToList();
-        }
-        public static List<InventoryItem> BySlot(this List<InventoryItem> list, InventoryItem.SlotType st)
-        {
-            return list.Where(x => x.Slot == st).ToList();
-        }
-        public static List<InventoryItem> HandGuns(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == HG).ToList();
-        }
-        public static List<InventoryItem> LongGuns(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == LG).ToList();
-        }
-        public static List<InventoryItem> Boss(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Boss).ToList();
-        }
-        public static List<InventoryItem> NonBoss(this List<InventoryItem> list)
-        {
-            return list.Where(x => !x.Boss).ToList();
-        }
-        public static List<InventoryItem> Melees(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == M).ToList();
-        }
-        public static List<InventoryItem> Heads(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == HE).ToList();
-        }
-        public static List<InventoryItem> Chests(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == CH).ToList();
-        }
-        public static List<InventoryItem> Legs(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == LE).ToList();
-        }
-        public static List<InventoryItem> Amulets(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == AM).ToList();
-        }
-        public static List<InventoryItem> Rings(this List<InventoryItem> list)
-        {
-            return list.Where(x => x.Slot == RI).ToList();
-        }
-        public static List<InventoryItem> RegMods(this List<InventoryItem> list)
-        {
-            var test = list.Where(x => x.Slot == MO).Where(y => y.Boss == false).ToList();
-            return test;
-        }
-        #endregion
-        public static Build Conditions(this Build b)
-        {
 
-            Random rd = MainWindow.rd;
-            string s = GearInfo.GetItem((int)b.Data[AM])?.Name;
-            if (s == "White Rose")
-            {
-                Debug.WriteLine(s + " Detected");
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed hg"); b.TryRemove(HG); }
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed lg"); b.TryRemove(LG); }
-            }
-            else if (s == "Daredevil's Charm")
-            {
-                Debug.WriteLine(s + " Detected");
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed he"); b.TryRemove(HE); }
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed ch"); b.TryRemove(CH); }
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed le"); b.TryRemove(LE); }
-            }
-            var list = new List<string> { "Ring Of The Unclean", "Five Fingered Ring" };
-            var rings = (b.Data[RI] as List<int>).Select(x => GearInfo.GetItem(x).Name);
-            if (rings.Contains(list[0]) || rings.Contains(list[1]))
-            {
-                Debug.WriteLine("Ring Removal Detected");
-                if (rd.Next(2) == 1) { Debug.WriteLine("removed m"); b.TryRemove(M); }
-            }
-
-            return b;
-        }
-       
-        public static Build RandomBuild(this IEnumerable<InventoryItem> inventory, Build except = null, List<InventoryItem> blacklist = null)
+        public static IEnumerable<HandGun> HandGuns(this IEnumerable<Equipment> list)
         {
-            blacklist = blacklist ?? new List<InventoryItem>();
+            return (IEnumerable<HandGun>)list.Where(x => x.Slot == HG);
+        }
+        public static IEnumerable<LongGun> LongGuns(this IEnumerable<Equipment> list)
+        {
+            return (IEnumerable<LongGun>)list.Where(x => x.Slot == LG);
+        }
+        public static IEnumerable<Equipment> BySlot(this IEnumerable<Equipment> list, Equipment.SlotType slot)
+        {
+            var temp = list.Where(x => x is not null && x.Slot == slot).ToList();
+            if (temp.Count() == 0)
+                temp.Add(EquipmentDirectory.DefaultEquipment(slot));
+            return temp;
+        }
+
+        public static IEnumerable<Mod> Mods(this IEnumerable<Equipment> list)
+        {
+            return (IEnumerable<Mod>)list.Where(x => x.Slot == MO);
+        }
+
+        public static Build RandomBuild(this IEnumerable<Equipment> inventory, Build except = null, List<Equipment> blacklist = null)
+        {
+            blacklist = blacklist ?? new List<Equipment>();
             except = except ?? new Build();
-            blacklist.AddRange(except.getItems().Select(x => GearInfo.GetItem(x)));
-            List<InventoryItem> list = inventory.Select(x => (InventoryItem)x.Clone()).Except(blacklist, new InventoryItemComparer()).ToList();
-            InventoryItem hg = list.HandGuns().RandomElement() ?? GearInfo.GetEmpty(HG), lg = list.LongGuns().RandomElement() ?? GearInfo.GetEmpty(LG);
-            var rings = list.Rings().RandomElement(2);
-            var mods = list.RegMods().RandomElement(2).Select(x => x.Index).ToList();
-            while (mods.Count < 2) { mods.Add(0); }
-            //Debug.WriteLine("Mods: " + mods.Count());
-            var mod1 = hg.ModIndex ?? mods.ToArray()[0];
-            var mod2 = lg.ModIndex ?? mods.ToArray()[1];
-           // Debug.WriteLine("Mods: " + mod1 + " : " + mod2);
+            blacklist.AddRange(except.Data);
+            List<Equipment> list = inventory.ToList().AsReadOnly().Shuffle().Except(blacklist).ToList();
+            HandGun hg = (HandGun)(list.BySlot(HG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(HG));
+            LongGun lg = (LongGun)(list.BySlot(LG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(LG));
+            var rings = list.BySlot(RI).RandomElement(2).ToList();
+            while (rings.Count() < 2) { rings.Add(EquipmentDirectory.DefaultEquipment(RI)); }
+            var mods = list.BySlot(MO).RandomElement(2).ToList();
+            while (mods.Count() < 2) { mods.Add((Mod)EquipmentDirectory.DefaultEquipment(MO)); }
+
+            mods = mods.Shuffle().ToList();
+            hg.EquipMod((Mod)mods.First());
+            lg.EquipMod((Mod)mods.Last());
+
             Build b = new("",
-                new List<int>() { hg.Index, mod1 },
-                new List<int>() { lg.Index, mod2 },
-               list.Melees().RandomElement().Index,
-                list.Heads().RandomElement().Index ,
-                list.Chests().RandomElement().Index ,
-                list.Legs().RandomElement().Index ,
-               list.Amulets().RandomElement().Index ,
-                new List<int>() { rings[0].Index, rings[1].Index }
+                hg, lg,
+                list.BySlot(M).RandomElement().First(),
+                list.BySlot(HE).RandomElement().First(),
+                list.BySlot(CH).RandomElement().First(),
+                list.BySlot(LE).RandomElement().First(),
+                list.BySlot(AM).RandomElement().First(),
+                rings.First(), rings.Last()
                 );
-            return b.Conditions();
+            return b;
 
         }
     }

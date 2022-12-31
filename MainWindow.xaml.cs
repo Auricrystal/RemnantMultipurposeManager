@@ -90,10 +90,17 @@ namespace RemnantMultipurposeManager
 
             BuildUI.Child = (UI = new InventoryUI());
 
+
+
+
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            foreach (var item in EquipmentDirectory.ItemsTest)
+            {
+                Debug.WriteLine(item);
+            }
 
             if (Debugger.IsAttached)
             {
@@ -124,11 +131,13 @@ namespace RemnantMultipurposeManager
             Build b = null;
             if (Profile != null)
             {
-                b = Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Select(x => GearInfo.GetItem(x)).RandomBuild(UI.Shown, GearInfo.Items.Empties());
+                Debug.WriteLine("Profile Inventory: " + Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Count);
+                var NoEmpties = EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_")).ToList();
+                b = Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Select(x => EquipmentDirectory.FindEquipmentByName(x)).RandomBuild(UI.Shown, false ? NoEmpties : null);
             }
             else
             {
-                b = GearInfo.Items.ToList().RandomBuild(UI.Shown, GearInfo.Items.Empties());
+                b = EquipmentDirectory.ItemsTest.ToList().RandomBuild(UI.Shown, EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_")).ToList());
             }
             UI.EquipBuild(b);
             //Profile?.Builds[0]?.Add(UI.Shown);
@@ -229,7 +238,7 @@ namespace RemnantMultipurposeManager
             cmbCharacter.Items.Refresh();
             cmbSaveSlot.Items.Refresh();
 
-
+            InvList.ItemsSource = EquipmentDirectory.ItemsTest;
             SaveList.ItemsSource = b ? Checkpoints : null;
             cmbSaveType.SelectedIndex = b ? 0 : -1;
         }
@@ -945,43 +954,51 @@ namespace RemnantMultipurposeManager
         {
             _SelectedInventorySlot = (e.OriginalSource as FrameworkElement).Parent as InventorySlot ?? (InventorySlot)sender;
 
+            Debug.WriteLine(_SelectedInventorySlot.Item);
 
-            InvList.ItemsSource = GearInfo.Items.BySlot(_SelectedInventorySlot.SlotType).Where(x => x.Slot != InventoryItem.SlotType.MO || !x.Boss);
+            ICollectionView icv = CollectionViewSource.GetDefaultView(InvList.ItemsSource);
+            icv.Filter = o =>
+            {
+                var dt = (o as Equipment);
+                if (dt is null)
+                    return false;
 
-            InventoryItem item = _SelectedInventorySlot.Item;
+                Mod mod = null;
+                if (_SelectedInventorySlot.SlotType == Equipment.SlotType.MO && (mod = ((Mod)_SelectedInventorySlot.Item)) is not null && mod.Boss)
+                    return false;
 
+                return dt.Slot.Equals(_SelectedInventorySlot.SlotType);
+            };
 
-            if (_SelectedInventorySlot.Parent is not InventorySlot)
-                return;
-
-            var slot = _SelectedInventorySlot.Parent as InventorySlot;
-            if (slot.Item is not null && !slot.Item.Boss)
-                return;
-
-            _SelectedInventorySlot = null;
-            InvList.ItemsSource = null;
         }
 
-        private void InvList_DoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void InvList_DoubleClick(object sender, SelectionChangedEventArgs e)
         {
             if (InvList.SelectedItem is null)
                 return;
-            Debug.WriteLine(((InventoryItem)InvList.SelectedItem).Name);
+            Debug.WriteLine(((Equipment)InvList.SelectedItem).Name);
             if (_SelectedInventorySlot is null)
                 return;
 
-            if (CanDoEquip(_SelectedInventorySlot, (InventoryItem)InvList.SelectedItem))
-                _SelectedInventorySlot.Equip((InventoryItem)InvList.SelectedItem);
+
+            if (CanDoEquip(_SelectedInventorySlot, (Equipment)InvList.SelectedItem))
+            {
+                if (_SelectedInventorySlot is GunSlot)
+                    ((GunSlot)_SelectedInventorySlot).Equip((Gun)InvList.SelectedItem);
+                else
+                    _SelectedInventorySlot.Equip((Equipment)InvList.SelectedItem);
+            }
+
             else
                 Debug.WriteLine("Cant Equip Duplicate already Equipped");
         }
 
-        private bool CanDoEquip(InventorySlot slot, InventoryItem item)
+        private bool CanDoEquip(InventorySlot slot, Equipment item)
         {
-            if (slot.SlotType is not InventoryItem.SlotType.RI && slot.SlotType is not InventoryItem.SlotType.MO)
+            if (slot.SlotType is not Equipment.SlotType.RI && slot.SlotType is not Equipment.SlotType.MO)
                 return true;
             bool check1 = false, check2 = false;
-            if (slot.SlotType is InventoryItem.SlotType.RI)
+            if (slot.SlotType is Equipment.SlotType.RI)
             {
                 check1 = UI.Ring1.Item is not null && !UI.Ring1.Item.Equals(item);
                 check2 = UI.Ring2.Item is not null && !UI.Ring2.Item.Equals(item);
@@ -993,6 +1010,8 @@ namespace RemnantMultipurposeManager
                 check1 = UI.HandGunMod.Item is not null && !UI.HandGunMod.Item.Equals(item);
                 check2 = UI.LongGunMod.Item is not null && !UI.LongGunMod.Item.Equals(item);
                 //Debug.WriteLine("Mod check: " + (check1 && check2));
+                if (item.Name.Contains("_") && !((Mod)item).Boss)
+                    return true;
                 return check1 && check2;
 
             }

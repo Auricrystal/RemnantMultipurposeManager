@@ -8,7 +8,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static RemnantMultipurposeManager.InventoryItem.SlotType;
+using static RemnantMultipurposeManager.Equipment;
+using static RemnantMultipurposeManager.Equipment.SlotType;
 
 namespace RemnantMultipurposeManager
 {
@@ -20,7 +21,8 @@ namespace RemnantMultipurposeManager
         private StackPanel Main, Offense, Defense, Trinkets;
         private double Size;
         private const int _DefSize = 1024;
-        public InventorySlot HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
+        public GunSlot HandGun, LongGun;
+        public InventorySlot HandGunMod, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
         public Build Shown { get => CaptureSlots(); }
         public InventorySlot[] Array { get; private set; }
         public InventoryUI(double size = 1)
@@ -45,14 +47,34 @@ namespace RemnantMultipurposeManager
             this.Height = (rectH * 3 + square * 2);
             this.Width = rectW + 4;
             SolidColorBrush bg = null;//new SolidColorBrush(new Color() { R = 21, G = 21, B = 21, A = 255 });
-            Offense.Children.Add(HandGun = new InventorySlot(HG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) }); ;
-            HandGun.Children.Add(HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
-            //Panel.SetZIndex(HandGunMod, 0);
+            Offense.Children.Add(HandGun = new GunSlot(HG, rectH, rectW,
+                HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(0, 0, 32, 0)
+                })
+            {
+                Background = bg,
+                Margin = new Thickness(0, 1, 0, 1)
+            });
+
+            HandGun.Children.Add(HandGunMod);
             HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
-            Offense.Children.Add(LongGun = new InventorySlot(LG, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
-            LongGun.Children.Add(LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) });
-            //Panel.SetZIndex(LongGunMod, 0);
+
+            Offense.Children.Add(LongGun = new GunSlot(LG, rectH, rectW,
+                LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Right,
+                    Margin = new Thickness(0, 0, 32, 0)
+                })
+            {
+                Background = bg,
+                Margin = new Thickness(0, 1, 0, 1)
+            });
+
+            LongGun.Children.Add(LongGunMod);
             LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
+
             Offense.Children.Add(Melee = new InventorySlot(M, rectH, rectW) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
             Defense.Children.Add(Head = new InventorySlot(HE, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
             Defense.Children.Add(Chest = new InventorySlot(CH, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
@@ -62,86 +84,128 @@ namespace RemnantMultipurposeManager
             Trinkets.Children.Add(Ring2 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
 
             Array = new InventorySlot[] { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
+        }
 
-
+        public void CheckBuild()
+        {
+            Build b = Shown;
+            Random rd = MainWindow.rd;
+            string s = b.Data.Find(x => x.Slot == AM).Name;
+            if (s == "White Rose")
+            {
+                Debug.WriteLine(s + " Detected");
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed hg"); HandGun.UnEquip(); }
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed lg"); LongGun.UnEquip(); }
+            }
+            else if (s == "Daredevil's Charm")
+            {
+                Debug.WriteLine(s + " Detected");
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed he"); Head.UnEquip(); }
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed ch"); Chest.UnEquip(); }
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed le"); Legs.UnEquip(); }
+            }
+            var list = new List<string> { "Ring Of The Unclean", "Five Fingered Ring" };
+            var rings = (b.Data.FindAll(x => x.Slot == RI)).Select(y => y.Name);
+            if (rings.Contains(list[0]) || rings.Contains(list[1]))
+            {
+                Debug.WriteLine("Ring Removal Detected");
+                if (rd.Next(2) == 1) { Debug.WriteLine("removed m"); Melee.UnEquip(); }
+            }
         }
         public Build CaptureSlots()
         {
-
-            return new Build("Shown", new Dictionary<InventoryItem.SlotType, object>()
-            {
-                {HG,new List<int>(){HandGun.Item.Index,HandGunMod.Item.Index}},
-                {LG,new List<int>(){LongGun.Item.Index,LongGunMod.Item.Index}},
-                {M, Melee.Item.Index},
-                {HE, Head.Item.Index},
-                {CH, Chest.Item.Index},
-                {LE, Legs.Item.Index},
-                {AM, Amulet.Item.Index},
-                {RI,new List<int>(){Ring1.Item.Index,Ring2.Item.Index}},
-            });
-
-
+            return new Build("Shown", Array.Where(x => x.Item != null).Select(x => x.Item).ToList());
         }
 
         public void EquipBuild(Build b)
         {
-
+            Debug.WriteLine("Build: " + b);
             if (b.Data.Count == 0)
                 foreach (var slot in Array)
                     slot.UnEquip();
-            foreach (InventoryItem.SlotType st in b.Data.Keys)
+            foreach (SlotType st in Enum.GetValues(typeof(SlotType)))
             {
-
-                InventorySlot slot = Array.ToList().Find(x => x.SlotType == st);
                 if (st == RI)
                 {
-                    var rings = b.Data[st] as List<int>;
-
-                    Ring2.Equip(rings[1]);
-                    Ring1.Equip(rings[0]);
+                    var ri = b.Data.FindAll(x => x.Slot == st).ToArray();
+                    if (ri.Length > 0)
+                        Ring1.Equip(ri[0]);
+                    if (ri.Length == 2)
+                        Ring2.Equip(ri[1]);
                     continue;
                 }
+                if (st == MO)
+                    continue;
 
                 if (st == HG)
                 {
-                    slot.Equip(((List<int>)b.Data[st])[0]);
-                    HandGunMod.Equip(((List<int>)b.Data[st])[1]);
+                    HandGun.Equip((HandGun)b.Data.BySlot(HG).First());
                     continue;
                 }
                 if (st == LG)
                 {
-                    slot.Equip(((List<int>)b.Data[st])[0]);
-                    LongGunMod.Equip(((List<int>)b.Data[st])[1]);
+                    LongGun.Equip((LongGun)b.Data.BySlot(LG).First());
                     continue;
                 }
-                slot.Equip((int)b.Data[st]);
+
+                Array.First(x => x.SlotType == st).Equip(b.Data.BySlot(st).First());
+
             }
+            CheckBuild();
         }
+    }
+    public class GunSlot : InventorySlot
+    {
+        private InventorySlot modslot;
+        public GunSlot(SlotType sl, double height, double width, InventorySlot mod, bool border = true) : base(sl, height, width, border)
+        {
+            modslot = mod;
+        }
+
+        public void Equip(Gun gun)
+        {
+
+            if (gun is null) { UnEquip(); return; }
+            if (gun.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + gun.Slot + "!=" + SlotType); return; }
+            item = gun;
+            DisplayImage.Source = Item.GetImage;
+            DisplayName.Text = (!Item.Name.Contains("_")) ? Item.Name : "";
+
+            modslot.Equip(gun.Mod);
+        }
+
+        public override void UnEquip()
+        {
+            Equip(EquipmentDirectory.DefaultEquipment(SlotType));
+
+            modslot.Equip(((Gun)item).Mod);
+        }
+
     }
     public class InventorySlot : Grid
     {
-        private Image DisplayImage { get; set; }
-        private TextBlock DisplayName { get; set; }
-        public InventoryItem.SlotType SlotType { get; set; }
-        private InventoryItem item;
-        public InventoryItem Item
+        protected Image DisplayImage { get; set; }
+        protected TextBlock DisplayName { get; set; }
+        public SlotType SlotType { get; set; }
+        protected Equipment item;
+        public Equipment Item
         {
             get
             {
                 if (item is null)
-                    item = GearInfo.GetEmpty(SlotType);
+                    item = EquipmentDirectory.DefaultEquipment(SlotType);
                 return item;
             }
             set { Equip(value); item = value; }
         }
-        public InventorySlot(InventoryItem.SlotType sl, double height, double width, bool border = true)
+        public InventorySlot(SlotType sl, double height, double width, bool border = true)
         {
 
             MouseDown += MainWindow.MW.InventorySlot_MouseDown;
             Border b = null;
             this.Height = height;
             this.Width = width;
-            item = GearInfo.GetEmpty(sl);
+            item = EquipmentDirectory.DefaultEquipment(sl);
             DisplayImage = new Image() { Source = (sl != MO) ? item.GetImage : null, HorizontalAlignment = (sl != MO) ? HorizontalAlignment.Center : HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Center, Width = width * 0.85, Height = height * 0.85 };
             if (border)
             {
@@ -172,41 +236,20 @@ namespace RemnantMultipurposeManager
 
 
 
-        public void Equip(InventoryItem ii)
+        public void Equip(Equipment ii)
         {
-            if (ii == null || ii.Name.Contains("_")) { UnEquip(); return; }
+
+            if (ii is null) { UnEquip(); return; }
             if (ii?.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + ii.Slot + "!=" + SlotType); return; }
             item = ii;
-            DisplayImage.Source = Item.GetImage;
-            DisplayName.Text = Item.Name;
-
-            if (this.Children.OfType<InventorySlot>().Count() == 0)
-                return;
-            var modslot = Children.OfType<InventorySlot>().First();
-            if (ii.Boss)
-                modslot.Equip(ii?.ModIndex);
-            else
-                modslot.UnEquip();
-        }
-        public void Equip(int? ii)
-        {
-            Debug.WriteLine("Equipping: " + GearInfo.GetItem(ii)?.Name);
-            Equip(GearInfo.GetItem(ii));
+            DisplayImage.Source = (SlotType is SlotType.MO && ii.Name.Contains("_")) ? null : Item.GetImage;
+            DisplayName.Text = (!ii.Name.Contains("_")) ? Item.Name : "";
         }
 
-
-        public void UnEquip()
+        public virtual void UnEquip()
         {
-            item = GearInfo.GetEmpty(SlotType);
+            Equip(EquipmentDirectory.DefaultEquipment(SlotType));
 
-            DisplayImage.Source = (SlotType != MO) ? item.GetImage : null;
-            DisplayName.Text = null;
-            var img = this?.Children?.OfType<Image>().Where(x => x.Name == "LGM" || x.Name == "HGM");
-            if (img.Count() > 0) { img.First().ToolTip = null; }
-
-            if (this.Children.OfType<InventorySlot>().Count() == 0)
-                return;
-            Children.OfType<InventorySlot>().First().UnEquip();
         }
     }
 }

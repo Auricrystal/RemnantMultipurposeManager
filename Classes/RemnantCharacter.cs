@@ -16,19 +16,19 @@ namespace RemnantMultipurposeManager
         public int Slot { get; set; }
         public string Archetype { get; set; }
         public int Progression { get; set; }
-        public List<int> Inventory { get; set; }
+        public List<string> Inventory { get; set; }
 
         public override string ToString()
         {
             return Archetype + " (" + Progression + ")";
         }
 
-        public RemnantCharacter(int? Slot = null, string Archetype = null,int? Progression=null, List<int> Inventory = null)
+        public RemnantCharacter(int? Slot = null, string Archetype = null,int? Progression=null, List<string> Inventory = null)
         {
             this.Slot = Slot ?? num++;
             this.Archetype = Archetype ?? "None";
             this.Progression = Progression ?? 0;
-            this.Inventory = Inventory ?? new List<int>();
+            this.Inventory = Inventory ?? new List<string>();
         
         }
 
@@ -55,15 +55,15 @@ namespace RemnantMultipurposeManager
                         characters[i].Substring(0, characters[i].IndexOf(charEnd)), 
                         new Regex(@"/(Items/(?:Weapons(?:/[\w]+)+|Armor(?:/[\w]+)?|Trinkets(?:/BandsOfCastorAndPollux)?|Mods|Traits|QuestItems(?:/[\w]+)+)/[\w]+|Quests/[\w]+/[\w]+|Player/Emotes/Emote_[\w]+)"));
                     cd.Progression = saveItems.Count;
-                    cd.Inventory = new List<int>();
-                    foreach (InventoryItem item in GearInfo.Items)
+                    cd.Inventory = new List<string>();
+                    foreach (Equipment item in EquipmentDirectory.ItemsTest)
                     {
                         Debug.WriteLine(item.File+":"+ saveItems.Contains(item.File));
                         if (saveItems.Contains(item.File) ||
-                            GearInfo.Items.Where(x => x.Name.Contains("_"))
+                            EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_"))
                             .Select(x => x.Name).Contains(item.Name))
                         {
-                            cd.Inventory.Add(item.Index);
+                            cd.Inventory.Add(item.Name);
                         }
                     }
                     cd.Inventory.Sort();

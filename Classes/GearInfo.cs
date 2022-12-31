@@ -8,69 +8,41 @@ using System.Linq;
 using System.Windows.Media.Imaging;
 
 using System.Reflection;
+using System.Collections.ObjectModel;
 
 namespace RemnantMultipurposeManager
 {
-    public class GearInfo
+    public class EquipmentDirectory
     {
-        private static List<InventoryItem> items = new List<InventoryItem>();
 
-        public static List<InventoryItem> Items
+        private static ReadOnlyCollection<Equipment> test;
+       
+        public static ReadOnlyCollection<Equipment> ItemsTest
         {
             get
             {
-                if (items.Count == 0)
+                if (test is null)
                 {
-
                     var assembly = Assembly.GetExecutingAssembly();
-                    var resourceName = "RemnantMultipurposeManager.Resources.RemnantItemIndex.json";
+                    var resourceName = "RemnantMultipurposeManager.Resources.RemnantItemIndex2.json";
 
                     using (Stream stream = assembly.GetManifestResourceStream(resourceName))
                     using (StreamReader reader = new StreamReader(stream))
                     {
-                        items = JsonConvert.DeserializeObject<List<InventoryItem>>(reader.ReadToEnd());
+                        test = JsonConvert.DeserializeObject<List<Equipment>>(reader.ReadToEnd(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto }).AsReadOnly();
                     }
                 }
-                return items;
+                return test;
             }
-
-
         }
-       
-
-        public static InventoryItem GetEmpty(InventoryItem.SlotType st)
+        public static Equipment DefaultEquipment(Equipment.SlotType st)
         {
-            return Items.Empties().Where(x => x.Slot == st).FirstOrDefault();
+            return ItemsTest.Where(x => x.Slot == st &&x.Name.Contains("_")).FirstOrDefault();
         }
-        public static InventoryItem GetItem(string s)
+        public static Equipment FindEquipmentByName(string s)
         {
-            return items.Find(x => x.Name == s);
+            return ItemsTest.Where(x=>x.Name==s).FirstOrDefault();
         }
-        public static InventoryItem GetItem(int? i)
-        {
-            if (i.HasValue) { return items[i.Value] ?? null; }
-            return null;
-        }
-        
-        public static List<InventoryItem> GetItems(params string[] str)
-        {
-            List<InventoryItem> list = new List<InventoryItem>();
-            foreach (string s in str) { list.Add(items.Find(x => x.Name == s)); }
-            return list;
-        }
-        public static List<InventoryItem> GetItems(params int?[] items)
-        {
-            List<InventoryItem> list = new List<InventoryItem>();
-            foreach (int? i in items) {
-                if(i==null)
-                    continue;
-                list.Add(Items[i.Value]); 
-            }
-            return list;
-        }
-
-
     }
-
 }
 
