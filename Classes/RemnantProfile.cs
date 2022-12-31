@@ -19,7 +19,7 @@ namespace RemnantMultipurposeManager
         public Dictionary<int, List<int>> Blacklists { get; }
         public byte[] Data { get; protected set; }
 
-        //private byte[] data;
+        
 
         public RemnantProfile(string read)
         {
@@ -79,12 +79,17 @@ namespace RemnantMultipurposeManager
 
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {
-                NullValueHandling = NullValueHandling.Ignore
+                NullValueHandling = NullValueHandling.Ignore,
+                TypeNameHandling=TypeNameHandling.Auto
             }));
         }
         public static RemnantProfile Load(string path)
         {
-            return JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(path));
+
+            var profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(path), new JsonSerializerSettings{TypeNameHandling = TypeNameHandling.Auto});
+            
+            
+            return profile;
         }
     }
 }

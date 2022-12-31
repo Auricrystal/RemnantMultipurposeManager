@@ -934,6 +934,15 @@
                     <Button x:Name="RerollBuild" Content="Reroll Build"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="50" Margin="80,-30,0,0" Click="RerollClick"/>
                     <Button x:Name="AddBuild" Content="Add Build" Visibility="Collapsed"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="50" Margin="80,-30,0,0" Click="AddBuild_Click"/>
                     <Button Content="Options" FontSize="20" x:Name="CreateBuild" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Height="50" Margin="-250,-30,0,0" Click="Options_Click"/>
+                    <ListView x:Name="BuildList" Grid.Column="1" Grid.Row="0" Background="black" Width="300" Height="420" Margin="0,30,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="BuildList_SelectionChanged">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <TextBlock Text="{Binding Path=Name}" Foreground="White"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                     <ListView x:Name="InvList" Visibility="Collapsed" IsEnabled="False" Grid.Column="1" Grid.Row="0" Width="300" Height="420" Background="Black" Margin="0,30,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="InvList_DoubleClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>

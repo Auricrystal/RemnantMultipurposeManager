@@ -6,6 +6,7 @@ using System.Windows.Forms;
 
 namespace RemnantMultipurposeManager
 {
+    
     public class Equipment
     {
         public enum SlotType { HG, LG, M, HE, CH, LE, AM, RI, MO };

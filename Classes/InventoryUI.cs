@@ -22,7 +22,8 @@ namespace RemnantMultipurposeManager
         private double Size;
         private const int _DefSize = 1024;
         public GunSlot HandGun, LongGun;
-        public InventorySlot HandGunMod, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
+        public ModSlot HandGunMod, LongGunMod;
+        public InventorySlot Melee, Head, Chest, Legs, Amulet, Ring1, Ring2;
         public Build Shown { get => CaptureSlots(); }
         public InventorySlot[] Array { get; private set; }
         public InventoryUI(double size = 1)
@@ -47,30 +48,13 @@ namespace RemnantMultipurposeManager
             this.Height = (rectH * 3 + square * 2);
             this.Width = rectW + 4;
             SolidColorBrush bg = null;//new SolidColorBrush(new Color() { R = 21, G = 21, B = 21, A = 255 });
-            Offense.Children.Add(HandGun = new GunSlot(HG, rectH, rectW,
-                HandGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false)
-                {
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(0, 0, 32, 0)
-                })
-            {
-                Background = bg,
-                Margin = new Thickness(0, 1, 0, 1)
-            });
-
+            HandGunMod = new ModSlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) };
+            Offense.Children.Add(HandGun = new GunSlot(HG, rectH, rectW, HandGunMod) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
             HandGun.Children.Add(HandGunMod);
             HandGunMod.Children.Add(new Image() { Name = "HGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
 
-            Offense.Children.Add(LongGun = new GunSlot(LG, rectH, rectW,
-                LongGunMod = new InventorySlot(MO, rectH * 0.80, rectH * 1.60, false)
-                {
-                    HorizontalAlignment = HorizontalAlignment.Right,
-                    Margin = new Thickness(0, 0, 32, 0)
-                })
-            {
-                Background = bg,
-                Margin = new Thickness(0, 1, 0, 1)
-            });
+            LongGunMod = new ModSlot(MO, rectH * 0.80, rectH * 1.60, false) { HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 32, 0) };
+            Offense.Children.Add(LongGun = new GunSlot(LG, rectH, rectW, LongGunMod) { Background = bg, Margin = new Thickness(0, 1, 0, 1) });
 
             LongGun.Children.Add(LongGunMod);
             LongGunMod.Children.Add(new Image() { Name = "LGM", Source = bmp, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, -12, 0) });
@@ -83,7 +67,7 @@ namespace RemnantMultipurposeManager
             Trinkets.Children.Add(Ring1 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
             Trinkets.Children.Add(Ring2 = new InventorySlot(RI, square, square) { Background = bg, Margin = new Thickness(1, 0, 1, 0) });
 
-            Array = new InventorySlot[] { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
+            Array = new InventorySlot[] { HandGun, LongGun, Melee, Head, Chest, Legs, Amulet, Ring1, Ring2 };
         }
 
         public void CheckBuild()
@@ -114,6 +98,7 @@ namespace RemnantMultipurposeManager
         }
         public Build CaptureSlots()
         {
+
             return new Build("Shown", Array.Where(x => x.Item != null).Select(x => x.Item).ToList());
         }
 
@@ -139,6 +124,7 @@ namespace RemnantMultipurposeManager
 
                 if (st == HG)
                 {
+                    Debug.WriteLine("HandGun Check: "+(b.Data.BySlot(HG).First() is HandGun));
                     HandGun.Equip((HandGun)b.Data.BySlot(HG).First());
                     continue;
                 }
@@ -152,6 +138,25 @@ namespace RemnantMultipurposeManager
 
             }
             CheckBuild();
+        }
+    }
+    public class ModSlot : InventorySlot
+    {
+        public ModSlot(SlotType sl, double height, double width, bool border = true) : base(sl, height, width, border)
+        {
+        }
+
+        public GunSlot GetParentSlot()
+        {
+            if (Parent is GunSlot)
+                Debug.WriteLine("Parent Gun Found!");
+            return Parent as GunSlot;
+        }
+
+        public void Equip(Mod mod)
+        {
+           ( GetParentSlot().Item as Gun).EquipMod(mod);
+            base.Equip(mod);
         }
     }
     public class GunSlot : InventorySlot

@@ -10,7 +10,7 @@ namespace RemnantMultipurposeManager
     {
         public string Name { get; set; }
 
-        public List<Equipment> Data;
+        public List<Equipment> Data { get; set; }
 
         [JsonConstructor]
         public Build(string name = null, List<Equipment> items = null)

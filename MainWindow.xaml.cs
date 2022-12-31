@@ -45,7 +45,7 @@ namespace RemnantMultipurposeManager
                 string s;
                 if (File.Exists(s = Properties.Settings.Default.CurrentProfile))
                 {
-                    profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s));
+                    profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                     return profile;
                 }
                 else
@@ -91,16 +91,10 @@ namespace RemnantMultipurposeManager
             BuildUI.Child = (UI = new InventoryUI());
 
 
-
-
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            foreach (var item in EquipmentDirectory.ItemsTest)
-            {
-                Debug.WriteLine(item);
-            }
 
             if (Debugger.IsAttached)
             {
@@ -117,6 +111,8 @@ namespace RemnantMultipurposeManager
             //Debug.WriteLine("checkbox " + Properties.Settings.Default.OfflineAccess);
             OfflineFileAccess.IsChecked = Properties.Settings.Default.OfflineAccess;
             SetSaveManagerActive(true);
+            BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
+            BuildList.Items.Refresh();
 
         }
         private void OnProfileSaveChanged(object source, FileSystemEventArgs e)
@@ -440,6 +436,7 @@ namespace RemnantMultipurposeManager
         {
             RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
             cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 : -1;
+            BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
         }
 
         private bool isManualEditCommit;
@@ -829,6 +826,7 @@ namespace RemnantMultipurposeManager
                     return;
 
                 var profile = RemnantProfile.Load(read.FileName);
+
                 Properties.Settings.Default.CurrentProfile = read.FileName;
                 Properties.Settings.Default.Save();
 
@@ -935,7 +933,7 @@ namespace RemnantMultipurposeManager
             InvList.IsEnabled = !InvList.IsEnabled;
             InvList.Visibility = InvList.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
             AddBuild.Visibility = InvList.Visibility;
-
+            BuildList.Visibility = InvList.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
             UI.EquipBuild(new Build());
 
         }
@@ -946,7 +944,12 @@ namespace RemnantMultipurposeManager
                 return;
 
             Debug.WriteLine("Build Shown:\n" + UI.Shown.ToString());
-            //Profile.Builds[cmbCharacter.SelectedIndex].Add(UI.Shown);
+
+            Profile.Builds[cmbCharacter.SelectedIndex].Add(UI.Shown);
+            Debug.WriteLine("Build List: " + Profile.Builds[cmbCharacter.SelectedIndex].Count);
+            BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
+            BuildList.Items.Refresh();
+            Profile.Save(Properties.Settings.Default.CurrentProfile);
         }
         private InventorySlot _SelectedInventorySlot = null;
 
@@ -985,10 +988,11 @@ namespace RemnantMultipurposeManager
             {
                 if (_SelectedInventorySlot is GunSlot)
                     ((GunSlot)_SelectedInventorySlot).Equip((Gun)InvList.SelectedItem);
+                else if (_SelectedInventorySlot is ModSlot)
+                    ((ModSlot)_SelectedInventorySlot).Equip((Mod)InvList.SelectedItem);
                 else
                     _SelectedInventorySlot.Equip((Equipment)InvList.SelectedItem);
             }
-
             else
                 Debug.WriteLine("Cant Equip Duplicate already Equipped");
         }
@@ -1017,6 +1021,12 @@ namespace RemnantMultipurposeManager
             }
         }
 
+        private void BuildList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (BuildList.SelectedItem is null)
+                return;
+            UI.EquipBuild((Build)BuildList.SelectedItem);
+        }
 
         private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {

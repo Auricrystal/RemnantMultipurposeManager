@@ -60,25 +60,12 @@ namespace RemnantMultipurposeManager
             return items.Shuffle().Take(count);
         }
 
-        public static IEnumerable<HandGun> HandGuns(this IEnumerable<Equipment> list)
-        {
-            return (IEnumerable<HandGun>)list.Where(x => x.Slot == HG);
-        }
-        public static IEnumerable<LongGun> LongGuns(this IEnumerable<Equipment> list)
-        {
-            return (IEnumerable<LongGun>)list.Where(x => x.Slot == LG);
-        }
         public static IEnumerable<Equipment> BySlot(this IEnumerable<Equipment> list, Equipment.SlotType slot)
         {
             var temp = list.Where(x => x is not null && x.Slot == slot).ToList();
             if (temp.Count() == 0)
                 temp.Add(EquipmentDirectory.DefaultEquipment(slot));
             return temp;
-        }
-
-        public static IEnumerable<Mod> Mods(this IEnumerable<Equipment> list)
-        {
-            return (IEnumerable<Mod>)list.Where(x => x.Slot == MO);
         }
 
         public static Build RandomBuild(this IEnumerable<Equipment> inventory, Build except = null, List<Equipment> blacklist = null)
