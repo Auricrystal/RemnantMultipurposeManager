@@ -17,8 +17,7 @@ using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-
-
+using static RemnantMultipurposeManager.JWorldSave;
 
 namespace RemnantMultipurposeManager
 {
@@ -28,7 +27,7 @@ namespace RemnantMultipurposeManager
     public partial class MainWindow : Window
     {
         private static string GameSavePath { get => Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\SaveGames"; }
-        public static MainWindow MW = null;
+        public static MainWindow Instance = null;
         readonly public static Random rd = new Random();
         public enum LogType { Normal, Success, Error }
         private FileSystemWatcher ProfileWatcher, SaveWatcher;
@@ -36,6 +35,7 @@ namespace RemnantMultipurposeManager
         private RemnantProfile profile;
         private List<JWorldSave> checkpoints;
         private byte[] lockedSave;
+        private int MAX_LOG_STACK = 10;
         //test comment
         public RemnantProfile Profile
         {
@@ -45,6 +45,7 @@ namespace RemnantMultipurposeManager
                 string s;
                 if (File.Exists(s = Properties.Settings.Default.CurrentProfile))
                 {
+                    Debug.WriteLine("Profile exists! " + s);
                     profile = JsonConvert.DeserializeObject<RemnantProfile>(File.ReadAllText(s), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                     return profile;
                 }
@@ -62,37 +63,44 @@ namespace RemnantMultipurposeManager
             get
             {
                 DownloadDirectory();
-                checkpoints = JWorldSave.LoadList(RBRDirPath + @"\CheckpointDirectory.rmm");
+                checkpoints = JWorldSave.LoadList(RmmInstallPath + @"\CheckpointDirectory.rmm");
                 return checkpoints;
             }
         }
-        public static string RBRDirPath
+
+        public static string RmmInstallPath
         {
             get
             {
-                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR");
-                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\Remnant\\Saved\\RBR";
+                Directory.CreateDirectory(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\RemnantMultipurposeManager");
+                return Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData) + "\\RemnantMultipurposeManager";
             }
         }
 
         public MainWindow() : base()
         {
+
             this.Dispatcher.UnhandledException += OnDispatcherUnhandledException;
-            MW = this;
+            Instance = this;
             InitializeComponent();
             txtLog.IsReadOnly = true;
 
 
-            if (!File.Exists(RBRDirPath + "\\" + "IMG.zip"))
+            if (!File.Exists(RmmInstallPath + "\\" + "IMG.zip"))
                 DownloadZip("IMG");
             checkForUpdate();
-            File.Delete(RBRDirPath + "\\log.txt");
 
             BuildUI.Child = (UI = new InventoryUI());
+            var list = Directory.GetFiles(RmmInstallPath + "\\Logs");
+
+            for (int i = 0; i < list.Length - MAX_LOG_STACK; i++)
+                File.Delete(list[i]);
+            
+
 
 
         }
-
+        
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -128,12 +136,12 @@ namespace RemnantMultipurposeManager
             if (Profile != null)
             {
                 Debug.WriteLine("Profile Inventory: " + Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Count);
-                var NoEmpties = EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_")).ToList();
+                var NoEmpties = EquipmentDirectory.Items.Where(x => x.Name.Contains("_")).ToList();
                 b = Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Select(x => EquipmentDirectory.FindEquipmentByName(x)).RandomBuild(UI.Shown, false ? NoEmpties : null);
             }
             else
             {
-                b = EquipmentDirectory.ItemsTest.ToList().RandomBuild(UI.Shown, EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_")).ToList());
+                b = EquipmentDirectory.Items.ToList().RandomBuild(UI.Shown, EquipmentDirectory.Items.Where(x => x.Name.Contains("_")).ToList());
             }
             UI.EquipBuild(b);
             //Profile?.Builds[0]?.Add(UI.Shown);
@@ -146,9 +154,9 @@ namespace RemnantMultipurposeManager
             {
 
 
-                if (!File.Exists(RBRDirPath + @"\CheckpointDirectory.rmm"))
+                if (!File.Exists(RmmInstallPath + @"\CheckpointDirectory.rmm"))
                 {
-                    client.DownloadFile(Directory, RBRDirPath + @"\CheckpointDirectory.rmm");
+                    client.DownloadFile(Directory, RmmInstallPath + @"\CheckpointDirectory.rmm");
                     return;
                 }
                 if (OfflineFileAccess.IsChecked.Value)
@@ -156,7 +164,7 @@ namespace RemnantMultipurposeManager
 
                 try
                 {
-                    using (StreamReader nw = new StreamReader(client.OpenRead(Directory)), od = new StreamReader(File.OpenRead(RBRDirPath + @"\CheckpointDirectory.rmm")))
+                    using (StreamReader nw = new StreamReader(client.OpenRead(Directory)), od = new StreamReader(File.OpenRead(RmmInstallPath + @"\CheckpointDirectory.rmm")))
                     {
 
                         string a;
@@ -166,7 +174,7 @@ namespace RemnantMultipurposeManager
                             {
                                 nw.Close();
                                 od.Close();
-                                client.DownloadFile(Directory, RBRDirPath + @"\CheckpointDirectory.rmm");
+                                client.DownloadFile(Directory, RmmInstallPath + @"\CheckpointDirectory.rmm");
                                 return;
                             }
                         }
@@ -234,7 +242,7 @@ namespace RemnantMultipurposeManager
             cmbCharacter.Items.Refresh();
             cmbSaveSlot.Items.Refresh();
 
-            InvList.ItemsSource = EquipmentDirectory.ItemsTest;
+            InvList.ItemsSource = EquipmentDirectory.Items;
             SaveList.ItemsSource = b ? Checkpoints : null;
             cmbSaveType.SelectedIndex = b ? 0 : -1;
         }
@@ -248,10 +256,10 @@ namespace RemnantMultipurposeManager
                 AlterFile.Content = "Revert Saves";
                 lastBackupAction = BackupAction.Backup;
                 string[] saves = Directory.GetFiles(GameSavePath, "save_?.sav");
+                Directory.CreateDirectory(RmmInstallPath + @"\Backup");
                 foreach (string s in saves)
                 {
-                    Directory.CreateDirectory(RBRDirPath + @"\Backup");
-                    File.Copy(s, RBRDirPath + @"\Backup\" + s.Split('\\').Last(), true);
+                    File.Copy(s, RmmInstallPath + @"\Backup\" + s.Split('\\').Last(), true);
                 }
 
             }
@@ -261,18 +269,23 @@ namespace RemnantMultipurposeManager
                     return;
                 AlterFile.Content = "Backup Saves";
                 lastBackupAction = BackupAction.Revert;
-                string[] saves = Directory.GetFiles(RBRDirPath + @"\Backup", "save_?.sav");
+                string[] saves = Directory.GetFiles(RmmInstallPath + @"\Backup", "save_?.sav");
                 foreach (string s in saves)
                 {
                     File.Copy(s, GameSavePath + "\\" + s.Split('\\').Last(), true);
                 }
-                Directory.Delete(RBRDirPath + @"\Backup", true);
+                Directory.Delete(RmmInstallPath + @"\Backup", true);
             }
 
         }
         private void RemnantBuildRandomizer_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             BackupRevert(BackupAction.Revert);
+            string s;
+            if (File.Exists(s = RmmInstallPath + @"\Logs\log.txt"))
+            {
+                File.Move(s, RmmInstallPath + @"\Logs\" + File.GetLastWriteTime(s).Ticks + ".txt");
+            }
         }
 
 
@@ -282,6 +295,12 @@ namespace RemnantMultipurposeManager
             MessageBox.Show("Exception Message: " + e.Exception.Message + "\n\n" + "Exception StackTrace:" + e.Exception.StackTrace, "Unknown Crash Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
 
             LogMessage(e.Exception.Message + "\n" + e.Exception.StackTrace);
+            string s;
+            if (File.Exists(s = RmmInstallPath + @"\Logs\log.txt"))
+            {
+                File.Move(s, RmmInstallPath + @"\Logs\" + File.GetLastWriteTime(s).Ticks + ".txt");
+            }
+
         }
 
         private int checkForUpdate()
@@ -323,7 +342,7 @@ namespace RemnantMultipurposeManager
                 {
                     Version.Header = new Image { Source = new BitmapImage(new Uri(@"pack://application:,,," + @"/Resources/IMG/Menu/_CurrentVersion.png")) };
                     Version.ToolTip = "Online Access Restricted or Off";
-                    MW.LogMessage("Online Access Restricted or Off", LogType.Error);
+                    Instance.LogMessage("Online Access Restricted or Off", LogType.Error);
                 }
             }
             Debug.WriteLine("Update value: " + compare);
@@ -337,16 +356,16 @@ namespace RemnantMultipurposeManager
                 using (WebClient client = new WebClient())
                 {
 
-                    if (!File.Exists(RBRDirPath + "\\" + zipName + ".zip"))
+                    if (!File.Exists(RmmInstallPath + "\\" + zipName + ".zip"))
                     {
-                        client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
-                        MW.LogMessage("Pulling " + zipName + " from Repo", LogType.Success);
+                        client.DownloadFile(zipURL, RmmInstallPath + "\\" + zipName + ".zip");
+                        Instance.LogMessage("Pulling " + zipName + " from Repo", LogType.Success);
 
                         return true;
                     }
 
 
-                    using (ZipArchive Old = ZipFile.Open(RBRDirPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(zipURL)))
+                    using (ZipArchive Old = ZipFile.Open(RmmInstallPath + "\\" + zipName + ".zip", ZipArchiveMode.Update), New = new ZipArchive(client.OpenRead(zipURL)))
                     {
                         foreach (ZipArchiveEntry entry in New.Entries)
                         {
@@ -357,16 +376,16 @@ namespace RemnantMultipurposeManager
                                 entry.LastWriteTime.Ticks <= Old.GetEntry(entry.FullName).LastWriteTime.Ticks)
                                 continue;
 
-                            MW.LogMessage("Updating " + zipName + " from Repo", LogType.Success);
+                            Instance.LogMessage("Updating " + zipName + " from Repo", LogType.Success);
                             Old.Dispose(); New.Dispose();
-                            File.Delete(RBRDirPath + "\\" + zipName + ".zip"); client.DownloadFile(zipURL, RBRDirPath + "\\" + zipName + ".zip");
+                            File.Delete(RmmInstallPath + "\\" + zipName + ".zip"); client.DownloadFile(zipURL, RmmInstallPath + "\\" + zipName + ".zip");
                             break;
                         }
                     }
                 }
                 return true;
             }
-            catch (Exception) { MW.LogMessage("Problem accessing internet.", LogType.Error); return false; }
+            catch (Exception) { Instance.LogMessage("Problem accessing internet.", LogType.Error); return false; }
         }
         public void LogMessage(string msg, LogType lt = LogType.Normal, Color? color = null)
         {
@@ -397,7 +416,8 @@ namespace RemnantMultipurposeManager
             {
                 lblLastMessage.FontWeight = FontWeights.Bold;
             }
-            StreamWriter writer = System.IO.File.AppendText(RBRDirPath + "/log.txt");
+            Directory.CreateDirectory(RmmInstallPath + "\\Logs");
+            StreamWriter writer = System.IO.File.AppendText(RmmInstallPath + "\\Logs\\log.txt");
             writer.WriteLine(DateTime.Now.ToString() + ": " + msg);
             writer.Close();
 
@@ -421,11 +441,15 @@ namespace RemnantMultipurposeManager
         private void CmbSaveSlot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (cmbCharacter.SelectedItem == null)
+            {
+                Debug.WriteLine("Char Null");
                 return;
+            }
+
 
             RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
             Profile.SavePair[rc.Slot] = cmbSaveSlot.SelectedIndex;
-            // Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
+            Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
             if (SaveWatcher is null || !SaveWatcher.EnableRaisingEvents)
                 return;
             Debug.WriteLine("Switching Locked Save");
@@ -438,19 +462,7 @@ namespace RemnantMultipurposeManager
             cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 : -1;
             BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
         }
-
-        private bool isManualEditCommit;
-        private void BuildList_CellEditEnding(object sender, DataGridCellEditEndingEventArgs e)
-        {
-            if (!isManualEditCommit)
-            {
-                isManualEditCommit = true;
-                DataGrid grid = (DataGrid)sender;
-                grid.CommitEdit(DataGridEditingUnit.Row, true);
-                grid.Items.Refresh();
-                isManualEditCommit = false;
-            }
-        }
+       
         private static void DeleteEmptyFolders(string startLocation)
         {
             foreach (var directory in Directory.GetDirectories(startLocation))
@@ -478,9 +490,9 @@ namespace RemnantMultipurposeManager
             System.Environment.Exit(1);
         }
 
-        private void DataFolder_Click(object sender, RoutedEventArgs e)
+        private void InstallFolder_Click(object sender, RoutedEventArgs e)
         {
-            Process.Start(RBRDirPath);
+            Process.Start(RmmInstallPath);
         }
 
         private void GameRestart_Click(object sender, RoutedEventArgs e)
@@ -499,8 +511,9 @@ namespace RemnantMultipurposeManager
                 SaveWatcher.Changed += LockedSave_Changed;
             }
             SaveWatcher.EnableRaisingEvents = true;
-            lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
-            Debug.WriteLine("Bytes: " + lockedSave.Length);
+            if (File.Exists(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav"))
+                lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
+            //Debug.WriteLine("Bytes: " + lockedSave.Length);
             LoadButtonSettings();
         }
 
@@ -509,6 +522,9 @@ namespace RemnantMultipurposeManager
             SaveWatcher.EnableRaisingEvents = false;
             this.Dispatcher.Invoke(() =>
             {
+                if (lockedSave is null)
+                    lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
+
                 try
                 {
                     Debug.WriteLine("Overwriting!");
@@ -586,65 +602,62 @@ namespace RemnantMultipurposeManager
         private void CreateMasterRMM()
         {
             //throw new Exception();
-            string[] zipArray = { "Bosses", "Vendors2", "Events" };
+
             string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
 
-            foreach (string zipName in zipArray)
+
+
+            string s = "";
+            if (File.Exists(s = baseDir + "SaveLibrary.zip"))
+                File.Delete(s);
+
+            //var f = zipName == "Vendors2" ? "Vendors" : zipName;
+
+            ZipFile.CreateFromDirectory(baseDir + "SaveLibrary", s, CompressionLevel.Optimal, false);
+
+            using (ZipArchive zipFile = ZipFile.Open(s, ZipArchiveMode.Read))
             {
-                //Debug.WriteLine("Opening: " + zipName);
-                string s = "";
-                if (File.Exists(s = baseDir + zipName + ".zip"))
-                    File.Delete(s);
+                string savetype = "";
+                string diff = "";
+                string planet = "";
+                string bossname = "";
+                string modifier = "";
 
-                var f = zipName == "Vendors2" ? "Vendors" : zipName;
-
-                ZipFile.CreateFromDirectory(baseDir + f, s, CompressionLevel.Optimal, true);
-
-                using (ZipArchive zipFile = ZipFile.Open(s, ZipArchiveMode.Read))
+                foreach (ZipArchiveEntry entry in zipFile.Entries)
                 {
-                    string savetype = "";
-                    string diff = "";
-                    string planet = "";
-                    string bossname = "";
-                    string modifier = "";
+                    if (!entry.FullName.Contains("save.sav"))
+                        continue;
+                    Debug.WriteLine(entry.FullName);
+                    string[] temp = entry.FullName.Split('/');
+                   
+                    if (savetype != temp[0])
+                        savetype = temp[0];
+                    if (diff != temp[1])
+                        diff = temp[1];
+                    if (planet != temp[2])
+                        planet = temp[2];
+                    if (bossname != temp[3])
+                        bossname = temp[3];
+                    if (modifier != temp[4])
+                        modifier = temp[4];
 
-                    foreach (ZipArchiveEntry entry in zipFile.Entries)
-                    {
-                        if (!entry.FullName.Contains("save.sav"))
-                            continue;
-                        //Debug.WriteLine(entry.FullName);
-                        string[] temp = entry.FullName.Split('/');
+                    
 
-                        if (savetype != temp[0])
-                            savetype = temp[0];
-                        if (diff != temp[1])
-                            diff = temp[1];
-                        if (planet != temp[2])
-                            planet = temp[2];
-                        if (bossname != temp[3])
-                            bossname = temp[3];
-                        if (modifier != temp[4])
-                            modifier = temp[4];
-
-                        JWorldSave save =
-                            new JWorldSave
-                            (
-                                bossname,
-                                (JWorldSave.WorldZone)Enum.Parse(typeof(JWorldSave.WorldZone), string.Join("", planet.Split(' '))),
-                                (JWorldSave.SaveType)Enum.Parse(typeof(JWorldSave.SaveType), savetype),
-                                new Dictionary<JWorldSave.DifficultyType, List<string>>()
-                                {
-                                      {
-                                       (JWorldSave.DifficultyType)Enum.Parse(typeof(JWorldSave.DifficultyType),diff=="No Difficulty"?"Vendor":diff) ,
-                                        new List<string>(){modifier}
-                                      }
-                                }
-                            );
-                        MergeRMM(save);
-                    }
-                    zipFile.Dispose();
+                    MergeRMM(new(
+                            bossname,
+                            TryParse<WorldZone>(string.Join("", planet.Split(' '))),
+                            TryParse<SaveType>(savetype),
+                            new Dictionary<JWorldSave.DifficultyType, List<string>>()
+                            {
+                              {
+                                TryParse<DifficultyType>(diff=="No Difficulty"?"Vendor":diff) , new List<string>(){modifier}
+                              }
+                            }
+                        )
+                        ); 
                 }
-                //Debug.WriteLine("Closing: " + zipName);
+                zipFile.Dispose();
+
             }
         }
 
@@ -673,8 +686,6 @@ namespace RemnantMultipurposeManager
                         match.Checkpoints[diff].Add(line);
                         Debug.WriteLine("Adding " + save.Name + "[" + diff + "," + line + "]");
                     }
-
-
                 }
             }
             JWorldSave.Save(baseDir + @"Data\CheckpointDirectory.rmm", savelist.OrderBy(x => x.Type).ThenBy(x => x.World).ThenBy(x => x.Name).ToArray());
@@ -694,14 +705,8 @@ namespace RemnantMultipurposeManager
 
             Debug.WriteLine("RMM Count:" + save.Count);
 
-
             foreach (var item in save.OrderBy(x => x.World).ThenBy(x => x.Name))
-            {
-
                 Debug.WriteLine(item.World + ": " + item.Name);
-
-            }
-
         }
         private void LoadSave_Click(object sender, RoutedEventArgs e)
         {
@@ -769,9 +774,9 @@ namespace RemnantMultipurposeManager
                 read.Filter = "|profile.sav";
 
                 read.InitialDirectory = GameSavePath;
-                read.ShowDialog();
+                var res = read.ShowDialog();
 
-                if (read.FileName == "")
+                if (read.FileName == "" || res == System.Windows.Forms.DialogResult.Cancel)
                     return;
                 if (!File.Exists(read.FileName))
                     return;
@@ -790,8 +795,8 @@ namespace RemnantMultipurposeManager
                     save.Filter = "(.RProfile)|*.RProfile";
                     save.FileName = "Default";
                     //save.DefaultExt = "RProfile";
-                    save.ShowDialog();
-                    if (save.FileName == "")
+                    res = save.ShowDialog();
+                    if (save.FileName == "" || res == System.Windows.Forms.DialogResult.Cancel)
                         return;
                     Debug.WriteLine("FILENAME: " + save.FileName);
                     profile.Name = Path.GetFileNameWithoutExtension(save.FileName);
@@ -923,7 +928,7 @@ namespace RemnantMultipurposeManager
         private void OfflineFileAccess_Toggle(object sender, RoutedEventArgs e)
         {
             if (OfflineFileAccess.IsChecked.Value && !Properties.Settings.Default.OfflineAccess)
-                new List<string> { "Bosses", "Vendors2", "Events" }.ForEach(x => DownloadZip(x));
+                DownloadZip("SaveLibrary");
             Properties.Settings.Default.OfflineAccess = OfflineFileAccess.IsChecked.Value;
             Properties.Settings.Default.Save();
         }
@@ -934,6 +939,7 @@ namespace RemnantMultipurposeManager
             InvList.Visibility = InvList.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
             AddBuild.Visibility = InvList.Visibility;
             BuildList.Visibility = InvList.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+            CollectionViewSource.GetDefaultView(InvList.ItemsSource).Filter = o => false;
             UI.EquipBuild(new Build());
 
         }
@@ -979,19 +985,20 @@ namespace RemnantMultipurposeManager
         {
             if (InvList.SelectedItem is null)
                 return;
-            Debug.WriteLine(((Equipment)InvList.SelectedItem).Name);
             if (_SelectedInventorySlot is null)
                 return;
 
 
-            if (CanDoEquip(_SelectedInventorySlot, (Equipment)InvList.SelectedItem))
+            Equipment copy = EquipmentDirectory.FindEquipmentByName(((Equipment)InvList.SelectedItem).Name);
+
+            if (CanDoEquip(_SelectedInventorySlot, copy))
             {
                 if (_SelectedInventorySlot is GunSlot)
-                    ((GunSlot)_SelectedInventorySlot).Equip((Gun)InvList.SelectedItem);
+                    ((GunSlot)_SelectedInventorySlot).Equip((Gun)(copy as Gun).Clone());
                 else if (_SelectedInventorySlot is ModSlot)
-                    ((ModSlot)_SelectedInventorySlot).Equip((Mod)InvList.SelectedItem);
+                    ((ModSlot)_SelectedInventorySlot).Equip((Mod)copy);
                 else
-                    _SelectedInventorySlot.Equip((Equipment)InvList.SelectedItem);
+                    _SelectedInventorySlot.Equip(copy);
             }
             else
                 Debug.WriteLine("Cant Equip Duplicate already Equipped");
@@ -999,8 +1006,7 @@ namespace RemnantMultipurposeManager
 
         private bool CanDoEquip(InventorySlot slot, Equipment item)
         {
-            if (slot.SlotType is not Equipment.SlotType.RI && slot.SlotType is not Equipment.SlotType.MO)
-                return true;
+
             bool check1 = false, check2 = false;
             if (slot.SlotType is Equipment.SlotType.RI)
             {
@@ -1009,7 +1015,7 @@ namespace RemnantMultipurposeManager
                 //Debug.WriteLine("Ring check: " + (check1 && check2));
                 return check1 && check2;
             }
-            else
+            if (slot.SlotType is Equipment.SlotType.MO)
             {
                 check1 = UI.HandGunMod.Item is not null && !UI.HandGunMod.Item.Equals(item);
                 check2 = UI.LongGunMod.Item is not null && !UI.LongGunMod.Item.Equals(item);
@@ -1017,8 +1023,10 @@ namespace RemnantMultipurposeManager
                 if (item.Name.Contains("_") && !((Mod)item).Boss)
                     return true;
                 return check1 && check2;
-
             }
+            if (slot.Item.Name == item.Name)
+                return false;
+            return true;
         }
 
         private void BuildList_SelectionChanged(object sender, SelectionChangedEventArgs e)

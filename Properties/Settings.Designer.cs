@@ -46,5 +46,17 @@ namespace RemnantMultipurposeManager.Properties {
                 this["OfflineAccess"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string InstallDir {
+            get {
+                return ((string)(this["InstallDir"]));
+            }
+            set {
+                this["InstallDir"] = value;
+            }
+        }
     }
 }

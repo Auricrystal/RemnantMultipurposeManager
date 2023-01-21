@@ -23,13 +23,13 @@ namespace RemnantMultipurposeManager
             return Archetype + " (" + Progression + ")";
         }
 
-        public RemnantCharacter(int? Slot = null, string Archetype = null,int? Progression=null, List<string> Inventory = null)
+        public RemnantCharacter(int? Slot = null, string Archetype = null, int? Progression = null, List<string> Inventory = null)
         {
             this.Slot = Slot ?? num++;
             this.Archetype = Archetype ?? "None";
             this.Progression = Progression ?? 0;
             this.Inventory = Inventory ?? new List<string>();
-        
+
         }
 
 
@@ -41,26 +41,33 @@ namespace RemnantMultipurposeManager
                 string profileData = File.ReadAllText(saveFolderPath);
 
                 string[] characters = profileData.Split(new string[] { "/Game/Characters/Player/Base/Character_Master_Player.Character_Master_Player_C" }, StringSplitOptions.None);
+                //string[] test = profileData.Split(new string[] { "/Game/_Core/Archetypes/Archetype_Cultist_UI.Archetype_Cultist_UI_C" }, StringSplitOptions.None);
+
+
+                //for (int i = 0; i < test.Length; i++)
+                //{
+                //    File.WriteAllText(@"C:\Users\AuriCrystal\AppData\Local\Remnant\Saved\SaveGames\Character" + i + ".sav", test[i]);
+                //}
                 for (var i = 1; i < characters.Length; i++)
                 {
-                    RemnantCharacter cd = new RemnantCharacter(Slot:i - 1);
+                    RemnantCharacter cd = new RemnantCharacter(Slot: i - 1);
 
                     Match archetypeMatch = new Regex(@"/Game/_Core/Archetypes/[a-zA-Z_]+").Match(characters[i - 1]);
                     cd.Archetype = archetypeMatch.Success ? archetypeMatch.Value.Replace("/Game/_Core/Archetypes/", "").Split('_')[1] : "Undefined";
 
                     List<string> saveItems = new List<string>();
                     string charEnd = "Character_Master_Player_C";
-                    
-                    FindMatches(saveItems, 
-                        characters[i].Substring(0, characters[i].IndexOf(charEnd)), 
+
+                    FindMatches(saveItems,
+                        characters[i].Substring(0, characters[i].IndexOf(charEnd)),
                         new Regex(@"/(Items/(?:Weapons(?:/[\w]+)+|Armor(?:/[\w]+)?|Trinkets(?:/BandsOfCastorAndPollux)?|Mods|Traits|QuestItems(?:/[\w]+)+)/[\w]+|Quests/[\w]+/[\w]+|Player/Emotes/Emote_[\w]+)"));
                     cd.Progression = saveItems.Count;
                     cd.Inventory = new List<string>();
-                    foreach (Equipment item in EquipmentDirectory.ItemsTest)
+                    foreach (Equipment item in EquipmentDirectory.Items)
                     {
-                        Debug.WriteLine(item.File+":"+ saveItems.Contains(item.File));
+                        //Debug.WriteLine(item.File + ":" + saveItems.Contains(item.File));
                         if (saveItems.Contains(item.File) ||
-                            EquipmentDirectory.ItemsTest.Where(x => x.Name.Contains("_"))
+                            EquipmentDirectory.Items.Where(x => !x.Name.Contains("_"))
                             .Select(x => x.Name).Contains(item.Name))
                         {
                             cd.Inventory.Add(item.Name);
@@ -84,8 +91,9 @@ namespace RemnantMultipurposeManager
 
         private static void FindMatches(List<string> saveItems, string inventory, Regex rx)
         {
-            foreach (Match match in rx.Matches(inventory)) {
-                saveItems.Add(match.Value); 
+            foreach (Match match in rx.Matches(inventory))
+            {
+                saveItems.Add(match.Value);
             }
         }
 

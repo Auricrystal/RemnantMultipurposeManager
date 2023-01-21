@@ -44,16 +44,23 @@ namespace RemnantMultipurposeManager
             {
                 if (!Checkpoints[dt].Contains(modifier))
                 {
-                    MainWindow.MW.LogMessage("Modifier Not Found!", MainWindow.LogType.Error);
+                    MainWindow.Instance.LogMessage("Modifier Not Found!", MainWindow.LogType.Error);
                     return false;
                 }
                 try
                 {
-                    MainWindow.MW.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
+                    MainWindow.Instance.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
                     //Debug.WriteLine("URL: " +GetURL(dt, modifier));
                     client.DownloadFile(GetURL(dt, modifier), path);
                 }
-                catch (WebException we) { MainWindow.MW.LogMessage(we.Message, MainWindow.LogType.Error); return false; }
+                catch (WebException we)
+                {
+                    if (we.Message.Contains("raw.githubusercontent.com"))
+                        MainWindow.Instance.LogMessage("Trouble contacting database, check if online.", MainWindow.LogType.Error);
+                    else
+                        MainWindow.Instance.LogMessage("Unknown Online Error", MainWindow.LogType.Error);
+                    return false;
+                }
                 return true;
             }
         }
@@ -61,13 +68,13 @@ namespace RemnantMultipurposeManager
         {
             Debug.WriteLine("Grabbing From Zip File!");
             var s = string.Join("/", Type, dt == DifficultyType.Vendor ? "No Difficulty" : dt, World, Name, modifier, "save.sav");
-        
 
-            using (ZipArchive zip = ZipFile.Open(RBRDirPath + "\\" + (Type == SaveType.Vendors ? "Vendors2" : Type.ToString()) + ".zip", ZipArchiveMode.Read))
+
+            using (ZipArchive zip = ZipFile.Open(RmmInstallPath + "\\" + (Type == SaveType.Vendors ? "Vendors2" : Type.ToString()) + ".zip", ZipArchiveMode.Read))
             {
                 zip.GetEntry(s).ExtractToFile(filedest, true);
             }
-            MainWindow.MW.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
+            MainWindow.Instance.LogMessage("Loading: " + String.Join(", ", Type != JWorldSave.SaveType.Vendors ? dt : "No Difficulty", Name, modifier), LogType.Success);
 
         }
         public string GetURL(DifficultyType dt, string modifier)
@@ -96,7 +103,7 @@ namespace RemnantMultipurposeManager
         {
             if (!File.Exists(path))
                 File.Create(path);
-          
+
             return JsonConvert.DeserializeObject<List<JWorldSave>>(File.ReadAllText(path));
         }
 

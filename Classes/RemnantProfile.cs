@@ -16,7 +16,7 @@ namespace RemnantMultipurposeManager
         public List<RemnantCharacter> Characters { get; protected set; }
         public Dictionary<int, int> SavePair { get; }
         public Dictionary<int, List<Build>> Builds { get; }
-        public Dictionary<int, List<int>> Blacklists { get; }
+        //public Dictionary<int, List<int>> Blacklists { get; }
         public byte[] Data { get; protected set; }
 
         
@@ -29,17 +29,17 @@ namespace RemnantMultipurposeManager
                 Characters = RemnantCharacter.GenerateCharacters(read);
                 SavePair = new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
                 Builds = new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
-                Blacklists = new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
+                //Blacklists = new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
 
             }
             catch (Exception)
             {
-                MainWindow.MW.LogMessage("Error Generating Profile", MainWindow.LogType.Error);
+                MainWindow.Instance.LogMessage("Error Generating Profile", MainWindow.LogType.Error);
                 Data = null;
                 Characters = new List<RemnantCharacter>();
                 SavePair = new Dictionary<int, int>();
                 Builds = new Dictionary<int, List<Build>>();
-                Blacklists = new Dictionary<int, List<int>>();
+                //Blacklists = new Dictionary<int, List<int>>();
             }
         }
         [JsonConstructor]
@@ -48,7 +48,7 @@ namespace RemnantMultipurposeManager
             Characters = characters ?? new List<RemnantCharacter>();
             SavePair = savePair ?? new Dictionary<int, int>() { { 0, 0 }, { 1, 1 }, { 2, 2 }, { 3, 3 }, { 4, 4 } };
             Builds = builds ?? new Dictionary<int, List<Build>>() { { 0, new List<Build>() }, { 1, new List<Build>() }, { 2, new List<Build>() }, { 3, new List<Build>() }, { 4, new List<Build>() } };
-            Blacklists = blacklists ?? new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
+            //Blacklists = blacklists ?? new Dictionary<int, List<int>>() { { 0, new List<int>() }, { 1, new List<int>() }, { 2, new List<int>() }, { 3, new List<int>() }, { 4, new List<int>() } };
             Data = data;
         }
 
@@ -60,7 +60,7 @@ namespace RemnantMultipurposeManager
             }
             catch (FileNotFoundException)
             {
-                MainWindow.MW.LogMessage("Error Updating Profile", MainWindow.LogType.Error);
+                MainWindow.Instance.LogMessage("Error Updating Profile", MainWindow.LogType.Error);
             }
         }
         public void PackProfile(string path)

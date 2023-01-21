@@ -1,0 +1,3 @@
+[Consumable]
+Houndmaster's Jerky
+ 

@@ -1,2369 +1,1710 @@
 [
   {
-    "Index": 0,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "_No Mod",
     "IMG": "Mods/RegularMods/_No Mod.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 1,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Beckon",
     "IMG": "Mods/RegularMods/Beckon.png",
-    "File": "/Items/Mods/Beckon",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/Beckon"
   },
   {
-    "Index": 2,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Blink Token",
     "IMG": "Mods/RegularMods/Blink Token.png",
-    "File": "/Items/Mods/BlinkToken",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/BlinkToken"
   },
   {
-    "Index": 3,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Blizzard",
     "IMG": "Mods/RegularMods/Blizzard.png",
-    "File": "/Items/Mods/Blizzard",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/Blizzard"
   },
   {
-    "Index": 4,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Breath Of The Desert",
     "IMG": "Mods/RegularMods/Breath Of The Desert.png",
-    "File": "/Items/Mods/BreathOfDesert",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/BreathOfDesert"
   },
   {
-    "Index": 5,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Cold Spear",
     "IMG": "Mods/RegularMods/Cold Spear.png",
-    "File": "/Items/Mods/ColdSpear",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/ColdSpear"
   },
   {
-    "Index": 6,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Corrosive Aura",
     "IMG": "Mods/RegularMods/Corrosive Aura.png",
-    "File": "/Items/Mods/CorrosiveAura",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/CorrosiveAura"
   },
   {
-    "Index": 7,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Explosive Shot",
     "IMG": "Mods/RegularMods/Explosive Shot.png",
-    "File": "/Items/Mods/ExplosiveShot",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/ExplosiveShot"
   },
   {
-    "Index": 8,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Fan Of Knives",
     "IMG": "Mods/RegularMods/Fan Of Knives.png",
-    "File": "/Items/Mods/FanOfKnives",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/FanOfKnives"
   },
   {
-    "Index": 9,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Flicker Cloak",
     "IMG": "Mods/RegularMods/Flicker Cloak.png",
-    "File": "/Items/Mods/FlickerCloak",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/FlickerCloak"
   },
   {
-    "Index": 10,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Frozen Mist",
     "IMG": "Mods/RegularMods/Frozen Mist.png",
-    "File": "/Items/Mods/FrozenMist",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/FrozenMist"
   },
   {
-    "Index": 11,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Hot Shot",
     "IMG": "Mods/RegularMods/Hot Shot.png",
-    "File": "/Items/Mods/HotShot",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/HotShot"
   },
   {
-    "Index": 12,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Howler's Immunity",
     "IMG": "Mods/RegularMods/Howler's Immunity.png",
-    "File": "/Items/Mods/HowlersImmunity",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/HowlersImmunity"
   },
   {
-    "Index": 13,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Hunter's Mark",
     "IMG": "Mods/RegularMods/Hunter's Mark.png",
-    "File": "/Items/Mods/HuntersMark",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/HuntersMark"
   },
   {
-    "Index": 14,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Iron Sentinel",
     "IMG": "Mods/RegularMods/Iron Sentinel.png",
-    "File": "/Items/Mods/IronSentinel",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/IronSentinel"
   },
   {
-    "Index": 15,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Mantle Of Thorns",
     "IMG": "Mods/RegularMods/Mantle Of Thorns.png",
-    "File": "/Items/Mods/MantleOfThorns",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/MantleOfThorns"
   },
   {
-    "Index": 16,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Mender's Aura",
     "IMG": "Mods/RegularMods/Mender's Aura.png",
-    "File": "/Items/Mods/MendersAura",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/MendersAura"
   },
   {
-    "Index": 17,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Rattle Weed",
     "IMG": "Mods/RegularMods/Rattle Weed.png",
-    "File": "/Items/Mods/Rattleweed",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/Rattleweed"
   },
   {
-    "Index": 18,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Rift Walker",
     "IMG": "Mods/RegularMods/Rift Walker.png",
-    "File": "/Items/Mods/RiftWalker",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/RiftWalker"
   },
   {
-    "Index": 19,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Seed Caller",
     "IMG": "Mods/RegularMods/Seed Caller.png",
-    "File": "/Items/Mods/SeedCaller",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/SeedCaller"
   },
   {
-    "Index": 20,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Seeker",
     "IMG": "Mods/RegularMods/Seeker.png",
-    "File": "/Items/Mods/Seeker",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/Seeker"
   },
   {
-    "Index": 21,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Song Of Swords",
     "IMG": "Mods/RegularMods/Song Of Swords.png",
-    "File": "/Items/Mods/SongOfSwords",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/SongOfSwords"
   },
   {
-    "Index": 22,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Storm Caller",
     "IMG": "Mods/RegularMods/Storm Caller.png",
-    "File": "/Items/Mods/StormCaller",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/StormCaller"
   },
   {
-    "Index": 23,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Swarm",
     "IMG": "Mods/RegularMods/Swarm.png",
-    "File": "/Items/Mods/Swarm",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/Swarm"
   },
   {
-    "Index": 24,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Unstable Quills",
     "IMG": "Mods/RegularMods/Unstable Quills.png",
-    "File": "/Items/Mods/UnstableQuills",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/UnstableQuills"
   },
   {
-    "Index": 25,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Veil Of The Black Tear",
     "IMG": "Mods/RegularMods/Veil Of The Black Tear.png",
-    "File": "/Items/Mods/VeilOfTheBlackTear",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/VeilOfTheBlackTear"
   },
   {
-    "Index": 26,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Very Good Boy",
     "IMG": "Mods/RegularMods/Very Good Boy.png",
-    "File": "/Items/Mods/VeryGoodBoy",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/VeryGoodBoy"
   },
   {
-    "Index": 27,
+    "$type": "RemnantMultipurposeManager.Mod, Remnant Multipurpose Manager",
+    "Boss": false,
     "Slot": 8,
     "Name": "Wildfire Shot",
     "IMG": "Mods/RegularMods/Wildfire Shot.png",
-    "File": "/Items/Mods/WildfireShot",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Mods/WildfireShot"
   },
   {
-    "Index": 28,
-    "Slot": 8,
-    "Name": "Banish",
-    "IMG": "Mods/BossWeaponMods/LongMod/Banish.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 29,
-    "Slot": 8,
-    "Name": "Fusion Cannon",
-    "IMG": "Mods/BossWeaponMods/LongMod/Fusion Cannon.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 30,
-    "Slot": 8,
-    "Name": "Gravity Core",
-    "IMG": "Mods/BossWeaponMods/LongMod/Gravity Core.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 31,
-    "Slot": 8,
-    "Name": "Incinerator",
-    "IMG": "Mods/BossWeaponMods/LongMod/Incinerator.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 32,
-    "Slot": 8,
-    "Name": "Skewer",
-    "IMG": "Mods/BossWeaponMods/LongMod/Skewer.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 33,
-    "Slot": 8,
-    "Name": "Spore Shot",
-    "IMG": "Mods/BossWeaponMods/LongMod/Spore Shot.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 34,
-    "Slot": 8,
-    "Name": "Static Field Shot",
-    "IMG": "Mods/BossWeaponMods/LongMod/Static Field Shot.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 35,
-    "Slot": 8,
-    "Name": "Undying",
-    "IMG": "Mods/BossWeaponMods/LongMod/Undying.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 36,
-    "Slot": 8,
-    "Name": "Flame Thrower",
-    "IMG": "Mods/BossWeaponMods/HandMod/Flame Thrower.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 37,
-    "Slot": 8,
-    "Name": "Hive Shot",
-    "IMG": "Mods/BossWeaponMods/HandMod/Hive Shot.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 38,
-    "Slot": 8,
-    "Name": "Radioactive Volley",
-    "IMG": "Mods/BossWeaponMods/HandMod/Radioactive Volley.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 39,
-    "Slot": 8,
-    "Name": "Tentacle Shot",
-    "IMG": "Mods/BossWeaponMods/HandMod/Tentacle Shot.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 40,
-    "Slot": 8,
-    "Name": "Vampiric",
-    "IMG": "Mods/BossWeaponMods/HandMod/Vampiric.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
-  },
-  {
-    "Index": 41,
     "Slot": 3,
     "Name": "_No Head",
     "IMG": "Armor/Head/_No Head.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 42,
     "Slot": 3,
     "Name": "Adventurer Goggles",
     "IMG": "Armor/Head/Adventurer Goggles.png",
-    "File": "/Items/Armor/Adventurer/Armor_Head_Adventurer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Adventurer/Armor_Head_Adventurer"
   },
   {
-    "Index": 43,
     "Slot": 3,
     "Name": "Akari Mask",
     "IMG": "Armor/Head/Akari Mask.png",
-    "File": "/Items/Armor/Akari/Armor_Head_Akari",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Akari/Armor_Head_Akari"
   },
   {
-    "Index": 44,
     "Slot": 3,
     "Name": "Bandit's Mask",
     "IMG": "Armor/Head/Bandit's Mask.png",
-    "File": "/Items/Armor/Bandit/Armor_Head_Bandit",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Bandit/Armor_Head_Bandit"
   },
   {
-    "Index": 45,
     "Slot": 3,
     "Name": "Carapace Great Helm",
     "IMG": "Armor/Head/Carapace Great Helm.png",
-    "File": "/Items/Armor/Carapace/Armor_Head_Carapace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Carapace/Armor_Head_Carapace"
   },
   {
-    "Index": 46,
     "Slot": 3,
     "Name": "Cultist Hat",
     "IMG": "Armor/Head/Cultist Hat.png",
-    "File": "/Items/Armor/Cultist/Armor_Head_Cultist",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Cultist/Armor_Head_Cultist"
   },
   {
-    "Index": 47,
     "Slot": 3,
     "Name": "Drifter's Mask",
     "IMG": "Armor/Head/Drifter's Mask.png",
-    "File": "/Items/Armor/Drifter/Armor_Head_Drifter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Drifter/Armor_Head_Drifter"
   },
   {
-    "Index": 48,
     "Slot": 3,
     "Name": "Elder Headdress",
     "IMG": "Armor/Head/Elder Headdress.png",
-    "File": "/Items/Armor/Elder/Armor_Head_Elder",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Elder/Armor_Head_Elder"
   },
   {
-    "Index": 49,
     "Slot": 3,
     "Name": "Hunter Shroud",
     "IMG": "Armor/Head/Hunter Shroud.png",
-    "File": "/Items/Armor/Hunter/Armor_Head_Hunter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Hunter/Armor_Head_Hunter"
   },
   {
-    "Index": 50,
     "Slot": 3,
     "Name": "Labyrinth Helm",
     "IMG": "Armor/Head/Labyrinth Helm.png",
-    "File": "/Items/Armor/Armor_Head_Labyrinth",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Armor_Head_Labyrinth"
   },
   {
-    "Index": 51,
     "Slot": 3,
     "Name": "Leto's Helmet",
     "IMG": "Armor/Head/Leto's Helmet.png",
-    "File": "/Items/Armor/Leto/Armor_Head_Leto",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Leto/Armor_Head_Leto"
   },
   {
-    "Index": 52,
     "Slot": 3,
     "Name": "Osseous Helm",
     "IMG": "Armor/Head/Osseous Helm.png",
-    "File": "/Items/Armor/Osseous/Armor_Head_Osseous",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Osseous/Armor_Head_Osseous"
   },
   {
-    "Index": 53,
     "Slot": 3,
     "Name": "Radiant Visage",
     "IMG": "Armor/Head/Radiant Visage.png",
-    "File": "/Items/Armor/Radiant/Armor_Head_Radiant",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Radiant/Armor_Head_Radiant"
   },
   {
-    "Index": 54,
     "Slot": 3,
     "Name": "Scavenger Helmet",
     "IMG": "Armor/Head/Scavenger Helmet.png",
-    "File": "/Items/Armor/Scavenger/Armor_Head_Scavenger",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scavenger/Armor_Head_Scavenger"
   },
   {
-    "Index": 55,
     "Slot": 3,
     "Name": "Scrapper Helmet",
     "IMG": "Armor/Head/Scrapper Helmet.png",
-    "File": "/Items/Armor/Scrapper/Armor_Head_Scrapper",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scrapper/Armor_Head_Scrapper"
   },
   {
-    "Index": 56,
     "Slot": 3,
     "Name": "Slayer Mask",
     "IMG": "Armor/Head/Slayer Mask.png",
-    "File": "/Items/Armor/Slayer/Armor_Head_Slayer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Slayer/Armor_Head_Slayer"
   },
   {
-    "Index": 57,
     "Slot": 3,
     "Name": "Twisted Hood",
     "IMG": "Armor/Head/Twisted Hood.png",
-    "File": "/Items/Armor/Twisted/Armor_Head_Twisted",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Twisted/Armor_Head_Twisted"
   },
   {
-    "Index": 58,
     "Slot": 3,
     "Name": "Void Skull",
     "IMG": "Armor/Head/Void Skull.png",
-    "File": "/Items/Armor/Void/Armor_Head_Void",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Void/Armor_Head_Void"
   },
   {
-    "Index": 59,
     "Slot": 3,
     "Name": "Warlord Skull",
     "IMG": "Armor/Head/Warlord Skull.png",
-    "File": "/Items/Armor/Warlord/Armor_Head_Warlord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Warlord/Armor_Head_Warlord"
   },
   {
-    "Index": 60,
     "Slot": 3,
     "Name": "Twisted Mask",
     "IMG": "Armor/Head/Twisted Mask.png",
-    "File": "/Items/QuestItems/TwistedMask/Quest_TwistedMask",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/QuestItems/TwistedMask/Quest_TwistedMask"
   },
   {
-    "Index": 61,
     "Slot": 3,
     "Name": "Bomber Hat",
     "IMG": "Armor/Head/Bomber Hat.png",
-    "File": "/Items/Armor/Bomber/Armor_Head_Bomber",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Bomber/Armor_Head_Bomber"
   },
   {
-    "Index": 62,
     "Slot": 4,
     "Name": "_No Chest",
     "IMG": "Armor/Chest/_No Chest.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 63,
     "Slot": 4,
     "Name": "Adventurer Tunic",
     "IMG": "Armor/Chest/Adventurer Tunic.png",
-    "File": "/Items/Armor/Adventurer/Armor_Body_Adventurer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Adventurer/Armor_Body_Adventurer"
   },
   {
-    "Index": 64,
     "Slot": 4,
     "Name": "Akari Garb",
     "IMG": "Armor/Chest/Akari Garb.png",
-    "File": "/Items/Armor/Akari/Armor_Body_Akari",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Akari/Armor_Body_Akari"
   },
   {
-    "Index": 65,
     "Slot": 4,
     "Name": "Bandit Jacket",
     "IMG": "Armor/Chest/Bandit Jacket.png",
-    "File": "/Items/Armor/Bandit/Armor_Body_Bandit",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Bandit/Armor_Body_Bandit"
   },
   {
-    "Index": 66,
     "Slot": 4,
     "Name": "Carapace Shell",
     "IMG": "Armor/Chest/Carapace Shell.png",
-    "File": "/Items/Armor/Carapace/Armor_Body_Carapace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Carapace/Armor_Body_Carapace"
   },
   {
-    "Index": 67,
     "Slot": 4,
     "Name": "Cultist Duster",
     "IMG": "Armor/Chest/Cultist Duster.png",
-    "File": "/Items/Armor/Cultist/Armor_Body_Cultist",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Cultist/Armor_Body_Cultist"
   },
   {
-    "Index": 68,
     "Slot": 4,
     "Name": "Drifter's Overcoat",
     "IMG": "Armor/Chest/Drifter's Overcoat.png",
-    "File": "/Items/Armor/Drifter/Armor_Body_Drifter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Drifter/Armor_Body_Drifter"
   },
   {
-    "Index": 69,
     "Slot": 4,
     "Name": "Elder Raiment",
     "IMG": "Armor/Chest/Elder Raiment.png",
-    "File": "/Items/Armor/Elder/Armor_Body_Elder",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Elder/Armor_Body_Elder"
   },
   {
-    "Index": 70,
     "Slot": 4,
     "Name": "Hunter Trenchcoat",
     "IMG": "Armor/Chest/Hunter Trenchcoat.png",
-    "File": "/Items/Armor/Hunter/Armor_Body_Hunter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Hunter/Armor_Body_Hunter"
   },
   {
-    "Index": 71,
     "Slot": 4,
     "Name": "Labyrinth Armor",
     "IMG": "Armor/Chest/Labyrinth Armor.png",
-    "File": "/Items/Armor/Armor_Body_Labyrinth",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Armor_Body_Labyrinth"
   },
   {
-    "Index": 72,
     "Slot": 4,
     "Name": "Leto's Armor",
     "IMG": "Armor/Chest/Leto's Armor.png",
-    "File": "/Items/Armor/Leto/Armor_Body_Leto",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Leto/Armor_Body_Leto"
   },
   {
-    "Index": 73,
     "Slot": 4,
     "Name": "Osseous Husk",
     "IMG": "Armor/Chest/Osseous Husk.png",
-    "File": "/Items/Armor/Osseous/Armor_Body_Osseous",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Osseous/Armor_Body_Osseous"
   },
   {
-    "Index": 74,
     "Slot": 4,
     "Name": "Radiant Protector",
     "IMG": "Armor/Chest/Radiant Protector.png",
-    "File": "/Items/Armor/Radiant/Armor_Body_Radiant",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Radiant/Armor_Body_Radiant"
   },
   {
-    "Index": 75,
     "Slot": 4,
     "Name": "Scavenger Armor",
     "IMG": "Armor/Chest/Scavenger Armor.png",
-    "File": "/Items/Armor/Scavenger/Armor_Body_Scavenger",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scavenger/Armor_Body_Scavenger"
   },
   {
-    "Index": 76,
     "Slot": 4,
     "Name": "Scrapper Bodyplate",
     "IMG": "Armor/Chest/Scrapper Bodyplate.png",
-    "File": "/Items/Armor/Scrapper/Armor_Body_Scrapper",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scrapper/Armor_Body_Scrapper"
   },
   {
-    "Index": 77,
     "Slot": 4,
     "Name": "Slayer Mantle",
     "IMG": "Armor/Chest/Slayer Mantle.png",
-    "File": "/Items/Armor/Slayer/Armor_Body_Slayer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Slayer/Armor_Body_Slayer"
   },
   {
-    "Index": 78,
     "Slot": 4,
     "Name": "Twisted Cage",
     "IMG": "Armor/Chest/Twisted Cage.png",
-    "File": "/Items/Armor/Twisted/Armor_Body_Twisted",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Twisted/Armor_Body_Twisted"
   },
   {
-    "Index": 79,
     "Slot": 4,
     "Name": "Void Carapace",
     "IMG": "Armor/Chest/Void Carapace.png",
-    "File": "/Items/Armor/Void/Armor_Body_Void",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Void/Armor_Body_Void"
   },
   {
-    "Index": 80,
     "Slot": 4,
     "Name": "Warlord Armor",
     "IMG": "Armor/Chest/Warlord Armor.png",
-    "File": "/Items/Armor/Warlord/Armor_Body_Warlord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Warlord/Armor_Body_Warlord"
   },
   {
-    "Index": 81,
     "Slot": 5,
     "Name": "_No Legs",
     "IMG": "Armor/Legs/_No Legs.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 82,
     "Slot": 5,
     "Name": "Adventurer Leggings",
     "IMG": "Armor/Legs/Adventurer Leggings.png",
-    "File": "/Items/Armor/Adventurer/Armor_Legs_Adventurer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Adventurer/Armor_Legs_Adventurer"
   },
   {
-    "Index": 83,
     "Slot": 5,
     "Name": "Akari Leggings",
     "IMG": "Armor/Legs/Akari Leggings.png",
-    "File": "/Items/Armor/Akari/Armor_Legs_Akari",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Akari/Armor_Legs_Akari"
   },
   {
-    "Index": 84,
     "Slot": 5,
     "Name": "Bandit Trousers",
     "IMG": "Armor/Legs/Bandit Trousers.png",
-    "File": "/Items/Armor/Bandit/Armor_Legs_Bandit",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Bandit/Armor_Legs_Bandit"
   },
   {
-    "Index": 85,
     "Slot": 5,
     "Name": "Carapace Greaves",
     "IMG": "Armor/Legs/Carapace Greaves.png",
-    "File": "/Items/Armor/Carapace/Armor_Legs_Carapace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Carapace/Armor_Legs_Carapace"
   },
   {
-    "Index": 86,
     "Slot": 5,
     "Name": "Cultist Britches",
     "IMG": "Armor/Legs/Cultist Britches.png",
-    "File": "/Items/Armor/Cultist/Armor_Legs_Cultist",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Cultist/Armor_Legs_Cultist"
   },
   {
-    "Index": 87,
     "Slot": 5,
     "Name": "Drifter's Trousers",
     "IMG": "Armor/Legs/Drifter's Trousers.png",
-    "File": "/Items/Armor/Drifter/Armor_Legs_Drifter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Drifter/Armor_Legs_Drifter"
   },
   {
-    "Index": 88,
     "Slot": 5,
     "Name": "Elder Leggings",
     "IMG": "Armor/Legs/Elder Leggings.png",
-    "File": "/Items/Armor/Elder/Armor_Legs_Elder",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Elder/Armor_Legs_Elder"
   },
   {
-    "Index": 89,
     "Slot": 5,
     "Name": "Hunter Pants",
     "IMG": "Armor/Legs/Hunter Pants.png",
-    "File": "/Items/Armor/Hunter/Armor_Legs_Hunter",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Hunter/Armor_Legs_Hunter"
   },
   {
-    "Index": 90,
     "Slot": 5,
     "Name": "Labyrinth Greaves",
     "IMG": "Armor/Legs/Labyrinth Greaves.png",
-    "File": "/Items/Armor/Armor_Legs_Labyrinth",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Armor_Legs_Labyrinth"
   },
   {
-    "Index": 91,
     "Slot": 5,
     "Name": "Leto's Leggings",
     "IMG": "Armor/Legs/Leto's Leggings.png",
-    "File": "/Items/Armor/Leto/Armor_Legs_Leto",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Leto/Armor_Legs_Leto"
   },
   {
-    "Index": 92,
     "Slot": 5,
     "Name": "Osseous Kilt",
     "IMG": "Armor/Legs/Osseous Kilt.png",
-    "File": "/Items/Armor/Osseous/Armor_Legs_Osseous",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Osseous/Armor_Legs_Osseous"
   },
   {
-    "Index": 93,
     "Slot": 5,
     "Name": "Radiant Greaves",
     "IMG": "Armor/Legs/Radiant Greaves.png",
-    "File": "/Items/Armor/Radiant/Armor_Legs_Radiant",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Radiant/Armor_Legs_Radiant"
   },
   {
-    "Index": 94,
     "Slot": 5,
     "Name": "Scavenger Boots",
     "IMG": "Armor/Legs/Scavenger Boots.png",
-    "File": "/Items/Armor/Scavenger/Armor_Legs_Scavenger",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scavenger/Armor_Legs_Scavenger"
   },
   {
-    "Index": 95,
     "Slot": 5,
     "Name": "Scrapper Workboots",
     "IMG": "Armor/Legs/Scrapper Workboots.png",
-    "File": "/Items/Armor/Scrapper/Armor_Legs_Scrapper",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Scrapper/Armor_Legs_Scrapper"
   },
   {
-    "Index": 96,
     "Slot": 5,
     "Name": "Slayer Boots",
     "IMG": "Armor/Legs/Slayer Boots.png",
-    "File": "/Items/Armor/Slayer/Armor_Legs_Slayer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Slayer/Armor_Legs_Slayer"
   },
   {
-    "Index": 97,
     "Slot": 5,
     "Name": "Twisted Tassets",
     "IMG": "Armor/Legs/Twisted Tassets.png",
-    "File": "/Items/Armor/Twisted/Armor_Legs_Twisted",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Twisted/Armor_Legs_Twisted"
   },
   {
-    "Index": 98,
     "Slot": 5,
     "Name": "Void Greaves",
     "IMG": "Armor/Legs/Void Greaves.png",
-    "File": "/Items/Armor/Void/Armor_Legs_Void",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Void/Armor_Legs_Void"
   },
   {
-    "Index": 99,
     "Slot": 5,
     "Name": "Warlord Boots",
     "IMG": "Armor/Legs/Warlord Boots.png",
-    "File": "/Items/Armor/Warlord/Armor_Legs_Warlord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Armor/Warlord/Armor_Legs_Warlord"
   },
   {
-    "Index": 100,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "_No Mod",
+      "IMG": "Mods/RegularMods/_No Mod.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "_No Hand Gun",
     "IMG": "Weapons/Hand/RegHand/_No Hand Gun.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": 0
+    "File": null
   },
   {
-    "Index": 101,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Hunting Pistol",
     "IMG": "Weapons/Hand/RegHand/Hunting Pistol.png",
-    "File": "/Items/Weapons/Basic/HandGuns/HuntingPistol/Weapon_HuntingPistol",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/HandGuns/HuntingPistol/Weapon_HuntingPistol"
   },
   {
-    "Index": 102,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Machine Pistol",
     "IMG": "Weapons/Hand/RegHand/Machine Pistol.png",
-    "File": "/Items/Weapons/Basic/MachinePistol/Weapon_MachinePistol",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/MachinePistol/Weapon_MachinePistol"
   },
   {
-    "Index": 103,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Magnum Revolver",
     "IMG": "Weapons/Hand/RegHand/Magnum Revolver.png",
-    "File": "/Items/Weapons/Basic/HandGuns/Revolver/Weapon_Revolver",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/HandGuns/Revolver/Weapon_Revolver"
   },
   {
-    "Index": 104,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Repeater Pistol",
     "IMG": "Weapons/Hand/RegHand/Repeater Pistol.png",
-    "File": "/Items/Weapons/Basic/HandGuns/RepeaterPistol/Weapon_RepeaterPistol",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/HandGuns/RepeaterPistol/Weapon_RepeaterPistol"
   },
   {
-    "Index": 105,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Sawed-Off",
     "IMG": "Weapons/Hand/RegHand/Sawed-Off.png",
-    "File": "/Items/Weapons/Basic/SawedOffShotgun/Weapon_SawedOffShotgun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/SawedOffShotgun/Weapon_SawedOffShotgun"
   },
   {
-    "Index": 106,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Submachine Gun",
     "IMG": "Weapons/Hand/RegHand/Submachine Gun.png",
-    "File": "/Items/Weapons/Basic/HandGuns/SubMachineGun/Weapon_Submachinegun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/HandGuns/SubMachineGun/Weapon_Submachinegun"
   },
   {
-    "Index": 107,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 0,
     "Name": "Twin Shot",
     "IMG": "Weapons/Hand/RegHand/Twin Shot.png",
-    "File": "/Items/Weapons/Basic/MiniCrossbow/Weapon_MiniCrossbow",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/MiniCrossbow/Weapon_MiniCrossbow"
   },
   {
-    "Index": 108,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Tentacle Shot",
+      "IMG": "Mods/BossWeaponMods/HandMod/Tentacle Shot.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "Curse Of The Jungle God",
     "IMG": "Weapons/Hand/BossHand/Curse Of The Jungle God.png",
-    "File": "/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Weapon_Pan_CurseOfTheJungleGod",
-    "Boss": true,
-    "ModIndex": 39
+    "File": "/Items/Weapons/Boss/Pan_CurseOfTheJungleGod/Weapon_Pan_CurseOfTheJungleGod"
   },
   {
-    "Index": 109,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Radioactive Volley",
+      "IMG": "Mods/BossWeaponMods/HandMod/Radioactive Volley.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "Defiler",
     "IMG": "Weapons/Hand/BossHand/Defiler.png",
-    "File": "/Items/Weapons/Boss/Defiler/Weapon_Wasteland_Defiler",
-    "Boss": true,
-    "ModIndex": 38
+    "File": "/Items/Weapons/Boss/Defiler/Weapon_Wasteland_Defiler"
   },
   {
-    "Index": 110,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Hive Shot",
+      "IMG": "Mods/BossWeaponMods/HandMod/Hive Shot.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "Hive Cannon",
     "IMG": "Weapons/Hand/BossHand/Hive Cannon.png",
-    "File": "/Items/Weapons/Boss/HiveCannon/Weapon_Swamp_HiveCannon",
-    "Boss": true,
-    "ModIndex": 37
+    "File": "/Items/Weapons/Boss/HiveCannon/Weapon_Swamp_HiveCannon"
   },
   {
-    "Index": 111,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Vampiric",
+      "IMG": "Mods/BossWeaponMods/HandMod/Vampiric.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "Pride Of The Iskal",
     "IMG": "Weapons/Hand/BossHand/Pride Of The Iskal.png",
-    "File": "/Items/Weapons/Boss/PrideOfTheIskal/Weapon_Swamp_PrideOfTheIskal",
-    "Boss": true,
-    "ModIndex": 40
+    "File": "/Items/Weapons/Boss/PrideOfTheIskal/Weapon_Swamp_PrideOfTheIskal"
   },
   {
-    "Index": 112,
+    "$type": "RemnantMultipurposeManager.HandGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Flame Thrower",
+      "IMG": "Mods/BossWeaponMods/HandMod/Flame Thrower.png",
+      "File": null
+    },
     "Slot": 0,
     "Name": "Spitfire",
     "IMG": "Weapons/Hand/BossHand/Spitfire.png",
-    "File": "/Items/Weapons/Boss/Root_Spitfire/Weapon_Root_Spitfire",
-    "Boss": true,
-    "ModIndex": 36
+    "File": "/Items/Weapons/Boss/Root_Spitfire/Weapon_Root_Spitfire"
   },
   {
-    "Index": 113,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "_No Mod",
+      "IMG": "Mods/RegularMods/_No Mod.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "_No Long Gun",
     "IMG": "Weapons/Long/RegLong/_No Long Gun.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": 0
+    "File": null
   },
   {
-    "Index": 114,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Assault Rifle",
     "IMG": "Weapons/Long/RegLong/Assault Rifle.png",
-    "File": "/Items/Weapons/Basic/LongGuns/AssaultRifle/Weapon_AssaultRifle",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/AssaultRifle/Weapon_AssaultRifle"
   },
   {
-    "Index": 115,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Beam Rifle",
     "IMG": "Weapons/Long/RegLong/Beam Rifle.png",
-    "File": "/Items/Weapons/Basic/Wasteland_BeamRifle/Weapon_Wasteland_BeamRifle",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/Wasteland_BeamRifle/Weapon_Wasteland_BeamRifle"
   },
   {
-    "Index": 116,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Chicago Typewriter",
     "IMG": "Weapons/Long/RegLong/Chicago Typewriter.png",
-    "File": "/Items/Weapons/Basic/LongGuns/MachineGun/Weapon_Machinegun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/MachineGun/Weapon_Machinegun"
   },
   {
-    "Index": 117,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Coach Gun",
     "IMG": "Weapons/Long/RegLong/Coach Gun.png",
-    "File": "/Items/Weapons/Basic/LongGuns/Coachgun/Weapon_Coachgun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/Coachgun/Weapon_Coachgun"
   },
   {
-    "Index": 118,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Crossbow",
     "IMG": "Weapons/Long/RegLong/Crossbow.png",
-    "File": "/Items/Weapons/Basic/LongGuns/Crossbow/Weapon_Swamp_Crossbow",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/Crossbow/Weapon_Swamp_Crossbow"
   },
   {
-    "Index": 119,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Hunting Rifle",
     "IMG": "Weapons/Long/RegLong/Hunting Rifle.png",
-    "File": "/Items/Weapons/Basic/LongGuns/HuntingRifle/Weapon_HuntingRifle",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/HuntingRifle/Weapon_HuntingRifle"
   },
   {
-    "Index": 120,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Ricochet Rifle",
     "IMG": "Weapons/Long/RegLong/Ricochet Rifle.png",
-    "File": "/Items/Weapons/Basic/RicochetRifle/Weapon_Pan_RicochetRifle",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/RicochetRifle/Weapon_Pan_RicochetRifle"
   },
   {
-    "Index": 121,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Shotgun",
     "IMG": "Weapons/Long/RegLong/Shotgun.png",
-    "File": "/Items/Weapons/Basic/LongGuns/Shotgun/Weapon_Shotgun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/Shotgun/Weapon_Shotgun"
   },
   {
-    "Index": 122,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": null,
     "Slot": 1,
     "Name": "Sniper",
     "IMG": "Weapons/Long/RegLong/Sniper.png",
-    "File": "/Items/Weapons/Basic/LongGuns/SniperRifle/Weapon_SniperRifle",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/LongGuns/SniperRifle/Weapon_SniperRifle"
   },
   {
-    "Index": 123,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Incinerator",
+      "IMG": "Mods/BossWeaponMods/LongMod/Incinerator.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Alternator",
     "IMG": "Weapons/Long/BossLong/Alternator.png",
-    "File": "/Items/Weapons/Boss/Alternator/Weapon_Snow_Alternator",
-    "Boss": true,
-    "ModIndex": 31
+    "File": "/Items/Weapons/Boss/Alternator/Weapon_Snow_Alternator"
   },
   {
-    "Index": 124,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Skewer",
+      "IMG": "Mods/BossWeaponMods/LongMod/Skewer.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Devastator",
     "IMG": "Weapons/Long/BossLong/Devastator.png",
-    "File": "/Items/Weapons/Boss/Devastator/Weapon_Swamp_Devastator",
-    "Boss": true,
-    "ModIndex": 32
+    "File": "/Items/Weapons/Boss/Devastator/Weapon_Swamp_Devastator"
   },
   {
-    "Index": 125,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Static Field Shot",
+      "IMG": "Mods/BossWeaponMods/LongMod/Static Field Shot.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Eye Of The Storm",
     "IMG": "Weapons/Long/BossLong/Eye Of The Storm.png",
-    "File": "/Items/Weapons/Boss/Pan_EyeOfTheStorm/Weapon_Pan_EyeOfTheStorm",
-    "Boss": true,
-    "ModIndex": 34
+    "File": "/Items/Weapons/Boss/Pan_EyeOfTheStorm/Weapon_Pan_EyeOfTheStorm"
   },
   {
-    "Index": 126,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Fusion Cannon",
+      "IMG": "Mods/BossWeaponMods/LongMod/Fusion Cannon.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Fusion Rifle",
     "IMG": "Weapons/Long/BossLong/Fusion Rifle.png",
-    "File": "/Items/Weapons/Boss/FusionRifle/Weapon_Rural_FusionRifle",
-    "Boss": true,
-    "ModIndex": 29
+    "File": "/Items/Weapons/Boss/FusionRifle/Weapon_Rural_FusionRifle"
   },
   {
-    "Index": 127,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Gravity Core",
+      "IMG": "Mods/BossWeaponMods/LongMod/Gravity Core.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Particle Accelerator",
     "IMG": "Weapons/Long/BossLong/Particle Accelerator.png",
-    "File": "/Items/Weapons/Boss/ParticleAccelerator/Weapon_Wasteland_ParticleAccelerator",
-    "Boss": true,
-    "ModIndex": 30
+    "File": "/Items/Weapons/Boss/ParticleAccelerator/Weapon_Wasteland_ParticleAccelerator"
   },
   {
-    "Index": 128,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Banish",
+      "IMG": "Mods/BossWeaponMods/LongMod/Banish.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Repulsor",
     "IMG": "Weapons/Long/BossLong/Repulsor.png",
-    "File": "/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Weapon_Atoll_Repulsor",
-    "Boss": true,
-    "ModIndex": 28
+    "File": "/Items/Weapons/Boss/Guns/LongGuns/Repulsor/Weapon_Atoll_Repulsor"
   },
   {
-    "Index": 129,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Undying",
+      "IMG": "Mods/BossWeaponMods/LongMod/Undying.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Ruin",
     "IMG": "Weapons/Long/BossLong/Ruin.png",
-    "File": "/Items/Weapons/Boss/Ruin/Weapon_Wasteland_Ruin",
-    "Boss": true,
-    "ModIndex": 35
+    "File": "/Items/Weapons/Boss/Ruin/Weapon_Wasteland_Ruin"
   },
   {
-    "Index": 130,
+    "$type": "RemnantMultipurposeManager.LongGun, Remnant Multipurpose Manager",
+    "Mod": {
+      "Boss": true,
+      "Slot": 8,
+      "Name": "Spore Shot",
+      "IMG": "Mods/BossWeaponMods/LongMod/Spore Shot.png",
+      "File": null
+    },
     "Slot": 1,
     "Name": "Sporebloom",
     "IMG": "Weapons/Long/BossLong/Sporebloom.png",
-    "File": "/Items/Weapons/Boss/Root_SporeLauncher/Weapon_Root_SporeLauncher",
-    "Boss": true,
-    "ModIndex": 33
+    "File": "/Items/Weapons/Boss/Root_SporeLauncher/Weapon_Root_SporeLauncher"
   },
   {
-    "Index": 131,
     "Slot": 2,
     "Name": "_Fists",
     "IMG": "Weapons/Melee/_Fists.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 132,
     "Slot": 2,
     "Name": "Butcher's Flail",
     "IMG": "Weapons/Melee/Butcher's Flail.png",
-    "File": "/Items/Weapons/Boss/ButchersFlail/Weapon_Swamp_ButchersFlail",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/ButchersFlail/Weapon_Swamp_ButchersFlail"
   },
   {
-    "Index": 133,
     "Slot": 2,
     "Name": "Chain Blade",
     "IMG": "Weapons/Melee/Chain Blade.png",
-    "File": "/Items/Weapons/Boss/ChainBlade/Weapon_Snow_ChainBlade",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/ChainBlade/Weapon_Snow_ChainBlade"
   },
   {
-    "Index": 134,
     "Slot": 2,
     "Name": "Frostborne",
     "IMG": "Weapons/Melee/Frostborne.png",
-    "File": "/Items/Weapons/Boss/Frostborne/Weapon_Frostborne",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Frostborne/Weapon_Frostborne"
   },
   {
-    "Index": 135,
     "Slot": 2,
     "Name": "Guardian Axe",
     "IMG": "Weapons/Melee/Guardian Axe.png",
-    "File": "/Items/Weapons/Boss/GuardianAxe/Weapon_Swamp_GuardianAxe",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/GuardianAxe/Weapon_Swamp_GuardianAxe"
   },
   {
-    "Index": 136,
     "Slot": 2,
     "Name": "Hero's Sword",
     "IMG": "Weapons/Melee/Hero's Sword.png",
-    "File": "/Items/Weapons/Human/Melee/Sword/Weapon_HerosSword",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Human/Melee/Sword/Weapon_HerosSword"
   },
   {
-    "Index": 137,
     "Slot": 2,
     "Name": "Lost Harpoon",
     "IMG": "Weapons/Melee/Lost Harpoon.png",
-    "File": "/Items/Weapons/Boss/LostHarpoon/Weapon_Wasteland_LostHarpoon",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/LostHarpoon/Weapon_Wasteland_LostHarpoon"
   },
   {
-    "Index": 138,
     "Slot": 2,
     "Name": "Petrified Maul",
     "IMG": "Weapons/Melee/Petrified Maul.png",
-    "File": "/Items/Weapons/Boss/Root_PetrifiedMaul/Weapon_Root_PetrifiedMaul",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Root_PetrifiedMaul/Weapon_Root_PetrifiedMaul"
   },
   {
-    "Index": 139,
     "Slot": 2,
     "Name": "Riven",
     "IMG": "Weapons/Melee/Riven.png",
-    "File": "/Items/Weapons/Boss/Riven/Weapon_Wasteland_Riven",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Riven/Weapon_Wasteland_Riven"
   },
   {
-    "Index": 140,
     "Slot": 2,
     "Name": "Scar Of The Jungle God",
     "IMG": "Weapons/Melee/Scar Of The Jungle God.png",
-    "File": "/Items/Weapons/Boss/Pan_ScarOfTheJungleGod/Weapon_Pan_ScarOfTheJungleGod",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Pan_ScarOfTheJungleGod/Weapon_Pan_ScarOfTheJungleGod"
   },
   {
-    "Index": 141,
     "Slot": 2,
     "Name": "Scrap Hammer",
     "IMG": "Weapons/Melee/Scrap Hammer.png",
-    "File": "/Items/Weapons/Human/Melee/Hammer/Weapon_Hammer",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Human/Melee/Hammer/Weapon_Hammer"
   },
   {
-    "Index": 142,
     "Slot": 2,
     "Name": "Scrap Hatchet",
     "IMG": "Weapons/Melee/Scrap Hatchet.png",
-    "File": "/Items/Weapons/Human/Melee/Hatchet/Weapon_Hatchet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Human/Melee/Hatchet/Weapon_Hatchet"
   },
   {
-    "Index": 143,
     "Slot": 2,
     "Name": "Scrap Sword",
     "IMG": "Weapons/Melee/Scrap Sword.png",
-    "File": "/Items/Weapons/Human/Melee/Sword/Weapon_Sword",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Human/Melee/Sword/Weapon_Sword"
   },
   {
-    "Index": 144,
     "Slot": 2,
     "Name": "Scythe",
     "IMG": "Weapons/Melee/Scythe.png",
-    "File": "/Items/Weapons/Basic/Melee/Weapon_Swamp_Scythe",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/Melee/Weapon_Swamp_Scythe"
   },
   {
-    "Index": 145,
     "Slot": 2,
     "Name": "Smolder",
     "IMG": "Weapons/Melee/Smolder.png",
-    "File": "/Items/Weapons/Boss/Root_Smolder/Weapon_Root_Smolder",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Root_Smolder/Weapon_Root_Smolder"
   },
   {
-    "Index": 146,
     "Slot": 2,
     "Name": "Spear",
     "IMG": "Weapons/Melee/Spear.png",
-    "File": "/Items/Weapons/Basic/Spear/Weapon_Pan_Spear",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/Spear/Weapon_Pan_Spear"
   },
   {
-    "Index": 147,
     "Slot": 2,
     "Name": "Voice Of The Tempest",
     "IMG": "Weapons/Melee/Voice Of The Tempest.png",
-    "File": "/Items/Weapons/Boss/Pan_VoiceOfTheTempest/Weapon_Pan_VoiceOfTheTempest",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/Pan_VoiceOfTheTempest/Weapon_Pan_VoiceOfTheTempest"
   },
   {
-    "Index": 148,
     "Slot": 2,
     "Name": "Wastelander Flail",
     "IMG": "Weapons/Melee/Wastelander Flail.png",
-    "File": "/Items/Weapons/Basic/Wasteland_Flail/Weapon_Wasteland_Flail",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Weapons/Basic/Wasteland_Flail/Weapon_Wasteland_Flail"
   },
   {
-    "Index": 149,
     "Slot": 2,
     "Name": "World's Edge",
     "IMG": "Weapons/Melee/World's Edge.png",
-    "File": "/Items/Weapons/Boss/WorldsEdge/Weapon_Rural_WorldsEdge",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/WorldsEdge/Weapon_Rural_WorldsEdge"
   },
   {
-    "Index": 150,
     "Slot": 2,
     "Name": "World Breaker",
     "IMG": "Weapons/Melee/World Breaker.png",
-    "File": "/Items/Weapons/Boss/WorldBreaker/Weapon_Wasteland_WorldBreaker",
-    "Boss": true,
-    "ModIndex": null
+    "File": "/Items/Weapons/Boss/WorldBreaker/Weapon_Wasteland_WorldBreaker"
   },
   {
-    "Index": 151,
     "Slot": 6,
     "Name": "_No Amulet",
     "IMG": "Trinkets/Amulets/_No Amulet.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 152,
     "Slot": 6,
     "Name": "Abrasive Amulet",
     "IMG": "Trinkets/Amulets/Abrasive Amulet.png",
-    "File": "/Items/Trinkets/Trinket_AbrasiveAmulet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_AbrasiveAmulet"
   },
   {
-    "Index": 153,
     "Slot": 6,
     "Name": "Amulet Of Epicaricacy",
     "IMG": "Trinkets/Amulets/Amulet Of Epicaricacy.png",
-    "File": "/Items/Trinkets/AmuletOfEpicaricacy",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/AmuletOfEpicaricacy"
   },
   {
-    "Index": 154,
     "Slot": 6,
     "Name": "Black Rose",
     "IMG": "Trinkets/Amulets/Black Rose.png",
-    "File": "/Items/Trinkets/BlackRose",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BlackRose"
   },
   {
-    "Index": 155,
     "Slot": 6,
     "Name": "Blessed Necklace",
     "IMG": "Trinkets/Amulets/Blessed Necklace.png",
-    "File": "/Items/Trinkets/BlessedNecklace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BlessedNecklace"
   },
   {
-    "Index": 156,
     "Slot": 6,
     "Name": "Brutal Mark",
     "IMG": "Trinkets/Amulets/Brutal Mark.png",
-    "File": "/Items/Trinkets/BrutalMark",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BrutalMark"
   },
   {
-    "Index": 157,
     "Slot": 6,
     "Name": "Butcher's Fetish",
     "IMG": "Trinkets/Amulets/Butcher's Fetish.png",
-    "File": "/Items/Trinkets/ButchersFetish",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/ButchersFetish"
   },
   {
-    "Index": 158,
     "Slot": 6,
     "Name": "Charcoal Necklace",
     "IMG": "Trinkets/Amulets/Charcoal Necklace.png",
-    "File": "/Items/Trinkets/CharcoalNecklace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/CharcoalNecklace"
   },
   {
-    "Index": 159,
     "Slot": 6,
     "Name": "Cleansing Jewel",
     "IMG": "Trinkets/Amulets/Cleansing Jewel.png",
-    "File": "/Items/Trinkets/CleansingJewel",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/CleansingJewel"
   },
   {
-    "Index": 160,
     "Slot": 6,
     "Name": "Daredevil's Charm",
     "IMG": "Trinkets/Amulets/Daredevil's Charm.png",
-    "File": "/Items/Trinkets/DaredevilsCharm",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/DaredevilsCharm"
   },
   {
-    "Index": 161,
     "Slot": 6,
     "Name": "Driftstone",
     "IMG": "Trinkets/Amulets/Driftstone.png",
-    "File": "/Items/Trinkets/DriftStone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/DriftStone"
   },
   {
-    "Index": 162,
     "Slot": 6,
     "Name": "Galenic Charm",
     "IMG": "Trinkets/Amulets/Galenic Charm.png",
-    "File": "/Items/Trinkets/Trinket_GalenicCharm",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_GalenicCharm"
   },
   {
-    "Index": 163,
     "Slot": 6,
     "Name": "Gunslinger's Charm",
     "IMG": "Trinkets/Amulets/Gunslinger's Charm.png",
-    "File": "/Items/Trinkets/Trinket_GunslingersCharm",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_GunslingersCharm"
   },
   {
-    "Index": 164,
     "Slot": 6,
     "Name": "Hangman's Memento",
     "IMG": "Trinkets/Amulets/Hangman's Memento.png",
-    "File": "/Items/Trinkets/HangmansMemento",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/HangmansMemento"
   },
   {
-    "Index": 165,
     "Slot": 6,
     "Name": "Heart Of Darkness",
     "IMG": "Trinkets/Amulets/Heart Of Darkness.png",
-    "File": "/Items/Trinkets/HeartOfDarkness",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/HeartOfDarkness"
   },
   {
-    "Index": 166,
     "Slot": 6,
     "Name": "Leto's Amulet",
     "IMG": "Trinkets/Amulets/Leto's Amulet.png",
-    "File": "/Items/Trinkets/Trinket_LetosAmulet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_LetosAmulet"
   },
   {
-    "Index": 167,
     "Slot": 6,
     "Name": "Mender's Charm",
     "IMG": "Trinkets/Amulets/Mender's Charm.png",
-    "File": "/Items/Trinkets/MendersCharm",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/MendersCharm"
   },
   {
-    "Index": 168,
     "Slot": 6,
     "Name": "Nightmare Spiral",
     "IMG": "Trinkets/Amulets/Nightmare Spiral.png",
-    "File": "/Items/Trinkets/Trinket_NightmareSpiral",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_NightmareSpiral"
   },
   {
-    "Index": 169,
     "Slot": 6,
     "Name": "Onyx Pendulum",
     "IMG": "Trinkets/Amulets/Onyx Pendulum.png",
-    "File": "/Items/Trinkets/OnyxPendulum",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/OnyxPendulum"
   },
   {
-    "Index": 170,
     "Slot": 6,
     "Name": "Pocket Watch",
     "IMG": "Trinkets/Amulets/Pocket Watch.png",
-    "File": "/Quests/Quest_OverworldPOI_MudTooth/Quest_BrabusPocketWatch",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Quests/Quest_OverworldPOI_MudTooth/Quest_BrabusPocketWatch"
   },
   {
-    "Index": 171,
     "Slot": 6,
     "Name": "Polished Whetstone",
     "IMG": "Trinkets/Amulets/Polished Whetstone.png",
-    "File": "/Items/Trinkets/PolishedWhetstone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/PolishedWhetstone"
   },
   {
-    "Index": 172,
     "Slot": 6,
     "Name": "Radioactive Ember",
     "IMG": "Trinkets/Amulets/Radioactive Ember.png",
-    "File": "/Items/Trinkets/RadioactiveEmber",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RadioactiveEmber"
   },
   {
-    "Index": 173,
     "Slot": 6,
     "Name": "Razorwire Necklace",
     "IMG": "Trinkets/Amulets/Razorwire Necklace.png",
-    "File": "/Items/Trinkets/RazorwireNecklace",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RazorwireNecklace"
   },
   {
-    "Index": 174,
     "Slot": 6,
     "Name": "Rock Of Anguish",
     "IMG": "Trinkets/Amulets/Rock Of Anguish.png",
-    "File": "/Items/Trinkets/RockOfAnguish",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RockOfAnguish"
   },
   {
-    "Index": 175,
     "Slot": 6,
     "Name": "Rusted Amulet",
     "IMG": "Trinkets/Amulets/Rusted Amulet.png",
-    "File": "/Items/Trinkets/Trinket_RustedAmulet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RustedAmulet"
   },
   {
-    "Index": 176,
     "Slot": 6,
     "Name": "Scavenger's Bauble",
     "IMG": "Trinkets/Amulets/Scavenger's Bauble.png",
-    "File": "/Items/Trinkets/Trinket_ScavengersBauble",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_ScavengersBauble"
   },
   {
-    "Index": 177,
     "Slot": 6,
     "Name": "Shattered Vertebrae",
     "IMG": "Trinkets/Amulets/Shattered Vertebrae.png",
-    "File": "/Items/Trinkets/ShatteredVertebrae",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/ShatteredVertebrae"
   },
   {
-    "Index": 178,
     "Slot": 6,
     "Name": "Soul Anchor",
     "IMG": "Trinkets/Amulets/Soul Anchor.png",
-    "File": "/Items/Trinkets/SoulAnchor",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/SoulAnchor"
   },
   {
-    "Index": 179,
     "Slot": 6,
     "Name": "Stalker's Brand",
     "IMG": "Trinkets/Amulets/Stalker's Brand.png",
-    "File": "/Items/Trinkets/Trinket_StalkersBrand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_StalkersBrand"
   },
   {
-    "Index": 180,
     "Slot": 6,
     "Name": "Storm Amulet",
     "IMG": "Trinkets/Amulets/Storm Amulet.png",
-    "File": "/Items/Trinkets/Trinket_StormAmulet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_StormAmulet"
   },
   {
-    "Index": 181,
     "Slot": 6,
     "Name": "Talisman Of Animosity",
     "IMG": "Trinkets/Amulets/Talisman Of Animosity.png",
-    "File": "/Items/Trinkets/TalismanOfAnimosity",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/TalismanOfAnimosity"
   },
   {
-    "Index": 182,
     "Slot": 6,
     "Name": "Talisman Of Perseverance",
     "IMG": "Trinkets/Amulets/Talisman Of Perseverance.png",
-    "File": "/Items/Trinkets/TalismanOfPerseverance",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/TalismanOfPerseverance"
   },
   {
-    "Index": 183,
     "Slot": 6,
     "Name": "Terror Margin",
     "IMG": "Trinkets/Amulets/Terror Margin.png",
-    "File": "/Items/Trinkets/TerrorMargin",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/TerrorMargin"
   },
   {
-    "Index": 184,
     "Slot": 6,
     "Name": "Twisted Idol",
     "IMG": "Trinkets/Amulets/Twisted Idol.png",
-    "File": "/Items/Trinkets/Trinket_TwistedIdol",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_TwistedIdol"
   },
   {
-    "Index": 185,
     "Slot": 6,
     "Name": "Vengeance Idol",
     "IMG": "Trinkets/Amulets/Vengeance Idol.png",
-    "File": "/Items/Trinkets/VengeanceIdol",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/VengeanceIdol"
   },
   {
-    "Index": 186,
     "Slot": 6,
     "Name": "Vulcan's Detonator",
     "IMG": "Trinkets/Amulets/Vulcan's Detonator.png",
-    "File": "/Items/Trinkets/VulcansDetonator",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/VulcansDetonator"
   },
   {
-    "Index": 187,
     "Slot": 6,
     "Name": "White Rose",
     "IMG": "Trinkets/Amulets/White Rose.png",
-    "File": "/Items/Trinkets/WhiteRose",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/WhiteRose"
   },
   {
-    "Index": 188,
     "Slot": 7,
     "Name": "_No Ring",
     "IMG": "Trinkets/Rings/_No Ring.png",
-    "File": null,
-    "Boss": true,
-    "ModIndex": null
+    "File": null
   },
   {
-    "Index": 189,
     "Slot": 7,
     "Name": "Aggressor's Bane",
     "IMG": "Trinkets/Rings/Aggressor's Bane.png",
-    "File": "/Items/Trinkets/AggressorsBane",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/AggressorsBane"
   },
   {
-    "Index": 190,
     "Slot": 7,
     "Name": "Akari War Band",
     "IMG": "Trinkets/Rings/Akari War Band.png",
-    "File": "/Items/Trinkets/AkariWarBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/AkariWarBand"
   },
   {
-    "Index": 191,
     "Slot": 7,
     "Name": "Alchemist's Jewel",
     "IMG": "Trinkets/Rings/Alchemist's Jewel.png",
-    "File": "/Items/Trinkets/Trinket_AlchemistsJewel",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_AlchemistsJewel"
   },
   {
-    "Index": 192,
     "Slot": 7,
     "Name": "Amber Moonstone",
     "IMG": "Trinkets/Rings/Amber Moonstone.png",
-    "File": "/Items/Trinkets/AmberMoonstone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/AmberMoonstone"
   },
   {
-    "Index": 193,
     "Slot": 7,
     "Name": "Backbreaker Ring",
     "IMG": "Trinkets/Rings/Backbreaker Ring.png",
-    "File": "/Items/Trinkets/BackbreakerRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BackbreakerRing"
   },
   {
-    "Index": 194,
     "Slot": 7,
     "Name": "Band Of Accord",
     "IMG": "Trinkets/Rings/Band Of Accord.png",
-    "File": "/Items/Trinkets/Trinket_BandOfAccord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_BandOfAccord"
   },
   {
-    "Index": 195,
     "Slot": 7,
     "Name": "Band Of Castor",
     "IMG": "Trinkets/Rings/Band Of Castor.png",
-    "File": "/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfCastor",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfCastor"
   },
   {
-    "Index": 196,
     "Slot": 7,
     "Name": "Band Of Discord",
     "IMG": "Trinkets/Rings/Band Of Discord.png",
-    "File": "/Items/Trinkets/BandOfDiscord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BandOfDiscord"
   },
   {
-    "Index": 197,
     "Slot": 7,
     "Name": "Band Of Pollux",
     "IMG": "Trinkets/Rings/Band Of Pollux.png",
-    "File": "/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfPollux",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BandsOfCastorAndPollux/Trinket_BandOfPollux"
   },
   {
-    "Index": 198,
     "Slot": 7,
     "Name": "Band Of Strength",
     "IMG": "Trinkets/Rings/Band Of Strength.png",
-    "File": "/Items/Trinkets/BandOfStrength",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BandOfStrength"
   },
   {
-    "Index": 199,
     "Slot": 7,
     "Name": "Black Cat Band",
     "IMG": "Trinkets/Rings/Black Cat Band.png",
-    "File": "/Items/Trinkets/BlackCatBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BlackCatBand"
   },
   {
-    "Index": 200,
     "Slot": 7,
     "Name": "Blood Font",
     "IMG": "Trinkets/Rings/Blood Font.png",
-    "File": "/Items/Trinkets/Trinket_BloodFont",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_BloodFont"
   },
   {
-    "Index": 201,
     "Slot": 7,
     "Name": "Bloodletter's Insignia",
     "IMG": "Trinkets/Rings/Bloodletter's Insignia.png",
-    "File": "/Items/Trinkets/BloodlettersInsignia",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BloodlettersInsignia"
   },
   {
-    "Index": 202,
     "Slot": 7,
     "Name": "Braided Thorns",
     "IMG": "Trinkets/Rings/Braided Thorns.png",
-    "File": "/Items/Trinkets/BraidedThorns",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BraidedThorns"
   },
   {
-    "Index": 203,
     "Slot": 7,
     "Name": "Bright Steel Ring",
     "IMG": "Trinkets/Rings/Bright Steel Ring.png",
-    "File": "/Items/Trinkets/BrightSteelRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BrightSteelRing"
   },
   {
-    "Index": 204,
     "Slot": 7,
     "Name": "Burden Of The Devoted",
     "IMG": "Trinkets/Rings/Burden Of The Devoted.png",
-    "File": "/Items/Trinkets/BurdenOfTheDevoted",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BurdenOfTheDevoted"
   },
   {
-    "Index": 205,
     "Slot": 7,
     "Name": "Burden Of The Follower",
     "IMG": "Trinkets/Rings/Burden Of The Follower.png",
-    "File": "/Items/Trinkets/Trinket_BurdenOfTheFollower",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_BurdenOfTheFollower"
   },
   {
-    "Index": 206,
     "Slot": 7,
     "Name": "Burden Of The Gambler",
     "IMG": "Trinkets/Rings/Burden Of The Gambler.png",
-    "File": "/Items/Trinkets/BurdenOfTheGambler",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BurdenOfTheGambler"
   },
   {
-    "Index": 207,
     "Slot": 7,
     "Name": "Burden Of The Reckless",
     "IMG": "Trinkets/Rings/Burden Of The Reckless.png",
-    "File": "/Items/Trinkets/BurdenOfTheReckless",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/BurdenOfTheReckless"
   },
   {
-    "Index": 208,
     "Slot": 7,
     "Name": "Burden Of The Warlord",
     "IMG": "Trinkets/Rings/Burden Of The Warlord.png",
-    "File": "/Items/Trinkets/Trinket_BurdenOfTheWarlord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_BurdenOfTheWarlord"
   },
   {
-    "Index": 209,
     "Slot": 7,
     "Name": "Celerity Stone",
     "IMG": "Trinkets/Rings/Celerity Stone.png",
-    "File": "/Items/Trinkets/Trinket_CelerityStone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_CelerityStone"
   },
   {
-    "Index": 210,
     "Slot": 7,
     "Name": "Compulsion Loop",
     "IMG": "Trinkets/Rings/Compulsion Loop.png",
-    "File": "/Items/Trinkets/CompulsionLoop",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/CompulsionLoop"
   },
   {
-    "Index": 211,
     "Slot": 7,
     "Name": "Deceiver's Band",
     "IMG": "Trinkets/Rings/Deceiver's Band.png",
-    "File": "/Items/Trinkets/DeceiversBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/DeceiversBand"
   },
   {
-    "Index": 212,
     "Slot": 7,
     "Name": "Devouring Loop",
     "IMG": "Trinkets/Rings/Devouring Loop.png",
-    "File": "/Items/Trinkets/DevouringLoop",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/DevouringLoop"
   },
   {
-    "Index": 213,
     "Slot": 7,
     "Name": "Empowering Loop",
     "IMG": "Trinkets/Rings/Empowering Loop.png",
-    "File": "/Items/Trinkets/Trinket_EmpoweringLoop",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_EmpoweringLoop"
   },
   {
-    "Index": 214,
     "Slot": 7,
     "Name": "Evoker's Seal",
     "IMG": "Trinkets/Rings/Evoker's Seal.png",
-    "File": "/Items/Trinkets/Trinket_EvokersSeal",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_EvokersSeal"
   },
   {
-    "Index": 215,
     "Slot": 7,
     "Name": "Ezlan's Band",
     "IMG": "Trinkets/Rings/Ezlan's Band.png",
-    "File": "/Items/Trinkets/Trinket_EzlansBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_EzlansBand"
   },
   {
-    "Index": 216,
     "Slot": 7,
     "Name": "Five Fingered Ring",
     "IMG": "Trinkets/Rings/Five Fingered Ring.png",
-    "File": "/Items/Trinkets/FiveFingeredRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/FiveFingeredRing"
   },
   {
-    "Index": 217,
     "Slot": 7,
     "Name": "Gift Of The Iskal",
     "IMG": "Trinkets/Rings/Gift Of The Iskal.png",
-    "File": "/Items/Trinkets/GIftOfTheIskal",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/GIftOfTheIskal"
   },
   {
-    "Index": 218,
     "Slot": 7,
     "Name": "Gravity Stone",
     "IMG": "Trinkets/Rings/Gravity Stone.png",
-    "File": "/Items/Trinkets/GravityStone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/GravityStone"
   },
   {
-    "Index": 219,
     "Slot": 7,
     "Name": "Grim Coil",
     "IMG": "Trinkets/Rings/Grim Coil.png",
-    "File": "/Items/Trinkets/GrimCoil",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/GrimCoil"
   },
   {
-    "Index": 220,
     "Slot": 7,
     "Name": "Guardian's Ring",
     "IMG": "Trinkets/Rings/Guardian's Ring.png",
-    "File": "/Items/Trinkets/Trinket_GuardiansRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_GuardiansRing"
   },
   {
-    "Index": 221,
     "Slot": 7,
     "Name": "Gunslinger's Ring",
     "IMG": "Trinkets/Rings/Gunslinger's Ring.png",
-    "File": "/Items/Trinkets/Trinket_GunslingersRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_GunslingersRing"
   },
   {
-    "Index": 222,
     "Slot": 7,
     "Name": "Heart Of The Wolf",
     "IMG": "Trinkets/Rings/Heart Of The Wolf.png",
-    "File": "/Items/Trinkets/Trinket_HeartOfTheWolf",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_HeartOfTheWolf"
   },
   {
-    "Index": 223,
     "Slot": 7,
     "Name": "Heartseeker",
     "IMG": "Trinkets/Rings/Heartseeker.png",
-    "File": "/Items/Trinkets/HeartSeeker",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/HeartSeeker"
   },
   {
-    "Index": 224,
     "Slot": 7,
     "Name": "Hero's Ring",
     "IMG": "Trinkets/Rings/Hero's Ring.png",
-    "File": "/Items/Trinkets/HerosRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/HerosRing"
   },
   {
-    "Index": 225,
     "Slot": 7,
     "Name": "Hunter's Band",
     "IMG": "Trinkets/Rings/Hunter's Band.png",
-    "File": "/Items/Trinkets/HuntersBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/HuntersBand"
   },
   {
-    "Index": 226,
     "Slot": 7,
     "Name": "Hunter's Halo",
     "IMG": "Trinkets/Rings/Hunter's Halo.png",
-    "File": "/Items/Trinkets/Trinket_HuntersHalo",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_HuntersHalo"
   },
   {
-    "Index": 227,
     "Slot": 7,
     "Name": "Iskal Hunter Band",
     "IMG": "Trinkets/Rings/Iskal Hunter Band.png",
-    "File": "/Items/Trinkets/Trinket_IskalHunterBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_IskalHunterBand"
   },
   {
-    "Index": 228,
     "Slot": 7,
     "Name": "Jewel Of The Black Sun",
     "IMG": "Trinkets/Rings/Jewel Of The Black Sun.png",
-    "File": "/Items/Trinkets/JewelOfTheBlackSun",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/JewelOfTheBlackSun"
   },
   {
-    "Index": 229,
     "Slot": 7,
     "Name": "Juggernaut Band",
     "IMG": "Trinkets/Rings/Juggernaut Band.png",
-    "File": "/Items/Trinkets/JuggernautBand",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/JuggernautBand"
   },
   {
-    "Index": 230,
     "Slot": 7,
     "Name": "Keeper's Ring",
     "IMG": "Trinkets/Rings/Keeper's Ring.png",
-    "File": "/Items/Trinkets/Trinket_KeepersRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_KeepersRing"
   },
   {
-    "Index": 231,
     "Slot": 7,
     "Name": "Leech Ember",
     "IMG": "Trinkets/Rings/Leech Ember.png",
-    "File": "/Items/Trinkets/Trinket_LeechEmber",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_LeechEmber"
   },
   {
-    "Index": 232,
     "Slot": 7,
     "Name": "Loop Of Prosperity",
     "IMG": "Trinkets/Rings/Loop Of Prosperity.png",
-    "File": "/Items/Trinkets/Trinket_LoopOfProsperity",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_LoopOfProsperity"
   },
   {
-    "Index": 233,
     "Slot": 7,
     "Name": "Mother's Ring",
     "IMG": "Trinkets/Rings/Mother's Ring.png",
-    "File": "/Items/Trinkets/Trinket_MothersRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_MothersRing"
   },
   {
-    "Index": 234,
     "Slot": 7,
     "Name": "Pearl Of Luminescence",
     "IMG": "Trinkets/Rings/Pearl Of Luminescence.png",
-    "File": "/Items/Trinkets/Trinket_PearlOfLuminescence",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_PearlOfLuminescence"
   },
   {
-    "Index": 235,
     "Slot": 7,
     "Name": "Pillar Of Stone",
     "IMG": "Trinkets/Rings/Pillar Of Stone.png",
-    "File": "/Items/Trinkets/Trinket_PillarOfStone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_PillarOfStone"
   },
   {
-    "Index": 236,
     "Slot": 7,
     "Name": "Prismatic Diamond Ring",
     "IMG": "Trinkets/Rings/Prismatic Diamond Ring.png",
-    "File": "/Items/Trinkets/Trinket_PrismaticDiamondRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_PrismaticDiamondRing"
   },
   {
-    "Index": 237,
     "Slot": 7,
     "Name": "Provisioner Ring",
     "IMG": "Trinkets/Rings/Provisioner Ring.png",
-    "File": "/Items/Trinkets/Trinket_ProvisionerRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_ProvisionerRing"
   },
   {
-    "Index": 238,
     "Slot": 7,
     "Name": "RazorStone",
     "IMG": "Trinkets/Rings/RazorStone.png",
-    "File": "/Items/Trinkets/Razorstone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Razorstone"
   },
   {
-    "Index": 239,
     "Slot": 7,
     "Name": "Restriction Cord",
     "IMG": "Trinkets/Rings/Restriction Cord.png",
-    "File": "/Items/Trinkets/RestrictionCord",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RestrictionCord"
   },
   {
-    "Index": 240,
     "Slot": 7,
     "Name": "Ring Of Elusion",
     "IMG": "Trinkets/Rings/Ring Of Elusion.png",
-    "File": "/Items/Trinkets/RingOfElusion",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfElusion"
   },
   {
-    "Index": 241,
     "Slot": 7,
     "Name": "Ring Of Evasion",
     "IMG": "Trinkets/Rings/Ring Of Evasion.png",
-    "File": "/Items/Trinkets/Trinket_RingOfEvasion",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RingOfEvasion"
   },
   {
-    "Index": 242,
     "Slot": 7,
     "Name": "Ring Of Flawless Beauty",
     "IMG": "Trinkets/Rings/Ring Of Flawless Beauty.png",
-    "File": "/Items/Trinkets/RingOfFlawlessBeauty",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfFlawlessBeauty"
   },
   {
-    "Index": 243,
     "Slot": 7,
     "Name": "Ring Of Honor",
     "IMG": "Trinkets/Rings/Ring Of Honor.png",
-    "File": "/Items/Trinkets/Trinket_RingOfHonor",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RingOfHonor"
   },
   {
-    "Index": 244,
     "Slot": 7,
     "Name": "Ring Of Shadows",
     "IMG": "Trinkets/Rings/Ring Of Shadows.png",
-    "File": "/Items/Trinkets/Trinket_RingOfShadows",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RingOfShadows"
   },
   {
-    "Index": 245,
     "Slot": 7,
     "Name": "Ring Of Supremacy",
     "IMG": "Trinkets/Rings/Ring Of Supremacy.png",
-    "File": "/Items/Trinkets/RingOfSumpremacy",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfSumpremacy"
   },
   {
-    "Index": 246,
     "Slot": 7,
     "Name": "Ring Of Synergy",
     "IMG": "Trinkets/Rings/Ring Of Synergy.png",
-    "File": "/Items/Trinkets/RingOfSynergy",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfSynergy"
   },
   {
-    "Index": 247,
     "Slot": 7,
     "Name": "Ring Of The Admiral",
     "IMG": "Trinkets/Rings/Ring Of The Admiral.png",
-    "File": "/Items/Trinkets/RingOfTheAdmiral",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfTheAdmiral"
   },
   {
-    "Index": 248,
     "Slot": 7,
     "Name": "Ring Of The Mantis",
     "IMG": "Trinkets/Rings/Ring Of The Mantis.png",
-    "File": "/Items/Trinkets/RingOfTheMantis",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfTheMantis"
   },
   {
-    "Index": 249,
     "Slot": 7,
     "Name": "Ring Of The Punisher",
     "IMG": "Trinkets/Rings/Ring Of The Punisher.png",
-    "File": "/Items/Trinkets/RingOfThePunisher",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/RingOfThePunisher"
   },
   {
-    "Index": 250,
     "Slot": 7,
     "Name": "Ring Of The Unclean",
     "IMG": "Trinkets/Rings/Ring Of The Unclean.png",
-    "File": "/Items/Trinkets/Trinket_RingOfTheUnclean",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RingOfTheUnclean"
   },
   {
-    "Index": 251,
     "Slot": 7,
     "Name": "Root Circlet",
     "IMG": "Trinkets/Rings/Root Circlet.png",
-    "File": "/Items/Trinkets/Trinket_RootCirclet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_RootCirclet"
   },
   {
-    "Index": 252,
     "Slot": 7,
     "Name": "Sagestone",
     "IMG": "Trinkets/Rings/Sagestone.png",
-    "File": "/Items/Trinkets/Trinket_Sagestone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_Sagestone"
   },
   {
-    "Index": 253,
     "Slot": 7,
     "Name": "Scavenger's Ring",
     "IMG": "Trinkets/Rings/Scavenger's Ring.png",
-    "File": "/Items/Trinkets/ScavengersRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/ScavengersRing"
   },
   {
-    "Index": 254,
     "Slot": 7,
     "Name": "Serpent's Fang",
     "IMG": "Trinkets/Rings/Serpent's Fang.png",
-    "File": "/Items/Trinkets/SerpentsFang",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/SerpentsFang"
   },
   {
-    "Index": 255,
     "Slot": 7,
     "Name": "Soul Ember",
     "IMG": "Trinkets/Rings/Soul Ember.png",
-    "File": "/Items/Trinkets/SoulEmber",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/SoulEmber"
   },
   {
-    "Index": 256,
     "Slot": 7,
     "Name": "Soul Link",
     "IMG": "Trinkets/Rings/Soul Link.png",
-    "File": "/Items/Trinkets/SoulLink",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/SoulLink"
   },
   {
-    "Index": 257,
     "Slot": 7,
     "Name": "Spirit Stone",
     "IMG": "Trinkets/Rings/Spirit Stone.png",
-    "File": "/Items/Trinkets/Trinket_SpiritStone",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_SpiritStone"
   },
   {
-    "Index": 258,
     "Slot": 7,
     "Name": "Stockpile Circlet",
     "IMG": "Trinkets/Rings/Stockpile Circlet.png",
-    "File": "/Items/Trinkets/Trinket_StockpileCirclet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_StockpileCirclet"
   },
   {
-    "Index": 259,
     "Slot": 7,
     "Name": "Stone Of Balance",
     "IMG": "Trinkets/Rings/Stone Of Balance.png",
-    "File": "/Items/Trinkets/Trinket_StoneOfBalance",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/Trinket_StoneOfBalance"
   },
   {
-    "Index": 260,
     "Slot": 7,
     "Name": "Swashbuckler's Signet",
     "IMG": "Trinkets/Rings/Swashbuckler's Signet.png",
-    "File": "/Items/Trinkets/SwashbucklersSignet",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/SwashbucklersSignet"
   },
   {
-    "Index": 261,
     "Slot": 7,
     "Name": "Vanguard Ring",
     "IMG": "Trinkets/Rings/Vanguard Ring.png",
-    "File": "/Items/Trinkets/VanguardRing",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/VanguardRing"
   },
   {
-    "Index": 262,
     "Slot": 7,
     "Name": "Volatile Gem",
     "IMG": "Trinkets/Rings/Volatile Gem.png",
-    "File": "/Items/Trinkets/VolatileGem",
-    "Boss": false,
-    "ModIndex": null
+    "File": "/Items/Trinkets/VolatileGem"
   }
 ]

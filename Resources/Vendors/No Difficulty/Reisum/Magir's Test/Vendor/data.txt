@@ -1,4 +1,0 @@
-[Armor]
-Scavenger Helmet
-Scavenger Armor
-Scavenger Boots

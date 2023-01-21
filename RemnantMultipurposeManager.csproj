@@ -111,7 +111,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\GearInfo.cs" />
+    <Compile Include="Classes\EquipmentDirectory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -136,7 +136,6 @@
     </None>
     <EmbeddedResource Include="Resources\NewProfile.sav" />
     <EmbeddedResource Include="Resources\RemnantItemIndex.json" />
-    <EmbeddedResource Include="Resources\RemnantItemIndex2.json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\Debug\Resources\" />

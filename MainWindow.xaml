@@ -903,8 +903,8 @@
                 <MenuItem Name="CreateRMM" Header="Create RMM File" IsEnabled="False" Visibility="Collapsed" Click="CreateRMM_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
                 <MenuItem Name="ReadRMM" Header="Read RMM File" IsEnabled="False" Visibility="Collapsed"  Click="ReadRMM_Click" ToolTip="Generates a .rmm file from a .sav" Background="black"/>
             </MenuItem>
-            <MenuItem Header="View" Foreground="White" HorizontalContentAlignment="Center">
-                <MenuItem Header="Data Folder" Click="DataFolder_Click" Background="black"/>
+            <MenuItem Header="Help" Foreground="White" HorizontalContentAlignment="Center">
+                <MenuItem Header="Open Install Folder" Click="InstallFolder_Click" Background="black"/>
             </MenuItem>
 
             <ComboBox x:Name="cmbCharacter" Text="Characters" SelectionChanged="CmbCharacter_SelectionChanged" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" HorizontalAlignment="Left" Width="100" Height="20" Padding="10,0,0,0"/>

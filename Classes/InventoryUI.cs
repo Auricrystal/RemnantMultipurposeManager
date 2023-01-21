@@ -206,7 +206,7 @@ namespace RemnantMultipurposeManager
         public InventorySlot(SlotType sl, double height, double width, bool border = true)
         {
 
-            MouseDown += MainWindow.MW.InventorySlot_MouseDown;
+            MouseDown += MainWindow.Instance.InventorySlot_MouseDown;
             Border b = null;
             this.Height = height;
             this.Width = width;

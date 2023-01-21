@@ -3,11 +3,12 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using Newtonsoft.Json;
 using System.Windows.Forms;
+using System;
 
 namespace RemnantMultipurposeManager
 {
     
-    public class Equipment
+    public class Equipment 
     {
         public enum SlotType { HG, LG, M, HE, CH, LE, AM, RI, MO };
         public SlotType Slot { get; private set; }
@@ -29,11 +30,11 @@ namespace RemnantMultipurposeManager
             {
                 BitmapImage bmp = null;
 
-                if (!System.IO.File.Exists(MainWindow.RBRDirPath + "\\IMG.zip"))
+                if (!System.IO.File.Exists(MainWindow.RmmInstallPath + "\\IMG.zip"))
                     if (!MainWindow.DownloadZip("IMG"))
                         return new BitmapImage();
 
-                var zip = ZipFile.OpenRead(MainWindow.RBRDirPath + "\\IMG.zip");
+                var zip = ZipFile.OpenRead(MainWindow.RmmInstallPath + "\\IMG.zip");
 
 
                 var entry = IMG != null ? zip.GetEntry(IMG) : null;
@@ -62,8 +63,11 @@ namespace RemnantMultipurposeManager
         {
             return string.Format("Slot: {0} Name: {1}", Slot, Name);
         }
+
+       
     }
-    public class Gun : Equipment
+ 
+    public class Gun : Equipment, ICloneable
     {
         public Mod Mod { get; private set; }
         public Gun(SlotType slot, string name, string file, string img, Mod mod = null) : base(slot, name, file, img)
@@ -83,6 +87,10 @@ namespace RemnantMultipurposeManager
         public override string ToString()
         {
             return base.ToString() + ((Mod == null) ? " No Mod" : " "+Mod.ToString());
+        }
+        public object Clone()
+        {
+            return this.MemberwiseClone();
         }
     }
     public class Mod : Equipment

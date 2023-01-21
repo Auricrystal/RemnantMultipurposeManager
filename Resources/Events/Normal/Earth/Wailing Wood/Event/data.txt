@@ -1,5 +1,0 @@
-[Trait]
-Bark Skin (Only the person who talks to the tree gets the trait)
-
-[Trinket]
-Twisted Idol (Whole party gets upon killing the tree)

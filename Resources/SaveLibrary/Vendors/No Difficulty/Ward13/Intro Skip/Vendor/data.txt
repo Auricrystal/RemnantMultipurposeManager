@@ -1,0 +1,8 @@
+[Special Info]
+Load this save right after creating a new character, 
+skip the tutorial, while at main menu load this.
+if successful you will start in front of Wallace, 
+with the Blade of Adventure still in your inventory.
+
+[Weapon]
+Blade Of Adventure (tutorial sword)

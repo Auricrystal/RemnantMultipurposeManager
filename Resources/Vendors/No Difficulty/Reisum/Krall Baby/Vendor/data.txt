@@ -1,2 +1,0 @@
-[Trait]
-Siphoner (Shoot lock, kill all enemies, wait for the rat to come out)

@@ -446,6 +446,16 @@
     }
   },
   {
+    "Name": "The Lost Gantry",
+    "World": 2,
+    "Type": 2,
+    "Checkpoints": {
+      "Apocalypse": [
+        "Event"
+      ]
+    }
+  },
+  {
     "Name": "Circlet Hatchery",
     "World": 3,
     "Type": 2,
