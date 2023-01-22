@@ -1,0 +1,842 @@
+[
+  {
+    "Guid": "36a0b253-7478-45f5-8559-76593cad2cbc",
+    "Type": "Bosses",
+    "Name": "Brabus",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "41ab066b-9aee-4ea2-af35-bdb6aebefa51",
+    "Type": "Bosses",
+    "Name": "Brabus",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "67a6d7c0-fb30-4e72-9af6-0ab9b674d30e",
+    "Type": "Bosses",
+    "Name": "Ent",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "2f087b17-a446-459d-8a6d-6593aea8488c",
+    "Type": "Bosses",
+    "Name": "Gorefist",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "629882f7-f4f8-49ce-b680-d18ea004a6d4",
+    "Type": "Bosses",
+    "Name": "Gorefist",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "9aade613-c127-4907-b97c-5d249a2e730b",
+    "Type": "Bosses",
+    "Name": "Gorefist",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "4bf1f4e2-c2e5-43de-9c6e-745bbdadc5af",
+    "Type": "Bosses",
+    "Name": "Gorefist",
+    "World": "Earth",
+    "Difficulty": "Normal",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "7f3e5932-d1a0-434b-b83a-e0c0557457b8",
+    "Type": "Bosses",
+    "Name": "Mangler",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "b9e0e14c-0f3d-47f8-9640-e9a2245ba03f",
+    "Type": "Bosses",
+    "Name": "Riphide",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "35252c6b-0653-4bef-94e2-dd496eb215ea",
+    "Type": "Bosses",
+    "Name": "Shroud",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Enchanter"
+  },
+  {
+    "Guid": "34e55aef-1263-4523-ace5-b8795d8513e8",
+    "Type": "Bosses",
+    "Name": "Shroud",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "e93bb0ed-0e07-41ea-a6e4-cc820b62ec54",
+    "Type": "Bosses",
+    "Name": "Singe",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "867acd57-7122-4aef-8444-106f0c2dbf31",
+    "Type": "Bosses",
+    "Name": "Singe",
+    "World": "Earth",
+    "Difficulty": "Normal",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "2b43cb80-e71c-48d4-84a9-78e63ae8092b",
+    "Type": "Bosses",
+    "Name": "Ancient Construct",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "9e835b69-5993-4c3b-b349-a2da87d12ba9",
+    "Type": "Bosses",
+    "Name": "Ancient Construct",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "1b978c37-62cf-470a-9cc0-fa624aaa4cf6",
+    "Type": "Bosses",
+    "Name": "Claviger",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "c01c4390-f2e5-4581-a0f6-6c6a69319271",
+    "Type": "Bosses",
+    "Name": "Harrow",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "2aefc999-96c8-451b-96ea-9c75a5d04068",
+    "Type": "Bosses",
+    "Name": "Harrow",
+    "World": "Rhom",
+    "Difficulty": "Normal",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "49c00be4-5539-4c69-8193-afe27e272ff4",
+    "Type": "Bosses",
+    "Name": "Maul",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "d7645bf2-a208-49be-9f33-9273aa8151a2",
+    "Type": "Bosses",
+    "Name": "Maul",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "08a9d200-6730-4697-b8bb-a3aa126cf792",
+    "Type": "Bosses",
+    "Name": "Maul",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "1f3fcc5d-6c89-4c0c-852d-48992ee2659b",
+    "Type": "Bosses",
+    "Name": "Raze",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "e684652e-7d9c-4840-bd00-3488dc8b705e",
+    "Type": "Bosses",
+    "Name": "Raze",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "f8f758cb-ad67-48e7-9683-dbb5c3991cbc",
+    "Type": "Bosses",
+    "Name": "Scourge",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "eb1cc198-2949-4839-8d72-7a43de1dfc58",
+    "Type": "Bosses",
+    "Name": "Scourge",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "b0753794-a364-423a-8d56-b434dea6d7d7",
+    "Type": "Bosses",
+    "Name": "Scourge",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "4b439d5e-44de-4390-8f6b-05f19317ec83",
+    "Type": "Bosses",
+    "Name": "Scourge",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "b494eaed-3b54-44c8-8137-6159f7081c3d",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Dual Hearty"
+  },
+  {
+    "Guid": "e01f8b5a-443b-46e7-bed0-20f9607d5da4",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Dual Regenerator"
+  },
+  {
+    "Guid": "d97f6060-883a-4f66-a021-f04f8ccc967a",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty Regenerator"
+  },
+  {
+    "Guid": "838fd549-e877-4a83-a96d-853525b42101",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty Skull"
+  },
+  {
+    "Guid": "28805fde-7c72-498d-9f56-e872c0ad2e18",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty Vicious"
+  },
+  {
+    "Guid": "aef2ca62-7e1a-4b46-a45a-d5260f9e22a8",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator Vicious"
+  },
+  {
+    "Guid": "d85c5d3a-e940-4128-b201-4243f1783014",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skull Regen"
+  },
+  {
+    "Guid": "b48501ae-809f-4b88-8bce-1e69ea783852",
+    "Type": "Bosses",
+    "Name": "Shatter & Shade",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skull Vicious"
+  },
+  {
+    "Guid": "7d1d94bb-8869-4c7b-a2fc-26ddcac8c44f",
+    "Type": "Bosses",
+    "Name": "Undying King",
+    "World": "Rhom",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "a821e3fe-e403-478c-9f15-3fbc9b04cee6",
+    "Type": "Bosses",
+    "Name": "Undying King",
+    "World": "Rhom",
+    "Difficulty": "Normal",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "6d15fd97-c769-42e1-9656-73eac4bf5795",
+    "Type": "Bosses",
+    "Name": "Barbed Terror",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "9ab97bf8-ab4f-4d63-9a09-0009d43ece1c",
+    "Type": "Bosses",
+    "Name": "Barbed Terror",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "8fb37659-13d8-41d6-8eb2-0704b55940d1",
+    "Type": "Bosses",
+    "Name": "Canker",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "0662a394-44cb-40e0-b88d-840c3469e54a",
+    "Type": "Bosses",
+    "Name": "Canker",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "01ff9ac1-d6c9-4fa9-9df5-d9563888bd1d",
+    "Type": "Bosses",
+    "Name": "Canker",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "054b8d97-da2c-45b8-b79f-c1aa4b6166ac",
+    "Type": "Bosses",
+    "Name": "Dream Eater",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "a5481cbe-71f2-43ba-8176-969431892eb3",
+    "Type": "Bosses",
+    "Name": "Dream Eater",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "20895df1-4953-4e9b-b24a-d5a02b37c596",
+    "Type": "Bosses",
+    "Name": "Dream Eater",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "6c6a3cc3-f1ad-42ce-b531-7e43fd90ce11",
+    "Type": "Bosses",
+    "Name": "Iskal Queen",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "85bed8a4-0651-4f3d-a61c-7fb8a6f2588b",
+    "Type": "Bosses",
+    "Name": "Ixillis",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "5cabea4d-29dd-48c4-816e-384d7a1f6092",
+    "Type": "Bosses",
+    "Name": "Thrall",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "c58a5019-5327-4294-a631-683f512a128e",
+    "Type": "Bosses",
+    "Name": "Thrall",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "6b8d6b28-42d6-4f37-a5a9-68352c79bd8a",
+    "Type": "Bosses",
+    "Name": "Thrall",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "67566fcd-c7b4-482e-9ca3-98cdc8a2cc34",
+    "Type": "Bosses",
+    "Name": "Unclean One",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "ed4f634a-6801-43d9-ae90-adc68d09936c",
+    "Type": "Bosses",
+    "Name": "Unclean One",
+    "World": "Corsus",
+    "Difficulty": "Normal",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "8f099a21-5a46-4b7e-b3a8-77ea142a15a2",
+    "Type": "Bosses",
+    "Name": "Onslaught",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "73cf6517-33ca-4027-8505-e73f9dbb1367",
+    "Type": "Bosses",
+    "Name": "Onslaught",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "355a3125-483c-40cd-9919-dd55d03ba27a",
+    "Type": "Bosses",
+    "Name": "Ravager",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "65d6855a-de9d-4394-b779-cfdaccbb783d",
+    "Type": "Bosses",
+    "Name": "Scald & Sear",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty Regen"
+  },
+  {
+    "Guid": "6c1da9ad-9f32-4761-92c9-7dab4d8ae737",
+    "Type": "Bosses",
+    "Name": "Scald & Sear",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regen Vicious"
+  },
+  {
+    "Guid": "7f68dd36-95e8-47da-afc5-ed582bab5a89",
+    "Type": "Bosses",
+    "Name": "Scald & Sear",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skull Vicious"
+  },
+  {
+    "Guid": "7228354b-886e-4beb-b507-f7f7367fc5e6",
+    "Type": "Bosses",
+    "Name": "Stormcaller",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "03dbf64a-850e-4244-9900-6e6f2ddcfa89",
+    "Type": "Bosses",
+    "Name": "Stormcaller",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "83024f70-0e7e-41ee-b76c-a1bc2a989274",
+    "Type": "Bosses",
+    "Name": "Stormcaller",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "37f0a098-5c56-44a6-9980-ac20db1842c7",
+    "Type": "Bosses",
+    "Name": "The Warden",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "e9ff53f5-01e8-4a4f-b883-83ebf419a8ff",
+    "Type": "Bosses",
+    "Name": "The Warden",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "8a1735b5-254e-4327-8b3d-1aa55f156d4d",
+    "Type": "Bosses",
+    "Name": "The Warden",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "7c3706a5-79bc-4ac6-ba3e-2dce7a2f6376",
+    "Type": "Bosses",
+    "Name": "The Warden",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "9d0ee994-67fb-47a3-93a1-d2009cc7e27c",
+    "Type": "Bosses",
+    "Name": "Totem Father",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "d55e5f61-7f43-47cd-97dc-a39406bcc361",
+    "Type": "Bosses",
+    "Name": "Brudvaak & Vargr",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "b00f7fdf-1431-4fd6-8636-53bd07ca60cb",
+    "Type": "Bosses",
+    "Name": "Erfor",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "0282cb51-1ec1-42ac-89f5-8d6e9d12843b",
+    "Type": "Bosses",
+    "Name": "Erfor",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "b2bfce36-8364-4aa7-88eb-f3c77f6ce010",
+    "Type": "Bosses",
+    "Name": "Erfor",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "6d74e181-569c-400b-9909-593c78025d06",
+    "Type": "Bosses",
+    "Name": "Ikro",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "14abca6c-11ed-49b6-bc74-016cf12f3e9f",
+    "Type": "Bosses",
+    "Name": "Ikro",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "1a62b672-2ae3-495e-8ef7-9a910af9356e",
+    "Type": "Bosses",
+    "Name": "Obryk",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Hearty"
+  },
+  {
+    "Guid": "dc2bb89a-098e-4696-b4d7-c905f7118979",
+    "Type": "Bosses",
+    "Name": "Obryk",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Vicious"
+  },
+  {
+    "Guid": "39466c57-c9f0-439c-abe7-bd2b93b4832c",
+    "Type": "Bosses",
+    "Name": "Tian",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Regenerator"
+  },
+  {
+    "Guid": "beb4f584-3c2d-485c-b1d2-4c0759eeb060",
+    "Type": "Bosses",
+    "Name": "Tian",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Skullcracker"
+  },
+  {
+    "Guid": "dd9fd058-0dc2-431e-840c-3c4113742b08",
+    "Type": "Bosses",
+    "Name": "Dreamer",
+    "World": "Ward17",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "cb1aac41-8a05-4448-9dbf-9e44ec4f5836",
+    "Type": "Bosses",
+    "Name": "Harsgaard",
+    "World": "WardPrime",
+    "Difficulty": "Apocalypse",
+    "Modifier": "World"
+  },
+  {
+    "Guid": "0be99167-f1b1-4d09-a2d9-1620911ed319",
+    "Type": "Events",
+    "Name": "Root Mother",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "c06cbe62-f023-45a2-9490-1cad409675cc",
+    "Type": "Events",
+    "Name": "Root Shrine",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "2b09db37-8c84-40f6-9576-caff128bb453",
+    "Type": "Events",
+    "Name": "Two Lizzes",
+    "World": "Earth",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "3593d5e8-389b-4ab1-8c1c-c7f8f2b5e6ea",
+    "Type": "Events",
+    "Name": "Wailing Wood",
+    "World": "Earth",
+    "Difficulty": "Normal",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "64ce3183-c4c2-42b3-84b4-9f7f2d38d958",
+    "Type": "Events",
+    "Name": "Circlet Hatchery",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "b6f79973-2012-4908-afee-73f9eaebb0fb",
+    "Type": "Events",
+    "Name": "Fetid Pools",
+    "World": "Corsus",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "85c771d5-46e3-4d6a-9c42-7b8b0bacdc3f",
+    "Type": "Events",
+    "Name": "Blink Thief",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "520bbd7f-8e3c-46b2-8802-2d013e4adc75",
+    "Type": "Events",
+    "Name": "Root Horror",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "dfa9f957-2540-4803-8060-ac25c4b4cf2a",
+    "Type": "Events",
+    "Name": "The Risen",
+    "World": "Yaesha",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "62eede3b-09e2-4d33-aa27-fcba59529a8f",
+    "Type": "Events",
+    "Name": "Brookhaven",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "be48100c-2f34-4e53-825e-2c64b4683fe5",
+    "Type": "Events",
+    "Name": "Grave Siege",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "ddfb86a5-0ead-4685-a8b3-f7a327ffd0ff",
+    "Type": "Events",
+    "Name": "Magirs Dirge",
+    "World": "Reisum",
+    "Difficulty": "Apocalypse",
+    "Modifier": "Event"
+  },
+  {
+    "Guid": "f289ec1d-b0e8-4628-a0d7-6a08bb8187fe",
+    "Type": "Vendors",
+    "Name": "Mud Tooth",
+    "World": "Earth",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "41bc87d9-8ac0-4b71-bda7-7ac0943bb97e",
+    "Type": "Vendors",
+    "Name": "Root Shrine (Completed)",
+    "World": "Earth",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "fbdda537-94f4-4f19-ac85-060093414fef",
+    "Type": "Vendors",
+    "Name": "Akari Armor",
+    "World": "Rhom",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "b148385b-44d0-4796-9cd2-0dee83d1893e",
+    "Type": "Vendors",
+    "Name": "HoundMaster",
+    "World": "Rhom",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "050f7b2d-ac85-4d1d-907f-96b80a8cfee9",
+    "Type": "Vendors",
+    "Name": "Graveyard Elf",
+    "World": "Corsus",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "2847ffb3-2a06-4b04-b51b-2ec9ef0c79da",
+    "Type": "Vendors",
+    "Name": "Iskal Queen",
+    "World": "Corsus",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "89ab084b-fce3-4098-b6cc-92b870a393cd",
+    "Type": "Vendors",
+    "Name": "Mar'Gosh",
+    "World": "Corsus",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "a41b5a7e-d04a-4586-b4ec-1876da023721",
+    "Type": "Vendors",
+    "Name": "Stuck Merchant",
+    "World": "Yaesha",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "4e0a148f-e883-4849-b9f7-6443b03e0c25",
+    "Type": "Vendors",
+    "Name": "Krall Baby",
+    "World": "Reisum",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "eff1ec8e-c8a9-49b4-89eb-3a412bbbdc7c",
+    "Type": "Vendors",
+    "Name": "Krall Mother",
+    "World": "Reisum",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "af00810e-12ca-44af-a152-c213b87ac220",
+    "Type": "Vendors",
+    "Name": "Magir's Test",
+    "World": "Reisum",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "b6f3baf6-c76f-4aaa-8205-074f91fa04e1",
+    "Type": "Vendors",
+    "Name": "Sebum",
+    "World": "Reisum",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "12e61711-63f8-4dd4-9dba-eb8c0b60d15b",
+    "Type": "Vendors",
+    "Name": "Labyrinth Armor",
+    "World": "Labyrinth",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "a249ab95-b3f9-4dd7-9ff4-4c45379395c3",
+    "Type": "Vendors",
+    "Name": "Ace SuperSave",
+    "World": "Ward13",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  },
+  {
+    "Guid": "bca103dd-8f29-4f07-a3c4-896ee0ecce4d",
+    "Type": "Vendors",
+    "Name": "Intro Skip",
+    "World": "Ward13",
+    "Difficulty": "Vendor",
+    "Modifier": "Vendor"
+  }
+]
