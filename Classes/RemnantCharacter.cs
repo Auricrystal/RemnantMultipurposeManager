@@ -65,11 +65,12 @@ namespace RemnantMultipurposeManager
                     cd.Inventory = new List<string>();
                     foreach (Equipment item in EquipmentDirectory.Items)
                     {
-                        //Debug.WriteLine(item.File + ":" + saveItems.Contains(item.File));
-                        if (saveItems.Contains(item.File) ||
+                        Debug.WriteLine(i+" : "+item.Name + ":" + saveItems.Contains(item.File));
+                        if (saveItems.Contains(item.File) &&
                             EquipmentDirectory.Items.Where(x => !x.Name.Contains("_"))
                             .Select(x => x.Name).Contains(item.Name))
                         {
+                            Debug.WriteLine("ADDED: "+item.Name);
                             cd.Inventory.Add(item.Name);
                         }
                     }
@@ -81,7 +82,7 @@ namespace RemnantMultipurposeManager
             {
                 if (ex.Message.Contains("being used by another process"))
                 {
-                    Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
+                    Console.WriteLine("WorldSave file in use; waiting 0.5 seconds and retrying.");
                     System.Threading.Thread.Sleep(500);
                     charData = GenerateCharacters(saveFolderPath);
                 }

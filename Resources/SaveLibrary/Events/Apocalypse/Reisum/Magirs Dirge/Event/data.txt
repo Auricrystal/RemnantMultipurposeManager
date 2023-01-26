@@ -1,5 +1,0 @@
-[Trinkets]
-Vulcans Detonator (Alert All Totems, Cant Die)
-Evokers Seal (Alert No Totems, Cant Die)
-Juggernaut Band (Alert Some Totems/ or Die)
-Bloodletters Insignia

@@ -93,7 +93,7 @@
     <Compile Include="Classes\Equipment.cs" />
     <Compile Include="Classes\InventoryUI.cs" />
     <Compile Include="Classes\RemnantIndex.cs" />
-    <Compile Include="Classes\JWorldSave.cs" />
+    <Compile Include="Classes\WorldSave.cs" />
     <Compile Include="Classes\MyExtensions.cs" />
     <Compile Include="Classes\RemnantCharacter.cs" />
     <Compile Include="Classes\RemnantProfile.cs" />

@@ -775,7 +775,7 @@
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Button}">
-                            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="20" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" CornerRadius="5" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                                 <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                             </Border>
                             <ControlTemplate.Triggers>
@@ -924,7 +924,7 @@
                         <RowDefinition Height="10*"/>
                     </Grid.RowDefinitions>
                     <Image Source="Resources/IMG/Menu/Rigs.png" Grid.ColumnSpan="2" Grid.RowSpan="2" Stretch="UniformToFill" HorizontalAlignment="Right" VerticalAlignment="Top" />
-                    <Border Grid.Column="1" Grid.RowSpan="2" Margin="0,20,0,0" Width="300" Height="50" BorderThickness="5"  BorderBrush="#222" VerticalAlignment="Top" CornerRadius="5">
+                    <Border Grid.Column="1" Grid.RowSpan="2" Margin="0,20,0,0" Width="300" Height="50" BorderThickness="5"  BorderBrush="#222" VerticalAlignment="Top" >
                         <Border.Background>
                             <SolidColorBrush Color="Gray" Opacity="0.5"/>
                         </Border.Background>
@@ -960,21 +960,25 @@
             <TabItem x:Name="SaveManager" Header="Save Manager" ToolTipService.ShowOnDisabled="True" ToolTipService.ShowDuration="60000">
                 <Grid >
                     <Image Source="Resources/IMG/Menu/HarsgaardCrystal.png" Stretch="Fill" VerticalAlignment="Top" HorizontalAlignment="Right" RenderTransformOrigin="0.5,0.5"/>
-                    <Border  Margin="540,10,0,0" Width="200" Height="50" BorderThickness="5"  BorderBrush="#222" VerticalAlignment="Top" CornerRadius="5">
+                    <Border  Margin="540,10,0,0" Width="200" Height="50" BorderThickness="5"  BorderBrush="#222" VerticalAlignment="Top" >
                         <Border.Background>
                             <SolidColorBrush Color="#222" Opacity="0.9"/>
                         </Border.Background>
                         <TextBlock Text="Ford's Journey" HorizontalAlignment="Center" FontSize="24"/>
                     </Border>
-                    <ComboBox Name="cmbSaveType" Width="200" Height="30" FontSize="15" Margin="5,10,0,0" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" SelectionChanged="CmbSaveType_SelectionChanged">
+                    <ComboBox Name="cmbSaveType" Width="90" Height="30" FontSize="15" Margin="5,10,0,0" HorizontalAlignment="Left" HorizontalContentAlignment="Center" VerticalAlignment="Top" SelectionChanged="CmbSaveType_SelectionChanged">
                         <ComboBoxItem Content="Bosses"/>
                         <ComboBoxItem Content="Events"/>
                         <ComboBoxItem Content="Vendors"/>
+                        <ComboBoxItem Content="Local"/>
                     </ComboBox>
+                    <Button x:Name="AddSave" Content="Add" IsEnabled="False" Width="60" Height="30" Margin="100,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="AddSave_Click"/>
+                    <Button x:Name="EditSave" Content="Edit" IsEnabled="False" Width="60" Height="30" Margin="160,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="EditSave_Click"/>
+                    <Button x:Name="DeleteSave" Content="Delete" IsEnabled="False" Width="60" Height="30" Margin="220,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Click="DeleteSave_Click"/>
                     <DataGrid ColumnHeaderHeight="20" RowHeaderWidth="0" CanUserReorderColumns="false" CanUserResizeRows="False" RowHeight="20" IsReadOnly="True"  Name="SaveList" Width="280" Height="550" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="0,50,0,0" AutoGenerateColumns="False" SelectionMode="Single" SelectionChanged="SaveList_BossName_SelectionChanged">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Binding="{Binding World}" Header="World" Width="120"/>
-                            <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="130"/>
+                            <DataGridTextColumn Binding="{Binding Value}" Header="World" Width="120"/>
+                            <DataGridTextColumn Binding="{Binding Key}" Header="Name" Width="130"/>
                         </DataGrid.Columns>
                     </DataGrid>
                     <ListView  Name="SaveListDifficulty" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Background="#111" Foreground="white" SelectionMode="Single" Width="250" Height="120" Margin="300,150,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="SaveList_Difficulty_SelectionChanged">

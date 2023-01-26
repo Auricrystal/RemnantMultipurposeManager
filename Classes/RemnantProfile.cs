@@ -75,7 +75,7 @@ namespace RemnantMultipurposeManager
 
         public void Save(string path)
         {
-            Debug.WriteLine("Save Profile: " + path);
+            Debug.WriteLine("WorldSave Profile: " + path);
 
             File.WriteAllText(path, JsonConvert.SerializeObject(this, Formatting.Indented, new JsonSerializerSettings
             {

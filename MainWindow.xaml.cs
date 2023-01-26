@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,11 +14,14 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+
+//using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using static RemnantMultipurposeManager.JWorldSave;
+using System.Xml.Linq;
+using static RemnantMultipurposeManager.WorldSave;
 
 namespace RemnantMultipurposeManager
 {
@@ -33,9 +37,12 @@ namespace RemnantMultipurposeManager
         private FileSystemWatcher ProfileWatcher, SaveWatcher;
         private readonly InventoryUI UI;
         private RemnantProfile profile;
-        private List<JWorldSave> checkpoints;
+        private List<WorldSave> checkpoints;
+        private List<WorldSave> localsaves;
         private byte[] lockedSave;
         private int MAX_LOG_STACK = 10;
+        private static bool _public = false;
+        public static string Branch { get => _public ? "master" : "Experimental-FileFormat"; }
         //test comment
         public RemnantProfile Profile
         {
@@ -58,15 +65,25 @@ namespace RemnantMultipurposeManager
 
             }
         }
-        public List<JWorldSave> Checkpoints
+        public List<WorldSave> Checkpoints
         {
             get
             {
-                DownloadDirectory();
-                checkpoints = JWorldSave.LoadList(RmmInstallPath + @"\CheckpointDirectory.rmm");
+                var st = "";
+                if (cmbSaveType.SelectedIndex != -1)
+                    st = ((ComboBoxItem)cmbSaveType.SelectedItem)?.Content.ToString();
+                if (st == "Local")
+                {
+                    if (localsaves == null || localsaves.Count == 0)
+                        localsaves = LoadList(RmmInstallPath + @"\LocalLibrary.json");
+                    return localsaves;
+                }
+                if (checkpoints == null || checkpoints.Count == 0)
+                    checkpoints = LoadList(RmmInstallPath + @"\SaveLibrary.json");
                 return checkpoints;
             }
         }
+
 
         public static string RmmInstallPath
         {
@@ -95,12 +112,12 @@ namespace RemnantMultipurposeManager
 
             for (int i = 0; i < list.Length - MAX_LOG_STACK; i++)
                 File.Delete(list[i]);
-            
 
+            //Debug.WriteLine("Test GUID: "+Guid.NewGuid());
 
 
         }
-        
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -120,6 +137,8 @@ namespace RemnantMultipurposeManager
             OfflineFileAccess.IsChecked = Properties.Settings.Default.OfflineAccess;
             SetSaveManagerActive(true);
             BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
+            if (File.Exists(RmmInstallPath + @"\LocalLibrary.json"))
+                localsaves = WorldSave.LoadList(RmmInstallPath + @"\LocalLibrary.json");
             BuildList.Items.Refresh();
 
         }
@@ -135,6 +154,7 @@ namespace RemnantMultipurposeManager
             Build b = null;
             if (Profile != null)
             {
+                Debug.WriteLine("Char Index: " + cmbCharacter.SelectedIndex);
                 Debug.WriteLine("Profile Inventory: " + Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Count);
                 var NoEmpties = EquipmentDirectory.Items.Where(x => x.Name.Contains("_")).ToList();
                 b = Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Select(x => EquipmentDirectory.FindEquipmentByName(x)).RandomBuild(UI.Shown, false ? NoEmpties : null);
@@ -148,15 +168,14 @@ namespace RemnantMultipurposeManager
         }
         private void DownloadDirectory()
         {
-            string Directory = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/Experimental-FileFormat/Resources/Data/CheckpointDirectory.rmm";
+            string Directory = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/Experimental-FileFormat/Resources/Data/SaveLibrary.json";
 
             using (WebClient client = new WebClient())
             {
 
-
-                if (!File.Exists(RmmInstallPath + @"\CheckpointDirectory.rmm"))
+                if (!File.Exists(RmmInstallPath + @"\SaveLibrary.json"))
                 {
-                    client.DownloadFile(Directory, RmmInstallPath + @"\CheckpointDirectory.rmm");
+                    client.DownloadFile(Directory, RmmInstallPath + @"\SaveLibrary.json");
                     return;
                 }
                 if (OfflineFileAccess.IsChecked.Value)
@@ -164,23 +183,20 @@ namespace RemnantMultipurposeManager
 
                 try
                 {
-                    using (StreamReader nw = new StreamReader(client.OpenRead(Directory)), od = new StreamReader(File.OpenRead(RmmInstallPath + @"\CheckpointDirectory.rmm")))
-                    {
+                    client.DownloadFile(Directory, RmmInstallPath + @"\SaveLibraryTemp.json");
 
-                        string a;
-                        while ((a = nw.ReadLine()) != null)
+                    List<WorldSave> temp = JsonConvert.DeserializeObject<List<WorldSave>>(File.ReadAllText(RmmInstallPath + @"\SaveLibraryTemp.json"));
+                    List<WorldSave> local = JsonConvert.DeserializeObject<List<WorldSave>>(File.ReadAllText(RmmInstallPath + @"\SaveLibrary.json"));
+
+                    if (local.Intersect(temp).Any())
+                        File.WriteAllText(RmmInstallPath + @"\SaveLibrary.json", JsonConvert.SerializeObject(local.Union(temp).ToList(), Formatting.Indented, new JsonSerializerSettings
                         {
-                            if (a != od.ReadLine())
-                            {
-                                nw.Close();
-                                od.Close();
-                                client.DownloadFile(Directory, RmmInstallPath + @"\CheckpointDirectory.rmm");
-                                return;
-                            }
-                        }
-                    }
+                            NullValueHandling = NullValueHandling.Ignore
+                        }));
+
                 }
                 catch (WebException) { Debug.WriteLine("Offline Issues"); }
+                File.Delete(RmmInstallPath + @"\SaveLibraryTemp.json");
             }
         }
 
@@ -200,11 +216,8 @@ namespace RemnantMultipurposeManager
                 return;
             }
 
-
-
             if (ProfileWatcher is null && b)
             {
-
                 ProfileWatcher = new FileSystemWatcher()
                 {
                     Path = GameSavePath,
@@ -228,8 +241,8 @@ namespace RemnantMultipurposeManager
             LoadedProfile.Header = b ? profile.Name : "No Profile";
             LoadedProfile.Visibility = b ? Visibility.Visible : Visibility.Collapsed;
 
-            cmbCharacter.IsEnabled = b;
-            cmbSaveSlot.IsEnabled = b;
+            cmbCharacter.IsEnabled = cmbSaveSlot.IsEnabled = DefaultCharacter.IsEnabled = b;
+
 
             cmbCharacter.ItemsSource = b ? profile.Characters : null;
             cmbCharacter.SelectedIndex = b ? 0 : -1;
@@ -237,13 +250,17 @@ namespace RemnantMultipurposeManager
             cmbSaveSlot.ItemsSource = b ? profile.SavePair.Keys.Select(x => "Slot " + x) : null;
             cmbSaveSlot.SelectedIndex = b ? profile.SavePair[0] : -1;
 
-            DefaultCharacter.IsEnabled = b;
 
             cmbCharacter.Items.Refresh();
             cmbSaveSlot.Items.Refresh();
 
             InvList.ItemsSource = EquipmentDirectory.Items;
-            SaveList.ItemsSource = b ? Checkpoints : null;
+            if (b)
+                DownloadDirectory();
+            SaveList.ItemsSource = b ? Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World) : null;
+            SaveListDifficulty.ItemsSource = b ? Checkpoints.Select(x => x.Difficulty).Distinct() : null;
+            SaveListModifier.ItemsSource = b ? Checkpoints.Select(x => x.Modifier).Distinct() : null;
+
             cmbSaveType.SelectedIndex = b ? 0 : -1;
         }
 
@@ -352,7 +369,7 @@ namespace RemnantMultipurposeManager
         {
             try
             {
-                string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/master/Resources/" + zipName + ".zip";
+                string zipURL = "https://raw.githubusercontent.com/Auricrystal/RemnantMultipurposeManager/" + Branch + "/Resources/" + zipName + ".zip";
                 using (WebClient client = new WebClient())
                 {
 
@@ -452,7 +469,7 @@ namespace RemnantMultipurposeManager
             Debug.WriteLine("Char:" + rc.Slot + " Set to:" + cmbSaveSlot.SelectedIndex);
             if (SaveWatcher is null || !SaveWatcher.EnableRaisingEvents)
                 return;
-            Debug.WriteLine("Switching Locked Save");
+            Debug.WriteLine("Switching Locked WorldSave");
             SaveWatcher.Filter = "save_" + cmbSaveSlot.SelectedIndex + ".sav";
             lockedSave = File.ReadAllBytes(GameSavePath + @"\save_" + cmbSaveSlot.SelectedIndex + ".sav");
         }
@@ -460,9 +477,10 @@ namespace RemnantMultipurposeManager
         {
             RemnantCharacter rc = (RemnantCharacter)cmbCharacter.SelectedItem;
             cmbSaveSlot.SelectedIndex = (rc != null) ? Profile?.SavePair[rc.Slot] ?? -1 : -1;
-            BuildList.ItemsSource = Profile.Builds[cmbCharacter.SelectedIndex];
+
+            BuildList.ItemsSource = Profile is null ? null : Profile.Builds[cmbCharacter.SelectedIndex];
         }
-       
+
         private static void DeleteEmptyFolders(string startLocation)
         {
             foreach (var directory in Directory.GetDirectories(startLocation))
@@ -534,7 +552,7 @@ namespace RemnantMultipurposeManager
                 {
                     if (ex.Message.Contains("being used by another process"))
                     {
-                        Console.WriteLine("Save file in use; waiting 0.5 seconds and retrying.");
+                        Console.WriteLine("WorldSave file in use; waiting 0.5 seconds and retrying.");
 
                         Thread.Sleep(500);
                         LockedSave_Changed(sender, e);
@@ -553,7 +571,8 @@ namespace RemnantMultipurposeManager
         private void LoadButtonSettings()
         {
             LoadSave.IsEnabled = !LockCheckpoint.IsChecked.Value && SaveList.SelectedIndex != -1;
-            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value;
+            DeleteSave.IsEnabled = SaveList.SelectedIndex != -1 && cmbSaveType.SelectedIndex == 3;
+            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value&& cmbSaveType.SelectedIndex != 3;
         }
         private void AlterFile_Clicked(object sender, RoutedEventArgs e)
         {
@@ -599,109 +618,17 @@ namespace RemnantMultipurposeManager
             MainTab.SelectedIndex = 3;
         }
 
-        private void CreateMasterRMM()
-        {
-            //throw new Exception();
-
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
-
-
-
-            string s = "";
-            if (File.Exists(s = baseDir + "SaveLibrary.zip"))
-                File.Delete(s);
-
-            //var f = zipName == "Vendors2" ? "Vendors" : zipName;
-
-            ZipFile.CreateFromDirectory(baseDir + "SaveLibrary", s, CompressionLevel.Optimal, false);
-
-            using (ZipArchive zipFile = ZipFile.Open(s, ZipArchiveMode.Read))
-            {
-                string savetype = "";
-                string diff = "";
-                string planet = "";
-                string bossname = "";
-                string modifier = "";
-
-                foreach (ZipArchiveEntry entry in zipFile.Entries)
-                {
-                    if (!entry.FullName.Contains("save.sav"))
-                        continue;
-                    Debug.WriteLine(entry.FullName);
-                    string[] temp = entry.FullName.Split('/');
-                   
-                    if (savetype != temp[0])
-                        savetype = temp[0];
-                    if (diff != temp[1])
-                        diff = temp[1];
-                    if (planet != temp[2])
-                        planet = temp[2];
-                    if (bossname != temp[3])
-                        bossname = temp[3];
-                    if (modifier != temp[4])
-                        modifier = temp[4];
-
-                    
-
-                    MergeRMM(new(
-                            bossname,
-                            TryParse<WorldZone>(string.Join("", planet.Split(' '))),
-                            TryParse<SaveType>(savetype),
-                            new Dictionary<JWorldSave.DifficultyType, List<string>>()
-                            {
-                              {
-                                TryParse<DifficultyType>(diff=="No Difficulty"?"Vendor":diff) , new List<string>(){modifier}
-                              }
-                            }
-                        )
-                        ); 
-                }
-                zipFile.Dispose();
-
-            }
-        }
-
-        private void MergeRMM(JWorldSave save)
-        {
-            string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
-
-            var savelist = JWorldSave.LoadList(baseDir + @"Data\CheckpointDirectory.rmm");
-            if (!savelist.Select(x => (x.Name, x.World, x.Type)).Contains((save.Name, save.World, save.Type)))
-            {
-                Debug.WriteLine("Inserting: (" + String.Join(",", save.Type, save.World, save.Name) + ")");
-                savelist.Add(save);
-            }
-            else
-            {
-                //Debug.WriteLine("Test Merge");
-                JWorldSave match = savelist.Find(x => x.Name == save.Name);
-                foreach (var diff in save.Checkpoints.Keys)
-                {
-                    if (!match.Checkpoints.ContainsKey(diff))
-                        match.Checkpoints.Add(diff, new List<string>());
-                    foreach (var line in save.Checkpoints[diff])
-                    {
-                        if (match.Checkpoints[diff].Contains(line))
-                            continue;
-                        match.Checkpoints[diff].Add(line);
-                        Debug.WriteLine("Adding " + save.Name + "[" + diff + "," + line + "]");
-                    }
-                }
-            }
-            JWorldSave.Save(baseDir + @"Data\CheckpointDirectory.rmm", savelist.OrderBy(x => x.Type).ThenBy(x => x.World).ThenBy(x => x.Name).ToArray());
-        }
         private void CreateRMM_Click(object sender, RoutedEventArgs e)
         {
-            CreateMasterRMM();
 
         }
         private void ReadRMM_Click(object sender, RoutedEventArgs e)
         {
             string path;
             string baseDir = AppDomain.CurrentDomain.BaseDirectory.Replace(@"bin\Debug", @"Resources\");
-            if (!File.Exists(path = baseDir + @"Data\CheckpointDirectory.rmm"))
+            if (!File.Exists(path = baseDir + @"Data\SaveLibrary.json"))
                 return;
-            var save = JWorldSave.LoadList(path);
+            var save = WorldSave.LoadList(path);
 
             Debug.WriteLine("RMM Count:" + save.Count);
 
@@ -717,42 +644,44 @@ namespace RemnantMultipurposeManager
 
             if (SaveList.SelectedIndex == -1)
                 return;
+            var Save = Checkpoints.Find(x => x.Name == ((KeyValuePair<string, string>)SaveList.SelectedItem).Key &&
+            x.Difficulty == (SaveListDifficulty.SelectedItem as string) &&
+            x.Modifier == (SaveListModifier.SelectedItem as string));
 
             ProfileWatcher.EnableRaisingEvents = false;
             File.SetLastWriteTime(GameSavePath + "\\profile.sav", DateTime.Now);
-            if (OfflineFileAccess.IsChecked.Value)
-            {
-                Save.grabFileFromZip(GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav", Diff, Mod);
-            }
+
+            string loadpath = GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav";
+            if (cmbSaveType.SelectedIndex != 3)
+                if (OfflineFileAccess.IsChecked.Value)
+                    Save.grabFileFromZip(loadpath);
+                else
+                    Save.DownloadFile(loadpath);
             else
-            {
-                Save.DownloadFile(GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav", Diff, Mod);
-            }
+                Save.LocalLoad(loadpath);
+
             ProfileWatcher.EnableRaisingEvents = true;
         }
 
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
         {
-            if (SaveList.ItemsSource is null)
+            if (SaveList.ItemsSource is null||SaveList.Items.Count==0)
                 return;
 
             FeelingLucky.IsEnabled = LoadSave.IsEnabled = false;
             BackupRevert(BackupAction.Backup);
             ProfileWatcher.EnableRaisingEvents = false;
             var s = GameSavePath + "\\save_" + cmbSaveSlot.SelectedIndex + ".sav";
+            var save = Checkpoints.Where(x => x.Type == "Bosses").Shuffle().First();
             Thread t = new Thread(() =>
             {
-                //Thread.Sleep(2000);
-                var save = ((List<JWorldSave>)SaveList.ItemsSource).Where(x => x.Type == JWorldSave.SaveType.Bosses).Shuffle().First();
                 File.SetLastWriteTime(GameSavePath + "\\profile.sav", DateTime.Now);
+
                 if (!Properties.Settings.Default.OfflineAccess)
-                {
-                    save.DownloadFile(s, JWorldSave.DifficultyType.Apocalypse, save.Checkpoints[JWorldSave.DifficultyType.Apocalypse].Shuffle().First());
-                }
+                    save.DownloadFile(s);
                 else
-                {
-                    save.grabFileFromZip(s, JWorldSave.DifficultyType.Apocalypse, save.Checkpoints[JWorldSave.DifficultyType.Apocalypse].Shuffle().First());
-                }
+                    save.grabFileFromZip(s);
+
                 Action action = () => FeelingLucky.IsEnabled = LoadSave.IsEnabled = ProfileWatcher.EnableRaisingEvents = true;
                 this.Dispatcher.BeginInvoke(action);
             });
@@ -791,7 +720,7 @@ namespace RemnantMultipurposeManager
                 //}
                 using (var save = new System.Windows.Forms.SaveFileDialog())
                 {
-                    save.Title = "Save RProfile";
+                    save.Title = "WorldSave RProfile";
                     save.Filter = "(.RProfile)|*.RProfile";
                     save.FileName = "Default";
                     //save.DefaultExt = "RProfile";
@@ -842,19 +771,78 @@ namespace RemnantMultipurposeManager
             }
         }
 
-        JWorldSave Save = null;
-        JWorldSave.DifficultyType Diff = JWorldSave.DifficultyType.Unknown;
-        string Mod = "";
-        private void SaveList_Modifier_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SaveList_ViewUpdate()
         {
-            if (((ListView)sender)?.SelectedItem == null)
-                return;
-            var s = ((ListView)sender)?.SelectedItem?.ToString();
-            if (s == Mod)
-                return;
-            Mod = s;
-            Debug.WriteLine("Modifier Changed! " + s);
+            var st = ((ComboBoxItem)cmbSaveType.SelectedItem).Content.ToString();
 
+            CollectionViewSource.GetDefaultView(SaveList.ItemsSource).Filter = o =>
+            {
+                return Checkpoints.Find(x => x.Name == ((KeyValuePair<string, string>)o).Key).Type == st;
+            };
+
+            if (SaveList.SelectedIndex == -1)
+            {
+                CollectionViewSource.GetDefaultView(SaveListDifficulty.ItemsSource).Filter = o => false;
+                CollectionViewSource.GetDefaultView(SaveListModifier.ItemsSource).Filter = o => false;
+                return;
+            }
+
+            var name = ((KeyValuePair<string, string>)SaveList.SelectedItem).Key;
+            CollectionViewSource.GetDefaultView(SaveListDifficulty.ItemsSource).Filter = o =>
+            {
+                return Checkpoints.Where(x => x.Name == name).Select(x => x.Difficulty).Contains(o as string);
+            };
+
+            if (SaveListDifficulty.SelectedIndex == -1)
+                return;
+
+            var diff = SaveListDifficulty.SelectedItem as string;
+            CollectionViewSource.GetDefaultView(SaveListModifier.ItemsSource).Filter = o =>
+            {
+                return Checkpoints.Where(x => x.Name == name && x.Difficulty == diff).Select(y => y.Modifier).Contains(o as string);
+            };
+        }
+
+        private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SaveList.ItemsSource = Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World);
+            SaveListDifficulty.ItemsSource = Checkpoints.Select(x => x.Difficulty).Distinct();
+            SaveListModifier.ItemsSource = Checkpoints.Select(x => x.Modifier).Distinct();
+
+            if (SaveList.ItemsSource == null)
+                return;
+
+            ComboBox cmb = (ComboBox)sender;
+            if (cmb.SelectedItem == null)
+                return;
+            SaveList.SelectedIndex = -1;
+            SaveListDifficulty.SelectedIndex = -1;
+            SaveListModifier.SelectedIndex = -1;
+
+            var st = ((ComboBoxItem)cmb.SelectedItem).Content.ToString();
+
+            AddSave.IsEnabled = EditSave.IsEnabled = (st == "Local");
+            OfflineFileAccess.IsEnabled = (st != "Local");
+           
+            SaveList_ViewUpdate();
+            LoadButtonSettings();
+        }
+
+        private void SaveList_BossName_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((DataGrid)sender)?.SelectedItem == null)
+                return;
+            SaveList_ViewUpdate();
+            if (SaveListDifficulty.ItemsSource == null)
+                return;
+            SaveListDifficulty.SelectedIndex = 0;
+
+            if (SaveListModifier.ItemsSource == null)
+                return;
+            SaveListModifier.SelectedIndex = 0;
+
+
+            LoadButtonSettings();
         }
 
         private void SaveList_Difficulty_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -862,67 +850,21 @@ namespace RemnantMultipurposeManager
             if (((ListView)sender)?.SelectedItem == null)
                 return;
             var s = ((ListView)sender)?.SelectedItem.ToString();
-            JWorldSave.DifficultyType st = (JWorldSave.DifficultyType)Enum.Parse(typeof(JWorldSave.DifficultyType), s);
-            if (st == Diff)
-                return;
-            Diff = st;
-            Debug.WriteLine("Difficulty Changed! " + s);
-
-            if (SaveListDifficulty.ItemsSource == null)
-                return;
-
-            ListView cmb = (ListView)sender;
-            if (cmb.SelectedItem == null)
-                return;
-
-
-            if (SaveList.SelectedItem == null)
-                return;
-
-            JWorldSave save = SaveList.SelectedItem as JWorldSave;
-
-            SaveListModifier.ItemsSource = save.Checkpoints[st];
-            SaveListModifier.SelectedIndex = 0;
-        }
-
-        private void SaveList_BossName_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (((DataGrid)sender)?.SelectedItem == null)
-                return;
-            var s = ((JWorldSave)((DataGrid)sender)?.SelectedItem);
-
-            if (s.Equals(Save))
-                return;
-            Save = s;
-            Debug.WriteLine("Boss Changed! " + s.Name);
-            SaveListDifficulty.ItemsSource = s.Checkpoints.Keys;
-            if (SaveListDifficulty.ItemsSource == null)
-                return;
-
-
-            if (cmbSaveType.SelectedIndex != 2)
-            {
-                ICollectionView icv2 = CollectionViewSource.GetDefaultView(SaveListDifficulty.ItemsSource);
-                icv2.Filter = o =>
-                {
-
-                    var dt = (o as JWorldSave.DifficultyType?);
-                    if (dt is null)
-                        return false;
-                    return !dt.Equals(JWorldSave.DifficultyType.Vendor) && s.Checkpoints[dt.Value].Count > 0;
-                };
-            }
-            SaveListDifficulty.SelectedIndex = 0;
-            JWorldSave save = SaveList.SelectedItem as JWorldSave;
-
-            JWorldSave.DifficultyType st = (JWorldSave.DifficultyType)Enum.Parse(typeof(JWorldSave.DifficultyType), SaveListDifficulty.SelectedItem.ToString());
-            SaveListModifier.ItemsSource = save.Checkpoints[st];
+            //Debug.WriteLine("Difficulty Changed! " + s);
 
             if (SaveListModifier.ItemsSource == null)
                 return;
-
-            LoadButtonSettings();
+            SaveList_ViewUpdate();
             SaveListModifier.SelectedIndex = 0;
+        }
+
+        private void SaveList_Modifier_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (((ListView)sender)?.SelectedItem == null)
+                return;
+            //var s = ((ListView)sender)?.SelectedItem?.ToString();
+            //Debug.WriteLine("Modifier Changed! " + s);
+
         }
 
         private void OfflineFileAccess_Toggle(object sender, RoutedEventArgs e)
@@ -1036,27 +978,143 @@ namespace RemnantMultipurposeManager
             UI.EquipBuild((Build)BuildList.SelectedItem);
         }
 
-        private void CmbSaveType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AddSave_Click(object sender, RoutedEventArgs e)
         {
-            if (SaveList.ItemsSource == null)
+            OpenFileDialog dialog = new() { Filter = "(World WorldSave)|save_*.sav", DefaultExt = "sav", Title = "Choose a WorldSave" };
+            dialog.ShowDialog();
+
+            WorldSave test = SaveEditor("Add WorldSave", "", filepath: dialog.FileName);
+            if (test is null)
+                return;
+            Directory.CreateDirectory(RmmInstallPath + "\\LocalSaves");
+            File.Copy(dialog.FileName, Path.Combine(RmmInstallPath, "LocalSaves", test.Guid + ".sav"));
+
+            if (!File.Exists(RmmInstallPath + @"\LocalLibrary.json"))
+                localsaves = new List<WorldSave>();
+
+            localsaves.Add(test);
+
+            File.WriteAllText(RmmInstallPath + @"\LocalLibrary.json", JsonConvert.SerializeObject(localsaves, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.Auto
+                }));
+
+            SaveList.ItemsSource = Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World);
+            SaveListDifficulty.ItemsSource = Checkpoints.Select(x => x.Difficulty).Distinct();
+            SaveListModifier.ItemsSource = Checkpoints.Select(x => x.Modifier).Distinct();
+            SaveList_ViewUpdate();
+        }
+
+        private void EditSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (SaveList.SelectedIndex == -1)
+                return;
+            string name = ((KeyValuePair<string, string>)SaveList.SelectedItem).Key;
+            if (SaveListDifficulty.SelectedIndex == -1)
+                return;
+            string diff = SaveListDifficulty.SelectedItem as string;
+            if (SaveListModifier.SelectedIndex == -1)
+                return;
+            string mod = SaveListModifier.SelectedItem as string;
+
+            WorldSave Save = localsaves.Find(x => x.Name == name && x.Difficulty == diff && x.Modifier == mod);
+            if (Save is null)
                 return;
 
-            ComboBox cmb = (ComboBox)sender;
-            if (cmb.SelectedItem == null)
+            var temp = SaveEditor("Edit WorldSave", "", Save);
+            if (temp is null)
                 return;
+            localsaves.Remove(Save);
+            localsaves.Add(temp);
 
-            JWorldSave.SaveType st = (JWorldSave.SaveType)Enum.Parse(typeof(JWorldSave.SaveType), ((ComboBoxItem)cmb.SelectedItem).Content.ToString());
-
-            ICollectionView icv = CollectionViewSource.GetDefaultView(SaveList.ItemsSource);
-
-            icv.Filter = o => { return ((o as JWorldSave).Type.Equals(st)); };
-
-            SaveListDifficulty.ItemsSource = null;
-            SaveListModifier.ItemsSource = null;
-            LoadButtonSettings();
-
+            File.WriteAllText(RmmInstallPath + @"\LocalLibrary.json", JsonConvert.SerializeObject(localsaves, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.Auto
+                }));
+            SaveList.ItemsSource = Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World);
+            SaveListDifficulty.ItemsSource = Checkpoints.Select(x => x.Difficulty).Distinct();
+            SaveListModifier.ItemsSource = Checkpoints.Select(x => x.Modifier).Distinct();
+            SaveList_ViewUpdate();
 
         }
+
+        private void DeleteSave_Click(object sender, RoutedEventArgs e)
+        {
+            string name = ((KeyValuePair<string, string>)SaveList.SelectedItem).Key;
+            string diff = SaveListDifficulty.SelectedItem as string;
+            string mod = SaveListModifier.SelectedItem as string;
+            WorldSave Save = localsaves.Find(x => x.Name == name && x.Difficulty == diff && x.Modifier == mod);
+            var text = "Delete Save?\n" +
+                "\nName: " + Save.Name +
+                "\nDifficulty: " + Save.Difficulty +
+                "\nModifier: " + Save.Modifier;
+            var confirmResult = MessageBox.Show(text, "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+            if (confirmResult == MessageBoxResult.Yes)
+            {
+                File.Delete(RmmInstallPath + @"\LocalSaves\" + Save.Guid + ".sav");
+                localsaves.Remove(Save);
+                File.WriteAllText(RmmInstallPath + @"\LocalLibrary.json", JsonConvert.SerializeObject(localsaves, Formatting.Indented,
+                new JsonSerializerSettings
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                    TypeNameHandling = TypeNameHandling.Auto
+                }));
+                SaveList.ItemsSource = Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World);
+                SaveListDifficulty.ItemsSource = Checkpoints.Select(x => x.Difficulty).Distinct();
+                SaveListModifier.ItemsSource = Checkpoints.Select(x => x.Modifier).Distinct();
+
+                SaveList.SelectedIndex = SaveListDifficulty.SelectedIndex = SaveListModifier.SelectedIndex = -1;
+                SaveList_ViewUpdate();
+            }
+        }
+
+        public static WorldSave SaveEditor(string text, string caption, WorldSave save = null, string filepath = "")
+        {
+            if (filepath != "")
+                Debug.WriteLine(filepath);
+            if (save is null)
+                save = new WorldSave(type: "Local");
+
+            System.Windows.Forms.Form prompt = new();
+            prompt.Width = 200;
+            prompt.Height = 200;
+            prompt.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            prompt.Text = caption;
+            System.Windows.Forms.TextBox NameBox = new() { Left = 50, Top = 20, Width = 100 };
+            System.Windows.Forms.Label NameLabel = new() { Left = 0, Top = 20, Height = 20, Text = "Name", Width = 50 };
+
+            System.Windows.Forms.TextBox ModifierBox = new() { Left = 50, Top = 40, Width = 100 };
+            System.Windows.Forms.Label ModifierLabel = new() { Left = 0, Top = 40, Height = 20, Text = "Modifier", Width = 50 };
+
+            System.Windows.Forms.ComboBox DifficultyBox = new() { Left = 50, Top = 60, Width = 100, Items = { "Normal", "Hard", "Nightmare", "Apocalypse" } };
+            System.Windows.Forms.Label DifficultyLabel = new() { Left = 0, Top = 60, Height = 20, Text = "Difficulty", Width = 50 };
+
+            System.Windows.Forms.ComboBox WorldBox = new() { Left = 50, Top = 80, Width = 100, Items = { "Earth", "Rhom", "Corsus", "Yaesha", "Reisum", "Ward17", "WardPrime", "Labyrinth", "Ward13" } };
+            System.Windows.Forms.Label WorldLabel = new() { Left = 0, Top = 80, Height = 20, Text = "World", Width = 50 };
+
+            System.Windows.Forms.Button confirmation = new() { Text = "Submit", Left = 80, Width = 80, Top = 120 };
+            confirmation.Click += (sender, e) => { prompt.DialogResult = System.Windows.Forms.DialogResult.OK; prompt.Close(); };
+            System.Windows.Forms.Control[] controls = { NameBox, NameLabel, ModifierBox, ModifierLabel, DifficultyBox, DifficultyLabel, WorldBox, WorldLabel, confirmation };
+            prompt.Controls.AddRange(controls);
+
+            NameBox.Text = save.Name;
+            WorldBox.Text = save.World;
+            DifficultyBox.Text = save.Difficulty;
+            ModifierBox.Text = save.Modifier;
+
+            var result = prompt.ShowDialog();
+            Guid temp = save.Guid;
+            save = new WorldSave("Local", NameBox.Text, WorldBox.Text, DifficultyBox.Text, ModifierBox.Text, temp);
+
+            if (result == System.Windows.Forms.DialogResult.Cancel) { Debug.WriteLine("Cancelled"); return null; }
+
+            return save;
+        }
+
 
     }
 }

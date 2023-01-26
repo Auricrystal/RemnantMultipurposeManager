@@ -31,6 +31,8 @@ namespace RemnantMultipurposeManager
                     {
                         _list = JsonConvert.DeserializeObject<List<Equipment>>(reader.ReadToEnd(), new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto });
                     }
+
+
                 }
                 return _list.AsReadOnly();
             }
