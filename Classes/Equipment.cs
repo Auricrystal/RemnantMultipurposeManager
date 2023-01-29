@@ -8,7 +8,7 @@ using System;
 namespace RemnantMultipurposeManager
 {
     
-    public class Equipment 
+    public class Equipment : ICloneable
     {
         public enum SlotType { HG, LG, M, HE, CH, LE, AM, RI, MO };
         public SlotType Slot { get; private set; }
@@ -64,10 +64,13 @@ namespace RemnantMultipurposeManager
             return string.Format("Slot: {0} Name: {1}", Slot, Name);
         }
 
-       
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
  
-    public class Gun : Equipment, ICloneable
+    public class Gun : Equipment
     {
         public Mod Mod { get; private set; }
         public Gun(SlotType slot, string name, string file, string img, Mod mod = null) : base(slot, name, file, img)
@@ -88,10 +91,7 @@ namespace RemnantMultipurposeManager
         {
             return base.ToString() + ((Mod == null) ? " No Mod" : " "+Mod.ToString());
         }
-        public object Clone()
-        {
-            return this.MemberwiseClone();
-        }
+        
     }
     public class Mod : Equipment
     {

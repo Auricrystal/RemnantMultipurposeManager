@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 using static RemnantMultipurposeManager.Equipment;
 
 namespace RemnantMultipurposeManager
@@ -9,47 +10,45 @@ namespace RemnantMultipurposeManager
     public class Build
     {
         public string Name { get; set; }
+        public bool Active { get; set; }
 
-        public List<Equipment> Data { get; set; }
+        public string HandGun { get; set; }
+        public string HandGunMod { get; set; }
 
-        [JsonConstructor]
-        public Build(string name = null, List<Equipment> items = null)
+        public string LongGun { get; set; }
+        public string LongGunMod { get; set; }
+
+        public string Melee { get; set; }
+
+        public string Head { get; set; }
+        public string Chest { get; set; }
+        public string Legs { get; set; }
+
+        public string Amulet { get; set; }
+        public string RingLeft { get; set; }
+        public string RingRight { get; set; }
+
+        public Build(string name = "", string handGun = "", string handGunMod = "", string longGun = "", string longGunMod = "", string melee = "", string head = "", string chest = "", string legs = "", string amulet = "", string ringLeft = "", string ringRight = "", bool active = true)
         {
-            this.Name = name ?? "";
-            this.Data = items ?? new List<Equipment>();
+            Name = name;
+            HandGun = handGun;
+            HandGunMod = handGunMod;
+            LongGun = longGun;
+            LongGunMod = longGunMod;
+            Melee = melee;
+            Head = head;
+            Chest = chest;
+            Legs = legs;
+            Amulet = amulet;
+            RingLeft = ringLeft;
+            RingRight = ringRight;
+            Active = active;
         }
-        public Build(string name, params Equipment[] items)
+
+        public List<Equipment> GetItems()
         {
-            this.Data = new List<Equipment>();
-            this.Name = name;
-            foreach (Equipment t in items)
-            {
-                if (t is Mod)
-                {
-                    Debug.WriteLine("Mods dont make sense by themselves!");
-                    continue;
-                }
-
-                if (t.Slot == SlotType.RI && Data.Where(x => x.Slot == SlotType.RI).Count() > 2)
-                {
-
-
-                    Debug.WriteLine("Too Many Rings!");
-                    continue;
-                }
-               
-
-                if (Data.Where(x => x.Slot == t.Slot).Count() > 0 &&t.Slot!=SlotType.RI)
-                {
-                    Debug.WriteLine("Cant Equip more than one of "+t.Slot+"!");
-                    continue;
-                }
-                Data.Add(t);
-            }
+            return new List<string>() { HandGun, HandGunMod, LongGun, LongGunMod, Melee, Head, Chest, Legs, Amulet, RingLeft, RingRight }.Where(x => x != "").Select(x => EquipmentDirectory.FindEquipmentByName(x)).Where(x=>x is not null).ToList();
         }
-        public override string ToString()
-        {
-            return string.Join(", ",Data);
-        }
+
     }
 }

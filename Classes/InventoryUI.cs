@@ -74,7 +74,7 @@ namespace RemnantMultipurposeManager
         {
             Build b = Shown;
             Random rd = MainWindow.rd;
-            string s = b.Data.Find(x => x.Slot == AM).Name;
+            string s = b.GetItems().Find(x => x.Slot == AM).Name;
             if (s == "White Rose")
             {
                 Debug.WriteLine(s + " Detected");
@@ -89,7 +89,7 @@ namespace RemnantMultipurposeManager
                 if (rd.Next(2) == 1) { Debug.WriteLine("removed le"); Legs.UnEquip(); }
             }
             var list = new List<string> { "Ring Of The Unclean", "Five Fingered Ring" };
-            var rings = (b.Data.FindAll(x => x.Slot == RI)).Select(y => y.Name);
+            var rings = (b.GetItems().FindAll(x => x.Slot == RI)).Select(y => y.Name);
             if (rings.Contains(list[0]) || rings.Contains(list[1]))
             {
                 Debug.WriteLine("Ring Removal Detected");
@@ -98,45 +98,38 @@ namespace RemnantMultipurposeManager
         }
         public Build CaptureSlots()
         {
-
-            return new Build("Shown", Array.Where(x => x.Item != null).Select(x => x.Item).ToList());
+            var list = Array.Where(x => x.Item != null).Select(x => x.Item).ToList();
+            Debug.WriteLine("CAPTURE BUILD");
+            foreach (var item in list)
+                Debug.WriteLine(item);
+            HandGun hg = list[0] as HandGun;
+            LongGun lg = list[1] as LongGun;
+            return new Build("Shown", hg.Name, hg.Mod?.Name, lg.Name, lg.Mod?.Name, list[2].Name, list[3].Name, list[4].Name, list[5].Name, list[6].Name, list[7].Name, list[8].Name);
         }
 
         public void EquipBuild(Build b)
         {
             Debug.WriteLine("Build: " + b);
-            if (b.Data.Count == 0)
+            if (b.GetItems().Count == 0)
                 foreach (var slot in Array)
                     slot.UnEquip();
-            foreach (SlotType st in Enum.GetValues(typeof(SlotType)))
-            {
-                if (st == RI)
-                {
-                    var ri = b.Data.FindAll(x => x.Slot == st).ToArray();
-                    if (ri.Length > 0)
-                        Ring1.Equip(ri[0]);
-                    if (ri.Length == 2)
-                        Ring2.Equip(ri[1]);
-                    continue;
-                }
-                if (st == MO)
-                    continue;
+            HandGun.Equip(b.HandGun);
+            
+            HandGunMod.Equip(b.HandGunMod);
 
-                if (st == HG)
-                {
-                    Debug.WriteLine("HandGun Check: "+(b.Data.BySlot(HG).First() is HandGun));
-                    HandGun.Equip((HandGun)b.Data.BySlot(HG).First());
-                    continue;
-                }
-                if (st == LG)
-                {
-                    LongGun.Equip((LongGun)b.Data.BySlot(LG).First());
-                    continue;
-                }
+            LongGun.Equip(b.LongGun);
+            LongGunMod.Equip(b.LongGunMod);
 
-                Array.First(x => x.SlotType == st).Equip(b.Data.BySlot(st).First());
+            Melee.Equip(b.Melee);
 
-            }
+            Head.Equip(b.Head);
+            Chest.Equip(b.Chest);
+            Legs.Equip(b.Legs);
+
+            Amulet.Equip(b.Amulet);
+            Ring1.Equip(b.RingLeft);
+            Ring2.Equip(b.RingRight);
+
             CheckBuild();
         }
     }
@@ -167,23 +160,38 @@ namespace RemnantMultipurposeManager
             modslot = mod;
         }
 
-        public void Equip(Gun gun)
+        public override void Equip(Equipment gun)
         {
-
+            if (gun is not Gun)
+            {
+                Debug.WriteLine($"Invalid Equip!{gun.Name} is not a Gun!");
+                return;
+            }
+                
+            Debug.WriteLine("Equip Gun");
             if (gun is null) { UnEquip(); return; }
             if (gun.Slot != SlotType) { Debug.WriteLine("Invalid Equip! " + gun.Slot + "!=" + SlotType); return; }
             item = gun;
             DisplayImage.Source = Item.GetImage;
             DisplayName.Text = (!Item.Name.Contains("_")) ? Item.Name : "";
 
-            modslot.Equip(gun.Mod);
+            modslot.Equip((gun as Gun).Mod);
+        }
+        public override void Equip(string ii)
+        {
+            var item = EquipmentDirectory.FindEquipmentByName(ii);
+            if (item is null)
+                return;
+            if (item.Slot == SlotType)
+                Equip(item);
+            else
+                Debug.WriteLine($"Invalid Equip of {item.Name} to slot {SlotType}.");
         }
 
         public override void UnEquip()
         {
-            Equip(EquipmentDirectory.DefaultEquipment(SlotType));
-
-            modslot.Equip(((Gun)item).Mod);
+            base.UnEquip();
+            modslot.UnEquip();
         }
 
     }
@@ -205,7 +213,6 @@ namespace RemnantMultipurposeManager
         }
         public InventorySlot(SlotType sl, double height, double width, bool border = true)
         {
-
             MouseDown += MainWindow.Instance.InventorySlot_MouseDown;
             Border b = null;
             this.Height = height;
@@ -239,9 +246,7 @@ namespace RemnantMultipurposeManager
             item = null;
         }
 
-
-
-        public void Equip(Equipment ii)
+        public virtual void Equip(Equipment ii)
         {
 
             if (ii is null) { UnEquip(); return; }
@@ -250,9 +255,22 @@ namespace RemnantMultipurposeManager
             DisplayImage.Source = (SlotType is SlotType.MO && ii.Name.Contains("_")) ? null : Item.GetImage;
             DisplayName.Text = (!ii.Name.Contains("_")) ? Item.Name : "";
         }
+        public virtual void Equip(string ii)
+        {
+            var item = EquipmentDirectory.FindEquipmentByName(ii);
+            if (item is null)
+                return;
+            if (item.Slot == SlotType)
+                Equip(item);
+            else
+                Debug.WriteLine($"Invalid Equip of {item.Name} to slot {SlotType}.");
+        }
 
         public virtual void UnEquip()
         {
+           
+            Debug.WriteLine($"Unequipping {item?.Name}");
+            Debug.WriteLine($"From Slot {SlotType}");
             Equip(EquipmentDirectory.DefaultEquipment(SlotType));
 
         }

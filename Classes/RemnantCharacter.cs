@@ -63,17 +63,12 @@ namespace RemnantMultipurposeManager
                         new Regex(@"/(Items/(?:Weapons(?:/[\w]+)+|Armor(?:/[\w]+)?|Trinkets(?:/BandsOfCastorAndPollux)?|Mods|Traits|QuestItems(?:/[\w]+)+)/[\w]+|Quests/[\w]+/[\w]+|Player/Emotes/Emote_[\w]+)"));
                     cd.Progression = saveItems.Count;
                     cd.Inventory = new List<string>();
+
                     foreach (Equipment item in EquipmentDirectory.Items)
-                    {
-                        Debug.WriteLine(i+" : "+item.Name + ":" + saveItems.Contains(item.File));
-                        if (saveItems.Contains(item.File) &&
-                            EquipmentDirectory.Items.Where(x => !x.Name.Contains("_"))
-                            .Select(x => x.Name).Contains(item.Name))
-                        {
-                            Debug.WriteLine("ADDED: "+item.Name);
-                            cd.Inventory.Add(item.Name);
-                        }
-                    }
+                        if (saveItems.Contains(item.File))
+                            if (EquipmentDirectory.Items.Where(x => !x.Name.Contains("_")).Select(x => x.Name).Contains(item.Name))
+                                cd.Inventory.Add(item.Name);
+
                     cd.Inventory.Sort();
                     charData.Add(cd);
                 }

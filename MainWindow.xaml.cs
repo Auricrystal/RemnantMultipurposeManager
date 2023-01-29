@@ -1,5 +1,4 @@
-﻿using Microsoft.Win32;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,6 +13,7 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+
 
 //using System.Windows.Forms;
 using System.Windows.Forms.VisualStyles;
@@ -234,7 +234,7 @@ namespace RemnantMultipurposeManager
             if (!b && MainTab.SelectedIndex == 1)
                 MainTab.SelectedIndex = 0;
 
-
+            InvList.ItemsSource = EquipmentDirectory.Items;
             SaveManager.ToolTip = b ? null : "You need to create an (*.RProfile) to use this.";
             //SaveManager.Visibility = b ? Visibility.Visible : Visibility.Collapsed;
 
@@ -254,7 +254,7 @@ namespace RemnantMultipurposeManager
             cmbCharacter.Items.Refresh();
             cmbSaveSlot.Items.Refresh();
 
-            InvList.ItemsSource = EquipmentDirectory.Items;
+
             if (b)
                 DownloadDirectory();
             SaveList.ItemsSource = b ? Checkpoints.GroupBy(x => x.Name).ToDictionary(x => x.Key, x => x.First().World) : null;
@@ -309,15 +309,12 @@ namespace RemnantMultipurposeManager
         void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             BackupRevert(BackupAction.Revert);
-            MessageBox.Show("Exception Message: " + e.Exception.Message + "\n\n" + "Exception StackTrace:" + e.Exception.StackTrace, "Unknown Crash Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            LogMessage(e.Exception.Message + "\n" + e.Exception.StackTrace);
+            MessageBox.Show($"Exception Message:{ e.Exception.Message} \n\nInner Exception:{e.Exception.InnerException.Message}","Unknown Crash Occurred", MessageBoxButton.OK, MessageBoxImage.Error);
+            
+            LogMessage($"{e.Exception.Message}\n{e.Exception.InnerException.Message}\n{e.Exception.StackTrace}");
             string s;
             if (File.Exists(s = RmmInstallPath + @"\Logs\log.txt"))
-            {
                 File.Move(s, RmmInstallPath + @"\Logs\" + File.GetLastWriteTime(s).Ticks + ".txt");
-            }
-
         }
 
         private int checkForUpdate()
@@ -572,7 +569,7 @@ namespace RemnantMultipurposeManager
         {
             LoadSave.IsEnabled = !LockCheckpoint.IsChecked.Value && SaveList.SelectedIndex != -1;
             DeleteSave.IsEnabled = SaveList.SelectedIndex != -1 && cmbSaveType.SelectedIndex == 3;
-            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value&& cmbSaveType.SelectedIndex != 3;
+            FeelingLucky.IsEnabled = !LockCheckpoint.IsChecked.Value && cmbSaveType.SelectedIndex != 3;
         }
         private void AlterFile_Clicked(object sender, RoutedEventArgs e)
         {
@@ -665,7 +662,7 @@ namespace RemnantMultipurposeManager
 
         private void FeelingLucky_Click(object sender, RoutedEventArgs e)
         {
-            if (SaveList.ItemsSource is null||SaveList.Items.Count==0)
+            if (SaveList.ItemsSource is null || SaveList.Items.Count == 0)
                 return;
 
             FeelingLucky.IsEnabled = LoadSave.IsEnabled = false;
@@ -823,7 +820,7 @@ namespace RemnantMultipurposeManager
 
             AddSave.IsEnabled = EditSave.IsEnabled = (st == "Local");
             OfflineFileAccess.IsEnabled = (st != "Local");
-           
+
             SaveList_ViewUpdate();
             LoadButtonSettings();
         }
@@ -878,9 +875,14 @@ namespace RemnantMultipurposeManager
         private void Options_Click(object sender, RoutedEventArgs e)
         {
             InvList.IsEnabled = !InvList.IsEnabled;
+
             InvList.Visibility = InvList.IsEnabled ? Visibility.Visible : Visibility.Collapsed;
             AddBuild.Visibility = InvList.Visibility;
-            BuildList.Visibility = InvList.IsEnabled ? Visibility.Collapsed : Visibility.Visible;
+
+            BuildList.IsEnabled = !InvList.IsEnabled;
+            BuildList.Visibility = InvList.IsEnabled ? Visibility.Collapsed: Visibility.Visible;
+
+            RerollBuild.IsEnabled= !InvList.IsEnabled;
             CollectionViewSource.GetDefaultView(InvList.ItemsSource).Filter = o => false;
             UI.EquipBuild(new Build());
 
@@ -903,7 +905,11 @@ namespace RemnantMultipurposeManager
 
         public void InventorySlot_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+
+            if (Profile is null)
+                return;
             _SelectedInventorySlot = (e.OriginalSource as FrameworkElement).Parent as InventorySlot ?? (InventorySlot)sender;
+
 
             Debug.WriteLine(_SelectedInventorySlot.Item);
 
@@ -917,6 +923,9 @@ namespace RemnantMultipurposeManager
                 Mod mod = null;
                 if (_SelectedInventorySlot.SlotType == Equipment.SlotType.MO && (mod = ((Mod)_SelectedInventorySlot.Item)) is not null && mod.Boss)
                     return false;
+                if (!(o as Equipment).Name.Contains("_"))
+                    if (!Profile.Characters[cmbCharacter.SelectedIndex].Inventory.Contains((o as Equipment).Name))
+                        return false;
 
                 return dt.Slot.Equals(_SelectedInventorySlot.SlotType);
             };
@@ -980,9 +989,11 @@ namespace RemnantMultipurposeManager
 
         private void AddSave_Click(object sender, RoutedEventArgs e)
         {
-            OpenFileDialog dialog = new() { Filter = "(World WorldSave)|save_*.sav", DefaultExt = "sav", Title = "Choose a WorldSave" };
-            dialog.ShowDialog();
+            System.Windows.Forms.OpenFileDialog dialog = new() { Filter = "(World WorldSave)|save_*.sav", DefaultExt = "sav", Title = "Choose a WorldSave" };
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
+                return;
 
+       
             WorldSave test = SaveEditor("Add WorldSave", "", filepath: dialog.FileName);
             if (test is null)
                 return;

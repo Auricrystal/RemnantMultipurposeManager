@@ -72,10 +72,10 @@ namespace RemnantMultipurposeManager
         {
             blacklist = blacklist ?? new List<Equipment>();
             except = except ?? new Build();
-            blacklist.AddRange(except.Data);
+            blacklist.AddRange(except.GetItems());
             List<Equipment> list = inventory.ToList().AsReadOnly().Shuffle().Except(blacklist).ToList();
-            HandGun hg = (HandGun)(list.BySlot(HG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(HG));
-            LongGun lg = (LongGun)(list.BySlot(LG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(LG));
+            HandGun hg = (HandGun)(list.BySlot(HG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(HG)).Clone();
+            LongGun lg = (LongGun)(list.BySlot(LG).RandomElement().First() ?? EquipmentDirectory.DefaultEquipment(LG)).Clone();
             var rings = list.BySlot(RI).RandomElement(2).ToList();
             while (rings.Count() < 2) { rings.Add(EquipmentDirectory.DefaultEquipment(RI)); }
             var mods = list.BySlot(MO).RandomElement(2).ToList();
@@ -86,14 +86,21 @@ namespace RemnantMultipurposeManager
             lg.EquipMod((Mod)mods.Last());
 
             Build b = new("",
-                hg, lg,
-                list.BySlot(M).RandomElement().First(),
-                list.BySlot(HE).RandomElement().First(),
-                list.BySlot(CH).RandomElement().First(),
-                list.BySlot(LE).RandomElement().First(),
-                list.BySlot(AM).RandomElement().First(),
-                rings.First(), rings.Last()
+                hg.Name,
+                hg.Mod.Name,
+                lg.Name,
+                lg.Mod.Name,
+                list.BySlot(M).RandomElement().First().Name,
+                list.BySlot(HE).RandomElement().First().Name,
+                list.BySlot(CH).RandomElement().First().Name,
+                list.BySlot(LE).RandomElement().First().Name,
+                list.BySlot(AM).RandomElement().First().Name,
+                rings.First().Name,
+                rings.Last().Name
                 );
+            Debug.WriteLine("RANDOM BUILD");
+            foreach (var item in b.GetItems())
+                Debug.WriteLine(item);
             return b;
 
         }

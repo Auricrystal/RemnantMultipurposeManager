@@ -932,18 +932,51 @@
                     </Border>
                     <Viewbox x:Name="BuildUI" Grid.Column="0" Grid.RowSpan="2"  HorizontalAlignment="Left" VerticalAlignment="Top" />
                     <Button x:Name="RerollBuild" Content="Reroll Build"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="50" Margin="80,-30,0,0" Click="RerollClick"/>
-                    <Button x:Name="AddBuild" Content="Add Build" Visibility="Collapsed"  FontSize="20" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="1" VerticalAlignment="Top" Width="250" Height="50" Margin="80,-30,0,0" Click="AddBuild_Click"/>
+                    <Button x:Name="AddBuild" Content="Add New Build" Visibility="Collapsed"  FontSize="15" Grid.Column="1" HorizontalAlignment="Center" Grid.Row="0" VerticalAlignment="Top" Width="130" Height="30" Margin="140,90,0,0" Click="AddBuild_Click"/>
                     <Button Content="Options" FontSize="20" x:Name="CreateBuild" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Width="80" Height="50" Margin="-250,-30,0,0" Click="Options_Click"/>
-                    <ListView x:Name="BuildList" Grid.Column="1" Grid.Row="0" Background="black" Width="300" Height="420" Margin="0,30,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="BuildList_SelectionChanged">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <TextBlock Text="{Binding Path=Name}" Foreground="White"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                    <ListView x:Name="InvList" Visibility="Collapsed" IsEnabled="False" Grid.Column="1" Grid.Row="0" Width="300" Height="420" Background="Black" Margin="0,30,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="InvList_DoubleClick">
+                    <DataGrid x:Name="BuildList" AutoGenerateColumns="False" Grid.Column="1" Grid.Row="0" Width="400" Height="390" Background="Black" Margin="-10,90,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="BuildList_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridCheckBoxColumn Header="Active" Binding="{Binding Active}"/>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                            <DataGridTemplateColumn Header="Weapons">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding HandGun}"/>
+                                            <TextBlock Text="{Binding HandGunMod}"/>
+                                            <TextBlock Text="{Binding LongGun}"/>
+                                            <TextBlock Text="{Binding LongGunMod}"/>
+                                            <TextBlock Text="{Binding Melee}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Armor">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Head}"/>
+                                            <TextBlock Text="{Binding Chest}"/>
+                                            <TextBlock Text="{Binding Legs}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Trinkets">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Amulet}"/>
+                                            <TextBlock Text="{Binding RingLeft}"/>
+                                            <TextBlock Text="{Binding RingRight}"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <ListView x:Name="InvList" Visibility="Collapsed"  IsEnabled="false" Grid.Column="1" Grid.Row="0" Width="300" Height="390" Background="Black" Margin="0,90,0,0" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="InvList_DoubleClick">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <Border BorderThickness="2" BorderBrush="Gray" Margin="-5,0,0,0" CornerRadius="5">

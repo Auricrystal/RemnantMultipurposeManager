@@ -33,11 +33,19 @@ namespace RemnantMultipurposeManager
 
         public static List<WorldSave> LoadList(string path)
         {
-            if (!File.Exists(path))
-                File.Create(path);
-            var list = JsonConvert.DeserializeObject<List<WorldSave>>(File.ReadAllText(path));
+            try
+            {
+                if (File.Exists(path))
+                    return JsonConvert.DeserializeObject<List<WorldSave>>(File.ReadAllText(path));
+            }
+            catch (Exception)
+            {
+                return new List<WorldSave>();
+            }
 
-            return list;
+            File.Create(path);
+            return new List<WorldSave>();
+
         }
 
         public string GetURL()
@@ -52,7 +60,7 @@ namespace RemnantMultipurposeManager
 
                 try
                 {
-                    MainWindow.Instance.LogMessage("Loading: " +Name+" | "+Modifier, LogType.Success);
+                    MainWindow.Instance.LogMessage("Loading: " + Name + " | " + Modifier, LogType.Success);
                     client.DownloadFile(GetURL(), filedest);
                 }
                 catch (WebException we)
@@ -70,7 +78,7 @@ namespace RemnantMultipurposeManager
         public void LocalLoad(string filedest)
         {
             MainWindow.Instance.LogMessage("Loading: " + Name + " | " + Modifier, LogType.Success);
-            File.Copy(RmmInstallPath+@"\LocalSaves\"+Guid+".sav", filedest,true);
+            File.Copy(RmmInstallPath + @"\LocalSaves\" + Guid + ".sav", filedest, true);
         }
 
         public void grabFileFromZip(string filedest)
@@ -100,5 +108,5 @@ namespace RemnantMultipurposeManager
         }
     }
 
-   
+
 }
